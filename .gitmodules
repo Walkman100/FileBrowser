@@ -1,0 +1,9 @@
+[submodule "WalkmanLib"]
+	path = WalkmanLib
+	url = https://github.com/Walkman100/WalkmanLib
+[submodule "NTFS-Streams"]
+	path = NTFS-Streams
+	url = https://github.com/Walkman100/NTFS-Streams
+[submodule "Ookii.Dialogs"]
+	path = Ookii.Dialogs
+	url = https://github.com/Walkman100/Ookii.Dialogs
