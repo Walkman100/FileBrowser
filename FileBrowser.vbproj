@@ -66,6 +66,10 @@
     <Compile Include="NTFS-Streams\StreamName.vb" />
     <Compile Include="Properties\Application.vb" />
     <Compile Include="Properties\AssemblyInfo.vb" />
+    <Compile Include="WalkmanLib\CustomMsgBox.Designer.vb">
+      <DependentUpon>CustomMsgBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WalkmanLib\CustomMsgBox.vb" />
     <Compile Include="WalkmanLib\WalkmanLibArgHandler.vb" />
     <Compile Include="WalkmanLib\WalkmanLibContextMenu.vb" />
     <Compile Include="WalkmanLib\WalkmanLibDotNet.vb" />
@@ -86,6 +90,11 @@
       <Project>{779E62B3-C5A6-494D-9D87-96C0DEC7FFB0}</Project>
       <Name>Ookii.Dialogs</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WalkmanLib\CustomMsgBox.resx">
+      <DependentUpon>CustomMsgBox.vb</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
