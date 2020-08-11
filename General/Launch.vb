@@ -19,7 +19,7 @@ Public Class Launch
             format = format.Replace("{name}", fileInfo.Name)
         End If
         If format.Contains("{namenoext}") Then
-            format = format.Replace("{namenoext}", fileInfo.Name)
+            format = format.Replace("{namenoext}", fileInfo.NameNoExt)
         End If
         If format.Contains("{fileext}") Then
             format = format.Replace("{fileext}", fileInfo.Extension)
