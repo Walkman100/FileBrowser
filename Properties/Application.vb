@@ -12,7 +12,7 @@ Namespace My
         End Sub
         
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = My.Forms.MainForm
+            Me.MainForm = My.Forms.FileBrowser
         End Sub
     End Class
 End Namespace

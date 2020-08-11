@@ -53,9 +53,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainForm.Designer.vb">
-      <DependentUpon>MainForm.vb</DependentUpon>
+    <Compile Include="Forms\ContextMenuConfig.Designer.vb">
+      <DependentUpon>ContextMenuConfig.vb</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ContextMenuConfig.vb" />
+    <Compile Include="Forms\FileBrowser.Designer.vb">
+      <DependentUpon>FileBrowser.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FileBrowser.vb" />
+    <Compile Include="Forms\Settings.Designer.vb">
+      <DependentUpon>Settings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Settings.vb" />
     <Compile Include="General\ItemClipboard.vb" />
     <Compile Include="General\ContextMenu.vb" />
     <Compile Include="General\Extensions.vb" />
@@ -91,6 +100,7 @@
     <None Include="Properties\App.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Forms" />
     <Folder Include="General" />
     <Folder Include="NTFS-Streams" />
     <Folder Include="WalkmanLib" />
