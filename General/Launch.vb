@@ -37,6 +37,7 @@ Public Class Launch
             End If
         End If
 
+        format = Environment.ExpandEnvironmentVariables(format)
         Return format
     End Function
 
@@ -67,11 +68,15 @@ Public Class Launch
         'FileBrowser.ShowPath(path)
     End Sub
 
-    Public Shared Sub WinProperties(path As String, tab As String)
+    Public Shared Sub WinProperties(path As String, format As String, Optional tab As String = Nothing)
+        path = FormatEntry(path, format)
+
         WalkmanLib.ShowProperties(path, tab)
     End Sub
 
-    Public Shared Sub OpenWith(path As String)
+    Public Shared Sub OpenWith(path As String, format As String)
+        path = FormatEntry(path, format)
+
         WalkmanLib.OpenWith(path)
     End Sub
 End Class
