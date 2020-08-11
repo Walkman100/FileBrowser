@@ -45,6 +45,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
@@ -55,7 +56,14 @@
     <Compile Include="MainForm.Designer.vb">
       <DependentUpon>MainForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.vb" />
+    <Compile Include="General\ItemClipboard.vb" />
+    <Compile Include="General\ContextMenu.vb" />
+    <Compile Include="General\Extensions.vb" />
+    <Compile Include="General\Filesystem.vb" />
+    <Compile Include="General\Helpers.vb" />
+    <Compile Include="General\ImageHandling.vb" />
+    <Compile Include="General\Launch.vb" />
+    <Compile Include="General\Operations.vb" />
     <Compile Include="NTFS-Streams\AlternateDataStreamInfo.vb" />
     <Compile Include="NTFS-Streams\FileStreamAttributes.vb" />
     <Compile Include="NTFS-Streams\FileStreamType.vb" />
@@ -75,6 +83,7 @@
     <Compile Include="WalkmanLib\WalkmanLibDotNet.vb" />
     <Compile Include="WalkmanLib\WalkmanLibRestartManager.vb" />
     <Compile Include="WalkmanLib\WalkmanLibSystemHandles.vb" />
+    <Compile Include="WalkmanLib\WalkmanLibUpdates.vb" />
     <Compile Include="WalkmanLib\WalkmanLibWin32.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +91,7 @@
     <None Include="Properties\App.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="General" />
     <Folder Include="NTFS-Streams" />
     <Folder Include="WalkmanLib" />
   </ItemGroup>
