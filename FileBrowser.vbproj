@@ -56,15 +56,21 @@
     <Compile Include="Forms\ContextMenuConfig.Designer.vb">
       <DependentUpon>ContextMenuConfig.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ContextMenuConfig.vb" />
+    <Compile Include="Forms\ContextMenuConfig.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\FileBrowser.Designer.vb">
       <DependentUpon>FileBrowser.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FileBrowser.vb" />
+    <Compile Include="Forms\FileBrowser.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Settings.Designer.vb">
       <DependentUpon>Settings.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Settings.vb" />
+    <Compile Include="Forms\Settings.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="General\ItemClipboard.vb" />
     <Compile Include="General\CtxMenu.vb" />
     <Compile Include="General\Extensions.vb" />
@@ -86,7 +92,9 @@
     <Compile Include="WalkmanLib\CustomMsgBox.Designer.vb">
       <DependentUpon>CustomMsgBox.vb</DependentUpon>
     </Compile>
-    <Compile Include="WalkmanLib\CustomMsgBox.vb" />
+    <Compile Include="WalkmanLib\CustomMsgBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WalkmanLib\WalkmanLibArgHandler.vb" />
     <Compile Include="WalkmanLib\WalkmanLibContextMenu.vb" />
     <Compile Include="WalkmanLib\WalkmanLibDotNet.vb" />
