@@ -98,16 +98,18 @@ Public Class CtxMenu
             Dim index As Integer = DirectCast(item.Tag, Integer)
             If Not entryDict.ContainsKey(index) Then Throw New InvalidOperationException("Context menu contains item not in dictionary!")
             Dim itemInfo As EntryInfo = entryDict.Item(index)
-            Dim itemShouldBeVisible As Boolean = True
+            Dim itemShouldBeVisible As Boolean = paths.Length > 0
 
             For Each path As String In paths
                 Dim existsInfo As PathEnum = WalkmanLib.IsFileOrDirectory(path)
-                If itemInfo.DirectoryOnly Then
-                    itemShouldBeVisible = existsInfo.HasFlag(PathEnum.IsDirectory)
-                ElseIf itemInfo.DriveOnly Then
-                    itemShouldBeVisible = existsInfo.HasFlag(PathEnum.IsDrive)
-                ElseIf itemInfo.FileOnly Then
-                    itemShouldBeVisible = existsInfo.HasFlag(PathEnum.IsFile)
+                If itemShouldBeVisible Then
+                    If itemInfo.DirectoryOnly Then
+                        itemShouldBeVisible = existsInfo.HasFlag(PathEnum.IsDirectory)
+                    ElseIf itemInfo.DriveOnly Then
+                        itemShouldBeVisible = existsInfo.HasFlag(PathEnum.IsDrive)
+                    ElseIf itemInfo.FileOnly Then
+                        itemShouldBeVisible = existsInfo.HasFlag(PathEnum.IsFile)
+                    End If
                 End If
 
                 If itemShouldBeVisible AndAlso itemInfo.Extended Then
@@ -125,6 +127,8 @@ Public Class CtxMenu
         Dim index As Integer = DirectCast(item.Tag, Integer)
         If Not entryDict.ContainsKey(index) Then Throw New InvalidOperationException("Selected item not in dictionary!")
         Dim itemInfo As EntryInfo = entryDict.Item(index)
+
+        If paths.Length < 1 Then Throw New InvalidOperationException("No paths selected!")
 
         Select Case itemInfo.ActionType
             Case ActionType.Launch
