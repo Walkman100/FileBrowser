@@ -7,42 +7,42 @@ Imports System.Windows.Forms
 
 Public Class CtxMenu
     Public Enum ActionType
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be an array with two strings</summary>
+        ''' <summary><see cref="EntryInfo.ActionArgs1"/> is the file to launch, <see cref="EntryInfo.ActionArgs2"/> is the arguments</summary>
         Launch
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be an array with two strings</summary>
+        ''' <summary><see cref="EntryInfo.ActionArgs1"/> is the file to run as admin, <see cref="EntryInfo.ActionArgs2"/> is the arguments</summary>
         Admin
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be an array with two strings</summary>
+        ''' <summary><see cref="EntryInfo.ActionArgs1"/> is the file to execute, <see cref="EntryInfo.ActionArgs2"/> is the arguments</summary>
         Execute
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be a string</summary>
+        ''' <summary><see cref="EntryInfo.ActionArgs1"/> is the file to show</summary>
         Show
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be an array with two strings</summary>
+        ''' <summary><see cref="EntryInfo.ActionArgs1"/> is the file to show properties for, <see cref="EntryInfo.ActionArgs2"/> is the tab to show, or Nothing</summary>
         Properties
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be a string</summary>
+        ''' <summary><see cref="EntryInfo.ActionArgs1"/> is the file to OpenWith</summary>
         OpenWith
 
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be a string</summary>
+        ''' <summary>ActionArgs are not used.</summary>
         Cut
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be a string</summary>
+        ''' <summary>ActionArgs are not used.</summary>
         Copy
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be a string</summary>
+        ''' <summary>ActionArgs are not used.</summary>
         Paste
 
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be a string</summary>
+        ''' <summary>ActionArgs are not used.</summary>
         PasteAsHardlink
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be a string</summary>
+        ''' <summary>ActionArgs are not used.</summary>
         PasteAsSymlink
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be a string</summary>
+        ''' <summary>ActionArgs are not used.</summary>
         PasteAsShortcut
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be a string</summary>
+        ''' <summary>ActionArgs are not used.</summary>
         PasteAsJunction
 
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be Nothing</summary>
+        ''' <summary>ActionArgs are not used.</summary>
         CopyTo
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be Nothing</summary>
+        ''' <summary>ActionArgs are not used.</summary>
         MoveTo
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be Nothing</summary>
+        ''' <summary>ActionArgs are not used.</summary>
         DeleteToRecycleBin
-        ''' <summary><see cref="EntryInfo.ActionArgs"/> should be Nothing</summary>
+        ''' <summary>ActionArgs are not used.</summary>
         DeletePermanently
     End Enum
 
@@ -63,7 +63,8 @@ Public Class CtxMenu
         Public Filter As String
 
         Public ActionType As ActionType
-        Public ActionArgs As Object
+        Public ActionArgs1 As String
+        Public ActionArgs2 As String
     End Structure
 
     Private entryDict As New Dictionary(Of Integer, EntryInfo)
@@ -127,57 +128,44 @@ Public Class CtxMenu
 
         Select Case itemInfo.ActionType
             Case ActionType.Launch
-                Dim args As String() = CType(itemInfo.ActionArgs, String())
                 For Each path As String In paths
-                    Launch.LaunchItem(path, args(0), args(1))
+                    Launch.LaunchItem(path, itemInfo.ActionArgs1, itemInfo.ActionArgs2)
                 Next
             Case ActionType.Admin
-                Dim args As String() = CType(itemInfo.ActionArgs, String())
                 For Each path As String In paths
-                    Launch.RunAsAdmin(path, args(0), args(1))
+                    Launch.RunAsAdmin(path, itemInfo.ActionArgs1, itemInfo.ActionArgs2)
                 Next
             Case ActionType.Execute
-                Dim args As String() = CType(itemInfo.ActionArgs, String())
                 For Each path As String In paths
-                    Launch.ExecuteItem(path, args(0), args(1))
+                    Launch.ExecuteItem(path, itemInfo.ActionArgs1, itemInfo.ActionArgs2)
                 Next
 
             Case ActionType.Show
-                Dim args As String = CType(itemInfo.ActionArgs, String)
                 For Each path As String In paths
-                    Launch.ShowPath(path, args)
+                    Launch.ShowPath(path, itemInfo.ActionArgs1)
                 Next
             Case ActionType.Properties
-                Dim args As String() = CType(itemInfo.ActionArgs, String())
                 For Each path As String In paths
-                    Launch.WinProperties(path, args(0), args(1))
+                    Launch.WinProperties(path, itemInfo.ActionArgs1, itemInfo.ActionArgs2)
                 Next
             Case ActionType.OpenWith
-                Dim args As String = CType(itemInfo.ActionArgs, String)
                 For Each path As String In paths
-                    Launch.ShowPath(path, args)
+                    Launch.OpenWith(path, itemInfo.ActionArgs1)
                 Next
 
             Case ActionType.Cut
-                Dim args As String = CType(itemInfo.ActionArgs, String)
                 'FileBrowser.itemClipboard.ReplaceItems(paths, ItemType.Cut)
             Case ActionType.Copy
-                Dim args As String = CType(itemInfo.ActionArgs, String)
                 'FileBrowser.itemClipboard.ReplaceItems(paths, ItemType.Copy)
             Case ActionType.Paste
-                Dim args As String = CType(itemInfo.ActionArgs, String)
                 'FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Normal)
             Case ActionType.PasteAsHardlink
-                Dim args As String = CType(itemInfo.ActionArgs, String)
                 'FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Hardlink)
             Case ActionType.PasteAsSymlink
-                Dim args As String = CType(itemInfo.ActionArgs, String)
                 'FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Symlink)
             Case ActionType.PasteAsShortcut
-                Dim args As String = CType(itemInfo.ActionArgs, String)
                 'FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Shortcut)
             Case ActionType.PasteAsJunction
-                Dim args As String = CType(itemInfo.ActionArgs, String)
                 'FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Junction)
 
             Case ActionType.CopyTo
