@@ -169,13 +169,13 @@ Public Class CtxMenu
                 'FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Junction)
 
             Case ActionType.CopyTo
-                'Operations.CopyTo(paths)
+                Helpers.CopyTo(paths, My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.MoveTo
-                'Operations.MoveTo(paths)
+                Helpers.MoveTo(paths, My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.DeleteToRecycleBin
-                'Operations.DeleteToRecycleBin(paths)
+                Operations.Delete(paths, True, My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.DeletePermanently
-                'Operations.DeletePermanently(paths)
+                Operations.Delete(paths, True, Not My.Computer.Keyboard.ShiftKeyDown)
         End Select
     End Sub
 End Class
