@@ -30,7 +30,7 @@ Public Class Operations
             If WalkmanLib.IsFileOrDirectory(fullTargetName).HasFlag(PathEnum.Exists) AndAlso sourcePath <> fullTargetName Then
                 Select Case MsgBox("Target """ & fullTargetName & """ already exists! Remove first?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
                     Case MsgBoxResult.Yes
-                        Delete(fullTargetName, False, Nothing)
+                        Delete({fullTargetName}, False, Nothing)
                     Case MsgBoxResult.Cancel
                         Exit Sub
                 End Select
@@ -67,7 +67,7 @@ Public Class Operations
                 If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
                     Select Case MsgBox("Target """ & targetPath & """ already exists! Remove first?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
                         Case MsgBoxResult.Yes
-                            Delete(targetPath, useShell, True)
+                            Delete({targetPath}, useShell, True)
                         Case MsgBoxResult.Cancel
                             Exit Sub
                     End Select
@@ -133,39 +133,43 @@ Public Class Operations
         End Try
     End Sub
 
-    Public Shared Sub Delete(path As String, useShell As Boolean, deletePermanently As Boolean)
+    Public Shared Sub Delete(paths As String(), useShell As Boolean, deletePermanently As Boolean)
         Try
-            Dim pathInfo = WalkmanLib.IsFileOrDirectory(path)
-            If useShell OrElse Not deletePermanently Then
-                If pathInfo.HasFlag(PathEnum.IsFile) Then
-                    My.Computer.FileSystem.DeleteFile(path, FileIO.UIOption.AllDialogs,
-                        If(deletePermanently, FileIO.RecycleOption.DeletePermanently, FileIO.RecycleOption.SendToRecycleBin))
-                ElseIf pathInfo.HasFlag(PathEnum.IsDirectory) Then
-                    My.Computer.FileSystem.DeleteDirectory(path, FileIO.UIOption.AllDialogs,
-                        If(deletePermanently, FileIO.RecycleOption.DeletePermanently, FileIO.RecycleOption.SendToRecycleBin))
-                End If
-            Else
-                If pathInfo.HasFlag(PathEnum.IsFile) Then
-                    File.Delete(path)
-                ElseIf pathInfo.HasFlag(PathEnum.IsDirectory) Then
-                    'BackgroundProgress.bwFolderOperations.RunWorkerAsync({"delete", path})
-                    'BackgroundProgress.ShowDialog()
-                End If
-            End If
-        Catch ex As OperationCanceledException ' ignore user cancellation
+            For Each path As String In paths
+                Try
+                    Dim pathInfo = WalkmanLib.IsFileOrDirectory(path)
+                    If useShell OrElse Not deletePermanently Then
+                        If pathInfo.HasFlag(PathEnum.IsFile) Then
+                            My.Computer.FileSystem.DeleteFile(path, FileIO.UIOption.AllDialogs,
+                                If(deletePermanently, FileIO.RecycleOption.DeletePermanently, FileIO.RecycleOption.SendToRecycleBin))
+                        ElseIf pathInfo.HasFlag(PathEnum.IsDirectory) Then
+                            My.Computer.FileSystem.DeleteDirectory(path, FileIO.UIOption.AllDialogs,
+                                If(deletePermanently, FileIO.RecycleOption.DeletePermanently, FileIO.RecycleOption.SendToRecycleBin))
+                        End If
+                    Else
+                        If pathInfo.HasFlag(PathEnum.IsFile) Then
+                            File.Delete(path)
+                        ElseIf pathInfo.HasFlag(PathEnum.IsDirectory) Then
+                            'BackgroundProgress.bwFolderOperations.RunWorkerAsync({"delete", path})
+                            'BackgroundProgress.ShowDialog()
+                        End If
+                    End If
+                Catch ex As OperationCanceledException ' ignore user cancellation
+                Catch ex As IOException When Win32FromHResult(ex.HResult) = shareViolation
+                    If MsgBox("File """ & path & """ is in use! Open Handle Manager?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        'HandleManager.Show(FileBrowser)
+                        'HandleManager.Activate()
+                    End If
+                End Try
+            Next
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
             Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     'FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
-                    WalkmanLib.RunAsAdmin("cmd", "/c del """ & path & """ & pause")
+                    WalkmanLib.RunAsAdmin("cmd", "/c del " & paths.PathsConcat() & " & pause")
                     Threading.Thread.Sleep(500)
             End Select
-        Catch ex As IOException When Win32FromHResult(ex.HResult) = shareViolation
-            If MsgBox("File """ & path & """ is in use! Open Handle Manager?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                'HandleManager.Show(FileBrowser)
-                'HandleManager.Activate()
-            End If
         Catch ex As Exception
             'FileBrowser.ErrorParser(ex)
         End Try
@@ -205,7 +209,7 @@ Public Class Operations
             If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
                 Select Case MsgBox("Target """ & targetPath & """ already exists! Remove first?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
                     Case MsgBoxResult.Yes
-                        Delete(targetPath, False, Nothing)
+                        Delete({targetPath}, False, Nothing)
                     Case MsgBoxResult.Cancel
                         Exit Sub
                 End Select
@@ -239,7 +243,7 @@ Public Class Operations
             If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
                 Select Case MsgBox("Target """ & targetPath & """ already exists! Remove first?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
                     Case MsgBoxResult.Yes
-                        Delete(targetPath, False, Nothing)
+                        Delete({targetPath}, False, Nothing)
                     Case MsgBoxResult.Cancel
                         Exit Sub
                 End Select
