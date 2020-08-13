@@ -6,6 +6,10 @@ Imports System.Linq
 Imports System.Windows.Forms
 
 Public Class CtxMenu
+    Public Enum EntryType
+        MenuItem
+        Separator
+    End Enum
     Public Enum ActionType
         ''' <summary><see cref="EntryInfo.ActionArgs1"/> is the file to launch, <see cref="EntryInfo.ActionArgs2"/> is the arguments</summary>
         Launch
@@ -47,6 +51,7 @@ Public Class CtxMenu
     End Enum
 
     Structure EntryInfo
+        Public EntryType As EntryType
         Public IconPath As String
         Public Text As String
         Public AdminIcon As Boolean
@@ -74,16 +79,20 @@ Public Class CtxMenu
 
         Dim currentIndex As Integer = 0
         For Each item As EntryInfo In items
-            entryDict.Add(currentIndex, item)
-            Dim menuItem As New ToolStripMenuItem(item.Text) With {.Tag = currentIndex}
+            If item.EntryType = EntryType.Separator Then
+                contextMenu.Items.Add(New ToolStripSeparator())
+            Else
+                entryDict.Add(currentIndex, item)
+                Dim menuItem As New ToolStripMenuItem(item.Text) With {.Tag = currentIndex}
 
-            Dim icon As Icon = ImageHandling.GetIcon(item.IconPath)
-            If icon IsNot Nothing Then
-                menuItem.Image = icon.ToBitmap()
+                Dim icon As Icon = ImageHandling.GetIcon(item.IconPath)
+                If icon IsNot Nothing Then
+                    menuItem.Image = icon.ToBitmap()
+                End If
+                contextMenu.Items.Add(menuItem)
+
+                currentIndex += 1
             End If
-            contextMenu.Items.Add(menuItem)
-
-            currentIndex += 1
         Next
     End Sub
 
@@ -95,6 +104,7 @@ Public Class CtxMenu
 
     Public Sub UpdateMenu(contextMenu As ContextMenuStrip, paths As String())
         For Each item As ToolStripItem In contextMenu.Items
+            If TypeOf item Is ToolStripSeparator Then Continue For
             Dim index As Integer = DirectCast(item.Tag, Integer)
             If Not entryDict.ContainsKey(index) Then Throw New InvalidOperationException("Context menu contains item not in dictionary!")
             Dim itemInfo As EntryInfo = entryDict.Item(index)
@@ -124,6 +134,7 @@ Public Class CtxMenu
     End Sub
 
     Public Sub RunItem(item As ToolStripItem, paths As String())
+        If TypeOf item Is ToolStripSeparator Then Return
         Dim index As Integer = DirectCast(item.Tag, Integer)
         If Not entryDict.ContainsKey(index) Then Throw New InvalidOperationException("Selected item not in dictionary!")
         Dim itemInfo As EntryInfo = entryDict.Item(index)

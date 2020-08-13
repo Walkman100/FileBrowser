@@ -1,5 +1,8 @@
+Imports System
 Imports System.IO
+Imports System.Linq
 Imports System.Windows.Forms
+Imports Trinet.Core.IO.Ntfs
 
 Public Class Helpers
     Private Shared sfd As New SaveFileDialog 'With {.CheckFileExists = False}
@@ -67,4 +70,77 @@ Public Class Helpers
             Operations.Move(path, target, True) 'FileBrowser.chkUseShell.Checked)
         Next
     End Sub
+
+
+    Public Shared Function GetUrlTarget(path As String) As String
+        Using fs As StreamReader = File.OpenText(path)
+            While Not fs.EndOfStream
+                Dim line As String = fs.ReadLine()
+                If line?.StartsWith("URL=", True, Globalization.CultureInfo.InvariantCulture) Then
+                    Return line.Substring(4)
+                End If
+            End While
+
+            Return Nothing
+        End Using
+    End Function
+
+    Private Const DownloadADS As String = "Zone.Identifier"
+
+    Public Shared Function GetDownloadURL(path As String) As String
+        Try
+            If AlternateDataStreamExists(path, DownloadADS) Then
+                Using fs As StreamReader = GetAlternateDataStream(path, DownloadADS).OpenText
+                    While Not fs.EndOfStream
+                        Dim line As String = fs.ReadLine()
+                        If line?.StartsWith("HostUrl=", True, Globalization.CultureInfo.InvariantCulture) Then
+                            Return line.Substring(8)
+                        End If
+                    End While
+                End Using
+            End If
+        Catch : End Try
+        Return Nothing
+    End Function
+
+    Public Shared Function GetDownloadReferrer(path As String) As String
+        Try
+            If AlternateDataStreamExists(path, DownloadADS) Then
+                Using fs As StreamReader = GetAlternateDataStream(path, DownloadADS).OpenText
+                    While Not fs.EndOfStream
+                        Dim line As String = fs.ReadLine()
+                        If line?.StartsWith("ReferrerUrl=", True, Globalization.CultureInfo.InvariantCulture) Then
+                            Return line.Substring(12)
+                        End If
+                    End While
+                End Using
+            End If
+        Catch : End Try
+        Return Nothing
+    End Function
+
+
+    Public Shared Function GetADSFile(adsInfo As AlternateDataStreamInfo) As String
+        Return Path.GetFileName(adsInfo.FilePath)
+    End Function
+
+    Public Shared Function GetADSDirectory(adsInfo As AlternateDataStreamInfo) As String
+        Return Path.GetDirectoryName(adsInfo.FilePath)
+    End Function
+
+    Public Shared Function GetADSPath(adsInfo As AlternateDataStreamInfo) As String
+        Return adsInfo.FilePath & ":" & adsInfo.Name
+    End Function
+
+    Public Shared Function PathContainsADS(path As String) As Boolean
+        Return path.Count(Function(c As Char) c = ":"c) > 1
+    End Function
+
+    Public Shared Function GetADSPathStream(adsPath As String) As String
+        Return adsPath.Substring(adsPath.IndexOf(":"c, 2) + 1) ' start at 2 to ignore DriveSeparator
+    End Function
+
+    Public Shared Function GetADSPathFile(adsPath As String) As String
+        Return adsPath.Remove(adsPath.IndexOf(":"c, 2)) ' start at 2 to ignore DriveSeparator
+    End Function
 End Class

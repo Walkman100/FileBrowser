@@ -191,7 +191,7 @@ Public Class Operations
                     'FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
                     Dim scriptPath As String = Environment.GetEnvironmentVariable("temp") & Path.DirectorySeparatorChar & "createShortcut.vbs"
-                    Using writer As StreamWriter = New StreamWriter(File.Open(scriptPath, FileMode.Create))
+                    Using writer As New StreamWriter(File.Open(scriptPath, FileMode.Create))
                         writer.WriteLine("Set lnk = WScript.CreateObject(""WScript.Shell"").CreateShortcut(""" & targetPath & """)")
                         writer.WriteLine("lnk.TargetPath = """ & sourcePath & """")
                         writer.WriteLine("lnk.Save")
@@ -283,7 +283,7 @@ Public Class Operations
     End Function
 
     Private Shared Function OokiiInputBox(ByRef input As String, Optional windowTitle As String = Nothing, Optional header As String = Nothing, Optional content As String = Nothing) As DialogResult
-        Dim ooInput = New Ookii.Dialogs.InputDialog With {
+        Dim ooInput As New Ookii.Dialogs.InputDialog With {
             .Input = input,
             .WindowTitle = windowTitle,
             .MainInstruction = header,
