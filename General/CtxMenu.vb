@@ -111,7 +111,18 @@ Public Class CtxMenu
             Dim itemShouldBeVisible As Boolean = paths.Length > 0
 
             For Each path As String In paths
-                Dim existsInfo As PathEnum = WalkmanLib.IsFileOrDirectory(path)
+                Dim existsInfo As PathEnum
+                Try
+                    existsInfo = WalkmanLib.IsFileOrDirectory(path)
+                Catch ex As NotSupportedException
+                    If Helpers.PathContainsADS(path) AndAlso Trinet.Core.IO.Ntfs.AlternateDataStreamExists(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path)) Then
+                        ' we're dealing with an ADS
+                        existsInfo = PathEnum.Exists Or PathEnum.IsFile
+                    Else
+                        existsInfo = PathEnum.NotFound
+                    End If
+                End Try
+
                 If itemShouldBeVisible Then
                     If itemInfo.DirectoryOnly Then
                         itemShouldBeVisible = existsInfo.HasFlag(PathEnum.IsDirectory)
@@ -126,7 +137,11 @@ Public Class CtxMenu
                     itemShouldBeVisible = My.Computer.Keyboard.ShiftKeyDown
                 End If
                 If itemShouldBeVisible AndAlso existsInfo.HasFlag(PathEnum.IsFile) AndAlso itemInfo.Filter IsNot Nothing Then
-                    itemShouldBeVisible = FilterName(New FileInfo(path).Name, itemInfo.Filter)
+                    If Helpers.PathContainsADS(path) Then
+                        itemShouldBeVisible = FilterName(New FileInfo(Helpers.GetADSPathFile(path)).Name, itemInfo.Filter)
+                    Else
+                        itemShouldBeVisible = FilterName(New FileInfo(path).Name, itemInfo.Filter)
+                    End If
                 End If
             Next
             item.Visible = itemShouldBeVisible

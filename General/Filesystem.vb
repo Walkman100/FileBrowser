@@ -90,6 +90,21 @@ Public Class Filesystem
                 End If
 
                 rtn.Add(entryInfo)
+
+                If Settings.ShowADSSeparate Then
+                    If entryInfo.ADSCount > 0 Then
+                        For Each adsInfo As AlternateDataStreamInfo In info.ListAlternateDataStreams()
+                            entryInfo = New EntryInfo With {
+                                .FullName = adsInfo.FullPath.Remove(adsInfo.FullPath.LastIndexOf(":"c)),
+                                .Size = adsInfo.Size,
+                                .Type = EntryType.AlternateDataStream,
+                                .DisplayName = IO.Path.GetFileName(adsInfo.FilePath) & ":" & adsInfo.Name
+                            }
+
+                            rtn.Add(entryInfo)
+                        Next
+                    End If
+                End If
             End If
         Next
         Return rtn
