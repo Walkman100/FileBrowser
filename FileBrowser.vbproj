@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>WinExe</OutputType>
     <MyType>WindowsForms</MyType>
-    <RootNamespace>FileBrowser</RootNamespace>
+    <RootNamespace></RootNamespace>
     <AssemblyName>FileBrowser</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
