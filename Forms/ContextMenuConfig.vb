@@ -87,7 +87,10 @@ Public Class ContextMenuConfig
 
     Private Sub btnAdd_Click() Handles btnAdd.Click
         lstMain.SelectedItems.Clear()
-        Dim tmpListViewItem As ListViewItem = lstMain.Items.Add(CreateItem(New CtxMenu.EntryInfo))
+        Dim tmpListViewItem As ListViewItem = lstMain.Items.Add(
+            CreateItem(New CtxMenu.EntryInfo() With {.ActionType = CtxMenu.ActionType.None})
+        )
+
         tmpListViewItem.Selected = True
         tmpListViewItem.Focused = True
     End Sub

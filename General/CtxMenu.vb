@@ -11,6 +11,7 @@ Public Class CtxMenu
         Separator
     End Enum
     Public Enum ActionType
+        None = -1
         ''' <summary><see cref="EntryInfo.ActionArgs1"/> is the file to launch, <see cref="EntryInfo.ActionArgs2"/> is the arguments</summary>
         Launch
         ''' <summary><see cref="EntryInfo.ActionArgs1"/> is the file to run as admin, <see cref="EntryInfo.ActionArgs2"/> is the arguments</summary>
