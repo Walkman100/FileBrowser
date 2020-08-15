@@ -82,6 +82,8 @@ Public Class ContextMenuConfig
             txtItemActionFile.Text = Nothing
             lblItemActionArgs.Text = "Action Arguments Pattern:"
             txtItemActionArgs.Text = Nothing
+        Else
+            LoadItemInfo(GetItemInfo(lstMain.SelectedItems.Item(0)))
         End If
     End Sub
 
@@ -123,6 +125,19 @@ Public Class ContextMenuConfig
 #End Region
 
 #Region "Editing Data"
+    Private Sub LoadItemInfo(item As CtxMenu.EntryInfo)
+        cbxItemType.SelectedIndex = item.EntryType
+        txtItemText.Text = item.Text
+        chkItemAdmin.Checked = item.AdminIcon
+        chkItemExtended.Checked = item.Extended
+        chkItemRestrict.Checked = item.FileOnly OrElse item.DirectoryOnly OrElse item.DriveOnly
+        cbxItemRestrict.SelectedIndex = If(item.FileOnly, 0, If(item.DirectoryOnly, 1, If(item.DriveOnly, 2, -1)))
+        txtItemFilter.Text = item.Filter
+        cbxItemActionType.SelectedIndex = item.ActionType
+        txtItemActionFile.Text = item.ActionArgs1
+        txtItemActionArgs.Text = item.ActionArgs2
+    End Sub
+
     Private Sub cbxItemType_SelectedIndexChanged() Handles cbxItemType.SelectedIndexChanged
         lblItemText.Enabled = (cbxItemType.SelectedIndex = 0)
         txtItemText.Enabled = (cbxItemType.SelectedIndex = 0)
@@ -133,32 +148,71 @@ Public Class ContextMenuConfig
         lblItemFilter.Enabled = (cbxItemType.SelectedIndex = 0)
         txtItemFilter.Enabled = (cbxItemType.SelectedIndex = 0)
         grpItemAction.Enabled = (cbxItemType.SelectedIndex = 0)
+
+        For Each item As ListViewItem In lstMain.SelectedItems
+            Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+            info.EntryType = DirectCast(cbxItemType.SelectedIndex, CtxMenu.EntryType)
+
+            UpdateItem(item, info)
+        Next
     End Sub
 
     Private Sub txtItemText_TextChanged() Handles txtItemText.TextChanged
+        For Each item As ListViewItem In lstMain.SelectedItems
+            Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+            info.Text = txtItemText.Text
 
+            UpdateItem(item, info)
+        Next
     End Sub
-
     Private Sub chkItemAdmin_CheckedChanged() Handles chkItemAdmin.CheckedChanged
+        For Each item As ListViewItem In lstMain.SelectedItems
+            Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+            info.AdminIcon = chkItemAdmin.Checked
 
+            UpdateItem(item, info)
+        Next
     End Sub
-
     Private Sub chkItemExtended_CheckedChanged() Handles chkItemExtended.CheckedChanged
+        For Each item As ListViewItem In lstMain.SelectedItems
+            Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+            info.Extended = chkItemExtended.Checked
 
+            UpdateItem(item, info)
+        Next
     End Sub
-
     Private Sub chkItemRestrict_CheckedChanged() Handles chkItemRestrict.CheckedChanged
         cbxItemRestrict.Enabled = chkItemRestrict.Checked
-    End Sub
 
+        If Not chkItemRestrict.Checked Then
+            For Each item As ListViewItem In lstMain.SelectedItems
+                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                info.FileOnly = False
+                info.DirectoryOnly = False
+                info.DriveOnly = False
+
+                UpdateItem(item, info)
+            Next
+        End If
+    End Sub
     Private Sub cbxItemRestrict_SelectedIndexChanged() Handles cbxItemRestrict.SelectedIndexChanged
+        For Each item As ListViewItem In lstMain.SelectedItems
+            Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+            info.FileOnly = (cbxItemRestrict.SelectedIndex = 0)
+            info.DirectoryOnly = (cbxItemRestrict.SelectedIndex = 1)
+            info.DriveOnly = (cbxItemRestrict.SelectedIndex = 2)
 
+            UpdateItem(item, info)
+        Next
     End Sub
-
     Private Sub txtItemFilter_TextChanged() Handles txtItemFilter.TextChanged
+        For Each item As ListViewItem In lstMain.SelectedItems
+            Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+            info.Filter = txtItemFilter.Text
 
+            UpdateItem(item, info)
+        Next
     End Sub
-
     Private Sub cbxItemActionType_SelectedIndexChanged() Handles cbxItemActionType.SelectedIndexChanged
         Select Case cbxItemActionType.SelectedIndex
             Case 0, 1, 2, 4
@@ -183,14 +237,29 @@ Public Class ContextMenuConfig
         Else
             lblItemActionArgs.Text = "Action Arguments Pattern:"
         End If
-    End Sub
 
+        For Each item As ListViewItem In lstMain.SelectedItems
+            Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+            info.ActionType = DirectCast(cbxItemActionType.SelectedIndex, CtxMenu.ActionType)
+
+            UpdateItem(item, info)
+        Next
+    End Sub
     Private Sub txtItemActionFile_TextChanged() Handles txtItemActionFile.TextChanged
+        For Each item As ListViewItem In lstMain.SelectedItems
+            Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+            info.ActionArgs1 = txtItemActionFile.Text
 
+            UpdateItem(item, info)
+        Next
     End Sub
-
     Private Sub txtItemActionArgs_TextChanged() Handles txtItemActionArgs.TextChanged
+        For Each item As ListViewItem In lstMain.SelectedItems
+            Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+            info.ActionArgs2 = txtItemActionArgs.Text
 
+            UpdateItem(item, info)
+        Next
     End Sub
 #End Region
 End Class
