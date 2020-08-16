@@ -111,64 +111,29 @@ Public Class ContextMenuConfig
                             Dim itemInfo As New CtxMenu.EntryInfo
 
                             elementAttribute = reader("type")
-                            If elementAttribute IsNot Nothing Then
-                                [Enum].TryParse(elementAttribute, itemInfo.EntryType)
-                            End If
-
+                            If elementAttribute IsNot Nothing Then [Enum].TryParse(elementAttribute, itemInfo.EntryType)
                             elementAttribute = reader("text")
-                            If elementAttribute IsNot Nothing Then
-                                itemInfo.Text = elementAttribute
-                            End If
-
+                            If elementAttribute IsNot Nothing Then itemInfo.Text = elementAttribute
                             elementAttribute = reader("icon")
-                            If elementAttribute IsNot Nothing Then
-                                itemInfo.IconPath = elementAttribute
-                            End If
-
+                            If elementAttribute IsNot Nothing Then itemInfo.IconPath = elementAttribute
                             elementAttribute = reader("adminIcon")
-                            If elementAttribute IsNot Nothing Then
-                                Boolean.TryParse(elementAttribute, itemInfo.AdminIcon)
-                            End If
-
+                            If elementAttribute IsNot Nothing Then Boolean.TryParse(elementAttribute, itemInfo.AdminIcon)
                             elementAttribute = reader("extended")
-                            If elementAttribute IsNot Nothing Then
-                                Boolean.TryParse(elementAttribute, itemInfo.Extended)
-                            End If
-
+                            If elementAttribute IsNot Nothing Then Boolean.TryParse(elementAttribute, itemInfo.Extended)
                             elementAttribute = reader("fileOnly")
-                            If elementAttribute IsNot Nothing Then
-                                Boolean.TryParse(elementAttribute, itemInfo.FileOnly)
-                            End If
-
+                            If elementAttribute IsNot Nothing Then Boolean.TryParse(elementAttribute, itemInfo.FileOnly)
                             elementAttribute = reader("directoryOnly")
-                            If elementAttribute IsNot Nothing Then
-                                Boolean.TryParse(elementAttribute, itemInfo.DirectoryOnly)
-                            End If
-
+                            If elementAttribute IsNot Nothing Then Boolean.TryParse(elementAttribute, itemInfo.DirectoryOnly)
                             elementAttribute = reader("driveOnly")
-                            If elementAttribute IsNot Nothing Then
-                                Boolean.TryParse(elementAttribute, itemInfo.DriveOnly)
-                            End If
-
+                            If elementAttribute IsNot Nothing Then Boolean.TryParse(elementAttribute, itemInfo.DriveOnly)
                             elementAttribute = reader("filter")
-                            If elementAttribute IsNot Nothing Then
-                                itemInfo.Filter = elementAttribute
-                            End If
-
+                            If elementAttribute IsNot Nothing Then itemInfo.Filter = elementAttribute
                             elementAttribute = reader("actiontype")
-                            If elementAttribute IsNot Nothing Then
-                                [Enum].TryParse(elementAttribute, itemInfo.ActionType)
-                            End If
-
+                            If elementAttribute IsNot Nothing Then [Enum].TryParse(elementAttribute, itemInfo.ActionType)
                             elementAttribute = reader("actionargs1")
-                            If elementAttribute IsNot Nothing Then
-                                itemInfo.ActionArgs1 = elementAttribute
-                            End If
-
+                            If elementAttribute IsNot Nothing Then itemInfo.ActionArgs1 = elementAttribute
                             elementAttribute = reader("actionargs2")
-                            If elementAttribute IsNot Nothing Then
-                                itemInfo.ActionArgs2 = elementAttribute
-                            End If
+                            If elementAttribute IsNot Nothing Then itemInfo.ActionArgs2 = elementAttribute
 
                             lstMain.Items.Add(CreateItem(itemInfo))
                         End If
@@ -181,31 +146,20 @@ Public Class ContextMenuConfig
                                 Dim col As ColumnHeader = lstMain.Columns.OfType(Of ColumnHeader).First(Function(c As ColumnHeader)
                                                                                                             Return DirectCast(c.Tag, String) = "colHead" & reader.Name
                                                                                                         End Function)
-
                                 If col IsNot Nothing Then
                                     elementAttribute = reader("index")
-                                    If elementAttribute IsNot Nothing Then
-                                        Integer.TryParse(elementAttribute, col.DisplayIndex)
-                                    End If
-
+                                    If elementAttribute IsNot Nothing Then Integer.TryParse(elementAttribute, col.DisplayIndex)
                                     elementAttribute = reader("width")
-                                    If elementAttribute IsNot Nothing Then
-                                        Integer.TryParse(elementAttribute, col.Width)
-                                    End If
+                                    If elementAttribute IsNot Nothing Then Integer.TryParse(elementAttribute, col.Width)
                                 End If
                             End If
                         End While
                     End If
                     If reader.Read AndAlso reader.IsStartElement AndAlso reader.Name = "WindowSize" Then
                         elementAttribute = reader("width")
-                        If elementAttribute IsNot Nothing Then
-                            Integer.TryParse(elementAttribute, Me.Width)
-                        End If
-
+                        If elementAttribute IsNot Nothing Then Integer.TryParse(elementAttribute, Me.Width)
                         elementAttribute = reader("height")
-                        If elementAttribute IsNot Nothing Then
-                            Integer.TryParse(elementAttribute, Me.Height)
-                        End If
+                        If elementAttribute IsNot Nothing Then Integer.TryParse(elementAttribute, Me.Height)
                     End If
                 End If
             End If
@@ -459,7 +413,9 @@ Public Class ContextMenuConfig
     Private Sub chkItemRestrict_CheckedChanged() Handles chkItemRestrict.CheckedChanged
         cbxItemRestrict.Enabled = chkItemRestrict.Checked
 
-        If allowEdit AndAlso Not chkItemRestrict.Checked Then
+        If chkItemRestrict.Checked Then
+            If cbxItemRestrict.SelectedIndex <> -1 Then cbxItemRestrict_SelectedIndexChanged()
+        ElseIf allowEdit Then
             lstMain.BeginUpdate()
             For Each item As ListViewItem In lstMain.SelectedItems
                 Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
