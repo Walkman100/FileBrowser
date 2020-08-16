@@ -39,6 +39,7 @@ Partial Class ContextMenuConfig
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.btnShowConfig = New System.Windows.Forms.Button()
         Me.grpItemConfig = New System.Windows.Forms.GroupBox()
+        Me.imgItemIcon = New System.Windows.Forms.PictureBox()
         Me.btnItemIconPick = New System.Windows.Forms.Button()
         Me.btnItemIconBrowse = New System.Windows.Forms.Button()
         Me.txtItemIconPath = New System.Windows.Forms.TextBox()
@@ -61,6 +62,7 @@ Partial Class ContextMenuConfig
         Me.cbxItemType = New System.Windows.Forms.ComboBox()
         Me.scMain = New System.Windows.Forms.SplitContainer()
         Me.grpItemConfig.SuspendLayout()
+        CType(Me.imgItemIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpItemAction.SuspendLayout()
         CType(Me.scMain, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.scMain.Panel1.SuspendLayout()
@@ -209,6 +211,7 @@ Partial Class ContextMenuConfig
         Me.grpItemConfig.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grpItemConfig.Controls.Add(Me.imgItemIcon)
         Me.grpItemConfig.Controls.Add(Me.btnItemIconPick)
         Me.grpItemConfig.Controls.Add(Me.btnItemIconBrowse)
         Me.grpItemConfig.Controls.Add(Me.txtItemIconPath)
@@ -229,6 +232,17 @@ Partial Class ContextMenuConfig
         Me.grpItemConfig.TabIndex = 7
         Me.grpItemConfig.TabStop = False
         Me.grpItemConfig.Text = "Item Type:"
+        '
+        'imgItemIcon
+        '
+        Me.imgItemIcon.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.imgItemIcon.InitialImage = Nothing
+        Me.imgItemIcon.Location = New System.Drawing.Point(59, 121)
+        Me.imgItemIcon.Name = "imgItemIcon"
+        Me.imgItemIcon.Size = New System.Drawing.Size(16, 16)
+        Me.imgItemIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.imgItemIcon.TabIndex = 14
+        Me.imgItemIcon.TabStop = False
         '
         'btnItemIconPick
         '
@@ -470,6 +484,7 @@ Partial Class ContextMenuConfig
         Me.Text = "ContextMenuConfig"
         Me.grpItemConfig.ResumeLayout(False)
         Me.grpItemConfig.PerformLayout()
+        CType(Me.imgItemIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpItemAction.ResumeLayout(False)
         Me.grpItemAction.PerformLayout()
         Me.scMain.Panel1.ResumeLayout(False)
@@ -518,4 +533,5 @@ Partial Class ContextMenuConfig
     Friend WithEvents txtItemIconPath As System.Windows.Forms.TextBox
     Friend WithEvents btnItemIconBrowse As System.Windows.Forms.Button
     Friend WithEvents btnItemIconPick As System.Windows.Forms.Button
+    Friend WithEvents imgItemIcon As System.Windows.Forms.PictureBox
 End Class

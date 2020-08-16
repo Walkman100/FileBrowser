@@ -393,6 +393,12 @@ Public Class ContextMenuConfig
         End If
     End Sub
     Private Sub txtItemIconPath_TextChanged() Handles txtItemIconPath.TextChanged
+        Try
+            imgItemIcon.Image = ImageHandling.GetIcon(txtItemIconPath.Text)?.ToBitmap()
+        Catch
+            imgItemIcon.ImageLocation = Environment.ExpandEnvironmentVariables(txtItemIconPath.Text)
+        End Try
+
         If allowEdit Then
             lstMain.BeginUpdate()
             For Each item As ListViewItem In lstMain.SelectedItems
