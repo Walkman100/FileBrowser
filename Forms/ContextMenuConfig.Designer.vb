@@ -76,7 +76,7 @@ Partial Class ContextMenuConfig
         Me.lstMain.Location = New System.Drawing.Point(0, 0)
         Me.lstMain.Name = "lstMain"
         Me.lstMain.ShowItemToolTips = True
-        Me.lstMain.Size = New System.Drawing.Size(569, 656)
+        Me.lstMain.Size = New System.Drawing.Size(969, 656)
         Me.lstMain.TabIndex = 0
         Me.lstMain.UseCompatibleStateImageBehavior = False
         Me.lstMain.View = System.Windows.Forms.View.Details
@@ -85,49 +85,49 @@ Partial Class ContextMenuConfig
         '
         Me.colHeadType.Tag = "colHeadType"
         Me.colHeadType.Text = "Type"
-        Me.colHeadType.Width = 36
+        Me.colHeadType.Width = 57
         '
         'colHeadText
         '
         Me.colHeadText.Tag = "colHeadText"
         Me.colHeadText.Text = "Text"
-        Me.colHeadText.Width = 37
+        Me.colHeadText.Width = 110
         '
         'colHeadIcon
         '
         Me.colHeadIcon.Tag = "colHeadIcon"
         Me.colHeadIcon.Text = "Icon"
-        Me.colHeadIcon.Width = 35
+        Me.colHeadIcon.Width = 300
         '
         'colHeadAdminIcon
         '
         Me.colHeadAdminIcon.Tag = "colHeadAdminIcon"
-        Me.colHeadAdminIcon.Text = "Show Admin icon/overlay"
-        Me.colHeadAdminIcon.Width = 134
+        Me.colHeadAdminIcon.Text = "Admin icon"
+        Me.colHeadAdminIcon.Width = 64
         '
         'colHeadExtended
         '
         Me.colHeadExtended.Tag = "colHeadExtended"
-        Me.colHeadExtended.Text = "Show in Extended only"
-        Me.colHeadExtended.Width = 120
+        Me.colHeadExtended.Text = "Extended"
+        Me.colHeadExtended.Width = 57
         '
         'colHeadFilter
         '
         Me.colHeadFilter.Tag = "colHeadFilter"
         Me.colHeadFilter.Text = "Filter"
-        Me.colHeadFilter.Width = 36
+        Me.colHeadFilter.Width = 185
         '
         'colHeadActionType
         '
         Me.colHeadActionType.Tag = "colHeadActionType"
         Me.colHeadActionType.Text = "Action Type"
-        Me.colHeadActionType.Width = 69
+        Me.colHeadActionType.Width = 110
         '
         'colHeadActionSettings
         '
         Me.colHeadActionSettings.Tag = "colHeadActionSettings"
         Me.colHeadActionSettings.Text = "Action Settings"
-        Me.colHeadActionSettings.Width = 84
+        Me.colHeadActionSettings.Width = 260
         '
         'btnAdd
         '
@@ -407,8 +407,8 @@ Partial Class ContextMenuConfig
         Me.scMain.Panel2.Controls.Add(Me.btnCancel)
         Me.scMain.Panel2.Controls.Add(Me.btnMoveDown)
         Me.scMain.Panel2.Controls.Add(Me.btnSave)
-        Me.scMain.Size = New System.Drawing.Size(906, 656)
-        Me.scMain.SplitterDistance = 569
+        Me.scMain.Size = New System.Drawing.Size(1306, 656)
+        Me.scMain.SplitterDistance = 969
         Me.scMain.TabIndex = 0
         '
         'ContextMenuConfig
@@ -417,7 +417,7 @@ Partial Class ContextMenuConfig
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(906, 656)
+        Me.ClientSize = New System.Drawing.Size(1306, 656)
         Me.Controls.Add(Me.scMain)
         Me.Name = "ContextMenuConfig"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
