@@ -2,6 +2,7 @@ Imports System
 Imports System.IO
 Imports System.Linq
 Imports System.Windows.Forms
+Imports System.Xml
 
 Public Class ContextMenuConfig
 #Region "Helper Functions"
@@ -93,11 +94,118 @@ Public Class ContextMenuConfig
     End Sub
 
     Private Sub LoadSettings()
+        Using reader As XmlReader = XmlReader.Create(_settingsPath)
+            Try
+                reader.Read()
+            Catch ex As XmlException
+                reader.Close()
+                Return
+            End Try
 
+            Dim elementAttribute As String
+            If reader.IsStartElement AndAlso reader.Name = "FileBrowser.ContextMenu" Then
+                If reader.Read AndAlso reader.IsStartElement() AndAlso reader.Name = "Items" Then
+                    lstMain.Items.Clear()
+                    While reader.IsStartElement
+                        If reader.Read AndAlso reader.IsStartElement() AndAlso reader.Name = "Item" Then
+                            Dim itemInfo As New CtxMenu.EntryInfo
+
+                            elementAttribute = reader("type")
+                            If elementAttribute IsNot Nothing Then
+                                [Enum].TryParse(elementAttribute, itemInfo.EntryType)
+                            End If
+
+                            elementAttribute = reader("text")
+                            If elementAttribute IsNot Nothing Then
+                                itemInfo.Text = elementAttribute
+                            End If
+
+                            elementAttribute = reader("icon")
+                            If elementAttribute IsNot Nothing Then
+                                itemInfo.IconPath = elementAttribute
+                            End If
+
+                            elementAttribute = reader("adminIcon")
+                            If elementAttribute IsNot Nothing Then
+                                Boolean.TryParse(elementAttribute, itemInfo.AdminIcon)
+                            End If
+
+                            elementAttribute = reader("extended")
+                            If elementAttribute IsNot Nothing Then
+                                Boolean.TryParse(elementAttribute, itemInfo.Extended)
+                            End If
+
+                            elementAttribute = reader("fileOnly")
+                            If elementAttribute IsNot Nothing Then
+                                Boolean.TryParse(elementAttribute, itemInfo.FileOnly)
+                            End If
+
+                            elementAttribute = reader("directoryOnly")
+                            If elementAttribute IsNot Nothing Then
+                                Boolean.TryParse(elementAttribute, itemInfo.DirectoryOnly)
+                            End If
+
+                            elementAttribute = reader("driveOnly")
+                            If elementAttribute IsNot Nothing Then
+                                Boolean.TryParse(elementAttribute, itemInfo.DriveOnly)
+                            End If
+
+                            elementAttribute = reader("filter")
+                            If elementAttribute IsNot Nothing Then
+                                itemInfo.Filter = elementAttribute
+                            End If
+
+                            elementAttribute = reader("actiontype")
+                            If elementAttribute IsNot Nothing Then
+                                [Enum].TryParse(elementAttribute, itemInfo.ActionType)
+                            End If
+
+                            elementAttribute = reader("actionargs1")
+                            If elementAttribute IsNot Nothing Then
+                                itemInfo.ActionArgs1 = elementAttribute
+                            End If
+
+                            elementAttribute = reader("actionargs2")
+                            If elementAttribute IsNot Nothing Then
+                                itemInfo.ActionArgs2 = elementAttribute
+                            End If
+
+                            lstMain.Items.Add(CreateItem(itemInfo))
+                        End If
+                    End While
+                End If
+            End If
+        End Using
     End Sub
 
     Private Sub SaveSettings()
+        Using writer As XmlWriter = XmlWriter.Create(_settingsPath, New XmlWriterSettings With {.Indent = True})
+            writer.WriteStartDocument()
+            writer.WriteStartElement("FileBrowser.ContextMenu")
 
+            writer.WriteStartElement("Items")
+            For Each item As ListViewItem In lstMain.Items
+                Dim itemInfo As CtxMenu.EntryInfo = GetItemInfo(item)
+                writer.WriteStartElement("Item")
+                writer.WriteAttributeString("type", itemInfo.EntryType.ToString())
+                writer.WriteAttributeString("text", itemInfo.Text)
+                writer.WriteAttributeString("icon", itemInfo.IconPath)
+                writer.WriteAttributeString("adminIcon", itemInfo.AdminIcon.ToString())
+                writer.WriteAttributeString("extended", itemInfo.Extended.ToString())
+                writer.WriteAttributeString("fileOnly", itemInfo.FileOnly.ToString())
+                writer.WriteAttributeString("directoryOnly", itemInfo.DirectoryOnly.ToString())
+                writer.WriteAttributeString("driveOnly", itemInfo.DriveOnly.ToString())
+                writer.WriteAttributeString("filter", itemInfo.Filter)
+                writer.WriteAttributeString("actionType", itemInfo.ActionType.ToString())
+                writer.WriteAttributeString("actionArgs1", itemInfo.ActionArgs1)
+                writer.WriteAttributeString("actionArgs2", itemInfo.ActionArgs2)
+                writer.WriteEndElement() ' Item
+            Next
+            writer.WriteEndElement() ' Items
+
+            writer.WriteEndElement() ' FileBrowsser.ContextMenu
+            writer.WriteEndDocument()
+        End Using
     End Sub
 #End Region
 
