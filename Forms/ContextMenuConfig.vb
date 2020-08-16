@@ -174,6 +174,40 @@ Public Class ContextMenuConfig
                         End If
                     End While
                 End If
+                If reader.Read AndAlso reader.IsStartElement() AndAlso reader.Name = "Settings" Then
+                    If reader.Read AndAlso reader.IsStartElement() AndAlso reader.Name = "ColumnSettings" Then
+                        While reader.IsStartElement
+                            If reader.Read AndAlso reader.IsStartElement() Then
+                                Dim col As ColumnHeader = lstMain.Columns.OfType(Of ColumnHeader).First(Function(c As ColumnHeader)
+                                                                                                            Return DirectCast(c.Tag, String) = "colHead" & reader.Name
+                                                                                                        End Function)
+
+                                If col IsNot Nothing Then
+                                    elementAttribute = reader("index")
+                                    If elementAttribute IsNot Nothing Then
+                                        Integer.TryParse(elementAttribute, col.DisplayIndex)
+                                    End If
+
+                                    elementAttribute = reader("width")
+                                    If elementAttribute IsNot Nothing Then
+                                        Integer.TryParse(elementAttribute, col.Width)
+                                    End If
+                                End If
+                            End If
+                        End While
+                    End If
+                    If reader.Read AndAlso reader.IsStartElement AndAlso reader.Name = "WindowSize" Then
+                        elementAttribute = reader("width")
+                        If elementAttribute IsNot Nothing Then
+                            Integer.TryParse(elementAttribute, Me.Width)
+                        End If
+
+                        elementAttribute = reader("height")
+                        If elementAttribute IsNot Nothing Then
+                            Integer.TryParse(elementAttribute, Me.Height)
+                        End If
+                    End If
+                End If
             End If
         End Using
     End Sub
@@ -202,6 +236,25 @@ Public Class ContextMenuConfig
                 writer.WriteEndElement() ' Item
             Next
             writer.WriteEndElement() ' Items
+
+            writer.WriteStartElement("Settings")
+
+            writer.WriteStartElement("ColumnSettings")
+            For Each column As ColumnHeader In lstMain.Columns
+                ' column.Name isn't set, so the name is stored in the Tag, and we don't need "colHead"
+                writer.WriteStartElement(DirectCast(column.Tag, String).Substring(7))
+                writer.WriteAttributeString("index", column.DisplayIndex.ToString())
+                writer.WriteAttributeString("width", column.Width.ToString())
+                writer.WriteEndElement()
+            Next
+            writer.WriteEndElement() ' ColumnSettings
+
+            writer.WriteStartElement("WindowSize")
+            writer.WriteAttributeString("width", Me.Width.ToString())
+            writer.WriteAttributeString("height", Me.Height.ToString())
+            writer.WriteEndElement() ' WindowSize
+
+            writer.WriteEndElement() ' Settings
 
             writer.WriteEndElement() ' FileBrowsser.ContextMenu
             writer.WriteEndDocument()

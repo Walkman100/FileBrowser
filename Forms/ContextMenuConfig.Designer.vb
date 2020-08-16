@@ -83,41 +83,49 @@ Partial Class ContextMenuConfig
         '
         'colHeadType
         '
+        Me.colHeadType.Tag = "colHeadType"
         Me.colHeadType.Text = "Type"
         Me.colHeadType.Width = 36
         '
         'colHeadText
         '
+        Me.colHeadText.Tag = "colHeadText"
         Me.colHeadText.Text = "Text"
         Me.colHeadText.Width = 37
         '
         'colHeadIcon
         '
+        Me.colHeadIcon.Tag = "colHeadIcon"
         Me.colHeadIcon.Text = "Icon"
         Me.colHeadIcon.Width = 35
         '
         'colHeadAdminIcon
         '
+        Me.colHeadAdminIcon.Tag = "colHeadAdminIcon"
         Me.colHeadAdminIcon.Text = "Show Admin icon/overlay"
         Me.colHeadAdminIcon.Width = 134
         '
         'colHeadExtended
         '
+        Me.colHeadExtended.Tag = "colHeadExtended"
         Me.colHeadExtended.Text = "Show in Extended only"
         Me.colHeadExtended.Width = 120
         '
         'colHeadFilter
         '
+        Me.colHeadFilter.Tag = "colHeadFilter"
         Me.colHeadFilter.Text = "Filter"
         Me.colHeadFilter.Width = 36
         '
         'colHeadActionType
         '
+        Me.colHeadActionType.Tag = "colHeadActionType"
         Me.colHeadActionType.Text = "Action Type"
         Me.colHeadActionType.Width = 69
         '
         'colHeadActionSettings
         '
+        Me.colHeadActionSettings.Tag = "colHeadActionSettings"
         Me.colHeadActionSettings.Text = "Action Settings"
         Me.colHeadActionSettings.Width = 84
         '
