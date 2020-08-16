@@ -11,20 +11,20 @@ Public Class Settings
         Dim configFileName As String = "FileBrowser.xml"
 
         If Environment.GetEnvironmentVariable("OS") = "Windows_NT" Then
-            If Not Directory.Exists(Path.Combine(Environment.GetEnvironmentVariable("AppData"), "WalkmanOSS")) Then
+            If Not       Directory.Exists(Path.Combine(Environment.GetEnvironmentVariable("AppData"), "WalkmanOSS")) Then
                 Directory.CreateDirectory(Path.Combine(Environment.GetEnvironmentVariable("AppData"), "WalkmanOSS"))
             End If
-            _settingsPath = Path.Combine(Environment.GetEnvironmentVariable("AppData"), "WalkmanOSS", configFileName)
+            _settingsPath =               Path.Combine(Environment.GetEnvironmentVariable("AppData"), "WalkmanOSS", configFileName)
         Else
-            If Not Directory.Exists(Path.Combine(Environment.GetEnvironmentVariable("HOME"), ".config", "WalkmanOSS")) Then
+            If Not       Directory.Exists(Path.Combine(Environment.GetEnvironmentVariable("HOME"), ".config", "WalkmanOSS")) Then
                 Directory.CreateDirectory(Path.Combine(Environment.GetEnvironmentVariable("HOME"), ".config", "WalkmanOSS"))
             End If
-            _settingsPath = Path.Combine(Environment.GetEnvironmentVariable("HOME"), ".config", "WalkmanOSS", configFileName)
+            _settingsPath =               Path.Combine(Environment.GetEnvironmentVariable("HOME"), ".config", "WalkmanOSS", configFileName)
         End If
 
-        If File.Exists(Path.Combine(Application.StartupPath, configFileName)) Then
+        If      File.Exists(Path.Combine(Application.StartupPath, configFileName)) Then
             _settingsPath = Path.Combine(Application.StartupPath, configFileName)
-        ElseIf File.Exists(configFileName) Then
+        ElseIf               File.Exists(configFileName) Then
             _settingsPath = New FileInfo(configFileName).FullName
         End If
 
@@ -372,7 +372,7 @@ Public Class Settings
         Me.Hide()
     End Sub
     Private Sub btnShowSettingsFile_Click() Handles btnShowSettingsFile.Click
-        Process.Start("explorer.exe", String.Format("/select, ""{0}""", _settingsPath))
+        Launch.LaunchItem(_settingsPath, "explorer.exe", "/select, ""{path}""")
     End Sub
 #End Region
 

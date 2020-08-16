@@ -7,7 +7,7 @@ Public Class Launch
     Private Shared Function FormatEntry(path As String, format As String) As String
         If format Is Nothing Then Return path
         If Helpers.PathContainsADS(path) Then
-            If Not AlternateDataStreamExists(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path)) Then Return Nothing
+            If Not AlternateDataStreamExists(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path)) Then Return format
 
             Dim adsInfo As AlternateDataStreamInfo = GetAlternateDataStream(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path))
 
@@ -37,7 +37,7 @@ Public Class Launch
                 End If
             End If
         Else
-            If WalkmanLib.IsFileOrDirectory(path) = PathEnum.NotFound Then Return Nothing
+            If WalkmanLib.IsFileOrDirectory(path) = PathEnum.NotFound Then Return format
 
             Dim fileInfo As New FileInfo(path)
 

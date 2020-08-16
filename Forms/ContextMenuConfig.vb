@@ -1,3 +1,5 @@
+Imports System
+Imports System.IO
 Imports System.Linq
 Imports System.Windows.Forms
 
@@ -32,6 +34,7 @@ Public Class ContextMenuConfig
     Private Function GetActionSettingsText(itemInfo As CtxMenu.EntryInfo) As String
         If String.IsNullOrEmpty(itemInfo.ActionArgs1) Then Return Nothing
         If String.IsNullOrEmpty(itemInfo.ActionArgs2) Then Return itemInfo.ActionArgs1
+        If itemInfo.ActionType = CtxMenu.ActionType.Properties Then Return $"Path format: ""{itemInfo.ActionArgs1}"" Properties Tab: {itemInfo.ActionArgs2}"
 
         Return $"Path format: ""{itemInfo.ActionArgs1}"" Arguments format: ""{itemInfo.ActionArgs2}"""
     End Function
@@ -58,8 +61,48 @@ Public Class ContextMenuConfig
     End Function
 #End Region
 
+#Region "Saving & Loading Data"
+    Private _settingsPath As String
+
+    Public Sub Init()
+        Dim configFileName As String = "FileBrowser.ContextMenu.xml"
+
+        If Environment.GetEnvironmentVariable("OS") = "Windows_NT" Then
+            If Not       Directory.Exists(Path.Combine(Environment.GetEnvironmentVariable("AppData"), "WalkmanOSS")) Then
+                Directory.CreateDirectory(Path.Combine(Environment.GetEnvironmentVariable("AppData"), "WalkmanOSS"))
+            End If
+            _settingsPath =               Path.Combine(Environment.GetEnvironmentVariable("AppData"), "WalkmanOSS", configFileName)
+        Else
+            If Not       Directory.Exists(Path.Combine(Environment.GetEnvironmentVariable("HOME"), ".config", "WalkmanOSS")) Then
+                Directory.CreateDirectory(Path.Combine(Environment.GetEnvironmentVariable("HOME"), ".config", "WalkmanOSS"))
+            End If
+            _settingsPath =               Path.Combine(Environment.GetEnvironmentVariable("HOME"), ".config", "WalkmanOSS", configFileName)
+        End If
+
+        If                    File.Exists(Path.Combine(Application.StartupPath, configFileName)) Then
+            _settingsPath =               Path.Combine(Application.StartupPath, configFileName)
+        ElseIf                File.Exists(configFileName) Then
+            _settingsPath =  New FileInfo(configFileName).FullName
+        End If
+
+        If File.Exists(_settingsPath) Then
+            LoadSettings()
+        Else
+            'LoadInitialSettings()
+        End If
+    End Sub
+
+    Private Sub LoadSettings()
+
+    End Sub
+
+    Private Sub SaveSettings()
+
+    End Sub
+#End Region
+
 #Region "Item / Window Management"
-    Private Sub WndShown() Handles Me.Shown
+    Private Sub MeShown() Handles Me.Shown
         lstMain.DoubleBuffered(True)
         lstMain_SelectedIndexChanged()
         cbxItemType_SelectedIndexChanged()
@@ -155,15 +198,18 @@ Public Class ContextMenuConfig
     End Sub
 
     Private Sub btnSave_Click() Handles btnSave.Click
-
+        SaveSettings()
+        LoadSettings() ' reload context menu
+        Me.Close()
     End Sub
 
     Private Sub btnCancel_Click() Handles btnCancel.Click
-
+        LoadSettings()
+        Me.Close()
     End Sub
 
     Private Sub btnShowConfig_Click() Handles btnShowConfig.Click
-
+        Launch.LaunchItem(_settingsPath, "explorer.exe", "/select, ""{path}""")
     End Sub
 #End Region
 
