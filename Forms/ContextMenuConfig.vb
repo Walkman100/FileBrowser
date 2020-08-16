@@ -1,3 +1,4 @@
+Imports System.Linq
 Imports System.Windows.Forms
 
 Public Class ContextMenuConfig
@@ -97,6 +98,11 @@ Public Class ContextMenuConfig
         tmpListViewItem.Focused = True
     End Sub
 
+    Private Sub lstMain_KeyUp(sender As Object, e As KeyEventArgs) Handles lstMain.KeyUp
+        If e.KeyCode = Keys.Delete Then
+            btnDelete_Click()
+        End If
+    End Sub
     Private Sub btnDelete_Click() Handles btnDelete.Click
         For Each item As ListViewItem In lstMain.SelectedItems
             item.Remove()
@@ -104,11 +110,33 @@ Public Class ContextMenuConfig
     End Sub
 
     Private Sub btnMoveUp_Click() Handles btnMoveUp.Click
+        For Each item As ListViewItem In lstMain.SelectedItems
+            Dim oldIndex As Integer = item.Index
+            item.Remove()
 
+            If oldIndex = 0 Then
+                lstMain.Items.Add(item)
+            Else
+                lstMain.Items.Insert(oldIndex - 1, item)
+            End If
+        Next
     End Sub
 
     Private Sub btnMoveDown_Click() Handles btnMoveDown.Click
+        '               VB.Net declares arrays Index-based... (0 = 1 item)
+        Dim selectedItemArray(lstMain.SelectedItems.Count - 1) As ListViewItem
+        lstMain.SelectedItems.CopyTo(selectedItemArray, 0)
 
+        For Each item As ListViewItem In selectedItemArray.Reverse()
+            Dim oldIndex As Integer = item.Index
+            item.Remove()
+
+            If oldIndex = lstMain.Items.Count Then
+                lstMain.Items.Insert(0, item)
+            Else
+                lstMain.Items.Insert(oldIndex + 1, item)
+            End If
+        Next
     End Sub
 
     Private Sub btnSave_Click() Handles btnSave.Click
@@ -124,7 +152,7 @@ Public Class ContextMenuConfig
     End Sub
 #End Region
 
-#Region "Editing Data"
+#Region "Editing ListView Data"
     Private Sub LoadItemInfo(item As CtxMenu.EntryInfo)
         cbxItemType.SelectedIndex = item.EntryType
         txtItemText.Text = item.Text
