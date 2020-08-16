@@ -39,6 +39,10 @@ Partial Class ContextMenuConfig
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.btnShowConfig = New System.Windows.Forms.Button()
         Me.grpItemConfig = New System.Windows.Forms.GroupBox()
+        Me.btnItemIconPick = New System.Windows.Forms.Button()
+        Me.btnItemIconBrowse = New System.Windows.Forms.Button()
+        Me.txtItemIconPath = New System.Windows.Forms.TextBox()
+        Me.lblItemIconPath = New System.Windows.Forms.Label()
         Me.grpItemAction = New System.Windows.Forms.GroupBox()
         Me.lblItemActionType = New System.Windows.Forms.Label()
         Me.cbxItemActionType = New System.Windows.Forms.ComboBox()
@@ -76,7 +80,7 @@ Partial Class ContextMenuConfig
         Me.lstMain.Location = New System.Drawing.Point(0, 0)
         Me.lstMain.Name = "lstMain"
         Me.lstMain.ShowItemToolTips = True
-        Me.lstMain.Size = New System.Drawing.Size(969, 656)
+        Me.lstMain.Size = New System.Drawing.Size(969, 462)
         Me.lstMain.TabIndex = 0
         Me.lstMain.UseCompatibleStateImageBehavior = False
         Me.lstMain.View = System.Windows.Forms.View.Details
@@ -205,6 +209,10 @@ Partial Class ContextMenuConfig
         Me.grpItemConfig.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grpItemConfig.Controls.Add(Me.btnItemIconPick)
+        Me.grpItemConfig.Controls.Add(Me.btnItemIconBrowse)
+        Me.grpItemConfig.Controls.Add(Me.txtItemIconPath)
+        Me.grpItemConfig.Controls.Add(Me.lblItemIconPath)
         Me.grpItemConfig.Controls.Add(Me.grpItemAction)
         Me.grpItemConfig.Controls.Add(Me.cbxItemRestrict)
         Me.grpItemConfig.Controls.Add(Me.chkItemRestrict)
@@ -217,10 +225,48 @@ Partial Class ContextMenuConfig
         Me.grpItemConfig.Controls.Add(Me.cbxItemType)
         Me.grpItemConfig.Location = New System.Drawing.Point(3, 61)
         Me.grpItemConfig.Name = "grpItemConfig"
-        Me.grpItemConfig.Size = New System.Drawing.Size(327, 592)
+        Me.grpItemConfig.Size = New System.Drawing.Size(327, 398)
         Me.grpItemConfig.TabIndex = 7
         Me.grpItemConfig.TabStop = False
         Me.grpItemConfig.Text = "Item Type:"
+        '
+        'btnItemIconPick
+        '
+        Me.btnItemIconPick.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.btnItemIconPick.Location = New System.Drawing.Point(162, 117)
+        Me.btnItemIconPick.Name = "btnItemIconPick"
+        Me.btnItemIconPick.Size = New System.Drawing.Size(75, 23)
+        Me.btnItemIconPick.TabIndex = 6
+        Me.btnItemIconPick.Text = "Pick Icon..."
+        Me.btnItemIconPick.UseVisualStyleBackColor = True
+        '
+        'btnItemIconBrowse
+        '
+        Me.btnItemIconBrowse.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.btnItemIconBrowse.Location = New System.Drawing.Point(81, 117)
+        Me.btnItemIconBrowse.Name = "btnItemIconBrowse"
+        Me.btnItemIconBrowse.Size = New System.Drawing.Size(75, 23)
+        Me.btnItemIconBrowse.TabIndex = 5
+        Me.btnItemIconBrowse.Text = "Browse..."
+        Me.btnItemIconBrowse.UseVisualStyleBackColor = True
+        '
+        'txtItemIconPath
+        '
+        Me.txtItemIconPath.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtItemIconPath.Location = New System.Drawing.Point(6, 94)
+        Me.txtItemIconPath.Name = "txtItemIconPath"
+        Me.txtItemIconPath.Size = New System.Drawing.Size(315, 20)
+        Me.txtItemIconPath.TabIndex = 4
+        '
+        'lblItemIconPath
+        '
+        Me.lblItemIconPath.AutoSize = True
+        Me.lblItemIconPath.Location = New System.Drawing.Point(6, 79)
+        Me.lblItemIconPath.Name = "lblItemIconPath"
+        Me.lblItemIconPath.Size = New System.Drawing.Size(56, 13)
+        Me.lblItemIconPath.TabIndex = 3
+        Me.lblItemIconPath.Text = "Icon Path:"
         '
         'grpItemAction
         '
@@ -232,10 +278,10 @@ Partial Class ContextMenuConfig
         Me.grpItemAction.Controls.Add(Me.txtItemActionFile)
         Me.grpItemAction.Controls.Add(Me.lblItemActionArgs)
         Me.grpItemAction.Controls.Add(Me.txtItemActionArgs)
-        Me.grpItemAction.Location = New System.Drawing.Point(6, 189)
+        Me.grpItemAction.Location = New System.Drawing.Point(6, 254)
         Me.grpItemAction.Name = "grpItemAction"
         Me.grpItemAction.Size = New System.Drawing.Size(315, 138)
-        Me.grpItemAction.TabIndex = 9
+        Me.grpItemAction.TabIndex = 13
         Me.grpItemAction.TabStop = False
         Me.grpItemAction.Text = "Action"
         '
@@ -303,38 +349,38 @@ Partial Class ContextMenuConfig
         Me.cbxItemRestrict.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbxItemRestrict.FormattingEnabled = True
         Me.cbxItemRestrict.Items.AddRange(New Object() {"Files", "Directories", "Drives"})
-        Me.cbxItemRestrict.Location = New System.Drawing.Point(105, 125)
+        Me.cbxItemRestrict.Location = New System.Drawing.Point(105, 190)
         Me.cbxItemRestrict.Name = "cbxItemRestrict"
         Me.cbxItemRestrict.Size = New System.Drawing.Size(216, 21)
-        Me.cbxItemRestrict.TabIndex = 6
+        Me.cbxItemRestrict.TabIndex = 10
         '
         'chkItemRestrict
         '
         Me.chkItemRestrict.AutoSize = True
-        Me.chkItemRestrict.Location = New System.Drawing.Point(6, 127)
+        Me.chkItemRestrict.Location = New System.Drawing.Point(6, 192)
         Me.chkItemRestrict.Name = "chkItemRestrict"
         Me.chkItemRestrict.Size = New System.Drawing.Size(93, 17)
-        Me.chkItemRestrict.TabIndex = 5
+        Me.chkItemRestrict.TabIndex = 9
         Me.chkItemRestrict.Text = "Only show on:"
         Me.chkItemRestrict.UseVisualStyleBackColor = True
         '
         'chkItemExtended
         '
         Me.chkItemExtended.AutoSize = True
-        Me.chkItemExtended.Location = New System.Drawing.Point(6, 104)
+        Me.chkItemExtended.Location = New System.Drawing.Point(6, 169)
         Me.chkItemExtended.Name = "chkItemExtended"
         Me.chkItemExtended.Size = New System.Drawing.Size(166, 17)
-        Me.chkItemExtended.TabIndex = 4
+        Me.chkItemExtended.TabIndex = 8
         Me.chkItemExtended.Text = "Show in Extended Only (Shift)"
         Me.chkItemExtended.UseVisualStyleBackColor = True
         '
         'chkItemAdmin
         '
         Me.chkItemAdmin.AutoSize = True
-        Me.chkItemAdmin.Location = New System.Drawing.Point(6, 81)
+        Me.chkItemAdmin.Location = New System.Drawing.Point(6, 146)
         Me.chkItemAdmin.Name = "chkItemAdmin"
         Me.chkItemAdmin.Size = New System.Drawing.Size(147, 17)
-        Me.chkItemAdmin.TabIndex = 3
+        Me.chkItemAdmin.TabIndex = 7
         Me.chkItemAdmin.Text = "Show Admin icon/overlay"
         Me.chkItemAdmin.UseVisualStyleBackColor = True
         '
@@ -342,18 +388,18 @@ Partial Class ContextMenuConfig
         '
         Me.txtItemFilter.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtItemFilter.Location = New System.Drawing.Point(6, 163)
+        Me.txtItemFilter.Location = New System.Drawing.Point(6, 228)
         Me.txtItemFilter.Name = "txtItemFilter"
         Me.txtItemFilter.Size = New System.Drawing.Size(315, 20)
-        Me.txtItemFilter.TabIndex = 8
+        Me.txtItemFilter.TabIndex = 12
         '
         'lblItemFilter
         '
         Me.lblItemFilter.AutoSize = True
-        Me.lblItemFilter.Location = New System.Drawing.Point(6, 148)
+        Me.lblItemFilter.Location = New System.Drawing.Point(6, 213)
         Me.lblItemFilter.Name = "lblItemFilter"
         Me.lblItemFilter.Size = New System.Drawing.Size(162, 13)
-        Me.lblItemFilter.TabIndex = 7
+        Me.lblItemFilter.TabIndex = 11
         Me.lblItemFilter.Text = "File Filter: (Separate filters with ';')"
         '
         'txtItemText
@@ -407,7 +453,7 @@ Partial Class ContextMenuConfig
         Me.scMain.Panel2.Controls.Add(Me.btnCancel)
         Me.scMain.Panel2.Controls.Add(Me.btnMoveDown)
         Me.scMain.Panel2.Controls.Add(Me.btnSave)
-        Me.scMain.Size = New System.Drawing.Size(1306, 656)
+        Me.scMain.Size = New System.Drawing.Size(1306, 462)
         Me.scMain.SplitterDistance = 969
         Me.scMain.TabIndex = 0
         '
@@ -417,7 +463,7 @@ Partial Class ContextMenuConfig
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(1306, 656)
+        Me.ClientSize = New System.Drawing.Size(1306, 462)
         Me.Controls.Add(Me.scMain)
         Me.Name = "ContextMenuConfig"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
@@ -468,4 +514,8 @@ Partial Class ContextMenuConfig
     Friend WithEvents cbxItemRestrict As System.Windows.Forms.ComboBox
     Friend WithEvents cbxItemActionType As System.Windows.Forms.ComboBox
     Friend WithEvents grpItemAction As System.Windows.Forms.GroupBox
+    Friend WithEvents lblItemIconPath As System.Windows.Forms.Label
+    Friend WithEvents txtItemIconPath As System.Windows.Forms.TextBox
+    Friend WithEvents btnItemIconBrowse As System.Windows.Forms.Button
+    Friend WithEvents btnItemIconPick As System.Windows.Forms.Button
 End Class

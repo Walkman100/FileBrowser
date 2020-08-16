@@ -233,6 +233,7 @@ Public Class ContextMenuConfig
         If Not lstMain.SelectedIndices.Count > 0 Then
             cbxItemType.SelectedIndex = -1
             txtItemText.Text = Nothing
+            txtItemIconPath.Text = Nothing
             chkItemAdmin.Checked = False
             chkItemExtended.Checked = False
             chkItemRestrict.Checked = False
@@ -332,6 +333,7 @@ Public Class ContextMenuConfig
     Private Sub LoadItemInfo(item As CtxMenu.EntryInfo)
         cbxItemType.SelectedIndex = item.EntryType
         txtItemText.Text = item.Text
+        txtItemIconPath.Text = item.IconPath
         chkItemAdmin.Checked = item.AdminIcon
         chkItemExtended.Checked = item.Extended
         chkItemRestrict.Checked = item.FileOnly OrElse item.DirectoryOnly OrElse item.DriveOnly
@@ -354,6 +356,10 @@ Public Class ContextMenuConfig
     Private Sub cbxItemType_SelectedIndexChanged() Handles cbxItemType.SelectedIndexChanged
         lblItemText.Enabled = (cbxItemType.SelectedIndex = 0)
         txtItemText.Enabled = (cbxItemType.SelectedIndex = 0)
+        lblItemIconPath.Enabled = (cbxItemType.SelectedIndex = 0)
+        txtItemIconPath.Enabled = (cbxItemType.SelectedIndex = 0)
+        btnItemIconBrowse.Enabled = (cbxItemType.SelectedIndex = 0)
+        btnItemIconPick.Enabled = (cbxItemType.SelectedIndex = 0)
         chkItemAdmin.Enabled = (cbxItemType.SelectedIndex = 0)
         chkItemExtended.Enabled = (cbxItemType.SelectedIndex = 0)
         chkItemRestrict.Enabled = (cbxItemType.SelectedIndex = 0)
@@ -384,6 +390,40 @@ Public Class ContextMenuConfig
                 UpdateItem(item, info)
             Next
             lstMain.EndUpdate()
+        End If
+    End Sub
+    Private Sub txtItemIconPath_TextChanged() Handles txtItemIconPath.TextChanged
+        If allowEdit Then
+            lstMain.BeginUpdate()
+            For Each item As ListViewItem In lstMain.SelectedItems
+                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                info.IconPath = txtItemIconPath.Text
+
+                UpdateItem(item, info)
+            Next
+            lstMain.EndUpdate()
+        End If
+    End Sub
+    Private Sub btnItemIconBrowse_Click() Handles btnItemIconBrowse.Click
+        Dim ofd As New OpenFileDialog With {
+            .Title = "Select Menu Icon:",
+            .Filter = "Image Files|*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.ico;*.icl;*.exe;*.dll|Icon Files|*.ico;*.icl;*.exe;*.dll|All Files|*.*",
+            .FileName = txtItemIconPath.Text
+        }
+        If Not String.IsNullOrEmpty(txtItemIconPath.Text) Then
+            ofd.InitialDirectory = Path.GetDirectoryName(Environment.ExpandEnvironmentVariables(ImageHandling.TransformResourcePath(txtItemIconPath.Text)))
+        End If
+
+        If ofd.ShowDialog = DialogResult.OK Then
+            txtItemIconPath.Text = ofd.FileName
+        End If
+    End Sub
+    Private Sub btnItemIconPick_Click() Handles btnItemIconPick.Click
+        Dim iconIndex As Integer
+        Dim iconResource As String = ImageHandling.TransformResourcePath(txtItemIconPath.Text, iconIndex)
+
+        If WalkmanLib.PickIconDialogShow(iconResource, iconIndex, Me.Handle) Then
+            txtItemIconPath.Text = iconResource & "," & iconIndex
         End If
     End Sub
     Private Sub chkItemAdmin_CheckedChanged() Handles chkItemAdmin.CheckedChanged
