@@ -143,7 +143,7 @@ Public Class CtxMenu
                 If itemShouldBeVisible AndAlso itemInfo.Extended Then
                     itemShouldBeVisible = My.Computer.Keyboard.ShiftKeyDown
                 End If
-                If itemShouldBeVisible AndAlso existsInfo.HasFlag(PathEnum.IsFile) AndAlso itemInfo.Filter IsNot Nothing Then
+                If itemShouldBeVisible AndAlso existsInfo.HasFlag(PathEnum.IsFile) AndAlso Not String.IsNullOrEmpty(itemInfo.Filter) Then
                     If Helpers.PathContainsADS(path) Then
                         itemShouldBeVisible = FilterName(New FileInfo(Helpers.GetADSPathFile(path)).Name, itemInfo.Filter)
                     Else
