@@ -76,6 +76,7 @@ Public Class CtxMenu
     Private entryDict As New Dictionary(Of Integer, EntryInfo)
 
     Public Sub BuildMenu(contextMenu As ContextMenuStrip, items As List(Of EntryInfo))
+        entryDict.Clear()
         contextMenu.Items.Clear()
 
         Dim currentIndex As Integer = 0
@@ -86,10 +87,15 @@ Public Class CtxMenu
                 entryDict.Add(currentIndex, item)
                 Dim menuItem As New ToolStripMenuItem(item.Text) With {.Tag = currentIndex}
 
-                Dim icon As Icon = ImageHandling.GetIcon(item.IconPath)
-                If icon IsNot Nothing Then
-                    menuItem.Image = icon.ToBitmap()
-                End If
+                Try
+                    menuItem.Image = ImageHandling.GetIcon(item.IconPath)?.ToBitmap()
+                Catch
+                    Try : menuItem.Image = Image.FromFile(Environment.ExpandEnvironmentVariables(item.IconPath))
+                    Catch
+                        menuItem.Image = New PictureBox().ErrorImage
+                    End Try
+                End Try
+
                 contextMenu.Items.Add(menuItem)
 
                 currentIndex += 1
