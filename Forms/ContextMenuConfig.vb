@@ -143,9 +143,9 @@ Public Class ContextMenuConfig
                     If reader.Read AndAlso reader.IsStartElement() AndAlso reader.Name = "ColumnSettings" Then
                         While reader.IsStartElement
                             If reader.Read AndAlso reader.IsStartElement() Then
-                                Dim col As ColumnHeader = lstMain.Columns.OfType(Of ColumnHeader).First(Function(c As ColumnHeader)
-                                                                                                            Return DirectCast(c.Tag, String) = "colHead" & reader.Name
-                                                                                                        End Function)
+                                Dim col As ColumnHeader = lstMain.Columns.Cast(Of ColumnHeader).First(Function(c As ColumnHeader)
+                                                                                                          Return DirectCast(c.Tag, String) = "colHead" & reader.Name
+                                                                                                      End Function)
                                 If col IsNot Nothing Then
                                     elementAttribute = reader("index")
                                     If elementAttribute IsNot Nothing Then Integer.TryParse(elementAttribute, col.DisplayIndex)
@@ -172,21 +172,20 @@ Public Class ContextMenuConfig
             writer.WriteStartElement("FileBrowser.ContextMenu")
 
             writer.WriteStartElement("Items")
-            For Each item As ListViewItem In lstMain.Items
-                Dim itemInfo As CtxMenu.EntryInfo = GetItemInfo(item)
+            For Each item As CtxMenu.EntryInfo In lstMain.Items.Cast(Of ListViewItem).Select(AddressOf GetItemInfo)
                 writer.WriteStartElement("Item")
-                writer.WriteAttributeString("type", itemInfo.EntryType.ToString())
-                writer.WriteAttributeString("text", itemInfo.Text)
-                writer.WriteAttributeString("icon", itemInfo.IconPath)
-                writer.WriteAttributeString("adminIcon", itemInfo.AdminIcon.ToString())
-                writer.WriteAttributeString("extended", itemInfo.Extended.ToString())
-                writer.WriteAttributeString("fileOnly", itemInfo.FileOnly.ToString())
-                writer.WriteAttributeString("directoryOnly", itemInfo.DirectoryOnly.ToString())
-                writer.WriteAttributeString("driveOnly", itemInfo.DriveOnly.ToString())
-                writer.WriteAttributeString("filter", itemInfo.Filter)
-                writer.WriteAttributeString("actionType", itemInfo.ActionType.ToString())
-                writer.WriteAttributeString("actionArgs1", itemInfo.ActionArgs1)
-                writer.WriteAttributeString("actionArgs2", itemInfo.ActionArgs2)
+                writer.WriteAttributeString("type", item.EntryType.ToString())
+                writer.WriteAttributeString("text", item.Text)
+                writer.WriteAttributeString("icon", item.IconPath)
+                writer.WriteAttributeString("adminIcon", item.AdminIcon.ToString())
+                writer.WriteAttributeString("extended", item.Extended.ToString())
+                writer.WriteAttributeString("fileOnly", item.FileOnly.ToString())
+                writer.WriteAttributeString("directoryOnly", item.DirectoryOnly.ToString())
+                writer.WriteAttributeString("driveOnly", item.DriveOnly.ToString())
+                writer.WriteAttributeString("filter", item.Filter)
+                writer.WriteAttributeString("actionType", item.ActionType.ToString())
+                writer.WriteAttributeString("actionArgs1", item.ActionArgs1)
+                writer.WriteAttributeString("actionArgs2", item.ActionArgs2)
                 writer.WriteEndElement() ' Item
             Next
             writer.WriteEndElement() ' Items
@@ -294,11 +293,7 @@ Public Class ContextMenuConfig
         allowEdit = False
         lstMain.BeginUpdate()
 
-        '               VB.Net declares arrays Index-based... (0 = 1 item)
-        Dim selectedItemArray(lstMain.SelectedItems.Count - 1) As ListViewItem
-        lstMain.SelectedItems.CopyTo(selectedItemArray, 0)
-
-        For Each item As ListViewItem In selectedItemArray.Reverse()
+        For Each item As ListViewItem In lstMain.SelectedItems.Cast(Of ListViewItem).Reverse()
             Dim oldIndex As Integer = item.Index
             item.Remove()
 
