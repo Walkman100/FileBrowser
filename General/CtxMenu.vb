@@ -42,6 +42,8 @@ Public Class CtxMenu
         PasteAsJunction
 
         ''' <summary>ActionArgs are not used.</summary>
+        Rename
+        ''' <summary>ActionArgs are not used.</summary>
         CopyTo
         ''' <summary>ActionArgs are not used.</summary>
         MoveTo
@@ -205,6 +207,8 @@ Public Class CtxMenu
             Case ActionType.PasteAsJunction
                 'FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Junction)
 
+            Case ActionType.Rename
+                'FileBrowser.RenameSelected()
             Case ActionType.CopyTo
                 Helpers.CopyTo(paths, My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.MoveTo

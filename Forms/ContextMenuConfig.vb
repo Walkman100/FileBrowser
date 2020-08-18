@@ -128,11 +128,11 @@ Public Class ContextMenuConfig
                             If elementAttribute IsNot Nothing Then Boolean.TryParse(elementAttribute, itemInfo.DriveOnly)
                             elementAttribute = reader("filter")
                             If elementAttribute IsNot Nothing Then itemInfo.Filter = elementAttribute
-                            elementAttribute = reader("actiontype")
+                            elementAttribute = reader("actionType")
                             If elementAttribute IsNot Nothing Then [Enum].TryParse(elementAttribute, itemInfo.ActionType)
-                            elementAttribute = reader("actionargs1")
+                            elementAttribute = reader("actionArgs1")
                             If elementAttribute IsNot Nothing Then itemInfo.ActionArgs1 = elementAttribute
-                            elementAttribute = reader("actionargs2")
+                            elementAttribute = reader("actionArgs2")
                             If elementAttribute IsNot Nothing Then itemInfo.ActionArgs2 = elementAttribute
 
                             lstMain.Items.Add(CreateItem(itemInfo))
