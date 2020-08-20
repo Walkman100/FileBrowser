@@ -5,7 +5,7 @@ Imports Trinet.Core.IO.Ntfs
 
 Public Class Launch
     Private Shared Function FormatEntry(path As String, format As String) As String
-        If format Is Nothing Then Return path
+        If String.IsNullOrEmpty(format) Then Return path
         If Helpers.PathContainsADS(path) Then
             If Not AlternateDataStreamExists(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path)) Then Return format
 
