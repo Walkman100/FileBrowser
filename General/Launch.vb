@@ -4,8 +4,8 @@ Imports System.IO
 Imports Trinet.Core.IO.Ntfs
 
 Public Class Launch
-    Private Shared Function FormatEntry(path As String, format As String) As String
-        If String.IsNullOrEmpty(format) Then Return path
+    Private Shared Function FormatEntry(path As String, format As String, Optional returnPathOnFormatEmpty As Boolean = True) As String
+        If String.IsNullOrEmpty(format) Then Return If(returnPathOnFormatEmpty, path, String.Empty)
         If Helpers.PathContainsADS(path) Then
             If Not AlternateDataStreamExists(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path)) Then Return format
 
@@ -76,21 +76,21 @@ Public Class Launch
 
     Public Shared Sub LaunchItem(path As String, fileFormat As String, argumentsFormat As String)
         fileFormat = FormatEntry(path, fileFormat)
-        argumentsFormat = FormatEntry(path, argumentsFormat)
+        argumentsFormat = FormatEntry(path, argumentsFormat, False)
 
         Process.Start(fileFormat, argumentsFormat)
     End Sub
 
     Public Shared Sub RunAsAdmin(path As String, fileFormat As String, argumentsFormat As String)
         fileFormat = FormatEntry(path, fileFormat)
-        argumentsFormat = FormatEntry(path, argumentsFormat)
+        argumentsFormat = FormatEntry(path, argumentsFormat, False)
 
         WalkmanLib.RunAsAdmin(fileFormat, argumentsFormat)
     End Sub
 
     Public Shared Sub ExecuteItem(path As String, fileFormat As String, argumentsFormat As String)
         fileFormat = FormatEntry(path, fileFormat)
-        argumentsFormat = FormatEntry(path, argumentsFormat)
+        argumentsFormat = FormatEntry(path, argumentsFormat, False)
 
         Process.Start(New ProcessStartInfo(fileFormat, argumentsFormat) With {.UseShellExecute = False})
     End Sub

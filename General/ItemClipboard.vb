@@ -1,5 +1,6 @@
 Imports System.Collections.Generic
 Imports System.IO
+Imports System.Linq
 
 Public Enum ItemType
     Cut
@@ -15,7 +16,7 @@ Public Enum PasteType
 End Enum
 
 Public Class ItemClipboard
-    Public ReadOnly Property ItemStore As Dictionary(Of String, ItemType)
+    Public ReadOnly Property ItemStore As New Dictionary(Of String, ItemType)
 
     Public Sub AddItems(paths() As String, type As ItemType, replace As Boolean)
         If replace Then ItemStore.Clear()
@@ -26,10 +27,10 @@ Public Class ItemClipboard
     End Sub
 
     Public Sub PasteItems(target As String, type As PasteType)
-        For Each item As KeyValuePair(Of String, ItemType) In ItemStore
+        For Each item As KeyValuePair(Of String, ItemType) In ItemStore.ToList ' so that we can modify the original
             Dim target2 As String
             If WalkmanLib.IsFileOrDirectory(target).HasFlag(PathEnum.IsDirectory) Then
-                target2 = Path.Combine(target, item.Key)
+                target2 = Path.Combine(target, Path.GetFileName(item.Key))
             Else
                 target2 = target
             End If
