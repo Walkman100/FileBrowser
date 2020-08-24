@@ -257,62 +257,76 @@ Public Class FileBrowser
 
     End Sub
     Private Sub menuFileRename_Click() Handles menuFileRename.Click
-
+        RenameSelected()
     End Sub
     Private Sub menuFileRecycle_Click() Handles menuFileRecycle.Click
-
+        Operations.Delete(GetSelectedPaths(), UseShell, My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuFileDelete_Click() Handles menuFileDelete.Click
-
+        Operations.Delete(GetSelectedPaths(), UseShell, Not My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuFileCopyTo_Click() Handles menuFileCopyTo.Click
-
+        Helpers.CopyTo(GetSelectedPaths(), My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuFileMoveTo_Click() Handles menuFileMoveTo.Click
-
+        Helpers.MoveTo(GetSelectedPaths(), My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuFileProperties_Click() Handles menuFileProperties.Click
-
+        For Each path As String In GetSelectedPaths()
+            Launch.WinProperties(path, Nothing)
+        Next
     End Sub
     Private Sub menuFileLaunch_Click() Handles menuFileLaunch.Click
-
+        For Each path As String In GetSelectedPaths()
+            Launch.LaunchItem(path, Nothing, Nothing)
+        Next
     End Sub
     Private Sub menuFileShowTarget_Click() Handles menuFileShowTarget.Click
 
     End Sub
     Private Sub menuFileExit_Click() Handles menuFileExit.Click
-
+        Application.Exit()
     End Sub
 
     Private Sub menuEditCut_Click() Handles menuEditCut.Click
-
+        itemClipboard.AddItems(GetSelectedPaths(), ItemType.Cut, Not My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuEditCopy_Click() Handles menuEditCopy.Click
-
+        itemClipboard.AddItems(GetSelectedPaths(), ItemType.Copy, Not My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuEditPaste_Click() Handles menuEditPaste.Click
-
+        itemClipboard.PasteItems(CurrentDir, PasteType.Normal)
     End Sub
     Private Sub menuEditPasteAsHardlink_Click() Handles menuEditPasteAsHardlink.Click
-
+        itemClipboard.PasteItems(CurrentDir, PasteType.Hardlink)
     End Sub
     Private Sub menuEditPasteAsSymlink_Click() Handles menuEditPasteAsSymlink.Click
-
+        itemClipboard.PasteItems(CurrentDir, PasteType.Symlink)
     End Sub
     Private Sub menuEditPasteAsShortcut_Click() Handles menuEditPasteAsShortcut.Click
-
+        itemClipboard.PasteItems(CurrentDir, PasteType.Shortcut)
     End Sub
     Private Sub menuEditPasteAsJunction_Click() Handles menuEditPasteAsJunction.Click
-
+        itemClipboard.PasteItems(CurrentDir, PasteType.Junction)
     End Sub
     Private Sub menuEditSelectAll_Click() Handles menuEditSelectAll.Click
-
+        lstCurrent.BeginUpdate()
+        For Each item As ListViewItem In lstCurrent.Items
+            item.Selected = True
+        Next
+        lstCurrent.EndUpdate()
     End Sub
     Private Sub menuEditDeselectAll_Click() Handles menuEditDeselectAll.Click
-
+        lstCurrent.BeginUpdate()
+        lstCurrent.SelectedItems.Clear()
+        lstCurrent.EndUpdate()
     End Sub
     Private Sub menuEditInvert_Click() Handles menuEditInvert.Click
-
+        lstCurrent.BeginUpdate()
+        For Each item As ListViewItem In lstCurrent.Items
+            item.Selected = Not item.Selected
+        Next
+        lstCurrent.EndUpdate()
     End Sub
 
     Private Sub menuGoBack_Click() Handles menuGoBack.Click
@@ -322,40 +336,49 @@ Public Class FileBrowser
 
     End Sub
     Private Sub menuGoUp_Click() Handles menuGoUp.Click
-
+        CurrentDir = Path.GetDirectoryName(CurrentDir)
     End Sub
     Private Sub menuGoRoot_Click() Handles menuGoRoot.Click
-
+        CurrentDir = Path.GetPathRoot(CurrentDir)
     End Sub
     Private Sub menuGoHome_Click() Handles menuGoHome.Click
-
+        If Environment.GetEnvironmentVariable("OS") = "Windows_NT" Then
+            CurrentDir = Environment.GetEnvironmentVariable("UserProfile")
+        Else
+            CurrentDir = Environment.GetEnvironmentVariable("HOME")
+        End If
     End Sub
     Private Sub menuGoRefresh_Click() Handles menuGoRefresh.Click
-
+        LoadFolder()
     End Sub
     Private Sub menuGoStop_Click() Handles menuGoStop.Click
 
     End Sub
 
     Private Sub menuToolsSettings_Click() Handles menuToolsSettings.Click
-
+        Settings.Show(Me)
     End Sub
     Private Sub menuToolsContextMenu_Click() Handles menuToolsContextMenu.Click
-
+        ContextMenuConfig.Init() ' the window is Closed, so needs to be re-inited
+        ContextMenuConfig.Show(Me)
     End Sub
     Private Sub menuToolsColumns_Click() Handles menuToolsColumns.Click
 
     End Sub
     Private Sub menuToolsResizeColumns_Click() Handles menuToolsResizeColumns.Click
-
+        lstCurrent.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize)
     End Sub
 
     Private Sub btnGo_Click() Handles btnGo.Click
-
+        Dim newPath As String = Environment.ExpandEnvironmentVariables(cbxURI.Text)
+        If Directory.Exists(newPath) Then CurrentDir = newPath
     End Sub
 
     Private Sub cbxURI_KeyUp(sender As Object, e As KeyEventArgs) Handles cbxURI.KeyUp
-
+        If e.KeyCode = Keys.Enter Then
+            e.Handled = True
+            btnGo_Click()
+        End If
     End Sub
 #End Region
 
