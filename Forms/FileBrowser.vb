@@ -372,6 +372,7 @@ Public Class FileBrowser
     Private Sub btnGo_Click() Handles btnGo.Click
         Dim newPath As String = Environment.ExpandEnvironmentVariables(cbxURI.Text)
         If Directory.Exists(newPath) Then CurrentDir = newPath
+        cbxURI.Items.Add(newPath)
     End Sub
 
     Private Sub cbxURI_KeyUp(sender As Object, e As KeyEventArgs) Handles cbxURI.KeyUp
