@@ -98,7 +98,7 @@ Public Class Launch
     Public Shared Sub ShowPath(path As String, format As String)
         path = FormatEntry(path, format)
 
-        'FileBrowser.ShowPath(path)
+        FileBrowser.ShowFile(path)
     End Sub
 
     Public Shared Sub WinProperties(path As String, format As String, Optional tab As String = Nothing)

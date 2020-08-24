@@ -50,7 +50,7 @@ Public Class Operations
                 'HandleManager.Activate()
             End If
         Catch ex As Exception
-            'FileBrowser.ErrorParser(ex)
+            FileBrowser.ErrorParser(ex)
         End Try
     End Sub
 
@@ -79,7 +79,7 @@ Public Class Operations
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
             Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
-                    'FileBrowser.RestartAsAdmin()
+                    FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
                     WalkmanLib.RunAsAdmin("cmd", "/c move """ & sourcePath & """ """ & targetPath & """ & pause")
             End Select
@@ -89,7 +89,7 @@ Public Class Operations
                 'HandleManager.Activate()
             End If
         Catch ex As Exception
-            'FileBrowser.ErrorParser(ex)
+            FileBrowser.ErrorParser(ex)
         End Try
     End Sub
 
@@ -119,7 +119,7 @@ Public Class Operations
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
             Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
-                    'FileBrowser.RestartAsAdmin()
+                    FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
                     WalkmanLib.RunAsAdmin("xcopy", "/F /H /K """ & sourcePath & """ """ & targetPath & "*""")
             End Select
@@ -129,7 +129,7 @@ Public Class Operations
                 'HandleManager.Activate()
             End If
         Catch ex As Exception
-            'FileBrowser.ErrorParser(ex)
+            FileBrowser.ErrorParser(ex)
         End Try
     End Sub
 
@@ -165,13 +165,13 @@ Public Class Operations
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
             Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
-                    'FileBrowser.RestartAsAdmin()
+                    FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
                     WalkmanLib.RunAsAdmin("cmd", "/c del " & paths.PathsConcat() & " & pause")
                     Threading.Thread.Sleep(500)
             End Select
         Catch ex As Exception
-            'FileBrowser.ErrorParser(ex)
+            FileBrowser.ErrorParser(ex)
         End Try
     End Sub
 #End Region
@@ -188,7 +188,7 @@ Public Class Operations
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
             Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
-                    'FileBrowser.RestartAsAdmin()
+                    FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
                     Dim scriptPath As String = Environment.GetEnvironmentVariable("temp") & Path.DirectorySeparatorChar & "createShortcut.vbs"
                     Using writer As New StreamWriter(File.Open(scriptPath, FileMode.Create))
@@ -200,7 +200,7 @@ Public Class Operations
                     WalkmanLib.RunAsAdmin("wscript", scriptPath)
             End Select
         Catch ex As Exception
-            'FileBrowser.ErrorParser(ex)
+            FileBrowser.ErrorParser(ex)
         End Try
     End Sub
 
@@ -224,7 +224,7 @@ Public Class Operations
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
             Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
-                    'FileBrowser.RestartAsAdmin()
+                    FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
                     Dim pathInfo = WalkmanLib.IsFileOrDirectory(sourcePath)
                     If pathInfo.HasFlag(PathEnum.IsFile) Then
@@ -234,7 +234,7 @@ Public Class Operations
                     End If
             End Select
         Catch ex As Exception
-            'FileBrowser.ErrorParser(ex)
+            FileBrowser.ErrorParser(ex)
         End Try
     End Sub
 
@@ -253,12 +253,12 @@ Public Class Operations
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
             Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
-                    'FileBrowser.RestartAsAdmin()
+                    FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
                     WalkmanLib.RunAsAdmin("cmd", "/c mklink /h """ & targetPath & """ """ & sourcePath & """ & pause")
             End Select
         Catch ex As Exception
-            'FileBrowser.ErrorParser(ex)
+            FileBrowser.ErrorParser(ex)
         End Try
     End Sub
 #End Region

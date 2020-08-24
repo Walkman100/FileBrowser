@@ -38,9 +38,9 @@ Public Class ItemClipboard
             Select Case type
                 Case PasteType.Normal
                     If item.Value = ItemType.Copy Then
-                        Operations.Copy(item.Key, target2, True) 'FileBrowser.chkUseShell.Checked)
+                        Operations.Copy(item.Key, target2, FileBrowser.UseShell)
                     Else
-                        Operations.Move(item.Key, target2, True) 'FileBrowser.chkUseShell.Checked)
+                        Operations.Move(item.Key, target2, FileBrowser.UseShell)
                     End If
                 Case PasteType.Hardlink
                     Operations.CreateHardlink(item.Key, target2)

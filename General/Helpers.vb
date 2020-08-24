@@ -37,7 +37,7 @@ Public Class Helpers
         End If
 
         For Each path As String In paths
-            Operations.Copy(path, target, True) 'FileBrowser.chkUseShell.Checked)
+            Operations.Copy(path, target, FileBrowser.UseShell)
         Next
     End Sub
 
@@ -67,7 +67,7 @@ Public Class Helpers
         End If
 
         For Each path As String In paths
-            Operations.Move(path, target, True) 'FileBrowser.chkUseShell.Checked)
+            Operations.Move(path, target, FileBrowser.UseShell)
         Next
     End Sub
 

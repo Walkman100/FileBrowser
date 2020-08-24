@@ -193,30 +193,30 @@ Public Class CtxMenu
                 Next
 
             Case ActionType.Cut
-                'FileBrowser.itemClipboard.ReplaceItems(paths, ItemType.Cut)
+                FileBrowser.itemClipboard.AddItems(paths, ItemType.Cut, Not My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.Copy
-                'FileBrowser.itemClipboard.ReplaceItems(paths, ItemType.Copy)
+                FileBrowser.itemClipboard.AddItems(paths, ItemType.Copy, Not My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.Paste
-                'FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Normal)
+                FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Normal)
             Case ActionType.PasteAsHardlink
-                'FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Hardlink)
+                FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Hardlink)
             Case ActionType.PasteAsSymlink
-                'FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Symlink)
+                FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Symlink)
             Case ActionType.PasteAsShortcut
-                'FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Shortcut)
+                FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Shortcut)
             Case ActionType.PasteAsJunction
-                'FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Junction)
+                FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Junction)
 
             Case ActionType.Rename
-                'FileBrowser.RenameSelected()
+                FileBrowser.RenameSelected()
             Case ActionType.CopyTo
                 Helpers.CopyTo(paths, My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.MoveTo
                 Helpers.MoveTo(paths, My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.DeleteToRecycleBin
-                Operations.Delete(paths, True, My.Computer.Keyboard.ShiftKeyDown)
+                Operations.Delete(paths, FileBrowser.UseShell, My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.DeletePermanently
-                Operations.Delete(paths, True, Not My.Computer.Keyboard.ShiftKeyDown)
+                Operations.Delete(paths, FileBrowser.UseShell, Not My.Computer.Keyboard.ShiftKeyDown)
         End Select
     End Sub
 End Class

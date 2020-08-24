@@ -454,21 +454,5 @@ Public Class FileBrowser
             WalkmanLib.ErrorDialog(ex, messagePumpForm:=Me)
         End If
     End Sub
-
-    Private Sub menuFileCreate_Click(sender As Object, e As EventArgs) Handles menuFileCreate.Click
-
-    End Sub
-
-    Private Sub menuEditCut_Click(sender As Object, e As EventArgs) Handles menuEditCut.Click
-
-    End Sub
-
-    Private Sub menuEditCopy_Click(sender As Object, e As EventArgs) Handles menuEditCopy.Click
-
-    End Sub
-
-    Private Sub menuEditPaste_Click(sender As Object, e As EventArgs) Handles menuEditPaste.Click
-
-    End Sub
 #End Region
 End Class

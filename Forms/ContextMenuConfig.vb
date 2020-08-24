@@ -165,7 +165,7 @@ Public Class ContextMenuConfig
             End If
         End Using
 
-        'FileBrowser.ctxMenu.BuildMenu(FileBrowser.ctxMenuL, lstMain.Items.Cast(Of ListViewItem).Select(AddressOf GetItemInfo).ToList())
+        FileBrowser.ctxMenu.BuildMenu(FileBrowser.ctxMenuL, lstMain.Items.Cast(Of ListViewItem).Select(AddressOf GetItemInfo).ToList())
     End Sub
 
     Private Sub SaveSettings()
