@@ -230,7 +230,7 @@ Public Class FileBrowser
         If e.Node.Nodes.Count = 0 Then e.Cancel = True
     End Sub
     Private Sub treeViewDirs_AfterLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles treeViewDirs.AfterLabelEdit
-        Operations.Rename(e.Node.FullPath, e.Label)
+        If Not String.IsNullOrEmpty(e.Label) Then Operations.Rename(e.Node.FullPath, e.Label)
     End Sub
 #End Region
 
@@ -244,8 +244,13 @@ Public Class FileBrowser
             Next
         End If
     End Sub
+    Private Sub treeViewDirs_BeforeLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles treeViewDirs.BeforeLabelEdit
+        If e.Node.Parent Is Nothing Then
+            e.CancelEdit = True
+        End If
+    End Sub
     Private Sub lstCurrent_AfterLabelEdit(sender As Object, e As LabelEditEventArgs) Handles lstCurrent.AfterLabelEdit
-        Operations.Rename(GetItemInfo(lstCurrent.Items.Item(e.Item)).FullName, e.Label)
+        If Not String.IsNullOrEmpty(e.Label) Then Operations.Rename(GetItemInfo(lstCurrent.Items.Item(e.Item)).FullName, e.Label)
     End Sub
     Private Sub lstCurrent_ColumnClick(sender As Object, e As ColumnClickEventArgs) Handles lstCurrent.ColumnClick
 
@@ -282,7 +287,20 @@ Public Class FileBrowser
         Next
     End Sub
     Private Sub menuFileShowTarget_Click() Handles menuFileShowTarget.Click
-
+        If lstCurrent.SelectedItems.Count > 0 Then
+            For Each itemInfo As Filesystem.EntryInfo In lstCurrent.SelectedItems.Cast(Of ListViewItem).Select(AddressOf GetItemInfo)
+                If Not String.IsNullOrEmpty(itemInfo.AllTarget) Then
+                    ShowFile(itemInfo.AllTarget)
+                    Exit For
+                End If
+            Next
+        ElseIf treeViewDirs.SelectedNode IsNot Nothing Then
+            Dim info As New DirectoryInfo(treeViewDirs.SelectedNode.FullPath)
+            If info.Attributes.HasFlag(FileAttributes.ReparsePoint) Then
+                Try : ShowFile(WalkmanLib.GetSymlinkTarget(info.FullName))
+                Catch : End Try
+            End If
+        End If
     End Sub
     Private Sub menuFileExit_Click() Handles menuFileExit.Click
         Application.Exit()

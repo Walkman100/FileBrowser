@@ -40,7 +40,7 @@ Public Class Operations
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
             Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
-                    'FileBrowser.RestartAsAdmin()
+                    FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
                     WalkmanLib.RunAsAdmin("cmd", "/c ren """ & sourcePath & """ """ & targetName & """ && pause")
             End Select
