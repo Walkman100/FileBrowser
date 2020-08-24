@@ -39,7 +39,27 @@ Public Class FileBrowser
 #End Region
 
     Private Sub FileBrowser_Load() Handles Me.Shown
+        Settings.Init()
+        ContextMenuConfig.Init()
 
+        If Not Settings.DisableUpdateCheck Then
+            WalkmanLib.CheckIfUpdateAvailableInBackground("FileBrowser", My.Application.Info.Version, New RunWorkerCompletedEventHandler(AddressOf UpdateCheckComplete))
+        End If
+        UseShell = Settings.WindowsShellDefaultValue
+        lstCurrent.DoubleBuffered(True)
+        treeViewDirs.PathSeparator = Path.DirectorySeparatorChar
+
+        treeViewDirs.Nodes.Clear()
+        If Environment.GetEnvironmentVariable("OS") = "Windows_NT" Then
+            For Each drive In Environment.GetLogicalDrives()
+                AddNode(treeViewDirs, drive)
+            Next
+        Else
+            Dim subNode As TreeNode = treeViewDirs.Nodes.Add(Path.DirectorySeparatorChar)
+            subNode.Nodes.Add("")
+        End If
+
+        handle_SelectedItemChanged()
     End Sub
 
     Protected Overrides Sub WndProc(ByRef m As Message)
@@ -131,27 +151,32 @@ Public Class FileBrowser
     End Sub
 
     Public Sub ShowNode(nodePath As String)
-        Dim parent As TreeNode
-        For Each folder As String In nodePath.Split({Path.DirectorySeparatorChar}, StringSplitOptions.RemoveEmptyEntries)
-            Dim foundNodes As TreeNode()
+        g_showingNodes = True
+        Try
+            Dim parent As TreeNode
+            For Each folder As String In nodePath.Split({Path.DirectorySeparatorChar}, StringSplitOptions.RemoveEmptyEntries)
+                Dim foundNodes As TreeNode()
 
-            If folder.EndsWith(Path.VolumeSeparatorChar) Then
-                folder &= Path.DirectorySeparatorChar
-                foundNodes = treeViewDirs.Nodes.Find(folder, False)
-            Else
+                If folder.EndsWith(Path.VolumeSeparatorChar) Then
+                    folder &= Path.DirectorySeparatorChar
+                    foundNodes = treeViewDirs.Nodes.Find(folder, False)
+                Else
 #Disable Warning BC42104 ' Variable `parent` is used before it has been assigned a value
-                foundNodes = parent?.Nodes.Find(folder, False)
+                    foundNodes = parent?.Nodes.Find(folder, False)
 #Enable Warning BC42104
-            End If
+                End If
 
-            If foundNodes.Length = 0 Then
-                Exit For
-            End If
+                If foundNodes.Length = 0 Then
+                    Exit For
+                End If
 
-            parent = foundNodes(0)
-            parent.Expand()
-        Next
-        treeViewDirs.SelectedNode = parent
+                parent = foundNodes(0)
+                parent.Expand()
+            Next
+            treeViewDirs.SelectedNode = parent
+        Finally
+            g_showingNodes = False
+        End Try
     End Sub
 
     Public Function GetSelectedPaths(Optional forceTree As Boolean = False) As String()
@@ -196,23 +221,31 @@ Public Class FileBrowser
 #End Region
 
 #Region "TreeView"
+    Dim g_showingNodes As Boolean = False ' make sure we don't infinitely load nodes
     Private Sub treeViewDirs_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles treeViewDirs.AfterSelect
-
+        If Not g_showingNodes Then CurrentDir = e.Node.FullPath
     End Sub
     Private Sub treeViewDirs_BeforeExpand(sender As Object, e As TreeViewCancelEventArgs) Handles treeViewDirs.BeforeExpand
-
+        LoadNode(e.Node)
+        If e.Node.Nodes.Count = 0 Then e.Cancel = True
     End Sub
     Private Sub treeViewDirs_AfterLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles treeViewDirs.AfterLabelEdit
-
+        Operations.Rename(e.Node.FullPath, e.Label)
     End Sub
 #End Region
 
 #Region "ListView"
     Private Sub lstCurrent_ItemActivate() Handles lstCurrent.ItemActivate
-
+        If lstCurrent.SelectedItems.Count = 1 AndAlso Directory.Exists(GetItemInfo(lstCurrent.SelectedItems.Item(0)).FullName) Then
+            CurrentDir = GetItemInfo(lstCurrent.SelectedItems.Item(0)).FullName
+        ElseIf lstCurrent.SelectedItems.Count > 0 Then
+            For Each itemInfo As Filesystem.EntryInfo In lstCurrent.SelectedItems.Cast(Of ListViewItem).Select(AddressOf GetItemInfo)
+                Launch.LaunchItem(itemInfo.FullName, Nothing, Nothing)
+            Next
+        End If
     End Sub
     Private Sub lstCurrent_AfterLabelEdit(sender As Object, e As LabelEditEventArgs) Handles lstCurrent.AfterLabelEdit
-
+        Operations.Rename(GetItemInfo(lstCurrent.Items.Item(e.Item)).FullName, e.Label)
     End Sub
     Private Sub lstCurrent_ColumnClick(sender As Object, e As ColumnClickEventArgs) Handles lstCurrent.ColumnClick
 
