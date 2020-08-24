@@ -23,10 +23,29 @@ Partial Class FileBrowser
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Me.treeViewDirs = New System.Windows.Forms.TreeView()
         Me.ctxMenuL = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.lstCurrent = New System.Windows.Forms.ListView()
+        Me.colHeadName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadExtension = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadLastModified = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadLastAccessed = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadCreated = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadSize = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadDiskSize = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadAttributes = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadLinkTarget = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadSymlinkTarget = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadShortcutTarget = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadUrlTarget = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadHardlinkCount = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadStreamCount = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadOpensWith = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadDownloadURL = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadDownloadReferrer = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.scMain = New System.Windows.Forms.SplitContainer()
         Me.menuStrip = New System.Windows.Forms.MenuStrip()
         Me.menuFile = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuFileCreate = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuFileRename = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileRecycle = New System.Windows.Forms.ToolStripMenuItem()
@@ -40,9 +59,6 @@ Partial Class FileBrowser
         Me.menuFileSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuFileExit = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEdit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditCut = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditCopy = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditPaste = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEditPasteAs = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditPasteAsHardlink = New System.Windows.Forms.ToolStripMenuItem()
@@ -75,15 +91,156 @@ Partial Class FileBrowser
         Me.cbxURI = New System.Windows.Forms.ToolStripComboBox()
         Me.btnGo = New System.Windows.Forms.ToolStripButton()
         Me.menuFileExecute = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileCreate = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCut = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCopy = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditPaste = New System.Windows.Forms.ToolStripMenuItem()
+        CType(Me.scMain, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.scMain.Panel1.SuspendLayout()
+        Me.scMain.Panel2.SuspendLayout()
+        Me.scMain.SuspendLayout()
         Me.menuStrip.SuspendLayout()
         Me.status.SuspendLayout()
         Me.toolStripURL.SuspendLayout()
         Me.SuspendLayout()
         '
+        'treeViewDirs
+        '
+        Me.treeViewDirs.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.treeViewDirs.FullRowSelect = True
+        Me.treeViewDirs.HideSelection = False
+        Me.treeViewDirs.LabelEdit = True
+        Me.treeViewDirs.Location = New System.Drawing.Point(0, 0)
+        Me.treeViewDirs.Name = "treeViewDirs"
+        Me.treeViewDirs.ShowNodeToolTips = True
+        Me.treeViewDirs.Size = New System.Drawing.Size(220, 425)
+        Me.treeViewDirs.TabIndex = 2
+        '
         'ctxMenuL
         '
         Me.ctxMenuL.Name = "ctxMenu"
         Me.ctxMenuL.Size = New System.Drawing.Size(61, 4)
+        '
+        'lstCurrent
+        '
+        Me.lstCurrent.AllowColumnReorder = True
+        Me.lstCurrent.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colHeadName, Me.colHeadExtension, Me.colHeadLastModified, Me.colHeadLastAccessed, Me.colHeadCreated, Me.colHeadSize, Me.colHeadDiskSize, Me.colHeadAttributes, Me.colHeadLinkTarget, Me.colHeadSymlinkTarget, Me.colHeadShortcutTarget, Me.colHeadUrlTarget, Me.colHeadHardlinkCount, Me.colHeadStreamCount, Me.colHeadOpensWith, Me.colHeadDownloadURL, Me.colHeadDownloadReferrer})
+        Me.lstCurrent.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lstCurrent.FullRowSelect = True
+        Me.lstCurrent.GridLines = True
+        Me.lstCurrent.HideSelection = False
+        Me.lstCurrent.LabelEdit = True
+        Me.lstCurrent.Location = New System.Drawing.Point(0, 0)
+        Me.lstCurrent.Name = "lstCurrent"
+        Me.lstCurrent.Size = New System.Drawing.Size(614, 425)
+        Me.lstCurrent.TabIndex = 3
+        Me.lstCurrent.UseCompatibleStateImageBehavior = False
+        Me.lstCurrent.View = System.Windows.Forms.View.Details
+        '
+        'colHeadName
+        '
+        Me.colHeadName.Text = "Name"
+        Me.colHeadName.Width = 100
+        '
+        'colHeadExtension
+        '
+        Me.colHeadExtension.Text = "Extension"
+        Me.colHeadExtension.Width = 59
+        '
+        'colHeadLastModified
+        '
+        Me.colHeadLastModified.Text = "Last Modified"
+        Me.colHeadLastModified.Width = 100
+        '
+        'colHeadLastAccessed
+        '
+        Me.colHeadLastAccessed.Text = "Last Accessed"
+        Me.colHeadLastAccessed.Width = 100
+        '
+        'colHeadCreated
+        '
+        Me.colHeadCreated.Text = "Created"
+        Me.colHeadCreated.Width = 100
+        '
+        'colHeadSize
+        '
+        Me.colHeadSize.Text = "Size"
+        Me.colHeadSize.Width = 100
+        '
+        'colHeadDiskSize
+        '
+        Me.colHeadDiskSize.Text = "Size on Disk"
+        Me.colHeadDiskSize.Width = 100
+        '
+        'colHeadAttributes
+        '
+        Me.colHeadAttributes.Text = "Attributes"
+        Me.colHeadAttributes.Width = 100
+        '
+        'colHeadLinkTarget
+        '
+        Me.colHeadLinkTarget.Text = "Link Target"
+        Me.colHeadLinkTarget.Width = 100
+        '
+        'colHeadSymlinkTarget
+        '
+        Me.colHeadSymlinkTarget.Text = "Symlink Target"
+        Me.colHeadSymlinkTarget.Width = 100
+        '
+        'colHeadShortcutTarget
+        '
+        Me.colHeadShortcutTarget.Text = "Shortcut Target"
+        Me.colHeadShortcutTarget.Width = 100
+        '
+        'colHeadUrlTarget
+        '
+        Me.colHeadUrlTarget.Text = "URL Target"
+        Me.colHeadUrlTarget.Width = 100
+        '
+        'colHeadHardlinkCount
+        '
+        Me.colHeadHardlinkCount.Text = "Hardlink Count"
+        Me.colHeadHardlinkCount.Width = 100
+        '
+        'colHeadStreamCount
+        '
+        Me.colHeadStreamCount.Text = "Stream Count"
+        Me.colHeadStreamCount.Width = 100
+        '
+        'colHeadOpensWith
+        '
+        Me.colHeadOpensWith.Text = "Opens With"
+        Me.colHeadOpensWith.Width = 100
+        '
+        'colHeadDownloadURL
+        '
+        Me.colHeadDownloadURL.Text = "Download URL"
+        Me.colHeadDownloadURL.Width = 100
+        '
+        'colHeadDownloadReferrer
+        '
+        Me.colHeadDownloadReferrer.Text = "Download Referrer"
+        Me.colHeadDownloadReferrer.Width = 120
+        '
+        'scMain
+        '
+        Me.scMain.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.scMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.scMain.Location = New System.Drawing.Point(0, 50)
+        Me.scMain.Name = "scMain"
+        '
+        'scMain.Panel1
+        '
+        Me.scMain.Panel1.Controls.Add(Me.treeViewDirs)
+        '
+        'scMain.Panel2
+        '
+        Me.scMain.Panel2.Controls.Add(Me.lstCurrent)
+        Me.scMain.Size = New System.Drawing.Size(838, 425)
+        Me.scMain.SplitterDistance = 220
+        Me.scMain.TabIndex = 4
         '
         'menuStrip
         '
@@ -103,14 +260,6 @@ Partial Class FileBrowser
         Me.menuFile.Name = "menuFile"
         Me.menuFile.Size = New System.Drawing.Size(37, 20)
         Me.menuFile.Text = "&File"
-        '
-        'menuFileCreate
-        '
-        Me.menuFileCreate.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.menuFileCreate.Name = "menuFileCreate"
-        Me.menuFileCreate.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.menuFileCreate.Size = New System.Drawing.Size(233, 22)
-        Me.menuFileCreate.Text = "Create..."
         '
         'menuFileSeparator1
         '
@@ -191,30 +340,6 @@ Partial Class FileBrowser
         Me.menuEdit.Name = "menuEdit"
         Me.menuEdit.Size = New System.Drawing.Size(39, 20)
         Me.menuEdit.Text = "&Edit"
-        '
-        'menuEditCut
-        '
-        Me.menuEditCut.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.menuEditCut.Name = "menuEditCut"
-        Me.menuEditCut.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
-        Me.menuEditCut.Size = New System.Drawing.Size(220, 22)
-        Me.menuEditCut.Text = "Cu&t"
-        '
-        'menuEditCopy
-        '
-        Me.menuEditCopy.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.menuEditCopy.Name = "menuEditCopy"
-        Me.menuEditCopy.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.menuEditCopy.Size = New System.Drawing.Size(220, 22)
-        Me.menuEditCopy.Text = "&Copy"
-        '
-        'menuEditPaste
-        '
-        Me.menuEditPaste.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.menuEditPaste.Name = "menuEditPaste"
-        Me.menuEditPaste.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
-        Me.menuEditPaste.Size = New System.Drawing.Size(220, 22)
-        Me.menuEditPaste.Text = "&Paste"
         '
         'menuEditSeparator1
         '
@@ -430,6 +555,38 @@ Partial Class FileBrowser
         Me.menuFileExecute.Size = New System.Drawing.Size(184, 22)
         Me.menuFileExecute.Text = "Execute"
         '
+        'menuFileCreate
+        '
+        Me.menuFileCreate.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.menuFileCreate.Name = "menuFileCreate"
+        Me.menuFileCreate.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
+        Me.menuFileCreate.Size = New System.Drawing.Size(233, 22)
+        Me.menuFileCreate.Text = "Create..."
+        '
+        'menuEditCut
+        '
+        Me.menuEditCut.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.menuEditCut.Name = "menuEditCut"
+        Me.menuEditCut.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
+        Me.menuEditCut.Size = New System.Drawing.Size(220, 22)
+        Me.menuEditCut.Text = "Cu&t"
+        '
+        'menuEditCopy
+        '
+        Me.menuEditCopy.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.menuEditCopy.Name = "menuEditCopy"
+        Me.menuEditCopy.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
+        Me.menuEditCopy.Size = New System.Drawing.Size(220, 22)
+        Me.menuEditCopy.Text = "&Copy"
+        '
+        'menuEditPaste
+        '
+        Me.menuEditPaste.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.menuEditPaste.Name = "menuEditPaste"
+        Me.menuEditPaste.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
+        Me.menuEditPaste.Size = New System.Drawing.Size(220, 22)
+        Me.menuEditPaste.Text = "&Paste"
+        '
         'FileBrowser
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -438,9 +595,14 @@ Partial Class FileBrowser
         Me.Controls.Add(Me.toolStripURL)
         Me.Controls.Add(Me.status)
         Me.Controls.Add(Me.menuStrip)
+        Me.Controls.Add(Me.scMain)
         Me.MainMenuStrip = Me.menuStrip
         Me.Name = "FileBrowser"
         Me.Text = "FileBrowser"
+        Me.scMain.Panel1.ResumeLayout(False)
+        Me.scMain.Panel2.ResumeLayout(False)
+        CType(Me.scMain, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.scMain.ResumeLayout(False)
         Me.menuStrip.ResumeLayout(False)
         Me.menuStrip.PerformLayout()
         Me.status.ResumeLayout(False)
@@ -451,6 +613,9 @@ Partial Class FileBrowser
         Me.PerformLayout()
 
     End Sub
+    Friend WithEvents treeViewDirs As System.Windows.Forms.TreeView
+    Friend WithEvents lstCurrent As System.Windows.Forms.ListView
+    Friend WithEvents scMain As System.Windows.Forms.SplitContainer
     Friend WithEvents ctxMenuL As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents menuStrip As System.Windows.Forms.MenuStrip
     Friend WithEvents menuFile As System.Windows.Forms.ToolStripMenuItem
@@ -503,4 +668,21 @@ Partial Class FileBrowser
     Friend WithEvents menuToolsUseShell As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuToolsSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents statusLabel As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents colHeadName As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadExtension As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadLastModified As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadLastAccessed As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadCreated As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadSize As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadDiskSize As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadSymlinkTarget As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadShortcutTarget As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadUrlTarget As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadLinkTarget As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadHardlinkCount As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadStreamCount As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadOpensWith As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadAttributes As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadDownloadURL As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadDownloadReferrer As System.Windows.Forms.ColumnHeader
 End Class
