@@ -6,6 +6,7 @@ Imports System.Xml
 Public Class Settings
     Private _settingsPath As String
 
+    Public ReadOnly Property Loaded As Boolean = False
     Public Sub Init()
         Dim configFileName As String = "FileBrowser.xml"
 
@@ -27,6 +28,7 @@ Public Class Settings
             _settingsPath = New FileInfo(configFileName).FullName
         End If
 
+        _Loaded = True
         If File.Exists(_settingsPath) Then
             LoadSettings()
         Else
@@ -377,6 +379,7 @@ Public Class Settings
 
 #Region "Settings Saving & Loading"
     Private Sub LoadSettings() Handles btnReload.Click
+        If Not Loaded Then Return
         _loading = True
         Try
             Using reader As XmlReader = XmlReader.Create(_settingsPath)
@@ -478,7 +481,7 @@ Public Class Settings
     Private _loading As Boolean = False ' so that we don't save while loading settings
 
     Private Sub SaveSettings() Handles btnSave.Click
-        If _loading Then Return
+        If Not Loaded OrElse _loading Then Return
         Using writer As XmlWriter = XmlWriter.Create(_settingsPath, New XmlWriterSettings With {.Indent = True})
             writer.WriteStartDocument()
             writer.WriteStartElement("FileBrowser")

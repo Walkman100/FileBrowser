@@ -46,6 +46,12 @@ Public Class FileBrowser
             WalkmanLib.CheckIfUpdateAvailableInBackground("FileBrowser", My.Application.Info.Version, New RunWorkerCompletedEventHandler(AddressOf UpdateCheckComplete))
         End If
         UseShell = Settings.WindowsShellDefaultValue
+        Me.Size = New Size(Settings.WindowDefaultWidth.GetValueOrDefault(Me.Width), Settings.WindowDefaultHeight.GetValueOrDefault(Me.Height))
+        Me.CenterToParent()
+        If Settings.WindowMaximised Then
+            Me.WindowState = FormWindowState.Maximized
+        End If
+
         lstCurrent.DoubleBuffered(True)
         treeViewDirs.PathSeparator = Path.DirectorySeparatorChar
 
@@ -404,6 +410,11 @@ Public Class FileBrowser
 #Region "Other UI Methods"
     Private Sub FileBrowser_Resize() Handles MyBase.Resize
         cbxURI.Size = New Size(Me.Width - 52, cbxURI.Size.Height)
+
+        If Settings.Loaded AndAlso Me.WindowState <> FormWindowState.Maximized Then
+            Settings.txtWindowDefaultWidth.Text = Me.Width.ToString()
+            Settings.txtWindowDefaultHeight.Text = Me.Height.ToString()
+        End If
     End Sub
     Private Sub handle_SelectedItemChanged() Handles lstCurrent.SelectedIndexChanged, treeViewDirs.AfterSelect
         Dim itemSelected As Boolean = (lstCurrent.SelectedItems.Count > 0) OrElse treeViewDirs.SelectedNode IsNot Nothing
