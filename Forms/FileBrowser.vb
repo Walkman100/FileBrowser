@@ -1,11 +1,199 @@
 Imports System
+Imports System.ComponentModel
+Imports System.Diagnostics
 Imports System.Drawing
+Imports System.IO
+Imports System.Linq
 Imports System.Windows.Forms
 
 Public Class FileBrowser
+#Region "Properties"
+    ' class instances. all others are static classes, or Forms which are automatically instances
+    Public ctxMenu As New CtxMenu
+    Public itemClipboard As New ItemClipboard
+    Private WithEvents winCtxMenu As New WalkmanLib.ContextMenu
+
+    Private _currentDir As String
+    Public Property CurrentDir() As String
+        Get
+            Return _currentDir
+        End Get
+        Set(ByVal value As String)
+            If Directory.Exists(value) Then
+                _currentDir = value
+                cbxURI.Text = value
+                LoadFolder()
+                ShowNode(value)
+            End If
+        End Set
+    End Property
+
+    Public Property UseShell As Boolean
+        Get
+            Return menuToolsUseShell.Checked
+        End Get
+        Set(value As Boolean)
+            menuToolsUseShell.Checked = value
+        End Set
+    End Property
+#End Region
+
     Private Sub FileBrowser_Load() Handles Me.Shown
 
     End Sub
+
+    Protected Overrides Sub WndProc(ByRef m As Message)
+        winCtxMenu.HandleWindowMessage(m)
+        MyBase.WndProc(m)
+    End Sub
+
+#Region "Helpers"
+    Private Function UpdateItem(item As ListViewItem, itemInfo As Filesystem.EntryInfo) As ListViewItem
+        item.Tag = itemInfo
+        item.Text = itemInfo.DisplayName
+        item.SubItems.Item(1).Text = itemInfo.Extension
+        item.SubItems.Item(2).Text = itemInfo.LastWriteTime.ToString()
+        item.SubItems.Item(3).Text = itemInfo.LastAccessTime.ToString()
+        item.SubItems.Item(4).Text = itemInfo.CreationTime.ToString()
+        item.SubItems.Item(5).Text = itemInfo.Size.ToString()
+        item.SubItems.Item(6).Text = itemInfo.SizeOnDisk.ToString()
+        item.SubItems.Item(7).Text = itemInfo.Attributes.ToString()
+        item.SubItems.Item(8).Text = itemInfo.AllTarget
+        item.SubItems.Item(9).Text = itemInfo.SymlinkTarget
+        item.SubItems.Item(10).Text = itemInfo.LinkTarget
+        item.SubItems.Item(11).Text = itemInfo.UrlTarget
+        item.SubItems.Item(12).Text = itemInfo.HardlinkCount.ToString()
+        item.SubItems.Item(13).Text = itemInfo.ADSCount.ToString()
+        item.SubItems.Item(14).Text = itemInfo.OpensWith
+        item.SubItems.Item(15).Text = itemInfo.DownloadURL
+        item.SubItems.Item(16).Text = itemInfo.DownloadReferrer
+        Return item
+    End Function
+
+    Private Function CreateItem(itemInfo As Filesystem.EntryInfo) As ListViewItem
+        Return UpdateItem(New ListViewItem(Enumerable.Repeat(String.Empty, 17).ToArray()), itemInfo)
+    End Function
+
+    Private Function GetItemInfo(item As ListViewItem) As Filesystem.EntryInfo
+        Return DirectCast(item.Tag, Filesystem.EntryInfo)
+    End Function
+
+    Private Function AddNode(root As TreeView, text As String) As TreeNode
+        Dim subNode As TreeNode = root.Nodes.Add(text, text)
+        Try : If Directory.EnumerateDirectories(text).Any Then
+                subNode.Nodes.Add("")
+            End If
+        Catch : End Try
+        Return subNode
+    End Function
+    Private Function AddNode(parentNode As TreeNode, text As String) As TreeNode
+        Dim subNode As TreeNode = parentNode.Nodes.Add(text, text)
+        Try : If Directory.EnumerateDirectories(Path.Combine(parentNode.FullPath, text)).Any() Then
+                subNode.Nodes.Add("")
+            End If
+        Catch : End Try
+        Return subNode
+    End Function
+
+    Private Sub LoadFolder()
+        lstCurrent.Items.Clear()
+        For Each itemInfo In Filesystem.GetItems(_currentDir)
+            lstCurrent.Items.Add(CreateItem(itemInfo))
+        Next
+    End Sub
+
+    Private Sub SelectItem(name As String)
+        lstCurrent.SelectedItems.Clear()
+
+        For Each item As ListViewItem In lstCurrent.Items
+            Dim itemInfo As Filesystem.EntryInfo = GetItemInfo(item)
+            If Path.GetFileName(itemInfo.FullName) = name Then
+                item.Selected = True
+                item.Focused = True
+                item.EnsureVisible()
+            End If
+        Next
+        lstCurrent.Select()
+    End Sub
+
+    Public Sub ShowFile(filePath As String)
+        CurrentDir = Path.GetDirectoryName(filePath)
+        If CurrentDir = Path.GetDirectoryName(filePath) Then ' have to check, as the path could be not loaded
+            SelectItem(Path.GetFileName(filePath))
+        End If
+    End Sub
+
+    Private Sub LoadNode(node As TreeNode)
+        node.Nodes.Clear()
+        For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(node.FullPath)
+            AddNode(node, item.DisplayName)
+        Next
+    End Sub
+
+    Public Sub ShowNode(nodePath As String)
+        Dim parent As TreeNode
+        For Each folder As String In nodePath.Split({Path.DirectorySeparatorChar}, StringSplitOptions.RemoveEmptyEntries)
+            Dim foundNodes As TreeNode()
+
+            If folder.EndsWith(Path.VolumeSeparatorChar) Then
+                folder &= Path.DirectorySeparatorChar
+                foundNodes = treeViewDirs.Nodes.Find(folder, False)
+            Else
+#Disable Warning BC42104 ' Variable `parent` is used before it has been assigned a value
+                foundNodes = parent?.Nodes.Find(folder, False)
+#Enable Warning BC42104
+            End If
+
+            If foundNodes.Length = 0 Then
+                Exit For
+            End If
+
+            parent = foundNodes(0)
+            parent.Expand()
+        Next
+        treeViewDirs.SelectedNode = parent
+    End Sub
+
+    Public Function GetSelectedPaths(Optional forceTree As Boolean = False) As String()
+        If Not forceTree AndAlso lstCurrent.SelectedItems.Count > 0 Then
+            Return lstCurrent.SelectedItems.Cast(Of ListViewItem).Select(Function(t) GetItemInfo(t).FullName).ToArray()
+        ElseIf treeViewDirs.SelectedNode IsNot Nothing Then
+            Return {treeViewDirs.SelectedNode.FullPath}
+        Else
+            Return {}
+        End If
+    End Function
+
+    Public Sub RenameSelected() Handles winCtxMenu.ItemRenamed
+        If lstCurrent.SelectedItems.Count = 1 Then
+            lstCurrent.SelectedItems(0).BeginEdit()
+        ElseIf lstCurrent.SelectedItems.Count > 1 Then
+            Dim newName As String = Path.GetFileNameWithoutExtension(lstCurrent.SelectedItems(0).Text) & "_{0}" & GetItemInfo(lstCurrent.SelectedItems(0)).Extension
+            If Operations.GetInput(newName, "Rename Items", "Enter New Name:", "{0} will be replaced with an incrementing number.") = DialogResult.OK Then
+                For i = 1 To lstCurrent.SelectedItems.Count
+                    Dim itemInfo As Filesystem.EntryInfo = GetItemInfo(lstCurrent.SelectedItems(i - 1))
+                    Operations.Rename(itemInfo.FullName, String.Format(newName, i))
+                Next
+            End If
+        ElseIf treeViewDirs.SelectedNode IsNot Nothing Then
+            treeViewDirs.SelectedNode.BeginEdit()
+        End If
+    End Sub
+
+    Private Sub UpdateCheckComplete(sender As Object, e As RunWorkerCompletedEventArgs)
+        If Not Settings.DisableUpdateCheck Then
+            If e.Error Is Nothing Then
+                If DirectCast(e.Result, Boolean) Then
+                    WalkmanLib.CustomMsgBox("An update is available!", "Go to Download page", "Disable Update Check", "Ignore",
+                                            Microsoft.VisualBasic.MsgBoxStyle.Information, "Update Check", ownerForm:=Me)
+                End If
+            Else
+                Microsoft.VisualBasic.MsgBox("Update check failed!" & Environment.NewLine & e.Error.Message,
+                                             Microsoft.VisualBasic.MsgBoxStyle.Exclamation, "Update Check")
+            End If
+        End If
+    End Sub
+#End Region
 
 #Region "TreeView"
     Private Sub treeViewDirs_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles treeViewDirs.AfterSelect
