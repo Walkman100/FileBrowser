@@ -440,7 +440,7 @@ Public Class FileBrowser
         If My.Computer.Keyboard.CtrlKeyDown Then
             winCtxMenu.BuildMenu(Handle, paths, flags:=WalkmanLib.ContextMenu.QueryContextMenuFlags.CanRename Or
                 If(My.Computer.Keyboard.ShiftKeyDown, WalkmanLib.ContextMenu.QueryContextMenuFlags.ExtendedVerbs, WalkmanLib.ContextMenu.QueryContextMenuFlags.Normal))
-            winCtxMenu.ShowMenu(Handle, DirectCast(sender, Control).PointToClient(pos))
+            winCtxMenu.ShowMenu(Handle, DirectCast(sender, Control).PointToScreen(pos))
             winCtxMenu.DestroyMenu()
         Else
             g_forceTree = sender Is treeViewDirs
@@ -466,6 +466,13 @@ Public Class FileBrowser
     End Sub
     Private Sub ctxMenuL_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ctxMenuL.ItemClicked
         ctxMenu.RunItem(e.ClickedItem, GetSelectedPaths(g_forceTree))
+    End Sub
+    Private Sub handleToolTipChanged(text As String, ex As Exception) Handles winCtxMenu.HelpTextChanged
+        If ex Is Nothing AndAlso Not String.IsNullOrEmpty(text) Then
+            statusLabel.Text = text
+        Else
+            statusLabel.Text = Nothing
+        End If
     End Sub
 
     Public Sub RestartAsAdmin()

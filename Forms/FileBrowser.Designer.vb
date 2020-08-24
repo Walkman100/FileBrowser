@@ -114,7 +114,7 @@ Partial Class FileBrowser
         Me.treeViewDirs.Name = "treeViewDirs"
         Me.treeViewDirs.ShowNodeToolTips = True
         Me.treeViewDirs.Size = New System.Drawing.Size(220, 425)
-        Me.treeViewDirs.TabIndex = 2
+        Me.treeViewDirs.TabIndex = 0
         '
         'ctxMenuL
         '
@@ -133,7 +133,7 @@ Partial Class FileBrowser
         Me.lstCurrent.Location = New System.Drawing.Point(0, 0)
         Me.lstCurrent.Name = "lstCurrent"
         Me.lstCurrent.Size = New System.Drawing.Size(614, 425)
-        Me.lstCurrent.TabIndex = 3
+        Me.lstCurrent.TabIndex = 1
         Me.lstCurrent.UseCompatibleStateImageBehavior = False
         Me.lstCurrent.View = System.Windows.Forms.View.Details
         '
@@ -240,7 +240,7 @@ Partial Class FileBrowser
         Me.scMain.Panel2.Controls.Add(Me.lstCurrent)
         Me.scMain.Size = New System.Drawing.Size(838, 425)
         Me.scMain.SplitterDistance = 220
-        Me.scMain.TabIndex = 4
+        Me.scMain.TabIndex = 2
         '
         'menuStrip
         '
@@ -251,7 +251,7 @@ Partial Class FileBrowser
         Me.menuStrip.Name = "menuStrip"
         Me.menuStrip.ShowItemToolTips = True
         Me.menuStrip.Size = New System.Drawing.Size(838, 24)
-        Me.menuStrip.TabIndex = 6
+        Me.menuStrip.TabIndex = 0
         Me.menuStrip.Text = "MenuStrip1"
         '
         'menuFile
@@ -545,7 +545,7 @@ Partial Class FileBrowser
         Me.status.Location = New System.Drawing.Point(0, 476)
         Me.status.Name = "status"
         Me.status.Size = New System.Drawing.Size(838, 22)
-        Me.status.TabIndex = 7
+        Me.status.TabIndex = 3
         '
         'statusLabel
         '
@@ -561,7 +561,7 @@ Partial Class FileBrowser
         Me.toolStripURL.Location = New System.Drawing.Point(0, 24)
         Me.toolStripURL.Name = "toolStripURL"
         Me.toolStripURL.Size = New System.Drawing.Size(838, 25)
-        Me.toolStripURL.TabIndex = 8
+        Me.toolStripURL.TabIndex = 1
         '
         'cbxURI
         '
