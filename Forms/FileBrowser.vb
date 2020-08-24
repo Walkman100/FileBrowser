@@ -328,31 +328,75 @@ Public Class FileBrowser
 
 #Region "Other UI Methods"
     Private Sub FileBrowser_Resize() Handles MyBase.Resize
-
+        cbxURI.Size = New Size(Me.Width - 52, cbxURI.Size.Height)
     End Sub
     Private Sub handle_SelectedItemChanged() Handles lstCurrent.SelectedIndexChanged, treeViewDirs.AfterSelect
-
+        Dim itemSelected As Boolean = (lstCurrent.SelectedItems.Count > 0) OrElse treeViewDirs.SelectedNode IsNot Nothing
+        menuFileRename.Enabled = itemSelected
+        menuFileRecycle.Enabled = itemSelected
+        menuFileDelete.Enabled = itemSelected
+        menuFileCopyTo.Enabled = itemSelected
+        menuFileMoveTo.Enabled = itemSelected
+        menuFileProperties.Enabled = itemSelected
+        menuFileLaunch.Enabled = itemSelected
+        menuFileShowTarget.Enabled = itemSelected
+        menuEditCut.Enabled = itemSelected
+        menuEditCopy.Enabled = itemSelected
+        menuEditSelectAll.Enabled = itemSelected
+        menuEditDeselectAll.Enabled = itemSelected
+        menuEditInvert.Enabled = itemSelected
     End Sub
 
+    Private g_forceTree As Boolean = False
     Private Sub ShowContext(sender As Object, pos As Point)
+        Dim paths As String() = GetSelectedPaths(sender Is treeViewDirs)
 
+        If My.Computer.Keyboard.CtrlKeyDown Then
+            winCtxMenu.BuildMenu(Handle, paths, flags:=WalkmanLib.ContextMenu.QueryContextMenuFlags.CanRename Or
+                If(My.Computer.Keyboard.ShiftKeyDown, WalkmanLib.ContextMenu.QueryContextMenuFlags.ExtendedVerbs, WalkmanLib.ContextMenu.QueryContextMenuFlags.Normal))
+            winCtxMenu.ShowMenu(Handle, DirectCast(sender, Control).PointToClient(pos))
+            winCtxMenu.DestroyMenu()
+        Else
+            g_forceTree = sender Is treeViewDirs
+            ctxMenu.UpdateMenu(ctxMenuL, paths)
+            If sender Is lstCurrent Then
+                ctxMenuL.Show(lstCurrent, pos)
+            ElseIf sender Is treeViewDirs Then
+                ctxMenuL.Show(treeViewDirs, pos)
+            Else
+                ctxMenuL.Show(PointToScreen(pos))
+            End If
+        End If
     End Sub
     Private Sub handleMouseUp(sender As Object, e As MouseEventArgs) Handles lstCurrent.MouseUp, treeViewDirs.MouseUp
-
+        If e.Button = MouseButtons.Right Then
+            ShowContext(sender, e.Location)
+        End If
     End Sub
     Private Sub handleKeyUp(sender As Object, e As KeyEventArgs) Handles lstCurrent.KeyUp, treeViewDirs.KeyUp
-
+        If e.KeyCode = Keys.Apps OrElse (e.KeyCode = Keys.F10 AndAlso e.Modifiers = Keys.Shift) Then
+            ShowContext(sender, New Point(0, 0))
+        End If
     End Sub
     Private Sub ctxMenuL_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ctxMenuL.ItemClicked
-
+        ctxMenu.RunItem(e.ClickedItem, GetSelectedPaths(g_forceTree))
     End Sub
 
     Public Sub RestartAsAdmin()
-
+        WalkmanLib.RunAsAdmin(Path.Combine(Application.StartupPath, Process.GetCurrentProcess.ProcessName & ".exe"), """" & CurrentDir & """")
+        Application.Exit()
     End Sub
 
     Public Sub ErrorParser(ex As Exception)
-
+        If TypeOf ex Is UnauthorizedAccessException AndAlso Not WalkmanLib.IsAdmin() Then
+            If Microsoft.VisualBasic.MsgBox(ex.Message & Environment.NewLine & Environment.NewLine & "Restart as Admin?",
+                                            Microsoft.VisualBasic.MsgBoxStyle.YesNo Or Microsoft.VisualBasic.MsgBoxStyle.Exclamation,
+                                            "Access Denied") = Microsoft.VisualBasic.MsgBoxResult.Yes Then
+                RestartAsAdmin()
+            End If
+        Else
+            WalkmanLib.ErrorDialog(ex, messagePumpForm:=Me)
+        End If
     End Sub
 
     Private Sub menuFileCreate_Click(sender As Object, e As EventArgs) Handles menuFileCreate.Click
