@@ -504,7 +504,7 @@ Public Class ContextMenuConfig
                 txtItemActionFile.Enabled = True
                 lblItemActionArgs.Enabled = True
                 txtItemActionArgs.Enabled = True
-            Case 3, 5
+            Case 3, 5, 6
                 lblItemActionFile.Enabled = True
                 txtItemActionFile.Enabled = True
                 lblItemActionArgs.Enabled = False

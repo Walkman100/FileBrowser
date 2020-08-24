@@ -314,7 +314,7 @@ Partial Class ContextMenuConfig
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cbxItemActionType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbxItemActionType.FormattingEnabled = True
-        Me.cbxItemActionType.Items.AddRange(New Object() {"Launch", "Run as Admin", "Execute", "Show in folder", "Windows Properties", "Launch Open With dialog", "Cut", "Copy", "Paste", "Paste as Hardlink", "Paste as Symlink", "Paste as Shortcut", "Paste as Junction", "Rename", "Copy To", "Move To", "Delete to Recycle Bin (shift to delete permanently)", "Delete Permanently (shift to delete to recycle bin)"})
+        Me.cbxItemActionType.Items.AddRange(New Object() {"Launch", "Run as Admin", "Execute", "Show in folder", "Windows Properties", "Launch Open With dialog", "Copy Text", "Cut", "Copy", "Paste", "Paste as Hardlink", "Paste as Symlink", "Paste as Shortcut", "Paste as Junction", "Rename", "Copy To", "Move To", "Delete to Recycle Bin (shift to delete permanently)", "Delete Permanently (shift to delete to recycle bin)"})
         Me.cbxItemActionType.Location = New System.Drawing.Point(6, 32)
         Me.cbxItemActionType.Name = "cbxItemActionType"
         Me.cbxItemActionType.Size = New System.Drawing.Size(303, 21)

@@ -24,6 +24,8 @@ Public Class CtxMenu
         Properties
         ''' <summary><see cref="EntryInfo.ActionArgs1"/> is the file to OpenWith</summary>
         OpenWith
+        ''' <summary><see cref="EntryInfo.ActionArgs1"/> is the text to copy</summary>
+        CopyText
 
         ''' <summary>ActionArgs are not used.</summary>
         Cut
@@ -191,6 +193,8 @@ Public Class CtxMenu
                 For Each path As String In paths
                     Launch.OpenWith(path, itemInfo.ActionArgs1)
                 Next
+            Case ActionType.CopyText
+                Launch.Copy(paths, itemInfo.ActionArgs1)
 
             Case ActionType.Cut
                 FileBrowser.itemClipboard.AddItems(paths, ItemType.Cut, Not My.Computer.Keyboard.ShiftKeyDown)

@@ -112,4 +112,16 @@ Public Class Launch
 
         WalkmanLib.OpenWith(path)
     End Sub
+
+    Public Shared Sub Copy(paths As String(), format As String)
+        Dim text As String = String.Empty
+        For Each path As String In paths
+            If Not text = String.Empty Then
+                text &= Environment.NewLine
+            End If
+            text &= FormatEntry(path, format)
+        Next
+
+        WalkmanLib.SafeSetText(text)
+    End Sub
 End Class
