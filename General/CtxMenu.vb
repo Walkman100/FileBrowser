@@ -121,6 +121,11 @@ Public Class CtxMenu
             Dim itemInfo As EntryInfo = entryDict.Item(index)
             Dim itemShouldBeVisible As Boolean = paths.Length > 0
 
+            If itemInfo.ActionType = ActionType.Paste OrElse itemInfo.ActionType = ActionType.PasteAsHardlink OrElse itemInfo.ActionType = ActionType.PasteAsJunction OrElse
+                    itemInfo.ActionType = ActionType.PasteAsShortcut OrElse itemInfo.ActionType = ActionType.PasteAsSymlink Then
+                item.Enabled = FileBrowser.itemClipboard.ItemStore.Count > 0
+            End If
+
             For Each path As String In paths
                 Dim existsInfo As PathEnum
                 Try

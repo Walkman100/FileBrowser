@@ -24,6 +24,8 @@ Public Class ItemClipboard
         For Each path As String In paths
             ItemStore.Add(path, type)
         Next
+
+        FileBrowser.handle_SelectedItemChanged()
     End Sub
 
     Public Sub PasteItems(target As String, type As PasteType)
@@ -64,5 +66,7 @@ Public Class ItemClipboard
                 ItemStore.Remove(item.Key)
             End If
         Next
+
+        FileBrowser.handle_SelectedItemChanged()
     End Sub
 End Class

@@ -419,7 +419,7 @@ Public Class FileBrowser
             Settings.txtWindowDefaultHeight.Text = Me.Height.ToString()
         End If
     End Sub
-    Private Sub handle_SelectedItemChanged() Handles lstCurrent.SelectedIndexChanged, treeViewDirs.AfterSelect
+    Public Sub handle_SelectedItemChanged() Handles lstCurrent.SelectedIndexChanged, treeViewDirs.AfterSelect
         Dim itemSelected As Boolean = (lstCurrent.SelectedItems.Count > 0) OrElse treeViewDirs.SelectedNode IsNot Nothing
         menuFileRename.Enabled = itemSelected
         menuFileRecycle.Enabled = itemSelected
@@ -434,6 +434,14 @@ Public Class FileBrowser
         menuEditSelectAll.Enabled = itemSelected
         menuEditDeselectAll.Enabled = itemSelected
         menuEditInvert.Enabled = itemSelected
+
+        If itemSelected Then itemSelected = (itemClipboard.ItemStore.Count > 0)
+
+        menuEditPaste.Enabled = itemSelected
+        menuEditPasteAsHardlink.Enabled = itemSelected
+        menuEditPasteAsSymlink.Enabled = itemSelected
+        menuEditPasteAsShortcut.Enabled = itemSelected
+        menuEditPasteAsJunction.Enabled = itemSelected
     End Sub
 
     Private g_forceTree As Boolean = False
