@@ -475,7 +475,7 @@ Public Class FileBrowser
             ShowContext(sender, New Point(0, 0))
         End If
     End Sub
-    Private Sub ctxMenuL_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ctxMenuL.ItemClicked
+    Public Sub ctxMenuL_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ctxMenuL.ItemClicked
         ctxMenu.RunItem(e.ClickedItem, GetSelectedPaths(g_forceTree))
     End Sub
     Private Sub handleToolTipChanged(text As String, ex As Exception) Handles winCtxMenu.HelpTextChanged

@@ -75,34 +75,52 @@ Public Class CtxMenu
         Public ActionType As ActionType
         Public ActionArgs1 As String
         Public ActionArgs2 As String
+
+        Public SubItems As List(Of EntryInfo)
     End Structure
 
     Private entryDict As New Dictionary(Of Integer, EntryInfo)
+
+    Private Sub AddItem(collection As ToolStripItemCollection, itemInfo As EntryInfo, ByRef index As Integer)
+        If itemInfo.EntryType = EntryType.Separator Then
+            collection.Add(New ToolStripSeparator())
+        Else
+            entryDict.Add(index, itemInfo)
+            Dim item As New ToolStripMenuItem(itemInfo.Text) With {.Tag = index}
+
+            Try
+                item.Image = ImageHandling.GetIcon(itemInfo.IconPath)?.ToBitmap()
+            Catch
+                Try : item.Image = Image.FromFile(Environment.ExpandEnvironmentVariables(itemInfo.IconPath))
+                Catch : item.Image = New PictureBox().ErrorImage
+                End Try
+            End Try
+
+            collection.Add(item)
+            index += 1
+        End If
+    End Sub
 
     Public Sub BuildMenu(contextMenu As ContextMenuStrip, items As List(Of EntryInfo))
         entryDict.Clear()
         contextMenu.Items.Clear()
 
         Dim currentIndex As Integer = 0
-        For Each item As EntryInfo In items
-            If item.EntryType = EntryType.Separator Then
-                contextMenu.Items.Add(New ToolStripSeparator())
-            Else
-                entryDict.Add(currentIndex, item)
-                Dim menuItem As New ToolStripMenuItem(item.Text) With {.Tag = currentIndex}
+        For Each itemInfo As EntryInfo In items
+            AddItem(contextMenu.Items, itemInfo, currentIndex)
+        Next
 
-                Try
-                    menuItem.Image = ImageHandling.GetIcon(item.IconPath)?.ToBitmap()
-                Catch
-                    Try : menuItem.Image = Image.FromFile(Environment.ExpandEnvironmentVariables(item.IconPath))
-                    Catch
-                        menuItem.Image = New PictureBox().ErrorImage
-                    End Try
-                End Try
+        For i = 0 To items.Count - 1
+            Dim itemInfo As EntryInfo = items(i)
 
-                contextMenu.Items.Add(menuItem)
+            If itemInfo.SubItems IsNot Nothing AndAlso TypeOf contextMenu.Items(i) Is ToolStripMenuItem Then
+                Dim item As ToolStripMenuItem = DirectCast(contextMenu.Items(i), ToolStripMenuItem)
+                ' without this, FileBrowser.ctxMenuL_ItemClicked only handles root items
+                AddHandler item.DropDownItemClicked, AddressOf FileBrowser.ctxMenuL_ItemClicked
 
-                currentIndex += 1
+                For Each subItem As EntryInfo In itemInfo.SubItems
+                    AddItem(item.DropDownItems, subItem, currentIndex)
+                Next
             End If
         Next
     End Sub
