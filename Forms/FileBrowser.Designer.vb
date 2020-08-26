@@ -314,6 +314,7 @@ Partial Class FileBrowser
         'menuFileProperties
         '
         Me.menuFileProperties.Name = "menuFileProperties"
+        Me.menuFileProperties.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Enter), System.Windows.Forms.Keys)
         Me.menuFileProperties.Size = New System.Drawing.Size(237, 22)
         Me.menuFileProperties.Text = "Properties"
         '

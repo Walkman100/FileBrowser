@@ -77,8 +77,8 @@ Partial Class ContextMenuConfig
         Me.lstMain.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lstMain.FullRowSelect = True
         Me.lstMain.GridLines = True
+        Me.lstMain.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.lstMain.HideSelection = False
-        Me.lstMain.LabelEdit = True
         Me.lstMain.Location = New System.Drawing.Point(0, 0)
         Me.lstMain.Name = "lstMain"
         Me.lstMain.ShowItemToolTips = True
