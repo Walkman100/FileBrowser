@@ -68,7 +68,7 @@ Public Class ContextMenuConfig
     Public Sub Init()
         Dim configFileName As String = "FileBrowser.ContextMenu.xml"
 
-        If Environment.GetEnvironmentVariable("OS") = "Windows_NT" Then
+        If Helpers.GetOS() = OS.Windows Then
             If Not       Directory.Exists(Path.Combine(Environment.GetEnvironmentVariable("AppData"), "WalkmanOSS")) Then
                 Directory.CreateDirectory(Path.Combine(Environment.GetEnvironmentVariable("AppData"), "WalkmanOSS"))
             End If

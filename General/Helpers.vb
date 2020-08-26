@@ -4,7 +4,16 @@ Imports System.Linq
 Imports System.Windows.Forms
 Imports Trinet.Core.IO.Ntfs
 
+Enum OS
+    Windows
+    Other
+End Enum
+
 Public Class Helpers
+    Friend Shared Function GetOS() As OS
+        Return If(Environment.GetEnvironmentVariable("OS") = "Windows_NT", OS.Windows, OS.Other)
+    End Function
+
     Private Shared sfd As New SaveFileDialog 'With {.CheckFileExists = False}
     Private Shared sdd As New Ookii.Dialogs.VistaFolderBrowserDialog With {.UseDescriptionForTitle = True}
 

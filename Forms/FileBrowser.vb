@@ -56,7 +56,7 @@ Public Class FileBrowser
         treeViewDirs.PathSeparator = Path.DirectorySeparatorChar
 
         treeViewDirs.Nodes.Clear()
-        If Environment.GetEnvironmentVariable("OS") = "Windows_NT" Then
+        If Helpers.GetOS() = OS.Windows Then
             For Each drive In Environment.GetLogicalDrives()
                 AddNode(treeViewDirs, drive)
             Next
@@ -159,20 +159,18 @@ Public Class FileBrowser
     Public Sub ShowNode(nodePath As String)
         g_showingNodes = True
         Try
-            Dim parent As TreeNode
+            Dim parent As TreeNode = Nothing
             For Each folder As String In nodePath.Split({Path.DirectorySeparatorChar}, StringSplitOptions.RemoveEmptyEntries)
                 Dim foundNodes As TreeNode()
 
                 If folder.EndsWith(Path.VolumeSeparatorChar) Then
-                    folder &= Path.DirectorySeparatorChar
+                    If Helpers.GetOS() = OS.Windows Then folder &= Path.DirectorySeparatorChar
                     foundNodes = treeViewDirs.Nodes.Find(folder, False)
                 Else
-#Disable Warning BC42104 ' Variable `parent` is used before it has been assigned a value
                     foundNodes = parent?.Nodes.Find(folder, False)
-#Enable Warning BC42104
                 End If
 
-                If foundNodes.Length = 0 Then
+                If foundNodes?.Length = 0 Then
                     Exit For
                 End If
 
@@ -366,7 +364,7 @@ Public Class FileBrowser
         CurrentDir = Path.GetPathRoot(CurrentDir)
     End Sub
     Private Sub menuGoHome_Click() Handles menuGoHome.Click
-        If Environment.GetEnvironmentVariable("OS") = "Windows_NT" Then
+        If Helpers.GetOS() = OS.Windows Then
             CurrentDir = Environment.GetEnvironmentVariable("UserProfile")
         Else
             CurrentDir = Environment.GetEnvironmentVariable("HOME")
