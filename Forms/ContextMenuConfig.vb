@@ -169,7 +169,31 @@ Public Class ContextMenuConfig
             End If
         End Using
 
-        FileBrowser.ctxMenu.BuildMenu(FileBrowser.ctxMenuL, lstMain.Items.Cast(Of ListViewItem).Select(AddressOf GetItemInfo).ToList())
+        Dim items As New List(Of CtxMenu.EntryInfo)
+        Dim lastParent As CtxMenu.EntryInfo? = Nothing
+        For Each item As ListViewItem In lstMain.Items
+            Dim itemInfo As CtxMenu.EntryInfo = GetItemInfo(item)
+
+            If itemInfo.IsSubItem AndAlso lastParent IsNot Nothing Then
+                If lastParent.Value.SubItems Is Nothing Then
+                    Dim tmp = lastParent.Value
+                    tmp.SubItems = New List(Of CtxMenu.EntryInfo) From {itemInfo}
+                    lastParent = tmp
+                Else
+                    lastParent.Value.SubItems.Add(itemInfo)
+                End If
+            Else
+                If lastParent IsNot Nothing Then
+                    items.Add(lastParent.Value)
+                End If
+                lastParent = itemInfo
+            End If
+        Next
+        If lastParent IsNot Nothing Then
+            items.Add(lastParent.Value)
+        End If
+
+        FileBrowser.ctxMenu.BuildMenu(FileBrowser.ctxMenuL, items)
     End Sub
 
     Private Sub SaveSettings()
@@ -419,7 +443,7 @@ Public Class ContextMenuConfig
         Dim ofd As New OpenFileDialog With {
             .Title = "Select Menu Icon:",
             .Filter = "Image Files|*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.ico;*.icl;*.exe;*.dll|Icon Files|*.ico;*.icl;*.exe;*.dll|All Files|*.*",
-            .FileName = txtItemIconPath.Text
+            .FileName = ImageHandling.TransformResourcePath(If(txtItemIconPath.Text, ""))
         }
         If Not String.IsNullOrEmpty(txtItemIconPath.Text) Then
             ofd.InitialDirectory = Path.GetDirectoryName(Environment.ExpandEnvironmentVariables(ImageHandling.TransformResourcePath(txtItemIconPath.Text)))
