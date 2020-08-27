@@ -1,4 +1,5 @@
 Imports System
+Imports System.Collections.Generic
 Imports System.IO
 Imports System.Linq
 Imports System.Windows.Forms
@@ -46,15 +47,16 @@ Public Class ContextMenuConfig
         item.SubItems.Item(1).Text = itemInfo.Text
         item.SubItems.Item(2).Text = itemInfo.IconPath
         item.SubItems.Item(3).Text = itemInfo.AdminIcon.ToString()
-        item.SubItems.Item(4).Text = itemInfo.Extended.ToString()
-        item.SubItems.Item(5).Text = GetFilterText(itemInfo)
-        item.SubItems.Item(6).Text = itemInfo.ActionType.ToString()
-        item.SubItems.Item(7).Text = GetActionSettingsText(itemInfo)
+        item.SubItems.Item(4).Text = itemInfo.IsSubItem.ToString()
+        item.SubItems.Item(5).Text = itemInfo.Extended.ToString()
+        item.SubItems.Item(6).Text = GetFilterText(itemInfo)
+        item.SubItems.Item(7).Text = itemInfo.ActionType.ToString()
+        item.SubItems.Item(8).Text = GetActionSettingsText(itemInfo)
         Return item
     End Function
 
     Private Function CreateItem(itemInfo As CtxMenu.EntryInfo) As ListViewItem
-        Return UpdateItem(New ListViewItem({"", "", "", "", "", "", "", ""}), itemInfo)
+        Return UpdateItem(New ListViewItem({"", "", "", "", "", "", "", "", ""}), itemInfo)
     End Function
 
     Private Function GetItemInfo(item As ListViewItem) As CtxMenu.EntryInfo
@@ -118,6 +120,8 @@ Public Class ContextMenuConfig
                             If elementAttribute IsNot Nothing Then itemInfo.IconPath = elementAttribute
                             elementAttribute = reader("adminIcon")
                             If elementAttribute IsNot Nothing Then Boolean.TryParse(elementAttribute, itemInfo.AdminIcon)
+                            elementAttribute = reader("isSubItem")
+                            If elementAttribute IsNot Nothing Then Boolean.TryParse(elementAttribute, itemInfo.IsSubItem)
                             elementAttribute = reader("extended")
                             If elementAttribute IsNot Nothing Then Boolean.TryParse(elementAttribute, itemInfo.Extended)
                             elementAttribute = reader("fileOnly")
@@ -180,6 +184,7 @@ Public Class ContextMenuConfig
                 writer.WriteAttributeString("text", item.Text)
                 writer.WriteAttributeString("icon", item.IconPath)
                 writer.WriteAttributeString("adminIcon", item.AdminIcon.ToString())
+                writer.WriteAttributeString("isSubItem", item.IsSubItem.ToString())
                 writer.WriteAttributeString("extended", item.Extended.ToString())
                 writer.WriteAttributeString("fileOnly", item.FileOnly.ToString())
                 writer.WriteAttributeString("directoryOnly", item.DirectoryOnly.ToString())
@@ -236,6 +241,7 @@ Public Class ContextMenuConfig
             txtItemText.Text = Nothing
             txtItemIconPath.Text = Nothing
             chkItemAdmin.Checked = False
+            chkItemIsSubItem.Checked = False
             chkItemExtended.Checked = False
             chkItemRestrict.Checked = False
             cbxItemRestrict.SelectedIndex = -1
@@ -332,6 +338,7 @@ Public Class ContextMenuConfig
         txtItemText.Text = item.Text
         txtItemIconPath.Text = item.IconPath
         chkItemAdmin.Checked = item.AdminIcon
+        chkItemIsSubItem.Checked = item.IsSubItem
         chkItemExtended.Checked = item.Extended
         chkItemRestrict.Checked = item.FileOnly OrElse item.DirectoryOnly OrElse item.DriveOnly
         cbxItemRestrict.SelectedIndex = If(item.FileOnly, 0, If(item.DirectoryOnly, 1, If(item.DriveOnly, 2, -1)))
@@ -358,6 +365,7 @@ Public Class ContextMenuConfig
         btnItemIconBrowse.Enabled = (cbxItemType.SelectedIndex = 0)
         btnItemIconPick.Enabled = (cbxItemType.SelectedIndex = 0)
         chkItemAdmin.Enabled = (cbxItemType.SelectedIndex = 0)
+        chkItemIsSubItem.Enabled = (cbxItemType.SelectedIndex = 0)
         chkItemExtended.Enabled = (cbxItemType.SelectedIndex = 0)
         chkItemRestrict.Enabled = (cbxItemType.SelectedIndex = 0)
         cbxItemRestrict.Enabled = If(cbxItemType.SelectedIndex <> 0, False, chkItemRestrict.Checked)
@@ -435,6 +443,18 @@ Public Class ContextMenuConfig
             For Each item As ListViewItem In lstMain.SelectedItems
                 Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
                 info.AdminIcon = chkItemAdmin.Checked
+
+                UpdateItem(item, info)
+            Next
+            lstMain.EndUpdate()
+        End If
+    End Sub
+    Private Sub chkItemIsSubItem_CheckedChanged() Handles chkItemIsSubItem.CheckedChanged
+        If allowEdit Then
+            lstMain.BeginUpdate()
+            For Each item As ListViewItem In lstMain.SelectedItems
+                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                info.IsSubItem = chkItemIsSubItem.Checked
 
                 UpdateItem(item, info)
             Next

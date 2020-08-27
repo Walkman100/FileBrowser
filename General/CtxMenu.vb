@@ -76,6 +76,7 @@ Public Class CtxMenu
         Public ActionArgs1 As String
         Public ActionArgs2 As String
 
+        Public IsSubItem As Boolean
         Public SubItems As List(Of EntryInfo)
     End Structure
 
