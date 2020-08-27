@@ -132,8 +132,8 @@ Public Class CtxMenu
         Return filterArr.Any(Function(f As String) name Like f)
     End Function
 
-    Public Sub UpdateMenu(contextMenu As ContextMenuStrip, paths As String())
-        For Each item As ToolStripItem In contextMenu.Items
+    Private Sub UpdateMenu(collection As ToolStripItemCollection, paths As String())
+        For Each item As ToolStripItem In collection
             If TypeOf item Is ToolStripSeparator Then Continue For
             Dim index As Integer = DirectCast(item.Tag, Integer)
             If Not entryDict.ContainsKey(index) Then Throw New InvalidOperationException("Context menu contains item not in dictionary!")
@@ -180,7 +180,13 @@ Public Class CtxMenu
                 End If
             Next
             item.Visible = itemShouldBeVisible
+
+            ' if item is ToolStripSeparator it is skipped, so this shouldn't be a problem
+            UpdateMenu(DirectCast(item, ToolStripMenuItem).DropDownItems, paths)
         Next
+    End Sub
+    Public Sub UpdateMenu(contextMenu As ContextMenuStrip, paths As String())
+        UpdateMenu(contextMenu.Items, paths)
     End Sub
 
     Public Sub RunItem(item As ToolStripItem, paths As String())
