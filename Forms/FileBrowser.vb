@@ -393,7 +393,9 @@ Public Class FileBrowser
 
     End Sub
     Private Sub menuToolsResizeColumns_Click() Handles menuToolsResizeColumns.Click
-        lstCurrent.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize)
+        For Each column As ColumnHeader In lstCurrent.Columns.Cast(Of ColumnHeader).Where(Function(c) c.Width > 0)
+            lstCurrent.AutoResizeColumn(column.Index, ColumnHeaderAutoResizeStyle.HeaderSize)
+        Next
     End Sub
 
     Private Sub btnGo_Click() Handles btnGo.Click
@@ -471,7 +473,9 @@ Public Class FileBrowser
         End If
     End Sub
     Private Sub handleKeyUp(sender As Object, e As KeyEventArgs) Handles lstCurrent.KeyUp, treeViewDirs.KeyUp
-        If e.KeyCode = Keys.Apps OrElse (e.KeyCode = Keys.F10 AndAlso e.Modifiers = Keys.Shift) Then
+        If e.KeyCode = Keys.Delete AndAlso e.Modifiers = Keys.Shift Then
+            menuFileRecycle_Click()
+        ElseIf e.KeyCode = Keys.Apps OrElse (e.KeyCode = Keys.F10 AndAlso e.Modifiers = Keys.Shift) Then
             ShowContext(sender, New Point(0, 0))
         End If
     End Sub
