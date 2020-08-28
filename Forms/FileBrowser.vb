@@ -270,6 +270,9 @@ Public Class FileBrowser
     Private Sub menuFileCreate_Click() Handles menuFileCreate.Click
 
     End Sub
+    Private Sub menuFileCopyPath_Click() Handles menuFileCopyPath.Click
+        Launch.Copy(GetSelectedPaths(), If(My.Computer.Keyboard.ShiftKeyDown, """{path}""", "{path}"))
+    End Sub
     Private Sub menuFileRename_Click() Handles menuFileRename.Click
         RenameSelected()
     End Sub
@@ -293,6 +296,21 @@ Public Class FileBrowser
     Private Sub menuFileLaunch_Click() Handles menuFileLaunch.Click
         For Each path As String In GetSelectedPaths()
             Launch.LaunchItem(path, Nothing, Nothing)
+        Next
+    End Sub
+    Private Sub menuFileRunAs_Click() Handles menuFileRunAs.Click
+        For Each path As String In GetSelectedPaths()
+            '   taken from default %PATHEXT% on windows
+            If {".com", ".exe", ".bat", ".cmd", ".vbs", ".vbe", ".msc"}.Any(AddressOf path.EndsWith) Then
+                Launch.RunAsAdmin(path, Nothing, Nothing)
+            Else
+                Launch.RunAsAdmin(path, "{openwith}", """{path}""")
+            End If
+        Next
+    End Sub
+    Private Sub menuFileOpenWith_Click() Handles menuFileOpenWith.Click
+        For Each path As String In GetSelectedPaths()
+            Launch.OpenWith(path, Nothing)
         Next
     End Sub
     Private Sub menuFileShowTarget_Click() Handles menuFileShowTarget.Click
@@ -460,6 +478,7 @@ Public Class FileBrowser
     End Sub
     Public Sub handle_SelectedItemChanged() Handles lstCurrent.SelectedIndexChanged, treeViewDirs.AfterSelect
         Dim itemSelected As Boolean = (lstCurrent.SelectedItems.Count > 0) OrElse treeViewDirs.SelectedNode IsNot Nothing
+        menuFileCopyPath.Enabled = itemSelected
         menuFileRename.Enabled = itemSelected
         menuFileRecycle.Enabled = itemSelected
         menuFileDelete.Enabled = itemSelected
@@ -467,6 +486,8 @@ Public Class FileBrowser
         menuFileMoveTo.Enabled = itemSelected
         menuFileProperties.Enabled = itemSelected
         menuFileLaunch.Enabled = itemSelected
+        menuFileRunAs.Enabled = itemSelected
+        menuFileOpenWith.Enabled = itemSelected
         menuFileShowTarget.Enabled = itemSelected
         menuEditCut.Enabled = itemSelected
         menuEditCopy.Enabled = itemSelected
