@@ -46,55 +46,55 @@ Partial Class FileBrowser
         Me.scMain = New System.Windows.Forms.SplitContainer()
         Me.menuStrip = New System.Windows.Forms.MenuStrip()
         Me.menuFile = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuFileCreate = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuFileRename = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuFileRecycle = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuFileDelete = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuFileCopyTo = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuFileMoveTo = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuFileProperties = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuFileLaunch = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuFileShowTarget = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileSeparator3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuFileExit = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEdit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditCut = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditCopy = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditPaste = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEditPasteAs = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditPasteAsHardlink = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditPasteAsSymlink = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditPasteAsShortcut = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditPasteAsJunction = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuEditSelectAll = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditDeselectAll = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditInvert = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuGo = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuGoBack = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuGoForward = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuGoUp = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuGoRoot = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuGoHome = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuGoSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuGoRefresh = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuGoStop = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuTools = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuToolsSettings = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuToolsContextMenu = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuToolsColumns = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuToolsSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuToolsResizeColumns = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuToolsUseShell = New System.Windows.Forms.ToolStripMenuItem()
         Me.status = New System.Windows.Forms.StatusStrip()
         Me.statusLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.toolStripURL = New System.Windows.Forms.ToolStrip()
         Me.cbxURI = New System.Windows.Forms.ToolStripComboBox()
-        Me.btnGo = New System.Windows.Forms.ToolStripButton()
         Me.menuFileExecute = New System.Windows.Forms.ToolStripMenuItem()
+        Me.btnGo = New System.Windows.Forms.ToolStripButton()
+        Me.menuFileCreate = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileRename = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileRecycle = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileDelete = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileCopyTo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileMoveTo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileProperties = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileLaunch = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileShowTarget = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileExit = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCut = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCopy = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditPaste = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditPasteAsHardlink = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditPasteAsSymlink = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditPasteAsShortcut = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditPasteAsJunction = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditSelectAll = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditDeselectAll = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditInvert = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuGoBack = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuGoForward = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuGoUp = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuGoRoot = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuGoHome = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuGoRefresh = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuGoStop = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuToolsSettings = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuToolsContextMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuToolsColumns = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuToolsResizeColumns = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.scMain, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.scMain.Panel1.SuspendLayout()
         Me.scMain.Panel2.SuspendLayout()
@@ -261,86 +261,20 @@ Partial Class FileBrowser
         Me.menuFile.Size = New System.Drawing.Size(37, 20)
         Me.menuFile.Text = "&File"
         '
-        'menuFileCreate
-        '
-        Me.menuFileCreate.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.menuFileCreate.Name = "menuFileCreate"
-        Me.menuFileCreate.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.menuFileCreate.Size = New System.Drawing.Size(237, 22)
-        Me.menuFileCreate.Text = "Create..."
-        '
         'menuFileSeparator1
         '
         Me.menuFileSeparator1.Name = "menuFileSeparator1"
         Me.menuFileSeparator1.Size = New System.Drawing.Size(234, 6)
-        '
-        'menuFileRename
-        '
-        Me.menuFileRename.Name = "menuFileRename"
-        Me.menuFileRename.ShortcutKeys = System.Windows.Forms.Keys.F2
-        Me.menuFileRename.Size = New System.Drawing.Size(237, 22)
-        Me.menuFileRename.Text = "Rename"
-        '
-        'menuFileRecycle
-        '
-        Me.menuFileRecycle.Name = "menuFileRecycle"
-        Me.menuFileRecycle.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.menuFileRecycle.Size = New System.Drawing.Size(237, 22)
-        Me.menuFileRecycle.Text = "Delete to Recycle Bin"
-        '
-        'menuFileDelete
-        '
-        Me.menuFileDelete.Name = "menuFileDelete"
-        Me.menuFileDelete.Size = New System.Drawing.Size(237, 22)
-        Me.menuFileDelete.Text = "Delete Permanently (Shift+Del)"
-        '
-        'menuFileCopyTo
-        '
-        Me.menuFileCopyTo.Name = "menuFileCopyTo"
-        Me.menuFileCopyTo.Size = New System.Drawing.Size(237, 22)
-        Me.menuFileCopyTo.Text = "Copy To..."
-        '
-        'menuFileMoveTo
-        '
-        Me.menuFileMoveTo.Name = "menuFileMoveTo"
-        Me.menuFileMoveTo.Size = New System.Drawing.Size(237, 22)
-        Me.menuFileMoveTo.Text = "Move To..."
         '
         'menuFileSeparator2
         '
         Me.menuFileSeparator2.Name = "menuFileSeparator2"
         Me.menuFileSeparator2.Size = New System.Drawing.Size(234, 6)
         '
-        'menuFileProperties
-        '
-        Me.menuFileProperties.Name = "menuFileProperties"
-        Me.menuFileProperties.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Enter), System.Windows.Forms.Keys)
-        Me.menuFileProperties.Size = New System.Drawing.Size(237, 22)
-        Me.menuFileProperties.Text = "Properties"
-        '
-        'menuFileLaunch
-        '
-        Me.menuFileLaunch.Name = "menuFileLaunch"
-        Me.menuFileLaunch.Size = New System.Drawing.Size(237, 22)
-        Me.menuFileLaunch.Text = "Launch"
-        '
-        'menuFileShowTarget
-        '
-        Me.menuFileShowTarget.Name = "menuFileShowTarget"
-        Me.menuFileShowTarget.Size = New System.Drawing.Size(237, 22)
-        Me.menuFileShowTarget.Text = "Show Target"
-        '
         'menuFileSeparator3
         '
         Me.menuFileSeparator3.Name = "menuFileSeparator3"
         Me.menuFileSeparator3.Size = New System.Drawing.Size(234, 6)
-        '
-        'menuFileExit
-        '
-        Me.menuFileExit.Name = "menuFileExit"
-        Me.menuFileExit.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.menuFileExit.Size = New System.Drawing.Size(237, 22)
-        Me.menuFileExit.Text = "Exit"
         '
         'menuEdit
         '
@@ -348,30 +282,6 @@ Partial Class FileBrowser
         Me.menuEdit.Name = "menuEdit"
         Me.menuEdit.Size = New System.Drawing.Size(39, 20)
         Me.menuEdit.Text = "&Edit"
-        '
-        'menuEditCut
-        '
-        Me.menuEditCut.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.menuEditCut.Name = "menuEditCut"
-        Me.menuEditCut.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
-        Me.menuEditCut.Size = New System.Drawing.Size(220, 22)
-        Me.menuEditCut.Text = "Cu&t"
-        '
-        'menuEditCopy
-        '
-        Me.menuEditCopy.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.menuEditCopy.Name = "menuEditCopy"
-        Me.menuEditCopy.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.menuEditCopy.Size = New System.Drawing.Size(220, 22)
-        Me.menuEditCopy.Text = "&Copy"
-        '
-        'menuEditPaste
-        '
-        Me.menuEditPaste.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.menuEditPaste.Name = "menuEditPaste"
-        Me.menuEditPaste.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
-        Me.menuEditPaste.Size = New System.Drawing.Size(220, 22)
-        Me.menuEditPaste.Text = "&Paste"
         '
         'menuEditSeparator1
         '
@@ -385,57 +295,10 @@ Partial Class FileBrowser
         Me.menuEditPasteAs.Size = New System.Drawing.Size(220, 22)
         Me.menuEditPasteAs.Text = "Paste As"
         '
-        'menuEditPasteAsHardlink
-        '
-        Me.menuEditPasteAsHardlink.Name = "menuEditPasteAsHardlink"
-        Me.menuEditPasteAsHardlink.Size = New System.Drawing.Size(119, 22)
-        Me.menuEditPasteAsHardlink.Text = "Hardlink"
-        '
-        'menuEditPasteAsSymlink
-        '
-        Me.menuEditPasteAsSymlink.Name = "menuEditPasteAsSymlink"
-        Me.menuEditPasteAsSymlink.Size = New System.Drawing.Size(119, 22)
-        Me.menuEditPasteAsSymlink.Text = "Symlink"
-        '
-        'menuEditPasteAsShortcut
-        '
-        Me.menuEditPasteAsShortcut.Name = "menuEditPasteAsShortcut"
-        Me.menuEditPasteAsShortcut.Size = New System.Drawing.Size(119, 22)
-        Me.menuEditPasteAsShortcut.Text = "Shortcut"
-        '
-        'menuEditPasteAsJunction
-        '
-        Me.menuEditPasteAsJunction.Name = "menuEditPasteAsJunction"
-        Me.menuEditPasteAsJunction.Size = New System.Drawing.Size(119, 22)
-        Me.menuEditPasteAsJunction.Text = "Junction"
-        '
         'menuEditSeparator2
         '
         Me.menuEditSeparator2.Name = "menuEditSeparator2"
         Me.menuEditSeparator2.Size = New System.Drawing.Size(217, 6)
-        '
-        'menuEditSelectAll
-        '
-        Me.menuEditSelectAll.Name = "menuEditSelectAll"
-        Me.menuEditSelectAll.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.menuEditSelectAll.Size = New System.Drawing.Size(220, 22)
-        Me.menuEditSelectAll.Text = "Select &All"
-        '
-        'menuEditDeselectAll
-        '
-        Me.menuEditDeselectAll.Name = "menuEditDeselectAll"
-        Me.menuEditDeselectAll.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-            Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.menuEditDeselectAll.Size = New System.Drawing.Size(220, 22)
-        Me.menuEditDeselectAll.Text = "Deselect All"
-        '
-        'menuEditInvert
-        '
-        Me.menuEditInvert.Name = "menuEditInvert"
-        Me.menuEditInvert.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
-            Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.menuEditInvert.Size = New System.Drawing.Size(220, 22)
-        Me.menuEditInvert.Text = "Invert Selection"
         '
         'menuGo
         '
@@ -444,58 +307,10 @@ Partial Class FileBrowser
         Me.menuGo.Size = New System.Drawing.Size(34, 20)
         Me.menuGo.Text = "Go"
         '
-        'menuGoBack
-        '
-        Me.menuGoBack.Name = "menuGoBack"
-        Me.menuGoBack.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Left), System.Windows.Forms.Keys)
-        Me.menuGoBack.Size = New System.Drawing.Size(175, 22)
-        Me.menuGoBack.Text = "Back"
-        '
-        'menuGoForward
-        '
-        Me.menuGoForward.Name = "menuGoForward"
-        Me.menuGoForward.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Right), System.Windows.Forms.Keys)
-        Me.menuGoForward.Size = New System.Drawing.Size(175, 22)
-        Me.menuGoForward.Text = "Forward"
-        '
-        'menuGoUp
-        '
-        Me.menuGoUp.Name = "menuGoUp"
-        Me.menuGoUp.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Up), System.Windows.Forms.Keys)
-        Me.menuGoUp.Size = New System.Drawing.Size(175, 22)
-        Me.menuGoUp.Text = "Up"
-        '
-        'menuGoRoot
-        '
-        Me.menuGoRoot.Name = "menuGoRoot"
-        Me.menuGoRoot.Size = New System.Drawing.Size(175, 22)
-        Me.menuGoRoot.Text = "Root"
-        '
-        'menuGoHome
-        '
-        Me.menuGoHome.Name = "menuGoHome"
-        Me.menuGoHome.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.H), System.Windows.Forms.Keys)
-        Me.menuGoHome.Size = New System.Drawing.Size(175, 22)
-        Me.menuGoHome.Text = "Home"
-        '
         'menuGoSeparator1
         '
         Me.menuGoSeparator1.Name = "menuGoSeparator1"
-        Me.menuGoSeparator1.Size = New System.Drawing.Size(172, 6)
-        '
-        'menuGoRefresh
-        '
-        Me.menuGoRefresh.Name = "menuGoRefresh"
-        Me.menuGoRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.menuGoRefresh.Size = New System.Drawing.Size(175, 22)
-        Me.menuGoRefresh.Text = "Refresh"
-        '
-        'menuGoStop
-        '
-        Me.menuGoStop.Name = "menuGoStop"
-        Me.menuGoStop.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.menuGoStop.Size = New System.Drawing.Size(175, 22)
-        Me.menuGoStop.Text = "Stop"
+        Me.menuGoSeparator1.Size = New System.Drawing.Size(177, 6)
         '
         'menuTools
         '
@@ -504,34 +319,10 @@ Partial Class FileBrowser
         Me.menuTools.Size = New System.Drawing.Size(46, 20)
         Me.menuTools.Text = "&Tools"
         '
-        'menuToolsSettings
-        '
-        Me.menuToolsSettings.Name = "menuToolsSettings"
-        Me.menuToolsSettings.Size = New System.Drawing.Size(227, 22)
-        Me.menuToolsSettings.Text = "Settings"
-        '
-        'menuToolsContextMenu
-        '
-        Me.menuToolsContextMenu.Name = "menuToolsContextMenu"
-        Me.menuToolsContextMenu.Size = New System.Drawing.Size(227, 22)
-        Me.menuToolsContextMenu.Text = "Context Menu Configuration"
-        '
-        'menuToolsColumns
-        '
-        Me.menuToolsColumns.Name = "menuToolsColumns"
-        Me.menuToolsColumns.Size = New System.Drawing.Size(227, 22)
-        Me.menuToolsColumns.Text = "Columns Configuration"
-        '
         'menuToolsSeparator1
         '
         Me.menuToolsSeparator1.Name = "menuToolsSeparator1"
         Me.menuToolsSeparator1.Size = New System.Drawing.Size(224, 6)
-        '
-        'menuToolsResizeColumns
-        '
-        Me.menuToolsResizeColumns.Name = "menuToolsResizeColumns"
-        Me.menuToolsResizeColumns.Size = New System.Drawing.Size(227, 22)
-        Me.menuToolsResizeColumns.Text = "Resize All Columns"
         '
         'menuToolsUseShell
         '
@@ -572,19 +363,261 @@ Partial Class FileBrowser
         Me.cbxURI.Name = "cbxURI"
         Me.cbxURI.Size = New System.Drawing.Size(800, 25)
         '
-        'btnGo
-        '
-        Me.btnGo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.btnGo.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(23, 22)
-        Me.btnGo.Text = "Go"
-        '
         'menuFileExecute
         '
         Me.menuFileExecute.Name = "menuFileExecute"
         Me.menuFileExecute.Size = New System.Drawing.Size(184, 22)
         Me.menuFileExecute.Text = "Execute"
+        '
+        'btnGo
+        '
+        Me.btnGo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.btnGo.Image = Global.My.Resources.Resources.Go
+        Me.btnGo.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(23, 22)
+        Me.btnGo.Text = "Go"
+        '
+        'menuFileCreate
+        '
+        Me.menuFileCreate.Image = Global.My.Resources.Resources.NewFile
+        Me.menuFileCreate.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.menuFileCreate.Name = "menuFileCreate"
+        Me.menuFileCreate.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
+        Me.menuFileCreate.Size = New System.Drawing.Size(237, 22)
+        Me.menuFileCreate.Text = "Create..."
+        '
+        'menuFileRename
+        '
+        Me.menuFileRename.Image = Global.My.Resources.Resources.Rename
+        Me.menuFileRename.Name = "menuFileRename"
+        Me.menuFileRename.ShortcutKeys = System.Windows.Forms.Keys.F2
+        Me.menuFileRename.Size = New System.Drawing.Size(237, 22)
+        Me.menuFileRename.Text = "Rename"
+        '
+        'menuFileRecycle
+        '
+        Me.menuFileRecycle.Image = Global.My.Resources.Resources.Recycle
+        Me.menuFileRecycle.Name = "menuFileRecycle"
+        Me.menuFileRecycle.ShortcutKeys = System.Windows.Forms.Keys.Delete
+        Me.menuFileRecycle.Size = New System.Drawing.Size(237, 22)
+        Me.menuFileRecycle.Text = "Delete to Recycle Bin"
+        '
+        'menuFileDelete
+        '
+        Me.menuFileDelete.Image = Global.My.Resources.Resources.Delete
+        Me.menuFileDelete.Name = "menuFileDelete"
+        Me.menuFileDelete.Size = New System.Drawing.Size(237, 22)
+        Me.menuFileDelete.Text = "Delete Permanently (Shift+Del)"
+        '
+        'menuFileCopyTo
+        '
+        Me.menuFileCopyTo.Image = Global.My.Resources.Resources.CopyTo
+        Me.menuFileCopyTo.Name = "menuFileCopyTo"
+        Me.menuFileCopyTo.Size = New System.Drawing.Size(237, 22)
+        Me.menuFileCopyTo.Text = "Copy To..."
+        '
+        'menuFileMoveTo
+        '
+        Me.menuFileMoveTo.Image = Global.My.Resources.Resources.MoveTo
+        Me.menuFileMoveTo.Name = "menuFileMoveTo"
+        Me.menuFileMoveTo.Size = New System.Drawing.Size(237, 22)
+        Me.menuFileMoveTo.Text = "Move To..."
+        '
+        'menuFileProperties
+        '
+        Me.menuFileProperties.Image = Global.My.Resources.Resources.Properties
+        Me.menuFileProperties.Name = "menuFileProperties"
+        Me.menuFileProperties.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Enter), System.Windows.Forms.Keys)
+        Me.menuFileProperties.Size = New System.Drawing.Size(237, 22)
+        Me.menuFileProperties.Text = "Properties"
+        '
+        'menuFileLaunch
+        '
+        Me.menuFileLaunch.Image = Global.My.Resources.Resources.Run
+        Me.menuFileLaunch.Name = "menuFileLaunch"
+        Me.menuFileLaunch.Size = New System.Drawing.Size(237, 22)
+        Me.menuFileLaunch.Text = "Launch"
+        '
+        'menuFileShowTarget
+        '
+        Me.menuFileShowTarget.Image = Global.My.Resources.Resources.OpenLocation
+        Me.menuFileShowTarget.Name = "menuFileShowTarget"
+        Me.menuFileShowTarget.Size = New System.Drawing.Size(237, 22)
+        Me.menuFileShowTarget.Text = "Show Target"
+        '
+        'menuFileExit
+        '
+        Me.menuFileExit.Image = Global.My.Resources.Resources.Quit
+        Me.menuFileExit.Name = "menuFileExit"
+        Me.menuFileExit.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
+        Me.menuFileExit.Size = New System.Drawing.Size(237, 22)
+        Me.menuFileExit.Text = "Exit"
+        '
+        'menuEditCut
+        '
+        Me.menuEditCut.Image = Global.My.Resources.Resources.Cut
+        Me.menuEditCut.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.menuEditCut.Name = "menuEditCut"
+        Me.menuEditCut.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
+        Me.menuEditCut.Size = New System.Drawing.Size(220, 22)
+        Me.menuEditCut.Text = "Cu&t"
+        '
+        'menuEditCopy
+        '
+        Me.menuEditCopy.Image = Global.My.Resources.Resources.Copy
+        Me.menuEditCopy.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.menuEditCopy.Name = "menuEditCopy"
+        Me.menuEditCopy.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
+        Me.menuEditCopy.Size = New System.Drawing.Size(220, 22)
+        Me.menuEditCopy.Text = "&Copy"
+        '
+        'menuEditPaste
+        '
+        Me.menuEditPaste.Image = Global.My.Resources.Resources.Paste
+        Me.menuEditPaste.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.menuEditPaste.Name = "menuEditPaste"
+        Me.menuEditPaste.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
+        Me.menuEditPaste.Size = New System.Drawing.Size(220, 22)
+        Me.menuEditPaste.Text = "&Paste"
+        '
+        'menuEditPasteAsHardlink
+        '
+        Me.menuEditPasteAsHardlink.Image = Global.My.Resources.Resources.PasteHardlink
+        Me.menuEditPasteAsHardlink.Name = "menuEditPasteAsHardlink"
+        Me.menuEditPasteAsHardlink.Size = New System.Drawing.Size(119, 22)
+        Me.menuEditPasteAsHardlink.Text = "Hardlink"
+        '
+        'menuEditPasteAsSymlink
+        '
+        Me.menuEditPasteAsSymlink.Image = Global.My.Resources.Resources.PasteSymlink
+        Me.menuEditPasteAsSymlink.Name = "menuEditPasteAsSymlink"
+        Me.menuEditPasteAsSymlink.Size = New System.Drawing.Size(119, 22)
+        Me.menuEditPasteAsSymlink.Text = "Symlink"
+        '
+        'menuEditPasteAsShortcut
+        '
+        Me.menuEditPasteAsShortcut.Image = Global.My.Resources.Resources.PasteShortcut
+        Me.menuEditPasteAsShortcut.Name = "menuEditPasteAsShortcut"
+        Me.menuEditPasteAsShortcut.Size = New System.Drawing.Size(119, 22)
+        Me.menuEditPasteAsShortcut.Text = "Shortcut"
+        '
+        'menuEditPasteAsJunction
+        '
+        Me.menuEditPasteAsJunction.Image = Global.My.Resources.Resources.PasteJunction
+        Me.menuEditPasteAsJunction.Name = "menuEditPasteAsJunction"
+        Me.menuEditPasteAsJunction.Size = New System.Drawing.Size(119, 22)
+        Me.menuEditPasteAsJunction.Text = "Junction"
+        '
+        'menuEditSelectAll
+        '
+        Me.menuEditSelectAll.Image = Global.My.Resources.Resources.SelectAll
+        Me.menuEditSelectAll.Name = "menuEditSelectAll"
+        Me.menuEditSelectAll.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
+        Me.menuEditSelectAll.Size = New System.Drawing.Size(220, 22)
+        Me.menuEditSelectAll.Text = "Select &All"
+        '
+        'menuEditDeselectAll
+        '
+        Me.menuEditDeselectAll.Image = Global.My.Resources.Resources.SelectNone
+        Me.menuEditDeselectAll.Name = "menuEditDeselectAll"
+        Me.menuEditDeselectAll.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
+        Me.menuEditDeselectAll.Size = New System.Drawing.Size(220, 22)
+        Me.menuEditDeselectAll.Text = "Deselect All"
+        '
+        'menuEditInvert
+        '
+        Me.menuEditInvert.Image = Global.My.Resources.Resources.InvertSelection
+        Me.menuEditInvert.Name = "menuEditInvert"
+        Me.menuEditInvert.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
+            Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
+        Me.menuEditInvert.Size = New System.Drawing.Size(220, 22)
+        Me.menuEditInvert.Text = "Invert Selection"
+        '
+        'menuGoBack
+        '
+        Me.menuGoBack.Image = Global.My.Resources.Resources.Back
+        Me.menuGoBack.Name = "menuGoBack"
+        Me.menuGoBack.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Left), System.Windows.Forms.Keys)
+        Me.menuGoBack.Size = New System.Drawing.Size(180, 22)
+        Me.menuGoBack.Text = "Back"
+        '
+        'menuGoForward
+        '
+        Me.menuGoForward.Image = Global.My.Resources.Resources.Forward
+        Me.menuGoForward.Name = "menuGoForward"
+        Me.menuGoForward.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Right), System.Windows.Forms.Keys)
+        Me.menuGoForward.Size = New System.Drawing.Size(180, 22)
+        Me.menuGoForward.Text = "Forward"
+        '
+        'menuGoUp
+        '
+        Me.menuGoUp.Image = Global.My.Resources.Resources.Up
+        Me.menuGoUp.Name = "menuGoUp"
+        Me.menuGoUp.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Up), System.Windows.Forms.Keys)
+        Me.menuGoUp.Size = New System.Drawing.Size(180, 22)
+        Me.menuGoUp.Text = "Up"
+        '
+        'menuGoRoot
+        '
+        Me.menuGoRoot.Image = Global.My.Resources.Resources.Root
+        Me.menuGoRoot.Name = "menuGoRoot"
+        Me.menuGoRoot.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
+        Me.menuGoRoot.Size = New System.Drawing.Size(180, 22)
+        Me.menuGoRoot.Text = "Root"
+        '
+        'menuGoHome
+        '
+        Me.menuGoHome.Image = Global.My.Resources.Resources.Home
+        Me.menuGoHome.Name = "menuGoHome"
+        Me.menuGoHome.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.H), System.Windows.Forms.Keys)
+        Me.menuGoHome.Size = New System.Drawing.Size(180, 22)
+        Me.menuGoHome.Text = "Home"
+        '
+        'menuGoRefresh
+        '
+        Me.menuGoRefresh.Image = Global.My.Resources.Resources.Refresh
+        Me.menuGoRefresh.Name = "menuGoRefresh"
+        Me.menuGoRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5
+        Me.menuGoRefresh.Size = New System.Drawing.Size(180, 22)
+        Me.menuGoRefresh.Text = "Refresh"
+        '
+        'menuGoStop
+        '
+        Me.menuGoStop.Image = Global.My.Resources.Resources.Cancel
+        Me.menuGoStop.Name = "menuGoStop"
+        Me.menuGoStop.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
+        Me.menuGoStop.Size = New System.Drawing.Size(180, 22)
+        Me.menuGoStop.Text = "Stop"
+        '
+        'menuToolsSettings
+        '
+        Me.menuToolsSettings.Image = Global.My.Resources.Resources.Settings
+        Me.menuToolsSettings.Name = "menuToolsSettings"
+        Me.menuToolsSettings.Size = New System.Drawing.Size(227, 22)
+        Me.menuToolsSettings.Text = "Settings"
+        '
+        'menuToolsContextMenu
+        '
+        Me.menuToolsContextMenu.Image = Global.My.Resources.Resources.ContextConfig
+        Me.menuToolsContextMenu.Name = "menuToolsContextMenu"
+        Me.menuToolsContextMenu.Size = New System.Drawing.Size(227, 22)
+        Me.menuToolsContextMenu.Text = "Context Menu Configuration"
+        '
+        'menuToolsColumns
+        '
+        Me.menuToolsColumns.Image = Global.My.Resources.Resources.ColumnConfig
+        Me.menuToolsColumns.Name = "menuToolsColumns"
+        Me.menuToolsColumns.Size = New System.Drawing.Size(227, 22)
+        Me.menuToolsColumns.Text = "Columns Configuration"
+        '
+        'menuToolsResizeColumns
+        '
+        Me.menuToolsResizeColumns.Image = Global.My.Resources.Resources.ResizeColumns
+        Me.menuToolsResizeColumns.Name = "menuToolsResizeColumns"
+        Me.menuToolsResizeColumns.Size = New System.Drawing.Size(227, 22)
+        Me.menuToolsResizeColumns.Text = "Resize All Columns"
         '
         'FileBrowser
         '
