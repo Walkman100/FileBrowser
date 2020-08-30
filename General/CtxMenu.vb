@@ -89,10 +89,14 @@ Public Class CtxMenu
             entryDict.Add(index, itemInfo)
             Dim item As New ToolStripMenuItem(itemInfo.Text) With {.Tag = index}
 
+            Dim iconPath As String = itemInfo.IconPath
+            iconPath = iconPath.Replace("{instdir}", Application.StartupPath)
+
             Try
-                item.Image = ImageHandling.GetIcon(itemInfo.IconPath)?.ToBitmap()
+                item.Image = ImageHandling.GetIcon(iconPath)?.ToBitmap()
             Catch
-                Try : item.Image = Image.FromFile(Environment.ExpandEnvironmentVariables(itemInfo.IconPath))
+                iconPath = Environment.ExpandEnvironmentVariables(iconPath)
+                Try : item.Image = Image.FromFile(Environment.ExpandEnvironmentVariables(iconPath))
                 Catch : item.Image = New PictureBox().ErrorImage
                 End Try
             End Try
