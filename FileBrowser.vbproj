@@ -53,6 +53,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\ColumnConfig.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\ContextMenuConfig.Designer.vb">
       <DependentUpon>ContextMenuConfig.vb</DependentUpon>
     </Compile>

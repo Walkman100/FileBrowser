@@ -408,42 +408,8 @@ Public Class FileBrowser
         ContextMenuConfig.Show(Me)
     End Sub
     Private Sub menuToolsColumns_Click() Handles menuToolsColumns.Click
-        Dim lst As New ListView With {
-            .View = View.Details,
-            .Dock = DockStyle.Fill,
-            .HeaderStyle = ColumnHeaderStyle.Nonclickable,
-            .AllowColumnReorder = False,
-            .CheckBoxes = True,
-            .GridLines = True
-        }
-        lst.Columns.Add("Column").Width = 140
-
-        Dim btn As New Button With {
-            .Text = "Close",
-            .Location = New Point(0, -4)
-        }
-
-        Dim frm As New Form With {
-            .Text = "Column Visibility",
-            .StartPosition = FormStartPosition.CenterParent,
-            .Height = 370,
-            .Width = 160,
-            .CancelButton = btn,
-            .AcceptButton = btn
-        }
-        frm.Controls.Add(lst)
-        frm.Controls.Add(btn)
-        AddHandler btn.Click, Sub() frm.Close()
-
-        For Each column As ColumnHeader In lstCurrent.Columns
-            lst.Items.Add(column.Text).Checked = (column.Width > 0)
-        Next
-
+        Dim frm As New ColumnConfig
         frm.Show(Me)
-
-        AddHandler lst.ItemChecked, Sub(sender As Object, e As ItemCheckedEventArgs)
-                                        lstCurrent.Columns(e.Item.Index).Width = If(e.Item.Checked, 100, 0)
-                                    End Sub
     End Sub
     Private Sub menuToolsResizeColumns_Click() Handles menuToolsResizeColumns.Click
         For Each column As ColumnHeader In lstCurrent.Columns.Cast(Of ColumnHeader).Where(Function(c) c.Width > 0)
