@@ -41,6 +41,7 @@ Public Class ColumnConfig
     Sub MeShown() Handles Me.Shown
         ' only add handler after ListViewItems are created and shown
         AddHandler lst.ItemChecked, AddressOf lst_ItemChecked
+        CenterToParent()
     End Sub
 
     Sub btn_Click() Handles btn.Click

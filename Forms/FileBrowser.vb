@@ -408,8 +408,7 @@ Public Class FileBrowser
         ContextMenuConfig.Show(Me)
     End Sub
     Private Sub menuToolsColumns_Click() Handles menuToolsColumns.Click
-        Dim frm As New ColumnConfig
-        frm.Show(Me)
+        ColumnConfig.Show(Me)
     End Sub
     Private Sub menuToolsResizeColumns_Click() Handles menuToolsResizeColumns.Click
         For Each column As ColumnHeader In lstCurrent.Columns.Cast(Of ColumnHeader).Where(Function(c) c.Width > 0)
