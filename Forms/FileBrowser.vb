@@ -401,14 +401,26 @@ Public Class FileBrowser
     End Sub
 
     Private Sub menuToolsSettings_Click() Handles menuToolsSettings.Click
-        Settings.Show(Me)
+        If Settings.Visible Then
+            Settings.BringToFront()
+        Else
+            Settings.Show(Me)
+        End If
     End Sub
     Private Sub menuToolsContextMenu_Click() Handles menuToolsContextMenu.Click
-        ContextMenuConfig.Init() ' the window is Closed, so needs to be re-inited
-        ContextMenuConfig.Show(Me)
+        If ContextMenuConfig.Visible Then
+            ContextMenuConfig.BringToFront()
+        Else
+            ContextMenuConfig.Init() ' the window is Closed, so needs to be re-inited
+            ContextMenuConfig.Show(Me)
+        End If
     End Sub
     Private Sub menuToolsColumns_Click() Handles menuToolsColumns.Click
-        ColumnConfig.Show(Me)
+        If ColumnConfig.Visible Then
+            ColumnConfig.BringToFront()
+        Else
+            ColumnConfig.Show(Me)
+        End If
     End Sub
     Private Sub menuToolsResizeColumns_Click() Handles menuToolsResizeColumns.Click
         For Each column As ColumnHeader In lstCurrent.Columns.Cast(Of ColumnHeader).Where(Function(c) c.Width > 0)
