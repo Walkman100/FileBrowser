@@ -465,10 +465,10 @@ Public Class FileBrowser
 #End Region
 
 #Region "Other UI Methods"
-    Private Sub FileBrowser_Resize() Handles MyBase.Resize
+    Public Sub FileBrowser_Resize() Handles MyBase.Resize
         cbxURI.Size = New Size(Me.Width - 52, cbxURI.Size.Height)
 
-        If Settings.Loaded AndAlso Me.WindowState <> FormWindowState.Maximized Then
+        If Settings.Loaded AndAlso Me.WindowState <> FormWindowState.Maximized AndAlso Settings.WindowRemember Then
             Settings.txtWindowDefaultWidth.Text = Me.Width.ToString()
             Settings.txtWindowDefaultHeight.Text = Me.Height.ToString()
         End If

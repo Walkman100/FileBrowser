@@ -351,6 +351,7 @@ Public Class Settings
     Private Sub chkWindowRemember_CheckedChanged() Handles chkWindowRemember.CheckedChanged
         WindowRemember = chkWindowRemember.Checked
         grpWindowDefault.Enabled = Not chkWindowRemember.Checked
+        FileBrowser.FileBrowser_Resize()
     End Sub
     Private Sub txtWindowDefaultWidth_TextChanged() Handles txtWindowDefaultWidth.TextChanged
         Dim tmpInt As Integer
