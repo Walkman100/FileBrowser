@@ -36,6 +36,10 @@ Public Class Settings
         End If
     End Sub
 
+    Private Sub MeVisibleChanged() Handles Me.VisibleChanged
+        If Me.Visible Then Me.CenterToParent()
+    End Sub
+
 #Region "Properties"
     Private _showFoldersFirst As Boolean
     Private _showADSSeparate As Boolean

@@ -165,6 +165,10 @@ Public Class ContextMenuConfig
                         elementAttribute = reader("height")
                         If elementAttribute IsNot Nothing Then Integer.TryParse(elementAttribute, Me.Height)
                     End If
+                    If reader.Read AndAlso reader.IsStartElement AndAlso reader.Name = "SplitPosition" Then
+                        elementAttribute = reader("pos")
+                        If elementAttribute IsNot Nothing Then Integer.TryParse(elementAttribute, scMain.SplitterDistance)
+                    End If
                 End If
             End If
         End Using
@@ -237,6 +241,10 @@ Public Class ContextMenuConfig
             writer.WriteAttributeString("width", Me.Width.ToString())
             writer.WriteAttributeString("height", Me.Height.ToString())
             writer.WriteEndElement() ' WindowSize
+
+            writer.WriteStartElement("SplitPosition")
+            writer.WriteAttributeString("pos", scMain.SplitterDistance.ToString())
+            writer.WriteEndElement() ' SplitPosition
 
             writer.WriteEndElement() ' Settings
 
