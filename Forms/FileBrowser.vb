@@ -93,6 +93,15 @@ Public Class FileBrowser
         item.SubItems.Item(14).Text = itemInfo.OpensWith
         item.SubItems.Item(15).Text = itemInfo.DownloadURL
         item.SubItems.Item(16).Text = itemInfo.DownloadReferrer
+
+        If Settings.HighlightCompressed AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Compressed) Then
+            item.ForeColor = Color.MediumBlue
+        ElseIf Settings.HighlightEncrypted AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Encrypted) Then
+            item.ForeColor = Color.Green
+        Else
+            item.ForeColor = SystemColors.WindowText
+        End If
+
         Return item
     End Function
 
@@ -104,9 +113,19 @@ Public Class FileBrowser
         Return DirectCast(item.Tag, Filesystem.EntryInfo)
     End Function
 
+    Private Function GetForeColor(path As String) As Color
+        If Settings.HighlightCompressed AndAlso File.GetAttributes(path).HasFlag(FileAttributes.Compressed) Then
+            Return Color.MediumBlue
+        ElseIf Settings.HighlightEncrypted AndAlso File.GetAttributes(path).HasFlag(FileAttributes.Encrypted) Then
+            Return Color.Green
+        Else
+            Return SystemColors.WindowText
+        End If
+    End Function
     Private Function AddNode(root As TreeView, text As String) As TreeNode
         Dim subNode As TreeNode = root.Nodes.Add(text, text)
-        Try : If Directory.EnumerateDirectories(text).Any Then
+        Try : subNode.ForeColor = GetForeColor(text)
+            If Directory.EnumerateDirectories(text).Any() Then
                 subNode.Nodes.Add("")
             End If
         Catch : End Try
@@ -114,7 +133,8 @@ Public Class FileBrowser
     End Function
     Private Function AddNode(parentNode As TreeNode, text As String) As TreeNode
         Dim subNode As TreeNode = parentNode.Nodes.Add(text, text)
-        Try : If Directory.EnumerateDirectories(Path.Combine(parentNode.FullPath, text)).Any() Then
+        Try : subNode.ForeColor = GetForeColor(Path.Combine(parentNode.FullPath, text))
+            If Directory.EnumerateDirectories(Path.Combine(parentNode.FullPath, text)).Any() Then
                 subNode.Nodes.Add("")
             End If
         Catch : End Try
