@@ -188,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\DefaultIcons\Admin.png" />
+    <None Include="Properties\DefaultIcons\Execute.png" />
     <Content Include="Properties\DefaultIcons\Refresh.png" />
   </ItemGroup>
   <ItemGroup>

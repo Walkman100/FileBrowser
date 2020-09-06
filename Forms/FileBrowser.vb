@@ -318,6 +318,11 @@ Public Class FileBrowser
             Launch.LaunchItem(path, Nothing, Nothing)
         Next
     End Sub
+    Private Sub menuFileExecute_Click() Handles menuFileExecute.Click
+        For Each path As String In GetSelectedPaths()
+            Launch.ExecuteItem(path, Nothing, Nothing)
+        Next
+    End Sub
     Private Sub menuFileRunAs_Click() Handles menuFileRunAs.Click
         For Each path As String In GetSelectedPaths()
             '   taken from default %PATHEXT% on windows
