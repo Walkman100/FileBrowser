@@ -85,6 +85,24 @@ Public Class Launch
         fileFormat = FormatEntry(path, fileFormat)
         argumentsFormat = FormatEntry(path, argumentsFormat, False)
 
+        Dim ieframePath As String = IO.Path.Combine(Environment.GetEnvironmentVariable("WinDir"), "System32", "ieframe.dll")
+        If fileFormat.ToLowerInvariant() = ieframePath.ToLowerInvariant() Then
+            ' rundll32.exe "%WinDir%\system32\ieframe.dll",OpenURL FilePath
+            argumentsFormat = argumentsFormat.Trim(""""c)
+            WalkmanLib.RunAsAdmin("rundll32", String.Format("""{0}"",OpenURL {1}", ieframePath, argumentsFormat))
+            Exit Sub
+        End If
+
+        For Each envVar As String In {"ProgramFiles", "ProgramFiles(x86)", "ProgramW6432"}
+            Dim PhotoViewerPath As String = IO.Path.Combine(Environment.GetEnvironmentVariable(envVar), "Windows Photo Viewer", "PhotoViewer.dll")
+            If fileFormat.ToLowerInvariant() = PhotoViewerPath.ToLowerInvariant() Then
+                ' rundll32 "%ProgramFiles%\Windows Photo Viewer\PhotoViewer.dll", ImageView_Fullscreen FilePath
+                argumentsFormat = argumentsFormat.Trim(""""c)
+                WalkmanLib.RunAsAdmin("rundll32", String.Format("""{0}"", ImageView_Fullscreen {1}", PhotoViewerPath, argumentsFormat))
+                Exit Sub
+            End If
+        Next
+
         WalkmanLib.RunAsAdmin(fileFormat, argumentsFormat)
     End Sub
 

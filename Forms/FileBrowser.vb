@@ -60,6 +60,13 @@ Public Class FileBrowser
             For Each drive In Environment.GetLogicalDrives()
                 AddNode(treeViewDirs, drive)
             Next
+
+            If WalkmanLib.IsAdmin Then
+                Me.Text = "[Admin] FileBrowser"
+                menuFileRelaunch.Visible = False
+            Else
+                Me.Text = "FileBrowser"
+            End If
         Else
             menuFileProperties.Visible = False
             menuFileRunAs.Visible = False
