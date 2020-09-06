@@ -139,111 +139,43 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\DefaultIcons\Copy.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\Cut.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\New.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\Paste.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\CopyPath.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\CopyTo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\Delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\Go.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\InvertSelection.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\OpenLocation.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\PasteHardlink.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\PasteJunction.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\PasteShortcut.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\PasteSymlink.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\Properties.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\Recycle.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Properties\DefaultIcons\Admin.png" />
-    <None Include="Properties\DefaultIcons\Execute.png" />
-    <Content Include="Properties\DefaultIcons\Refresh.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\Rename.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\Run.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\RunAsAdmin.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\SelectAll.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\SelectNone.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\Up.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\MoveTo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\ColumnConfig.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\ContextConfig.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\ResizeColumns.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\Settings.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\Home.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DefaultIcons\Root.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Properties\DefaultIcons\Back.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Properties\DefaultIcons\Cancel.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Properties\DefaultIcons\ColumnConfig.png" />
+    <None Include="Properties\DefaultIcons\ContextConfig.png" />
+    <None Include="Properties\DefaultIcons\Copy.png" />
+    <None Include="Properties\DefaultIcons\CopyPath.png" />
+    <None Include="Properties\DefaultIcons\CopyTo.png" />
+    <None Include="Properties\DefaultIcons\Cut.png" />
+    <None Include="Properties\DefaultIcons\Delete.png" />
+    <None Include="Properties\DefaultIcons\Execute.png" />
     <None Include="Properties\DefaultIcons\Forward.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Properties\DefaultIcons\Go.png" />
+    <None Include="Properties\DefaultIcons\Home.png" />
+    <None Include="Properties\DefaultIcons\InvertSelection.png" />
+    <None Include="Properties\DefaultIcons\MoveTo.png" />
+    <None Include="Properties\DefaultIcons\New.png" />
+    <None Include="Properties\DefaultIcons\OpenLocation.png" />
     <None Include="Properties\DefaultIcons\OpenWith.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Properties\DefaultIcons\Paste.png" />
+    <None Include="Properties\DefaultIcons\PasteHardlink.png" />
+    <None Include="Properties\DefaultIcons\PasteJunction.png" />
+    <None Include="Properties\DefaultIcons\PasteShortcut.png" />
+    <None Include="Properties\DefaultIcons\PasteSymlink.png" />
+    <None Include="Properties\DefaultIcons\Properties.png" />
     <None Include="Properties\DefaultIcons\Quit.png" />
+    <None Include="Properties\DefaultIcons\Recycle.png" />
+    <None Include="Properties\DefaultIcons\Refresh.png" />
+    <None Include="Properties\DefaultIcons\Rename.png" />
+    <None Include="Properties\DefaultIcons\ResizeColumns.png" />
+    <None Include="Properties\DefaultIcons\Root.png" />
+    <None Include="Properties\DefaultIcons\Run.png" />
+    <None Include="Properties\DefaultIcons\RunAsAdmin.png" />
+    <None Include="Properties\DefaultIcons\SelectAll.png" />
+    <None Include="Properties\DefaultIcons\SelectNone.png" />
+    <None Include="Properties\DefaultIcons\Settings.png" />
+    <None Include="Properties\DefaultIcons\Up.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

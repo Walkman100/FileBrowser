@@ -61,6 +61,11 @@ Public Class FileBrowser
                 AddNode(treeViewDirs, drive)
             Next
         Else
+            menuFileProperties.Visible = False
+            menuFileRunAs.Visible = False
+            menuFileOpenWith.Visible = False
+            menuFileRelaunch.Visible = False
+
             Dim subNode As TreeNode = treeViewDirs.Nodes.Add(Path.DirectorySeparatorChar)
             subNode.Nodes.Add("")
         End If
