@@ -545,7 +545,7 @@ Public Class FileBrowser
         End If
     End Sub
 
-    Public Sub RestartAsAdmin()
+    Public Sub RestartAsAdmin() Handles menuFileRelaunch.Click
         WalkmanLib.RunAsAdmin(Path.Combine(Application.StartupPath, Process.GetCurrentProcess.ProcessName & ".exe"), """" & CurrentDir & """")
         Application.Exit()
     End Sub

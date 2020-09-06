@@ -187,6 +187,7 @@
     <None Include="Properties\DefaultIcons\Recycle.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\DefaultIcons\Admin.png" />
     <Content Include="Properties\DefaultIcons\Refresh.png" />
   </ItemGroup>
   <ItemGroup>

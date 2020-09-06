@@ -61,6 +61,7 @@ Partial Class FileBrowser
         Me.menuFileOpenWith = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileShowTarget = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileSeparator3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuFileRelaunch = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileExit = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEdit = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditCut = New System.Windows.Forms.ToolStripMenuItem()
@@ -259,7 +260,7 @@ Partial Class FileBrowser
         '
         'menuFile
         '
-        Me.menuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuFileCreate, Me.menuFileSeparator1, Me.menuFileCopyPath, Me.menuFileRename, Me.menuFileRecycle, Me.menuFileDelete, Me.menuFileCopyTo, Me.menuFileMoveTo, Me.menuFileSeparator2, Me.menuFileProperties, Me.menuFileLaunch, Me.menuFileRunAs, Me.menuFileOpenWith, Me.menuFileShowTarget, Me.menuFileSeparator3, Me.menuFileExit})
+        Me.menuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuFileCreate, Me.menuFileSeparator1, Me.menuFileCopyPath, Me.menuFileRename, Me.menuFileRecycle, Me.menuFileDelete, Me.menuFileCopyTo, Me.menuFileMoveTo, Me.menuFileSeparator2, Me.menuFileProperties, Me.menuFileLaunch, Me.menuFileRunAs, Me.menuFileOpenWith, Me.menuFileShowTarget, Me.menuFileSeparator3, Me.menuFileRelaunch, Me.menuFileExit})
         Me.menuFile.Name = "menuFile"
         Me.menuFile.Size = New System.Drawing.Size(37, 20)
         Me.menuFile.Text = "&File"
@@ -369,6 +370,13 @@ Partial Class FileBrowser
         '
         Me.menuFileSeparator3.Name = "menuFileSeparator3"
         Me.menuFileSeparator3.Size = New System.Drawing.Size(234, 6)
+        '
+        'menuFileRelaunch
+        '
+        Me.menuFileRelaunch.Image = Global.My.Resources.Resources.Admin
+        Me.menuFileRelaunch.Name = "menuFileRelaunch"
+        Me.menuFileRelaunch.Size = New System.Drawing.Size(237, 22)
+        Me.menuFileRelaunch.Text = "Relaunch as Admin"
         '
         'menuFileExit
         '
@@ -746,4 +754,5 @@ Partial Class FileBrowser
     Friend WithEvents menuFileCopyPath As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuFileRunAs As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuFileOpenWith As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileRelaunch As System.Windows.Forms.ToolStripMenuItem
 End Class
