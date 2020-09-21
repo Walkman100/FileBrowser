@@ -41,7 +41,7 @@ Public Class Filesystem
         For Each path As String In paths
             Dim info As New FileInfo(path)
             If (Settings.ShowHidden OrElse Not info.Attributes.HasFlag(FileAttributes.Hidden)) AndAlso
-               (Settings.ShowSystem OrElse Not info.Attributes.HasFlag(FileAttributes.Hidden)) AndAlso
+               (Settings.ShowSystem OrElse Not info.Attributes.HasFlag(FileAttributes.System)) AndAlso
                (Settings.ShowDot OrElse Not info.Name.Chars(0) = "."c) Then
                 Dim entryInfo As New EntryInfo With {
                     .FullName = info.FullName,

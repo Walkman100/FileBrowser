@@ -96,7 +96,7 @@ Public Class CtxMenu
                 item.Image = ImageHandling.GetIcon(iconPath)?.ToBitmap()
             Catch
                 iconPath = Environment.ExpandEnvironmentVariables(iconPath)
-                Try : item.Image = Image.FromFile(Environment.ExpandEnvironmentVariables(iconPath))
+                Try : item.Image = Image.FromFile(iconPath)
                 Catch : item.Image = New PictureBox().ErrorImage
                 End Try
             End Try

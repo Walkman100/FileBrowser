@@ -500,6 +500,7 @@ Public Class FileBrowser
         menuFileMoveTo.Enabled = itemSelected
         menuFileProperties.Enabled = itemSelected
         menuFileLaunch.Enabled = itemSelected
+        menuFileExecute.Enabled = itemSelected
         menuFileRunAs.Enabled = itemSelected
         menuFileOpenWith.Enabled = itemSelected
         menuFileShowTarget.Enabled = itemSelected
@@ -552,6 +553,7 @@ Public Class FileBrowser
         End If
     End Sub
     Public Sub ctxMenuL_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ctxMenuL.ItemClicked
+        ctxMenuL.Close()
         ctxMenu.RunItem(e.ClickedItem, GetSelectedPaths(g_forceTree))
     End Sub
     Private Sub handleToolTipChanged(text As String, ex As Exception) Handles winCtxMenu.HelpTextChanged
