@@ -27,4 +27,10 @@ Module Extensions
         Next
         Return rtn
     End Function
+
+    ''' <summary>Returns node.FullPath, with duplicate DirectorySeparatorChars removed</summary>
+    <Extension()>
+    Public Function FixedFullPath(node As TreeNode) As String
+        Return node.FullPath.Replace(Path.DirectorySeparatorChar & Path.DirectorySeparatorChar, Path.DirectorySeparatorChar)
+    End Function
 End Module

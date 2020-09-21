@@ -219,7 +219,7 @@ Public Class FileBrowser
         If Not forceTree AndAlso lstCurrent.SelectedItems.Count > 0 Then
             Return lstCurrent.SelectedItems.Cast(Of ListViewItem).Select(Function(t) GetItemInfo(t).FullName).ToArray()
         ElseIf treeViewDirs.SelectedNode IsNot Nothing Then
-            Return {treeViewDirs.SelectedNode.FullPath}
+            Return {treeViewDirs.SelectedNode.FixedFullPath}
         Else
             Return {}
         End If
@@ -264,14 +264,14 @@ Public Class FileBrowser
 #Region "TreeView"
     Dim g_showingNodes As Boolean = False ' make sure we don't infinitely load nodes
     Private Sub treeViewDirs_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles treeViewDirs.AfterSelect
-        If Not g_showingNodes Then CurrentDir = e.Node.FullPath
+        If Not g_showingNodes Then CurrentDir = e.Node.FixedFullPath
     End Sub
     Private Sub treeViewDirs_BeforeExpand(sender As Object, e As TreeViewCancelEventArgs) Handles treeViewDirs.BeforeExpand
         LoadNode(e.Node)
         If e.Node.Nodes.Count = 0 Then e.Cancel = True
     End Sub
     Private Sub treeViewDirs_AfterLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles treeViewDirs.AfterLabelEdit
-        If Not String.IsNullOrEmpty(e.Label) Then Operations.Rename(e.Node.FullPath, e.Label)
+        If Not String.IsNullOrEmpty(e.Label) Then Operations.Rename(e.Node.FixedFullPath, e.Label)
     End Sub
 #End Region
 
