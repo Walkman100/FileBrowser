@@ -436,6 +436,10 @@ Public Class ContextMenuConfig
             imgItemIcon.ImageLocation = Environment.ExpandEnvironmentVariables(txtItemIconPath.Text)
         End Try
 
+        If chkItemAdmin.Checked AndAlso imgItemIcon.Image IsNot Nothing Then
+            imgItemIcon.Image = ImageHandling.AddAdminOverlay(imgItemIcon.Image)
+        End If
+
         If allowEdit Then
             lstMain.BeginUpdate()
             For Each item As ListViewItem In lstMain.SelectedItems
@@ -470,6 +474,8 @@ Public Class ContextMenuConfig
         End If
     End Sub
     Private Sub chkItemAdmin_CheckedChanged() Handles chkItemAdmin.CheckedChanged
+        txtItemIconPath_TextChanged() ' update admin icon in preview
+
         If allowEdit Then
             lstMain.BeginUpdate()
             For Each item As ListViewItem In lstMain.SelectedItems

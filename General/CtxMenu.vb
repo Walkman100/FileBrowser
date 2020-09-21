@@ -101,6 +101,8 @@ Public Class CtxMenu
                 End Try
             End Try
 
+            If itemInfo.AdminIcon Then item.Image = ImageHandling.AddAdminOverlay(item.Image)
+
             collection.Add(item)
             index += 1
         End If

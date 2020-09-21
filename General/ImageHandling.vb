@@ -28,4 +28,21 @@ Public Class ImageHandling
             Return Nothing
         End If
     End Function
+
+    Public Shared Function AddOverlay(image As Image, overlay As Bitmap, Optional resize As Boolean = False) As Image
+        Dim gr As Graphics = Graphics.FromImage(image)
+
+        If resize Then
+            overlay = New Bitmap(overlay, 8, 8)
+            gr.DrawImage(overlay, 8, 8, overlay.Width, overlay.Height)
+        Else
+            gr.DrawImage(overlay, 0, 0, overlay.Width, overlay.Height)
+        End If
+
+        Return image
+    End Function
+
+    Public Shared Function AddAdminOverlay(image As Image) As Image
+        Return AddOverlay(image, My.Resources.Resources.Admin, True)
+    End Function
 End Class
