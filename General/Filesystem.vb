@@ -36,8 +36,7 @@ Public Class Filesystem
         Public DownloadReferrer As String
     End Structure
 
-    Private Shared Function Filter(paths As IEnumerable(Of String)) As List(Of EntryInfo)
-        Dim rtn As New List(Of EntryInfo)
+    Private Shared Iterator Function Filter(paths As IEnumerable(Of String)) As IEnumerable(Of EntryInfo)
         For Each path As String In paths
             Dim info As New FileInfo(path)
             If (Settings.ShowHidden OrElse Not info.Attributes.HasFlag(FileAttributes.Hidden)) AndAlso
@@ -89,7 +88,7 @@ Public Class Filesystem
                     entryInfo.Type = EntryType.Directory
                 End If
 
-                rtn.Add(entryInfo)
+                Yield entryInfo
 
                 If Settings.ShowADSSeparate Then
                     If entryInfo.ADSCount > 0 Then
@@ -101,16 +100,15 @@ Public Class Filesystem
                                 .DisplayName = IO.Path.GetFileName(adsInfo.FilePath) & ":" & adsInfo.Name
                             }
 
-                            rtn.Add(entryInfo)
+                            Yield entryInfo
                         Next
                     End If
                 End If
             End If
         Next
-        Return rtn
     End Function
 
-    Public Shared Function GetFolders(path As String) As List(Of EntryInfo)
+    Public Shared Function GetFolders(path As String) As IEnumerable(Of EntryInfo)
         If Directory.Exists(path) Then
             Return Filter(Directory.EnumerateDirectories(path))
         Else
@@ -118,7 +116,7 @@ Public Class Filesystem
         End If
     End Function
 
-    Public Shared Function GetItems(path As String) As List(Of EntryInfo)
+    Public Shared Function GetItems(path As String) As IEnumerable(Of EntryInfo)
         If Directory.Exists(path) Then
             Return Filter(Directory.EnumerateFileSystemEntries(path))
         Else
