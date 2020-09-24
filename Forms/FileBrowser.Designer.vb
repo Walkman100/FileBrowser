@@ -48,7 +48,6 @@ Partial Class FileBrowser
         Me.menuFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuFileSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuFileExecute = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEdit = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditSeparator1 = New System.Windows.Forms.ToolStripSeparator()
@@ -64,7 +63,8 @@ Partial Class FileBrowser
         Me.toolStripURL = New System.Windows.Forms.ToolStrip()
         Me.cbxURI = New System.Windows.Forms.ToolStripComboBox()
         Me.btnGo = New System.Windows.Forms.ToolStripButton()
-        Me.menuFileCreate = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileCreateFile = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileCreateFolder = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileCopyPath = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileRename = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileRecycle = New System.Windows.Forms.ToolStripMenuItem()
@@ -73,6 +73,7 @@ Partial Class FileBrowser
         Me.menuFileMoveTo = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileProperties = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileLaunch = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileExecute = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileRunAs = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileOpenWith = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileShowTarget = New System.Windows.Forms.ToolStripMenuItem()
@@ -260,7 +261,7 @@ Partial Class FileBrowser
         '
         'menuFile
         '
-        Me.menuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuFileCreate, Me.menuFileSeparator1, Me.menuFileCopyPath, Me.menuFileRename, Me.menuFileRecycle, Me.menuFileDelete, Me.menuFileCopyTo, Me.menuFileMoveTo, Me.menuFileSeparator2, Me.menuFileProperties, Me.menuFileLaunch, Me.menuFileExecute, Me.menuFileRunAs, Me.menuFileOpenWith, Me.menuFileShowTarget, Me.menuFileSeparator3, Me.menuFileRelaunch, Me.menuFileExit})
+        Me.menuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuFileCreateFile, Me.menuFileCreateFolder, Me.menuFileSeparator1, Me.menuFileCopyPath, Me.menuFileRename, Me.menuFileRecycle, Me.menuFileDelete, Me.menuFileCopyTo, Me.menuFileMoveTo, Me.menuFileSeparator2, Me.menuFileProperties, Me.menuFileLaunch, Me.menuFileExecute, Me.menuFileRunAs, Me.menuFileOpenWith, Me.menuFileShowTarget, Me.menuFileSeparator3, Me.menuFileRelaunch, Me.menuFileExit})
         Me.menuFile.Name = "menuFile"
         Me.menuFile.Size = New System.Drawing.Size(37, 20)
         Me.menuFile.Text = "&File"
@@ -274,13 +275,6 @@ Partial Class FileBrowser
         '
         Me.menuFileSeparator2.Name = "menuFileSeparator2"
         Me.menuFileSeparator2.Size = New System.Drawing.Size(234, 6)
-        '
-        'menuFileExecute
-        '
-        Me.menuFileExecute.Image = Global.My.Resources.Resources.Execute
-        Me.menuFileExecute.Name = "menuFileExecute"
-        Me.menuFileExecute.Size = New System.Drawing.Size(237, 22)
-        Me.menuFileExecute.Text = "Execute"
         '
         'menuFileSeparator3
         '
@@ -383,14 +377,22 @@ Partial Class FileBrowser
         Me.btnGo.Size = New System.Drawing.Size(23, 22)
         Me.btnGo.Text = "Go"
         '
-        'menuFileCreate
+        'menuFileCreateFile
         '
-        Me.menuFileCreate.Image = Global.My.Resources.Resources.NewFile
-        Me.menuFileCreate.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.menuFileCreate.Name = "menuFileCreate"
-        Me.menuFileCreate.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.menuFileCreate.Size = New System.Drawing.Size(237, 22)
-        Me.menuFileCreate.Text = "Create..."
+        Me.menuFileCreateFile.Image = Global.My.Resources.Resources.NewFile
+        Me.menuFileCreateFile.Name = "menuFileCreateFile"
+        Me.menuFileCreateFile.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
+        Me.menuFileCreateFile.Size = New System.Drawing.Size(237, 22)
+        Me.menuFileCreateFile.Text = "Create File..."
+        '
+        'menuFileCreateFolder
+        '
+        Me.menuFileCreateFolder.Image = Global.My.Resources.Resources.NewFolder
+        Me.menuFileCreateFolder.Name = "menuFileCreateFolder"
+        Me.menuFileCreateFolder.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
+        Me.menuFileCreateFolder.Size = New System.Drawing.Size(237, 22)
+        Me.menuFileCreateFolder.Text = "Create Folder..."
         '
         'menuFileCopyPath
         '
@@ -452,6 +454,13 @@ Partial Class FileBrowser
         Me.menuFileLaunch.Name = "menuFileLaunch"
         Me.menuFileLaunch.Size = New System.Drawing.Size(237, 22)
         Me.menuFileLaunch.Text = "Launch"
+        '
+        'menuFileExecute
+        '
+        Me.menuFileExecute.Image = Global.My.Resources.Resources.Execute
+        Me.menuFileExecute.Name = "menuFileExecute"
+        Me.menuFileExecute.Size = New System.Drawing.Size(237, 22)
+        Me.menuFileExecute.Text = "Execute"
         '
         'menuFileRunAs
         '
@@ -686,7 +695,7 @@ Partial Class FileBrowser
     Friend WithEvents ctxMenuL As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents menuStrip As System.Windows.Forms.MenuStrip
     Friend WithEvents menuFile As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileCreate As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileCreateFile As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuEdit As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuEditCut As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuEditCopy As System.Windows.Forms.ToolStripMenuItem
@@ -756,4 +765,5 @@ Partial Class FileBrowser
     Friend WithEvents menuFileRunAs As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuFileOpenWith As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuFileRelaunch As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileCreateFolder As System.Windows.Forms.ToolStripMenuItem
 End Class

@@ -299,8 +299,11 @@ Public Class FileBrowser
 #End Region
 
 #Region "ToolStrips"
-    Private Sub menuFileCreate_Click() Handles menuFileCreate.Click
-
+    Private Sub menuFileCreateFile_Click() Handles menuFileCreateFile.Click
+        ShowFile(Helpers.CreateFile(CurrentDir, Not My.Computer.Keyboard.ShiftKeyDown))
+    End Sub
+    Private Sub menuFileCreateFolder_Click() Handles menuFileCreateFolder.Click
+        ShowFile(Helpers.CreateFolder(CurrentDir, Not My.Computer.Keyboard.ShiftKeyDown))
     End Sub
     Private Sub menuFileCopyPath_Click() Handles menuFileCopyPath.Click
         Launch.Copy(GetSelectedPaths(), If(My.Computer.Keyboard.ShiftKeyDown, """{path}""", "{path}"))

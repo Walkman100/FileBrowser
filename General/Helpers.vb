@@ -80,6 +80,40 @@ Public Class Helpers
         Next
     End Sub
 
+    Public Shared Function CreateFile(rootPath As String, useInputBox As Boolean) As String
+        Dim target As String = "New File"
+        If useInputBox Then
+            If Operations.GetInput(target, "Create File", "Enter name of file to create:") = DialogResult.Cancel Then Return Nothing
+        Else
+            sfd.FileName = target
+            sfd.InitialDirectory = rootPath
+            sfd.Title = "Create File"
+            If sfd.ShowDialog(FileBrowser) = DialogResult.Cancel Then Return Nothing
+            target = sfd.FileName
+        End If
+
+        target = Path.Combine(If(rootPath, ""), target)
+        File.CreateText(target).Close()
+        Return target
+    End Function
+
+    Public Shared Function CreateFolder(rootPath As String, useInputBox As Boolean) As String
+        Dim target As String = "New Folder"
+        If useInputBox Then
+            If Operations.GetInput(target, "Create Folder", "Enter name of folder to create:") = DialogResult.Cancel Then Return Nothing
+        Else
+            sfd.FileName = target
+            sfd.InitialDirectory = rootPath
+            sfd.Title = "Create Folder"
+            If sfd.ShowDialog(FileBrowser) = DialogResult.Cancel Then Return Nothing
+            target = sfd.FileName
+        End If
+
+        target = Path.Combine(If(rootPath, ""), target)
+        target = Directory.CreateDirectory(target).FullName
+        Return target
+    End Function
+
 
     Public Shared Function GetUrlTarget(path As String) As String
         Using fs As StreamReader = File.OpenText(path)

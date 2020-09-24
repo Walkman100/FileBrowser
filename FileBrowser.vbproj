@@ -155,7 +155,8 @@
     <None Include="Properties\DefaultIcons\Home.png" />
     <None Include="Properties\DefaultIcons\InvertSelection.png" />
     <None Include="Properties\DefaultIcons\MoveTo.png" />
-    <None Include="Properties\DefaultIcons\New.png" />
+    <None Include="Properties\DefaultIcons\NewFile.png" />
+    <None Include="Properties\DefaultIcons\NewFolder.png" />
     <None Include="Properties\DefaultIcons\OpenLocation.png" />
     <None Include="Properties\DefaultIcons\OpenWith.png" />
     <None Include="Properties\DefaultIcons\Paste.png" />
