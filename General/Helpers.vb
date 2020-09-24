@@ -93,7 +93,12 @@ Public Class Helpers
         End If
 
         target = Path.Combine(If(rootPath, ""), target)
-        File.CreateText(target).Close()
+        Using f As StreamWriter = File.CreateText(target)
+            Dim text As String = Clipboard.GetText()
+            If Operations.GetInput(text, "File Contents", "Enter file contents:") = DialogResult.OK Then
+                f.Write(text)
+            End If
+        End Using
         Return target
     End Function
 
