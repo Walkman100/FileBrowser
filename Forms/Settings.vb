@@ -378,7 +378,7 @@ Public Class Settings
         Me.Hide()
     End Sub
     Private Sub btnShowSettingsFile_Click() Handles btnShowSettingsFile.Click
-        Launch.LaunchItem(_settingsPath, "explorer.exe", "/select, ""{path}""")
+        Helpers.ShowFileExternal(_settingsPath)
     End Sub
 #End Region
 

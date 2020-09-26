@@ -119,6 +119,14 @@ Namespace Helpers
             target = Directory.CreateDirectory(target).FullName
             Return target
         End Function
+
+        Public Sub ShowFileExternal(filePath As String)
+            If GetOS() = OS.Windows Then
+                Launch.LaunchItem(filePath, "explorer.exe", "/select, ""{path}""")
+            Else
+                Launch.LaunchItem(filePath, "xdg-open", "{directory}")
+            End If
+        End Sub
     End Module
 
     Module GetFileInfo

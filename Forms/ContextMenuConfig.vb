@@ -260,6 +260,7 @@ Public Class ContextMenuConfig
         lstMain_SelectedIndexChanged()
         cbxItemType_SelectedIndexChanged()
         cbxItemActionType_SelectedIndexChanged()
+        If Helpers.GetOS <> OS.Windows Then btnItemIconPick.Visible = False
     End Sub
 
     Private Sub lstMain_SelectedIndexChanged() Handles lstMain.SelectedIndexChanged
@@ -360,7 +361,7 @@ Public Class ContextMenuConfig
     End Sub
 
     Private Sub btnShowConfig_Click() Handles btnShowConfig.Click
-        Launch.LaunchItem(_settingsPath, "explorer.exe", "/select, ""{path}""")
+        Helpers.ShowFileExternal(_settingsPath)
     End Sub
 #End Region
 
