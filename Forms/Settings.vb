@@ -41,315 +41,120 @@ Public Class Settings
     End Sub
 
 #Region "Properties"
-    Private _showFoldersFirst As Boolean
-    Private _showADSSeparate As Boolean
-    Private _showHidden As Boolean
-    Private _showSystem As Boolean
-    Private _showDot As Boolean
-    Private _showExtensions As Boolean
-    Private _overlayShortcut As Boolean
-    Private _overlayReparse As Boolean
-    Private _overlayHardlink As Boolean
-    Private _overlayCompressed As Boolean
-    Private _overlayEncrypted As Boolean
-    Private _overlayOffline As Boolean
-    Private _specificItemIcons As Boolean
-    Private _imageThumbs As Boolean
-    Private _highlightCompressed As Boolean
-    Private _highlightEncrypted As Boolean
-    Private _disableViewAutoUpdate As Boolean
-    Private _disableTreeAutoUpdate As Boolean
-    Private _disableUpdateCheck As Boolean
-    Private _windowsShellDefaultValue As Boolean
-    Private _windowMaximised As Boolean
-    Private _windowRemember As Boolean
-    Private _windowDefaultWidth As Integer?
-    Private _windowDefaultHeight As Integer?
-
-    Public Property ShowFoldersFirst As Boolean
-        Get
-            Return _showFoldersFirst
-        End Get
-        Private Set(value As Boolean)
-            _showFoldersFirst = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property ShowADSSeparate As Boolean
-        Get
-            Return _showADSSeparate
-        End Get
-        Private Set(value As Boolean)
-            _showADSSeparate = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property ShowHidden As Boolean
-        Get
-            Return _showHidden
-        End Get
-        Private Set(value As Boolean)
-            _showHidden = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property ShowSystem As Boolean
-        Get
-            Return _showSystem
-        End Get
-        Private Set(value As Boolean)
-            _showSystem = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property ShowDot As Boolean
-        Get
-            Return _showDot
-        End Get
-        Private Set(value As Boolean)
-            _showDot = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property ShowExtensions As Boolean
-        Get
-            Return _showExtensions
-        End Get
-        Private Set(value As Boolean)
-            _showExtensions = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property OverlayShortcut As Boolean
-        Get
-            Return _overlayShortcut
-        End Get
-        Private Set(value As Boolean)
-            _overlayShortcut = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property OverlayReparse As Boolean
-        Get
-            Return _overlayReparse
-        End Get
-        Private Set(value As Boolean)
-            _overlayReparse = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property OverlayHardlink As Boolean
-        Get
-            Return _overlayHardlink
-        End Get
-        Private Set(value As Boolean)
-            _overlayHardlink = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property OverlayCompressed As Boolean
-        Get
-            Return _overlayCompressed
-        End Get
-        Private Set(value As Boolean)
-            _overlayCompressed = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property OverlayEncrypted As Boolean
-        Get
-            Return _overlayEncrypted
-        End Get
-        Private Set(value As Boolean)
-            _overlayEncrypted = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property OverlayOffline As Boolean
-        Get
-            Return _overlayOffline
-        End Get
-        Private Set(value As Boolean)
-            _overlayOffline = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property SpecificItemIcons As Boolean
-        Get
-            Return _specificItemIcons
-        End Get
-        Private Set(value As Boolean)
-            _specificItemIcons = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property ImageThumbs As Boolean
-        Get
-            Return _imageThumbs
-        End Get
-        Private Set(value As Boolean)
-            _imageThumbs = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property HighlightCompressed As Boolean
-        Get
-            Return _highlightCompressed
-        End Get
-        Private Set(value As Boolean)
-            _highlightCompressed = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property HighlightEncrypted As Boolean
-        Get
-            Return _highlightEncrypted
-        End Get
-        Private Set(value As Boolean)
-            _highlightEncrypted = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property DisableViewAutoUpdate As Boolean
-        Get
-            Return _disableViewAutoUpdate
-        End Get
-        Private Set(value As Boolean)
-            _disableViewAutoUpdate = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property DisableTreeAutoUpdate As Boolean
-        Get
-            Return _disableTreeAutoUpdate
-        End Get
-        Private Set(value As Boolean)
-            _disableTreeAutoUpdate = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property DisableUpdateCheck As Boolean
-        Get
-            Return _disableUpdateCheck
-        End Get
-        Private Set(value As Boolean)
-            _disableUpdateCheck = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property WindowsShellDefaultValue As Boolean
-        Get
-            Return _windowsShellDefaultValue
-        End Get
-        Private Set(value As Boolean)
-            _windowsShellDefaultValue = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property WindowMaximised As Boolean
-        Get
-            Return _windowMaximised
-        End Get
-        Private Set(value As Boolean)
-            _windowMaximised = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property WindowRemember As Boolean
-        Get
-            Return _windowRemember
-        End Get
-        Private Set(value As Boolean)
-            _windowRemember = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property WindowDefaultWidth As Integer?
-        Get
-            Return _windowDefaultWidth
-        End Get
-        Private Set(value As Integer?)
-            _windowDefaultWidth = value
-            SaveSettings()
-        End Set
-    End Property
-    Public Property WindowDefaultHeight As Integer?
-        Get
-            Return _windowDefaultHeight
-        End Get
-        Private Set(value As Integer?)
-            _windowDefaultHeight = value
-            SaveSettings()
-        End Set
-    End Property
+    Public ReadOnly Property ShowFoldersFirst As Boolean
+    Public ReadOnly Property ShowADSSeparate As Boolean
+    Public ReadOnly Property ShowHidden As Boolean
+    Public ReadOnly Property ShowSystem As Boolean
+    Public ReadOnly Property ShowDot As Boolean
+    Public ReadOnly Property ShowExtensions As Boolean
+    Public ReadOnly Property OverlayShortcut As Boolean
+    Public ReadOnly Property OverlayReparse As Boolean
+    Public ReadOnly Property OverlayHardlink As Boolean
+    Public ReadOnly Property OverlayCompressed As Boolean
+    Public ReadOnly Property OverlayEncrypted As Boolean
+    Public ReadOnly Property OverlayOffline As Boolean
+    Public ReadOnly Property SpecificItemIcons As Boolean
+    Public ReadOnly Property ImageThumbs As Boolean
+    Public ReadOnly Property HighlightCompressed As Boolean
+    Public ReadOnly Property HighlightEncrypted As Boolean
+    Public ReadOnly Property DisableViewAutoUpdate As Boolean
+    Public ReadOnly Property DisableTreeAutoUpdate As Boolean
+    Public ReadOnly Property DisableUpdateCheck As Boolean
+    Public ReadOnly Property WindowsShellDefaultValue As Boolean
+    Public ReadOnly Property WindowMaximised As Boolean
+    Public ReadOnly Property WindowRemember As Boolean
+    Public ReadOnly Property WindowDefaultWidth As Integer?
+    Public ReadOnly Property WindowDefaultHeight As Integer?
 #End Region
 
 #Region "GUI Methods"
     Private Sub chkShowFoldersFirst_CheckedChanged() Handles chkShowFoldersFirst.CheckedChanged
-        ShowFoldersFirst = chkShowFoldersFirst.Checked
+        _ShowFoldersFirst = chkShowFoldersFirst.Checked
+        SaveSettings()
     End Sub
     Private Sub chkShowADSSeparate_CheckedChanged() Handles chkShowADSSeparate.CheckedChanged
-        ShowADSSeparate = chkShowADSSeparate.Checked
+        _ShowADSSeparate = chkShowADSSeparate.Checked
+        SaveSettings()
     End Sub
     Private Sub chkShowHidden_CheckedChanged() Handles chkShowHidden.CheckedChanged
-        ShowHidden = chkShowHidden.Checked
+        _ShowHidden = chkShowHidden.Checked
+        SaveSettings()
     End Sub
     Private Sub chkShowSystem_CheckedChanged() Handles chkShowSystem.CheckedChanged
-        ShowSystem = chkShowSystem.Checked
+        _ShowSystem = chkShowSystem.Checked
+        SaveSettings()
     End Sub
     Private Sub chkShowDot_CheckedChanged() Handles chkShowDot.CheckedChanged
-        ShowDot = chkShowDot.Checked
+        _ShowDot = chkShowDot.Checked
+        SaveSettings()
     End Sub
     Private Sub chkShowExtensions_CheckedChanged() Handles chkShowExtensions.CheckedChanged
-        ShowExtensions = chkShowExtensions.Checked
+        _ShowExtensions = chkShowExtensions.Checked
+        SaveSettings()
     End Sub
     Private Sub chkOverlayShortcut_CheckedChanged() Handles chkOverlayShortcut.CheckedChanged
-        OverlayShortcut = chkOverlayShortcut.Checked
+        _OverlayShortcut = chkOverlayShortcut.Checked
+        SaveSettings()
     End Sub
     Private Sub chkOverlayReparse_CheckedChanged() Handles chkOverlayReparse.CheckedChanged
-        OverlayReparse = chkOverlayReparse.Checked
+        _OverlayReparse = chkOverlayReparse.Checked
+        SaveSettings()
     End Sub
     Private Sub chkOverlayHardlink_CheckedChanged() Handles chkOverlayHardlink.CheckedChanged
-        OverlayHardlink = chkOverlayHardlink.Checked
+        _OverlayHardlink = chkOverlayHardlink.Checked
+        SaveSettings()
     End Sub
     Private Sub chkOverlayCompressed_CheckedChanged() Handles chkOverlayCompressed.CheckedChanged
-        OverlayCompressed = chkOverlayCompressed.Checked
+        _OverlayCompressed = chkOverlayCompressed.Checked
+        SaveSettings()
     End Sub
     Private Sub chkOverlayEncrypted_CheckedChanged() Handles chkOverlayEncrypted.CheckedChanged
-        OverlayEncrypted = chkOverlayEncrypted.Checked
+        _OverlayEncrypted = chkOverlayEncrypted.Checked
+        SaveSettings()
     End Sub
     Private Sub chkOverlayOffline_CheckedChanged() Handles chkOverlayOffline.CheckedChanged
-        OverlayOffline = chkOverlayOffline.Checked
+        _OverlayOffline = chkOverlayOffline.Checked
+        SaveSettings()
     End Sub
     Private Sub chkSpecificItemIcons_CheckedChanged() Handles chkSpecificItemIcons.CheckedChanged
-        SpecificItemIcons = chkSpecificItemIcons.Checked
+        _SpecificItemIcons = chkSpecificItemIcons.Checked
+        SaveSettings()
     End Sub
     Private Sub chkImageThumbs_CheckedChanged() Handles chkImageThumbs.CheckedChanged
-        ImageThumbs = chkImageThumbs.Checked
+        _ImageThumbs = chkImageThumbs.Checked
+        SaveSettings()
     End Sub
     Private Sub chkHighlightCompressed_CheckedChanged() Handles chkHighlightCompressed.CheckedChanged
-        HighlightCompressed = chkHighlightCompressed.Checked
+        _HighlightCompressed = chkHighlightCompressed.Checked
+        SaveSettings()
     End Sub
     Private Sub chkHighlightEncrypted_CheckedChanged() Handles chkHighlightEncrypted.CheckedChanged
-        HighlightEncrypted = chkHighlightEncrypted.Checked
+        _HighlightEncrypted = chkHighlightEncrypted.Checked
+        SaveSettings()
     End Sub
     Private Sub chkDisableViewAutoUpdate_CheckedChanged() Handles chkDisableViewAutoUpdate.CheckedChanged
-        DisableViewAutoUpdate = chkDisableViewAutoUpdate.Checked
+        _DisableViewAutoUpdate = chkDisableViewAutoUpdate.Checked
+        SaveSettings()
     End Sub
     Private Sub chkDisableTreeAutoUpdate_CheckedChanged() Handles chkDisableTreeAutoUpdate.CheckedChanged
-        DisableTreeAutoUpdate = chkDisableTreeAutoUpdate.Checked
+        _DisableTreeAutoUpdate = chkDisableTreeAutoUpdate.Checked
+        SaveSettings()
     End Sub
     Private Sub chkDisableUpdateCheck_CheckedChanged() Handles chkDisableUpdateCheck.CheckedChanged
-        DisableUpdateCheck = chkDisableUpdateCheck.Checked
+        _DisableUpdateCheck = chkDisableUpdateCheck.Checked
+        SaveSettings()
     End Sub
     Private Sub chkWindowsShellDefaultValue_CheckedChanged() Handles chkWindowsShellDefaultValue.CheckedChanged
-        WindowsShellDefaultValue = chkWindowsShellDefaultValue.Checked
+        _WindowsShellDefaultValue = chkWindowsShellDefaultValue.Checked
+        SaveSettings()
     End Sub
     Private Sub chkWindowMaximised_CheckedChanged() Handles chkWindowMaximised.CheckedChanged
-        WindowMaximised = chkWindowMaximised.Checked
+        _WindowMaximised = chkWindowMaximised.Checked
+        SaveSettings()
     End Sub
     Private Sub chkWindowRemember_CheckedChanged() Handles chkWindowRemember.CheckedChanged
-        WindowRemember = chkWindowRemember.Checked
+        _WindowRemember = chkWindowRemember.Checked
+        SaveSettings()
         grpWindowDefault.Enabled = Not chkWindowRemember.Checked
         FileBrowser.FileBrowser_Resize()
     End Sub
@@ -357,21 +162,23 @@ Public Class Settings
         Dim tmpInt As Integer
         If Integer.TryParse(txtWindowDefaultWidth.Text, tmpInt) Then
             txtWindowDefaultWidth.BackColor = Drawing.SystemColors.Window
-            WindowDefaultWidth = tmpInt
+            _WindowDefaultWidth = tmpInt
         Else
             txtWindowDefaultWidth.BackColor = Drawing.Color.Red
-            WindowDefaultWidth = Nothing
+            _WindowDefaultWidth = Nothing
         End If
+        SaveSettings()
     End Sub
     Private Sub txtWindowDefaultHeight_TextChanged() Handles txtWindowDefaultHeight.TextChanged
         Dim tmpInt As Integer
         If Integer.TryParse(txtWindowDefaultHeight.Text, tmpInt) Then
             txtWindowDefaultHeight.BackColor = Drawing.SystemColors.Window
-            WindowDefaultHeight = tmpInt
+            _WindowDefaultHeight = tmpInt
         Else
             txtWindowDefaultHeight.BackColor = Drawing.Color.Red
-            WindowDefaultHeight = Nothing
+            _WindowDefaultHeight = Nothing
         End If
+        SaveSettings()
     End Sub
 
     Private Sub btnClose_Click() Handles btnClose.Click
