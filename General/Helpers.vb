@@ -94,6 +94,12 @@ Namespace Helpers
             End If
 
             target = Path.Combine(If(rootPath, ""), target)
+            If Clipboard.ContainsImage AndAlso Microsoft.VisualBasic.MsgBox("Image detected in clipboard! Use it as file contents?",
+                                                                            Microsoft.VisualBasic.MsgBoxStyle.YesNo) = Microsoft.VisualBasic.MsgBoxResult.Yes Then
+                Clipboard.GetImage.Save(target)
+                Return target
+            End If
+
             Using f As StreamWriter = File.CreateText(target)
                 Dim text As String = Clipboard.GetText()
                 If Operations.GetInput(text, "File Contents", "Enter file contents:") = DialogResult.OK Then
