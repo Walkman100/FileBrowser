@@ -304,6 +304,15 @@ Public Class Settings
                                     Case "WindowsShellDefaultValue"
                                         reader.Read()
                                         Boolean.TryParse(reader.Value, chkWindowsShellDefaultValue.Checked)
+                                    Case "SizeUnits"
+                                        reader.Read()
+                                        Integer.TryParse(reader.Value, cbxSizeUnits.SelectedIndex)
+                                    Case "RememberDir"
+                                        reader.Read()
+                                        Boolean.TryParse(reader.Value, chkRememberDir.Checked)
+                                    Case "DefaultDir"
+                                        reader.Read()
+                                        txtDefaultDir.Text = reader.Value
                                     Case "WindowMaximised"
                                         reader.Read()
                                         Boolean.TryParse(reader.Value, chkWindowMaximised.Checked)
@@ -316,6 +325,9 @@ Public Class Settings
                                     Case "WindowDefaultHeight"
                                         reader.Read()
                                         txtWindowDefaultHeight.Text = reader.Value
+                                    Case "SaveColumns"
+                                        reader.Read()
+                                        Boolean.TryParse(reader.Value, chkSaveColumns.Checked)
                                 End Select
                             End If
                         End While
@@ -356,10 +368,14 @@ Public Class Settings
             writer.WriteElementString("DisableTreeAutoUpdate", DisableTreeAutoUpdate.ToString())
             writer.WriteElementString("DisableUpdateCheck", DisableUpdateCheck.ToString())
             writer.WriteElementString("WindowsShellDefaultValue", WindowsShellDefaultValue.ToString())
+            writer.WriteElementString("SizeUnits", SizeUnits.ToString())
+            writer.WriteElementString("RememberDir", RememberDir.ToString())
+            writer.WriteElementString("DefaultDir", DefaultDir.ToString())
             writer.WriteElementString("WindowMaximised", WindowMaximised.ToString())
             writer.WriteElementString("WindowRemember", WindowRemember.ToString())
             writer.WriteElementString("WindowDefaultWidth", WindowDefaultWidth.ToString())
             writer.WriteElementString("WindowDefaultHeight", WindowDefaultHeight.ToString())
+            writer.WriteElementString("SaveColumns", SaveColumns.ToString())
             writer.WriteEndElement()
 
             writer.WriteEndElement()
