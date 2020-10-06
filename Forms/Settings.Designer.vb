@@ -55,10 +55,19 @@ Partial Class Settings
         Me.grpHighlighting = New System.Windows.Forms.GroupBox()
         Me.grpIcons = New System.Windows.Forms.GroupBox()
         Me.grpOther = New System.Windows.Forms.GroupBox()
+        Me.grpDefaultDir = New System.Windows.Forms.GroupBox()
+        Me.btnDefaultDirBrowse = New System.Windows.Forms.Button()
+        Me.txtDefaultDir = New System.Windows.Forms.TextBox()
+        Me.chkRememberDir = New System.Windows.Forms.CheckBox()
+        Me.lblSizeUnits = New System.Windows.Forms.Label()
+        Me.cbxSizeUnits = New System.Windows.Forms.ComboBox()
         Me.btnClose = New System.Windows.Forms.Button()
         Me.btnSave = New System.Windows.Forms.Button()
         Me.btnReload = New System.Windows.Forms.Button()
         Me.btnShowSettingsFile = New System.Windows.Forms.Button()
+        Me.grpColumns = New System.Windows.Forms.GroupBox()
+        Me.btnResetColumns = New System.Windows.Forms.Button()
+        Me.chkSaveColumns = New System.Windows.Forms.CheckBox()
         Me.grpWindowDefault.SuspendLayout()
         Me.grpItemVisibility.SuspendLayout()
         Me.grpWindow.SuspendLayout()
@@ -66,6 +75,8 @@ Partial Class Settings
         Me.grpHighlighting.SuspendLayout()
         Me.grpIcons.SuspendLayout()
         Me.grpOther.SuspendLayout()
+        Me.grpDefaultDir.SuspendLayout()
+        Me.grpColumns.SuspendLayout()
         Me.SuspendLayout()
         '
         'chkShowFoldersFirst
@@ -162,7 +173,7 @@ Partial Class Settings
         '
         Me.chkWindowsShellDefaultValue.AutoSize = True
         Me.chkWindowsShellDefaultValue.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.chkWindowsShellDefaultValue.Location = New System.Drawing.Point(6, 88)
+        Me.chkWindowsShellDefaultValue.Location = New System.Drawing.Point(6, 85)
         Me.chkWindowsShellDefaultValue.Name = "chkWindowsShellDefaultValue"
         Me.chkWindowsShellDefaultValue.Size = New System.Drawing.Size(195, 17)
         Me.chkWindowsShellDefaultValue.TabIndex = 3
@@ -404,53 +415,143 @@ Partial Class Settings
         '
         'grpOther
         '
+        Me.grpOther.Controls.Add(Me.grpDefaultDir)
+        Me.grpOther.Controls.Add(Me.chkRememberDir)
+        Me.grpOther.Controls.Add(Me.lblSizeUnits)
+        Me.grpOther.Controls.Add(Me.cbxSizeUnits)
         Me.grpOther.Controls.Add(Me.chkDisableViewAutoUpdate)
         Me.grpOther.Controls.Add(Me.chkDisableTreeAutoUpdate)
         Me.grpOther.Controls.Add(Me.chkDisableUpdateCheck)
         Me.grpOther.Controls.Add(Me.chkWindowsShellDefaultValue)
         Me.grpOther.Location = New System.Drawing.Point(12, 242)
         Me.grpOther.Name = "grpOther"
-        Me.grpOther.Size = New System.Drawing.Size(256, 121)
+        Me.grpOther.Size = New System.Drawing.Size(256, 198)
         Me.grpOther.TabIndex = 5
         Me.grpOther.TabStop = False
         Me.grpOther.Text = "Other"
         '
+        'grpDefaultDir
+        '
+        Me.grpDefaultDir.Controls.Add(Me.btnDefaultDirBrowse)
+        Me.grpDefaultDir.Controls.Add(Me.txtDefaultDir)
+        Me.grpDefaultDir.Location = New System.Drawing.Point(6, 147)
+        Me.grpDefaultDir.Name = "grpDefaultDir"
+        Me.grpDefaultDir.Size = New System.Drawing.Size(244, 45)
+        Me.grpDefaultDir.TabIndex = 7
+        Me.grpDefaultDir.TabStop = False
+        Me.grpDefaultDir.Text = "Default Directory:"
+        '
+        'btnDefaultDirBrowse
+        '
+        Me.btnDefaultDirBrowse.Location = New System.Drawing.Point(163, 17)
+        Me.btnDefaultDirBrowse.Name = "btnDefaultDirBrowse"
+        Me.btnDefaultDirBrowse.Size = New System.Drawing.Size(75, 23)
+        Me.btnDefaultDirBrowse.TabIndex = 1
+        Me.btnDefaultDirBrowse.Text = "Browse..."
+        Me.btnDefaultDirBrowse.UseVisualStyleBackColor = True
+        '
+        'txtDefaultDir
+        '
+        Me.txtDefaultDir.Location = New System.Drawing.Point(6, 19)
+        Me.txtDefaultDir.Name = "txtDefaultDir"
+        Me.txtDefaultDir.Size = New System.Drawing.Size(151, 20)
+        Me.txtDefaultDir.TabIndex = 0
+        '
+        'chkRememberDir
+        '
+        Me.chkRememberDir.AutoSize = True
+        Me.chkRememberDir.Location = New System.Drawing.Point(6, 129)
+        Me.chkRememberDir.Name = "chkRememberDir"
+        Me.chkRememberDir.Size = New System.Drawing.Size(139, 17)
+        Me.chkRememberDir.TabIndex = 6
+        Me.chkRememberDir.Text = "Remember last directory"
+        Me.chkRememberDir.UseVisualStyleBackColor = True
+        '
+        'lblSizeUnits
+        '
+        Me.lblSizeUnits.AutoSize = True
+        Me.lblSizeUnits.Location = New System.Drawing.Point(6, 108)
+        Me.lblSizeUnits.Name = "lblSizeUnits"
+        Me.lblSizeUnits.Size = New System.Drawing.Size(57, 13)
+        Me.lblSizeUnits.TabIndex = 4
+        Me.lblSizeUnits.Text = "Size Units:"
+        '
+        'cbxSizeUnits
+        '
+        Me.cbxSizeUnits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbxSizeUnits.FormattingEnabled = True
+        Me.cbxSizeUnits.Items.AddRange(New Object() {"Auto (Decimal - 1000)", "Auto (Binary    - 1024)", "bytes (8 bits)", "kB  (Decimal - 1000)", "KiB (Binary    - 1024)", "MB (Decimal - 1000)", "MiB (Binary    - 1024)", "GB  (Decimal - 1000)", "GiB (Binary    - 1024)", "TB  (Decimal - 1000)", "TiB (Binary    - 1024)", "PB  (Decimal - 1000)", "PiB (Binary    - 1024)"})
+        Me.cbxSizeUnits.Location = New System.Drawing.Point(69, 105)
+        Me.cbxSizeUnits.Name = "cbxSizeUnits"
+        Me.cbxSizeUnits.Size = New System.Drawing.Size(181, 21)
+        Me.cbxSizeUnits.TabIndex = 5
+        '
         'btnClose
         '
         Me.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnClose.Location = New System.Drawing.Point(36, 369)
+        Me.btnClose.Location = New System.Drawing.Point(36, 446)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 23)
-        Me.btnClose.TabIndex = 7
+        Me.btnClose.TabIndex = 8
         Me.btnClose.Text = "Close"
         Me.btnClose.UseVisualStyleBackColor = True
         '
         'btnSave
         '
-        Me.btnSave.Location = New System.Drawing.Point(117, 369)
+        Me.btnSave.Location = New System.Drawing.Point(117, 446)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(75, 23)
-        Me.btnSave.TabIndex = 8
+        Me.btnSave.TabIndex = 9
         Me.btnSave.Text = "Force-Save"
         Me.btnSave.UseVisualStyleBackColor = True
         '
         'btnReload
         '
-        Me.btnReload.Location = New System.Drawing.Point(198, 369)
+        Me.btnReload.Location = New System.Drawing.Point(198, 446)
         Me.btnReload.Name = "btnReload"
         Me.btnReload.Size = New System.Drawing.Size(92, 23)
-        Me.btnReload.TabIndex = 9
+        Me.btnReload.TabIndex = 10
         Me.btnReload.Text = "Reload Settings"
         Me.btnReload.UseVisualStyleBackColor = True
         '
         'btnShowSettingsFile
         '
-        Me.btnShowSettingsFile.Location = New System.Drawing.Point(296, 369)
+        Me.btnShowSettingsFile.Location = New System.Drawing.Point(296, 446)
         Me.btnShowSettingsFile.Name = "btnShowSettingsFile"
         Me.btnShowSettingsFile.Size = New System.Drawing.Size(104, 23)
-        Me.btnShowSettingsFile.TabIndex = 10
+        Me.btnShowSettingsFile.TabIndex = 11
         Me.btnShowSettingsFile.Text = "Show Settings File"
         Me.btnShowSettingsFile.UseVisualStyleBackColor = True
+        '
+        'grpColumns
+        '
+        Me.grpColumns.Controls.Add(Me.btnResetColumns)
+        Me.grpColumns.Controls.Add(Me.chkSaveColumns)
+        Me.grpColumns.Location = New System.Drawing.Point(274, 369)
+        Me.grpColumns.Name = "grpColumns"
+        Me.grpColumns.Size = New System.Drawing.Size(149, 71)
+        Me.grpColumns.TabIndex = 7
+        Me.grpColumns.TabStop = False
+        Me.grpColumns.Text = "Column Settings"
+        '
+        'btnResetColumns
+        '
+        Me.btnResetColumns.Location = New System.Drawing.Point(6, 42)
+        Me.btnResetColumns.Name = "btnResetColumns"
+        Me.btnResetColumns.Size = New System.Drawing.Size(137, 23)
+        Me.btnResetColumns.TabIndex = 1
+        Me.btnResetColumns.Text = "Reset column defaults"
+        Me.btnResetColumns.UseVisualStyleBackColor = True
+        '
+        'chkSaveColumns
+        '
+        Me.chkSaveColumns.AutoSize = True
+        Me.chkSaveColumns.Location = New System.Drawing.Point(6, 19)
+        Me.chkSaveColumns.Name = "chkSaveColumns"
+        Me.chkSaveColumns.Size = New System.Drawing.Size(122, 17)
+        Me.chkSaveColumns.TabIndex = 0
+        Me.chkSaveColumns.Text = "Save folder columns"
+        Me.chkSaveColumns.UseVisualStyleBackColor = True
         '
         'Settings
         '
@@ -458,7 +559,8 @@ Partial Class Settings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnClose
-        Me.ClientSize = New System.Drawing.Size(435, 404)
+        Me.ClientSize = New System.Drawing.Size(435, 481)
+        Me.Controls.Add(Me.grpColumns)
         Me.Controls.Add(Me.btnShowSettingsFile)
         Me.Controls.Add(Me.btnReload)
         Me.Controls.Add(Me.btnSave)
@@ -486,6 +588,10 @@ Partial Class Settings
         Me.grpIcons.PerformLayout()
         Me.grpOther.ResumeLayout(False)
         Me.grpOther.PerformLayout()
+        Me.grpDefaultDir.ResumeLayout(False)
+        Me.grpDefaultDir.PerformLayout()
+        Me.grpColumns.ResumeLayout(False)
+        Me.grpColumns.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -527,4 +633,13 @@ Partial Class Settings
     Friend WithEvents btnSave As System.Windows.Forms.Button
     Friend WithEvents btnReload As System.Windows.Forms.Button
     Friend WithEvents btnShowSettingsFile As System.Windows.Forms.Button
+    Friend WithEvents grpColumns As System.Windows.Forms.GroupBox
+    Friend WithEvents chkSaveColumns As System.Windows.Forms.CheckBox
+    Friend WithEvents btnResetColumns As System.Windows.Forms.Button
+    Friend WithEvents cbxSizeUnits As System.Windows.Forms.ComboBox
+    Friend WithEvents lblSizeUnits As System.Windows.Forms.Label
+    Friend WithEvents chkRememberDir As System.Windows.Forms.CheckBox
+    Friend WithEvents grpDefaultDir As System.Windows.Forms.GroupBox
+    Friend WithEvents txtDefaultDir As System.Windows.Forms.TextBox
+    Friend WithEvents btnDefaultDirBrowse As System.Windows.Forms.Button
 End Class
