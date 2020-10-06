@@ -1,7 +1,9 @@
 Imports System
+Imports System.Collections.Generic
 Imports System.IO
 Imports System.Windows.Forms
 Imports System.Xml
+Imports Ookii.Dialogs
 
 Public Class Settings
     Private _settingsPath As String
@@ -61,10 +63,14 @@ Public Class Settings
     Public ReadOnly Property DisableTreeAutoUpdate As Boolean
     Public ReadOnly Property DisableUpdateCheck As Boolean
     Public ReadOnly Property WindowsShellDefaultValue As Boolean
+    Public ReadOnly Property SizeUnits As Integer
+    Public ReadOnly Property RememberDir As Boolean
+    Public ReadOnly Property DefaultDir As String = ""
     Public ReadOnly Property WindowMaximised As Boolean
     Public ReadOnly Property WindowRemember As Boolean
     Public ReadOnly Property WindowDefaultWidth As Integer?
     Public ReadOnly Property WindowDefaultHeight As Integer?
+    Public ReadOnly Property SaveColumns As Boolean
 #End Region
 
 #Region "GUI Methods"
@@ -148,6 +154,19 @@ Public Class Settings
         _WindowsShellDefaultValue = chkWindowsShellDefaultValue.Checked
         SaveSettings()
     End Sub
+    Private Sub cbxSizeUnits_SelectedIndexChanged() Handles cbxSizeUnits.SelectedIndexChanged
+        _SizeUnits = cbxSizeUnits.SelectedIndex
+        SaveSettings()
+    End Sub
+    Private Sub chkRememberDir_CheckedChanged() Handles chkRememberDir.CheckedChanged
+        _RememberDir = chkRememberDir.Checked
+        SaveSettings()
+        grpDefaultDir.Enabled = Not chkRememberDir.Checked
+    End Sub
+    Private Sub txtDefaultDir_TextChanged() Handles txtDefaultDir.TextChanged
+        _DefaultDir = txtDefaultDir.Text
+        SaveSettings()
+    End Sub
     Private Sub chkWindowMaximised_CheckedChanged() Handles chkWindowMaximised.CheckedChanged
         _WindowMaximised = chkWindowMaximised.Checked
         SaveSettings()
@@ -180,7 +199,25 @@ Public Class Settings
         End If
         SaveSettings()
     End Sub
+    Private Sub chkSaveColumns_CheckedChanged() Handles chkSaveColumns.CheckedChanged
+        _SaveColumns = chkSaveColumns.Checked
+        SaveSettings()
+    End Sub
 
+    Private Sub btnDefaultDirBrowse_Click() Handles btnDefaultDirBrowse.Click
+        Dim sdd As New VistaFolderBrowserDialog With {
+            .UseDescriptionForTitle = True,
+            .Description = "Select Default Directory",
+            .SelectedPath = txtDefaultDir.Text
+        }
+
+        If sdd.ShowDialog(Me) = DialogResult.OK Then
+            txtDefaultDir.Text = sdd.SelectedPath
+        End If
+    End Sub
+    Private Sub btnResetColumns_Click() Handles btnResetColumns.Click
+
+    End Sub
     Private Sub btnClose_Click() Handles btnClose.Click
         Me.Hide()
     End Sub
