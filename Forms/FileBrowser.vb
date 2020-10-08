@@ -158,6 +158,11 @@ Public Class FileBrowser
         For Each itemInfo In Filesystem.GetItems(_currentDir)
             lstCurrent.Items.Add(CreateItem(itemInfo))
         Next
+
+        Settings.LoadDefaultColumns()
+        If Settings.SaveColumns Then
+            ' load folder-specific columns
+        End If
     End Sub
 
     Private Sub SelectItem(name As String)
