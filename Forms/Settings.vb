@@ -1,6 +1,7 @@
 Imports System
 Imports System.Collections.Generic
 Imports System.IO
+Imports System.Linq
 Imports System.Windows.Forms
 Imports System.Xml
 Imports Ookii.Dialogs
@@ -81,6 +82,29 @@ Public Class Settings
     End Structure
 
     Public ReadOnly Property DefaultColumns As New List(Of Column)
+
+    ''' <summary>Saves current columns from <see cref="FileBrowser.lstCurrent"/> to <see cref="DefaultColumns"/></summary>
+    Public Sub SaveDefaultColumns()
+        DefaultColumns.Clear()
+
+        DefaultColumns.AddRange(FileBrowser.lstCurrent.Columns.Cast(Of ColumnHeader).
+                                    ForEach(Function(ch) New Column With {
+                                        .SaveName = DirectCast(ch.Tag, String),
+                                        .DisplayIndex = ch.DisplayIndex,
+                                        .Width = ch.Width
+                                    }))
+    End Sub
+
+    ''' <summary>Loads columns from <see cref="DefaultColumns"/> to columns in <see cref="FileBrowser.lstCurrent"/></summary>
+    Public Sub LoadDefaultColumns()
+        For Each col As Column In DefaultColumns
+            With FileBrowser.lstCurrent.Columns.Cast(Of ColumnHeader).
+                        First(Function(c) DirectCast(c.Tag, String).ToLowerInvariant() = col.SaveName.ToLowerInvariant())
+                .DisplayIndex = col.DisplayIndex
+                .Width = col.Width
+            End With
+        Next
+    End Sub
 #End Region
 
 #Region "GUI Methods"
@@ -226,7 +250,17 @@ Public Class Settings
         End If
     End Sub
     Private Sub btnResetColumns_Click() Handles btnResetColumns.Click
+        DefaultColumns.Clear()
 
+        Using fb As New FileBrowser
+            DefaultColumns.AddRange(fb.lstCurrent.Columns.Cast(Of ColumnHeader).
+                                    ForEach(Function(ch) New Column With {
+                                        .SaveName = DirectCast(ch.Tag, String),
+                                        .DisplayIndex = ch.DisplayIndex,
+                                        .Width = ch.Width
+                                    }))
+        End Using
+        SaveSettings()
     End Sub
     Private Sub btnClose_Click() Handles btnClose.Click
         Me.Hide()
