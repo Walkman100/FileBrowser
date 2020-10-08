@@ -73,6 +73,16 @@ Public Class Settings
     Public ReadOnly Property SaveColumns As Boolean
 #End Region
 
+#Region "Column Saving"
+    Public Structure Column
+        Public SaveName As String
+        Public DisplayIndex As Integer
+        Public Width As Integer
+    End Structure
+
+    Public ReadOnly Property DefaultColumns As New List(Of Column)
+#End Region
+
 #Region "GUI Methods"
     Private Sub chkShowFoldersFirst_CheckedChanged() Handles chkShowFoldersFirst.CheckedChanged
         _ShowFoldersFirst = chkShowFoldersFirst.Checked
@@ -240,95 +250,108 @@ Public Class Settings
                 End Try
 
                 If reader.IsStartElement AndAlso reader.Name = "FileBrowser" Then
-                    If reader.Read AndAlso reader.IsStartElement AndAlso reader.Name = "Settings" Then
-                        While reader.Read
-                            If reader.IsStartElement Then
-                                Select Case reader.Name
-                                    Case "ShowFoldersFirst"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkShowFoldersFirst.Checked)
-                                    Case "ShowADSSeparate"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkShowADSSeparate.Checked)
-                                    Case "ShowHidden"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkShowHidden.Checked)
-                                    Case "ShowSystem"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkShowSystem.Checked)
-                                    Case "ShowDot"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkShowDot.Checked)
-                                    Case "ShowExtensions"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkShowExtensions.Checked)
-                                    Case "OverlayShortcut"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkOverlayShortcut.Checked)
-                                    Case "OverlayReparse"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkOverlayReparse.Checked)
-                                    Case "OverlayHardlink"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkOverlayHardlink.Checked)
-                                    Case "OverlayCompressed"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkOverlayCompressed.Checked)
-                                    Case "OverlayEncrypted"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkOverlayEncrypted.Checked)
-                                    Case "OverlayOffline"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkOverlayOffline.Checked)
-                                    Case "SpecificItemIcons"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkSpecificItemIcons.Checked)
-                                    Case "ImageThumbs"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkImageThumbs.Checked)
-                                    Case "HighlightCompressed"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkHighlightCompressed.Checked)
-                                    Case "HighlightEncrypted"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkHighlightEncrypted.Checked)
-                                    Case "DisableViewAutoUpdate"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkDisableViewAutoUpdate.Checked)
-                                    Case "DisableTreeAutoUpdate"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkDisableTreeAutoUpdate.Checked)
-                                    Case "DisableUpdateCheck"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkDisableUpdateCheck.Checked)
-                                    Case "WindowsShellDefaultValue"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkWindowsShellDefaultValue.Checked)
-                                    Case "SizeUnits"
-                                        reader.Read()
-                                        Integer.TryParse(reader.Value, cbxSizeUnits.SelectedIndex)
-                                    Case "RememberDir"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkRememberDir.Checked)
-                                    Case "DefaultDir"
-                                        reader.Read()
-                                        txtDefaultDir.Text = reader.Value
-                                    Case "WindowMaximised"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkWindowMaximised.Checked)
-                                    Case "WindowRemember"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkWindowRemember.Checked)
-                                    Case "WindowDefaultWidth"
-                                        reader.Read()
-                                        txtWindowDefaultWidth.Text = reader.Value
-                                    Case "WindowDefaultHeight"
-                                        reader.Read()
-                                        txtWindowDefaultHeight.Text = reader.Value
-                                    Case "SaveColumns"
-                                        reader.Read()
-                                        Boolean.TryParse(reader.Value, chkSaveColumns.Checked)
-                                End Select
+                    If reader.Read() AndAlso reader.IsStartElement AndAlso reader.Name = "Settings" AndAlso reader.Read() Then
+                        While reader.IsStartElement
+                            Select Case reader.Name
+                                Case "ShowFoldersFirst"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkShowFoldersFirst.Checked)
+                                Case "ShowADSSeparate"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkShowADSSeparate.Checked)
+                                Case "ShowHidden"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkShowHidden.Checked)
+                                Case "ShowSystem"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkShowSystem.Checked)
+                                Case "ShowDot"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkShowDot.Checked)
+                                Case "ShowExtensions"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkShowExtensions.Checked)
+                                Case "OverlayShortcut"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkOverlayShortcut.Checked)
+                                Case "OverlayReparse"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkOverlayReparse.Checked)
+                                Case "OverlayHardlink"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkOverlayHardlink.Checked)
+                                Case "OverlayCompressed"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkOverlayCompressed.Checked)
+                                Case "OverlayEncrypted"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkOverlayEncrypted.Checked)
+                                Case "OverlayOffline"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkOverlayOffline.Checked)
+                                Case "SpecificItemIcons"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkSpecificItemIcons.Checked)
+                                Case "ImageThumbs"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkImageThumbs.Checked)
+                                Case "HighlightCompressed"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkHighlightCompressed.Checked)
+                                Case "HighlightEncrypted"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkHighlightEncrypted.Checked)
+                                Case "DisableViewAutoUpdate"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkDisableViewAutoUpdate.Checked)
+                                Case "DisableTreeAutoUpdate"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkDisableTreeAutoUpdate.Checked)
+                                Case "DisableUpdateCheck"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkDisableUpdateCheck.Checked)
+                                Case "WindowsShellDefaultValue"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkWindowsShellDefaultValue.Checked)
+                                Case "SizeUnits"
+                                    reader.Read()
+                                    Integer.TryParse(reader.Value, cbxSizeUnits.SelectedIndex)
+                                Case "RememberDir"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkRememberDir.Checked)
+                                Case "DefaultDir"
+                                    reader.Read()
+                                    txtDefaultDir.Text = reader.Value
+                                Case "WindowMaximised"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkWindowMaximised.Checked)
+                                Case "WindowRemember"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkWindowRemember.Checked)
+                                Case "WindowDefaultWidth"
+                                    reader.Read()
+                                    txtWindowDefaultWidth.Text = reader.Value
+                                Case "WindowDefaultHeight"
+                                    reader.Read()
+                                    txtWindowDefaultHeight.Text = reader.Value
+                                Case "SaveColumns"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkSaveColumns.Checked)
+                            End Select
+                            reader.Read() : reader.Read()
+                        End While
+                    End If
+
+                    If reader.Read() AndAlso reader.IsStartElement() AndAlso reader.Name = "ColumnSettings" Then
+                        DefaultColumns.Clear()
+                        While reader.IsStartElement
+                            If reader.Read() AndAlso reader.IsStartElement() Then
+                                Dim col As New Column With {
+                                    .SaveName = reader.Name
+                                }
+                                Integer.TryParse(reader("index"), col.DisplayIndex)
+                                Integer.TryParse(reader("width"), col.Width)
+                                DefaultColumns.Add(col)
                             End If
                         End While
                     End If
@@ -376,7 +399,17 @@ Public Class Settings
             writer.WriteElementString("WindowDefaultWidth", WindowDefaultWidth.ToString())
             writer.WriteElementString("WindowDefaultHeight", WindowDefaultHeight.ToString())
             writer.WriteElementString("SaveColumns", SaveColumns.ToString())
-            writer.WriteEndElement()
+            writer.WriteEndElement() ' Settings
+
+            writer.WriteStartElement("ColumnSettings")
+            For Each column As Column In DefaultColumns
+                writer.WriteStartElement(column.SaveName)
+                writer.WriteAttributeString("index", column.DisplayIndex.ToString())
+                writer.WriteAttributeString("width", column.Width.ToString())
+                writer.WriteEndElement()
+            Next
+            writer.WriteEndElement() ' ColumnSettings
+
 
             writer.WriteEndElement()
             writer.WriteEndDocument()
