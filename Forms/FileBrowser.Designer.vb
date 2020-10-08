@@ -146,86 +146,103 @@ Partial Class FileBrowser
         '
         Me.colHeadName.Text = "Name"
         Me.colHeadName.Width = 100
+        Me.colHeadName.Tag = "Name"
         '
         'colHeadExtension
         '
         Me.colHeadExtension.Text = "Extension"
         Me.colHeadExtension.Width = 59
+        Me.colHeadExtension.Tag = "Extension"
         '
         'colHeadLastModified
         '
         Me.colHeadLastModified.Text = "Last Modified"
         Me.colHeadLastModified.Width = 100
+        Me.colHeadLastModified.Tag = "LastModified"
         '
         'colHeadLastAccessed
         '
         Me.colHeadLastAccessed.Text = "Last Accessed"
         Me.colHeadLastAccessed.Width = 100
+        Me.colHeadLastAccessed.Tag = "LastAccessed"
         '
         'colHeadCreated
         '
         Me.colHeadCreated.Text = "Created"
         Me.colHeadCreated.Width = 100
+        Me.colHeadCreated.Tag = "Created"
         '
         'colHeadSize
         '
         Me.colHeadSize.Text = "Size"
         Me.colHeadSize.Width = 100
+        Me.colHeadSize.Tag = "Size"
         '
         'colHeadDiskSize
         '
         Me.colHeadDiskSize.Text = "Size on Disk"
         Me.colHeadDiskSize.Width = 100
+        Me.colHeadDiskSize.Tag = "DiskSize"
         '
         'colHeadAttributes
         '
         Me.colHeadAttributes.Text = "Attributes"
         Me.colHeadAttributes.Width = 100
+        Me.colHeadAttributes.Tag = "Attributes"
         '
         'colHeadLinkTarget
         '
         Me.colHeadLinkTarget.Text = "Link Target"
         Me.colHeadLinkTarget.Width = 100
+        Me.colHeadLinkTarget.Tag = "LinkTarget"
         '
         'colHeadSymlinkTarget
         '
         Me.colHeadSymlinkTarget.Text = "Symlink Target"
         Me.colHeadSymlinkTarget.Width = 100
+        Me.colHeadSymlinkTarget.Tag = "SymlinkTarget"
         '
         'colHeadShortcutTarget
         '
         Me.colHeadShortcutTarget.Text = "Shortcut Target"
         Me.colHeadShortcutTarget.Width = 100
+        Me.colHeadShortcutTarget.Tag = "ShortcutTarget"
         '
         'colHeadUrlTarget
         '
         Me.colHeadUrlTarget.Text = "URL Target"
         Me.colHeadUrlTarget.Width = 100
+        Me.colHeadUrlTarget.Tag = "UrlTarget"
         '
         'colHeadHardlinkCount
         '
         Me.colHeadHardlinkCount.Text = "Hardlink Count"
         Me.colHeadHardlinkCount.Width = 100
+        Me.colHeadHardlinkCount.Tag = "HardlinkCount"
         '
         'colHeadStreamCount
         '
         Me.colHeadStreamCount.Text = "Stream Count"
         Me.colHeadStreamCount.Width = 100
+        Me.colHeadStreamCount.Tag = "StreamCount"
         '
         'colHeadOpensWith
         '
         Me.colHeadOpensWith.Text = "Opens With"
         Me.colHeadOpensWith.Width = 100
+        Me.colHeadOpensWith.Tag = "OpensWith"
         '
         'colHeadDownloadURL
         '
         Me.colHeadDownloadURL.Text = "Download URL"
         Me.colHeadDownloadURL.Width = 100
+        Me.colHeadDownloadURL.Tag = "DownloadURL"
         '
         'colHeadDownloadReferrer
         '
         Me.colHeadDownloadReferrer.Text = "Download Referrer"
         Me.colHeadDownloadReferrer.Width = 120
+        Me.colHeadDownloadReferrer.Tag = "DownloadReferrer"
         '
         'scMain
         '
