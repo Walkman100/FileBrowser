@@ -472,6 +472,13 @@ Public Class FileBrowser
             lstCurrent.AutoResizeColumn(column.Index, ColumnHeaderAutoResizeStyle.HeaderSize)
         Next
     End Sub
+    Private Sub menuToolsSaveColumns_Click() Handles menuToolsSaveColumns.Click
+        Settings.SaveDefaultColumns()
+    End Sub
+    Private Sub menuToolsRestoreDefault_Click() Handles menuToolsRestoreDefault.Click
+        ' delete current folder column config
+        Settings.LoadDefaultColumns()
+    End Sub
 
     Private Sub btnGo_Click() Handles btnGo.Click
         Dim newPath As String = Environment.ExpandEnvironmentVariables(cbxURI.Text)

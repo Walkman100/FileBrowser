@@ -93,6 +93,7 @@ Public Class Settings
                                         .DisplayIndex = ch.DisplayIndex,
                                         .Width = ch.Width
                                     }))
+        SaveSettings()
     End Sub
 
     ''' <summary>Loads columns from <see cref="DefaultColumns"/> to columns in <see cref="FileBrowser.lstCurrent"/></summary>
