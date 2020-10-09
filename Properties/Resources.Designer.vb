@@ -377,6 +377,16 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
+        Friend Shared ReadOnly Property RestoreColumns() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("RestoreColumns", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
         Friend Shared ReadOnly Property Root() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Root", resourceCulture)
@@ -400,6 +410,16 @@ Namespace My.Resources
         Friend Shared ReadOnly Property RunAsAdmin() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("RunAsAdmin", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend Shared ReadOnly Property Save() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Save", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

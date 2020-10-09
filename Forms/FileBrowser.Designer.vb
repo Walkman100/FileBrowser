@@ -62,6 +62,8 @@ Partial Class FileBrowser
         Me.statusLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.toolStripURL = New System.Windows.Forms.ToolStrip()
         Me.cbxURI = New System.Windows.Forms.ToolStripComboBox()
+        Me.menuToolsSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuToolsRestoreDefault = New System.Windows.Forms.ToolStripMenuItem()
         Me.btnGo = New System.Windows.Forms.ToolStripButton()
         Me.menuFileCreateFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileCreateFolder = New System.Windows.Forms.ToolStripMenuItem()
@@ -100,6 +102,7 @@ Partial Class FileBrowser
         Me.menuToolsContextMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuToolsColumns = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuToolsResizeColumns = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuToolsSaveColumns = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.scMain, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.scMain.Panel1.SuspendLayout()
         Me.scMain.Panel2.SuspendLayout()
@@ -144,105 +147,105 @@ Partial Class FileBrowser
         '
         'colHeadName
         '
+        Me.colHeadName.Tag = "Name"
         Me.colHeadName.Text = "Name"
         Me.colHeadName.Width = 100
-        Me.colHeadName.Tag = "Name"
         '
         'colHeadExtension
         '
+        Me.colHeadExtension.Tag = "Extension"
         Me.colHeadExtension.Text = "Extension"
         Me.colHeadExtension.Width = 59
-        Me.colHeadExtension.Tag = "Extension"
         '
         'colHeadLastModified
         '
+        Me.colHeadLastModified.Tag = "LastModified"
         Me.colHeadLastModified.Text = "Last Modified"
         Me.colHeadLastModified.Width = 100
-        Me.colHeadLastModified.Tag = "LastModified"
         '
         'colHeadLastAccessed
         '
+        Me.colHeadLastAccessed.Tag = "LastAccessed"
         Me.colHeadLastAccessed.Text = "Last Accessed"
         Me.colHeadLastAccessed.Width = 100
-        Me.colHeadLastAccessed.Tag = "LastAccessed"
         '
         'colHeadCreated
         '
+        Me.colHeadCreated.Tag = "Created"
         Me.colHeadCreated.Text = "Created"
         Me.colHeadCreated.Width = 100
-        Me.colHeadCreated.Tag = "Created"
         '
         'colHeadSize
         '
+        Me.colHeadSize.Tag = "Size"
         Me.colHeadSize.Text = "Size"
         Me.colHeadSize.Width = 100
-        Me.colHeadSize.Tag = "Size"
         '
         'colHeadDiskSize
         '
+        Me.colHeadDiskSize.Tag = "DiskSize"
         Me.colHeadDiskSize.Text = "Size on Disk"
         Me.colHeadDiskSize.Width = 100
-        Me.colHeadDiskSize.Tag = "DiskSize"
         '
         'colHeadAttributes
         '
+        Me.colHeadAttributes.Tag = "Attributes"
         Me.colHeadAttributes.Text = "Attributes"
         Me.colHeadAttributes.Width = 100
-        Me.colHeadAttributes.Tag = "Attributes"
         '
         'colHeadLinkTarget
         '
+        Me.colHeadLinkTarget.Tag = "LinkTarget"
         Me.colHeadLinkTarget.Text = "Link Target"
         Me.colHeadLinkTarget.Width = 100
-        Me.colHeadLinkTarget.Tag = "LinkTarget"
         '
         'colHeadSymlinkTarget
         '
+        Me.colHeadSymlinkTarget.Tag = "SymlinkTarget"
         Me.colHeadSymlinkTarget.Text = "Symlink Target"
         Me.colHeadSymlinkTarget.Width = 100
-        Me.colHeadSymlinkTarget.Tag = "SymlinkTarget"
         '
         'colHeadShortcutTarget
         '
+        Me.colHeadShortcutTarget.Tag = "ShortcutTarget"
         Me.colHeadShortcutTarget.Text = "Shortcut Target"
         Me.colHeadShortcutTarget.Width = 100
-        Me.colHeadShortcutTarget.Tag = "ShortcutTarget"
         '
         'colHeadUrlTarget
         '
+        Me.colHeadUrlTarget.Tag = "UrlTarget"
         Me.colHeadUrlTarget.Text = "URL Target"
         Me.colHeadUrlTarget.Width = 100
-        Me.colHeadUrlTarget.Tag = "UrlTarget"
         '
         'colHeadHardlinkCount
         '
+        Me.colHeadHardlinkCount.Tag = "HardlinkCount"
         Me.colHeadHardlinkCount.Text = "Hardlink Count"
         Me.colHeadHardlinkCount.Width = 100
-        Me.colHeadHardlinkCount.Tag = "HardlinkCount"
         '
         'colHeadStreamCount
         '
+        Me.colHeadStreamCount.Tag = "StreamCount"
         Me.colHeadStreamCount.Text = "Stream Count"
         Me.colHeadStreamCount.Width = 100
-        Me.colHeadStreamCount.Tag = "StreamCount"
         '
         'colHeadOpensWith
         '
+        Me.colHeadOpensWith.Tag = "OpensWith"
         Me.colHeadOpensWith.Text = "Opens With"
         Me.colHeadOpensWith.Width = 100
-        Me.colHeadOpensWith.Tag = "OpensWith"
         '
         'colHeadDownloadURL
         '
+        Me.colHeadDownloadURL.Tag = "DownloadURL"
         Me.colHeadDownloadURL.Text = "Download URL"
         Me.colHeadDownloadURL.Width = 100
-        Me.colHeadDownloadURL.Tag = "DownloadURL"
         '
         'colHeadDownloadReferrer
         '
+        Me.colHeadDownloadReferrer.Tag = "DownloadReferrer"
         Me.colHeadDownloadReferrer.Text = "Download Referrer"
         Me.colHeadDownloadReferrer.Width = 120
-        Me.colHeadDownloadReferrer.Tag = "DownloadReferrer"
         '
         'scMain
         '
@@ -336,7 +339,7 @@ Partial Class FileBrowser
         '
         'menuTools
         '
-        Me.menuTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuToolsSettings, Me.menuToolsContextMenu, Me.menuToolsColumns, Me.menuToolsSeparator1, Me.menuToolsResizeColumns, Me.menuToolsUseShell})
+        Me.menuTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuToolsSettings, Me.menuToolsContextMenu, Me.menuToolsSeparator1, Me.menuToolsColumns, Me.menuToolsResizeColumns, Me.menuToolsSaveColumns, Me.menuToolsRestoreDefault, Me.menuToolsSeparator2, Me.menuToolsUseShell})
         Me.menuTools.Name = "menuTools"
         Me.menuTools.Size = New System.Drawing.Size(46, 20)
         Me.menuTools.Text = "&Tools"
@@ -344,13 +347,13 @@ Partial Class FileBrowser
         'menuToolsSeparator1
         '
         Me.menuToolsSeparator1.Name = "menuToolsSeparator1"
-        Me.menuToolsSeparator1.Size = New System.Drawing.Size(224, 6)
+        Me.menuToolsSeparator1.Size = New System.Drawing.Size(244, 6)
         '
         'menuToolsUseShell
         '
         Me.menuToolsUseShell.CheckOnClick = True
         Me.menuToolsUseShell.Name = "menuToolsUseShell"
-        Me.menuToolsUseShell.Size = New System.Drawing.Size(227, 22)
+        Me.menuToolsUseShell.Size = New System.Drawing.Size(247, 22)
         Me.menuToolsUseShell.Text = "Use Windows Shell"
         '
         'status
@@ -384,6 +387,18 @@ Partial Class FileBrowser
         Me.cbxURI.FlatStyle = System.Windows.Forms.FlatStyle.Standard
         Me.cbxURI.Name = "cbxURI"
         Me.cbxURI.Size = New System.Drawing.Size(800, 25)
+        '
+        'menuToolsSeparator2
+        '
+        Me.menuToolsSeparator2.Name = "menuToolsSeparator2"
+        Me.menuToolsSeparator2.Size = New System.Drawing.Size(244, 6)
+        '
+        'menuToolsRestoreDefault
+        '
+        Me.menuToolsRestoreDefault.Image = Global.My.Resources.Resources.RestoreColumns
+        Me.menuToolsRestoreDefault.Name = "menuToolsRestoreDefault"
+        Me.menuToolsRestoreDefault.Size = New System.Drawing.Size(247, 22)
+        Me.menuToolsRestoreDefault.Text = "Restore Default Columns"
         '
         'btnGo
         '
@@ -656,29 +671,36 @@ Partial Class FileBrowser
         '
         Me.menuToolsSettings.Image = Global.My.Resources.Resources.Settings
         Me.menuToolsSettings.Name = "menuToolsSettings"
-        Me.menuToolsSettings.Size = New System.Drawing.Size(227, 22)
+        Me.menuToolsSettings.Size = New System.Drawing.Size(247, 22)
         Me.menuToolsSettings.Text = "Settings"
         '
         'menuToolsContextMenu
         '
         Me.menuToolsContextMenu.Image = Global.My.Resources.Resources.ContextConfig
         Me.menuToolsContextMenu.Name = "menuToolsContextMenu"
-        Me.menuToolsContextMenu.Size = New System.Drawing.Size(227, 22)
+        Me.menuToolsContextMenu.Size = New System.Drawing.Size(247, 22)
         Me.menuToolsContextMenu.Text = "Context Menu Configuration"
         '
         'menuToolsColumns
         '
         Me.menuToolsColumns.Image = Global.My.Resources.Resources.ColumnConfig
         Me.menuToolsColumns.Name = "menuToolsColumns"
-        Me.menuToolsColumns.Size = New System.Drawing.Size(227, 22)
+        Me.menuToolsColumns.Size = New System.Drawing.Size(247, 22)
         Me.menuToolsColumns.Text = "Columns Configuration"
         '
         'menuToolsResizeColumns
         '
         Me.menuToolsResizeColumns.Image = Global.My.Resources.Resources.ResizeColumns
         Me.menuToolsResizeColumns.Name = "menuToolsResizeColumns"
-        Me.menuToolsResizeColumns.Size = New System.Drawing.Size(227, 22)
+        Me.menuToolsResizeColumns.Size = New System.Drawing.Size(247, 22)
         Me.menuToolsResizeColumns.Text = "Resize All Columns"
+        '
+        'menuToolsSaveColumns
+        '
+        Me.menuToolsSaveColumns.Image = Global.My.Resources.Resources.Save
+        Me.menuToolsSaveColumns.Name = "menuToolsSaveColumns"
+        Me.menuToolsSaveColumns.Size = New System.Drawing.Size(247, 22)
+        Me.menuToolsSaveColumns.Text = "Save Current Columns as Default"
         '
         'FileBrowser
         '
@@ -783,4 +805,7 @@ Partial Class FileBrowser
     Friend WithEvents menuFileOpenWith As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuFileRelaunch As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuFileCreateFolder As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuToolsSaveColumns As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuToolsRestoreDefault As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuToolsSeparator2 As System.Windows.Forms.ToolStripSeparator
 End Class

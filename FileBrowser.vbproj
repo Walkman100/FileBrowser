@@ -170,9 +170,11 @@
     <None Include="Properties\DefaultIcons\Refresh.png" />
     <None Include="Properties\DefaultIcons\Rename.png" />
     <None Include="Properties\DefaultIcons\ResizeColumns.png" />
+    <None Include="Properties\DefaultIcons\RestoreColumns.png" />
     <None Include="Properties\DefaultIcons\Root.png" />
     <None Include="Properties\DefaultIcons\Run.png" />
     <None Include="Properties\DefaultIcons\RunAsAdmin.png" />
+    <None Include="Properties\DefaultIcons\Save.png" />
     <None Include="Properties\DefaultIcons\SelectAll.png" />
     <None Include="Properties\DefaultIcons\SelectNone.png" />
     <None Include="Properties\DefaultIcons\Settings.png" />
