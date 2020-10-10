@@ -197,6 +197,7 @@ Public Class Settings
         _RememberDir = chkRememberDir.Checked
         SaveSettings()
         grpDefaultDir.Enabled = Not chkRememberDir.Checked
+        If RememberDir Then txtDefaultDir.Text = FileBrowser.CurrentDir
     End Sub
     Private Sub txtDefaultDir_TextChanged() Handles txtDefaultDir.TextChanged
         _DefaultDir = txtDefaultDir.Text

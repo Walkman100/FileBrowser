@@ -24,6 +24,9 @@ Public Class FileBrowser
                 cbxURI.Text = value
                 LoadFolder()
                 ShowNode(value)
+                If Settings.RememberDir Then
+                    Settings.txtDefaultDir.Text = value
+                End If
             End If
         End Set
     End Property
@@ -78,6 +81,8 @@ Public Class FileBrowser
         End If
 
         handle_SelectedItemChanged()
+
+        CurrentDir = Settings.DefaultDir
     End Sub
 
     Protected Overrides Sub WndProc(ByRef m As Message)
