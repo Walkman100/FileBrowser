@@ -155,7 +155,7 @@ Public Class FileBrowser
         Return UpdateItem(New ListViewItem(Enumerable.Repeat(String.Empty, 17).ToArray()), itemInfo)
     End Function
 
-    Private Function GetItemInfo(item As ListViewItem) As Filesystem.EntryInfo
+    Public Function GetItemInfo(item As ListViewItem) As Filesystem.EntryInfo
         Return DirectCast(item.Tag, Filesystem.EntryInfo)
     End Function
 
@@ -197,6 +197,8 @@ Public Class FileBrowser
         If Settings.SaveColumns Then
             ' load folder-specific columns
         End If
+
+        Sorting.Sort(lstCurrent.Items, Sorting.SortBy.Name, SortOrder.Ascending)
     End Sub
 
     Private Sub SelectItem(name As String)

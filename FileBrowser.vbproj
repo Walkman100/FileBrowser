@@ -82,6 +82,7 @@
     <Compile Include="General\ImageHandling.vb" />
     <Compile Include="General\Launch.vb" />
     <Compile Include="General\Operations.vb" />
+    <Compile Include="General\Sorting.vb" />
     <Compile Include="NTFS-Streams\AlternateDataStreamInfo.vb" />
     <Compile Include="NTFS-Streams\FileStreamAttributes.vb" />
     <Compile Include="NTFS-Streams\FileStreamType.vb" />
