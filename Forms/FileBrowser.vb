@@ -255,8 +255,8 @@ Public Class FileBrowser
         If Not Settings.DisableUpdateCheck Then
             If e.Error Is Nothing Then
                 If DirectCast(e.Result, Boolean) Then
-                    Select Case WalkmanLib.CustomMsgBox("An update is available!", "Go to Download page", "Disable Update Check", "Ignore",
-                                                        Microsoft.VisualBasic.MsgBoxStyle.Information, "Update Check", ownerForm:=Me)
+                    Select Case WalkmanLib.CustomMsgBox("An update is available!", "Update Check", "Go to Download page", "Disable Update Check",
+                                                        "Ignore", MessageBoxIcon.Information, ownerForm:=Me)
                         Case "Go to Download page"
                             Launch.LaunchItem("https://github.com/Walkman100/FileBrowser/releases/latest", Nothing, Nothing)
                         Case "Disable Update Check"

@@ -38,7 +38,7 @@ Public Class Operations
 
             fileProperties.MoveTo(fullTargetName)
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
+            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
@@ -77,7 +77,7 @@ Public Class Operations
             End If
         Catch ex As OperationCanceledException ' ignore user cancellation
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
+            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
@@ -117,7 +117,7 @@ Public Class Operations
             End If
         Catch ex As OperationCanceledException ' ignore user cancellation
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
+            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
@@ -163,7 +163,7 @@ Public Class Operations
                 End Try
             Next
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
+            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
@@ -186,7 +186,7 @@ Public Class Operations
 
             WalkmanLib.CreateShortcut(targetPath, sourcePath)
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
+            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
@@ -222,7 +222,7 @@ Public Class Operations
                 WalkmanLib.CreateSymLink(targetPath, sourcePath, SymbolicLinkType.Directory)
             End If
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
+            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
@@ -251,7 +251,7 @@ Public Class Operations
 
             WalkmanLib.CreateHardLink(targetPath, sourcePath)
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MsgBoxStyle.Exclamation, cMBTitle, ownerForm:=FileBrowser)
+            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
