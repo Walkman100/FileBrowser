@@ -1,4 +1,5 @@
 Imports System
+Imports System.Collections.Generic
 Imports System.ComponentModel
 Imports System.Diagnostics
 Imports System.Drawing
@@ -82,8 +83,36 @@ Public Class FileBrowser
 
         handle_SelectedItemChanged()
 
-        CurrentDir = Settings.DefaultDir
+        Dim resultInfo As WalkmanLib.ResultInfo = WalkmanLib.ProcessArgs(Environment.GetCommandLineArgs.Skip(1).ToArray(), flagDict, True)
+        If resultInfo.gotError Then
+            MessageBox.Show(resultInfo.errorInfo, "Error processing args", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End If
+        If resultInfo.extraParams.Count > 0 Then
+            CurrentDir = resultInfo.extraParams.Item(0)
+        ElseIf CurrentDir = "" Then ' check if ShowFile has been called
+            CurrentDir = Settings.DefaultDir
+        End If
     End Sub
+
+    Private flagDict As New Dictionary(Of String, WalkmanLib.FlagInfo) From {
+        {"select", New WalkmanLib.FlagInfo With {
+            .shortFlag = "s"c,
+            .hasArgs = True,
+            .action = Function(file)
+                          ShowFile(file)
+                          Return True
+                      End Function
+            }
+        },
+        {"show", New WalkmanLib.FlagInfo With {
+            .hasArgs = True,
+            .action = Function(file)
+                          ShowFile(file)
+                          Return True
+                      End Function
+            }
+        }
+    }
 
     Protected Overrides Sub WndProc(ByRef m As Message)
         winCtxMenu.HandleWindowMessage(m)

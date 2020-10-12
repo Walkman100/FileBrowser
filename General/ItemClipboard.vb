@@ -53,7 +53,7 @@ Public Class ItemClipboard
                     End If
                     Operations.CreateSymlink(item.Key, target2)
                 Case PasteType.Shortcut
-                    Operations.CreateShortcut(item.Key, target2)
+                    Operations.CreateShortcut(item.Key, target2 & ".lnk")
                 Case PasteType.Junction
                     ' allow overwriting directory junctions if pasting as a junction and source is a folder
                     If Directory.Exists(target) AndAlso File.GetAttributes(target).HasFlag(FileAttributes.ReparsePoint) AndAlso Directory.Exists(item.Key) Then
