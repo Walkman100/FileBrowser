@@ -293,8 +293,7 @@ Public Class FileBrowser
                     End Select
                 End If
             Else
-                Microsoft.VisualBasic.MsgBox("Update check failed!" & Environment.NewLine & e.Error.Message,
-                                             Microsoft.VisualBasic.MsgBoxStyle.Exclamation, "Update Check")
+                MessageBox.Show("Update check failed!" & Environment.NewLine & e.Error.Message, "Update Check", 0, MessageBoxIcon.Exclamation)
             End If
         End If
     End Sub

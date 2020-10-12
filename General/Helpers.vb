@@ -223,20 +223,9 @@ Namespace Helpers
             Dim mult As Integer = If(binary, 1024, 1000)
 
             If magnitude = 10 Then
-                Select Case size
-                    Case Is > mult ^ 5
-                        magnitude = 5
-                    Case Is > mult ^ 4
-                        magnitude = 4
-                    Case Is > mult ^ 3
-                        magnitude = 3
-                    Case Is > mult ^ 2
-                        magnitude = 2
-                    Case Is > mult
-                        magnitude = 1
-                    Case Else
-                        magnitude = 0
-                End Select
+                For magnitude = 5 To 0 Step -1
+                    If size > mult ^ magnitude Then Exit For
+                Next
             End If
 
             size /= mult ^ magnitude
