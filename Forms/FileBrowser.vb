@@ -308,6 +308,11 @@ Public Class FileBrowser
         LoadNode(e.Node)
         If e.Node.Nodes.Count = 0 Then e.Cancel = True
     End Sub
+    Private Sub treeViewDirs_BeforeLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles treeViewDirs.BeforeLabelEdit
+        If e.Node.Parent Is Nothing Then
+            e.CancelEdit = True
+        End If
+    End Sub
     Private Sub treeViewDirs_AfterLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles treeViewDirs.AfterLabelEdit
         If Not String.IsNullOrEmpty(e.Label) Then Operations.Rename(e.Node.FixedFullPath, e.Label)
     End Sub
@@ -321,11 +326,6 @@ Public Class FileBrowser
             For Each itemInfo As Filesystem.EntryInfo In lstCurrent.SelectedItems.Cast(Of ListViewItem).Select(AddressOf GetItemInfo)
                 Launch.LaunchItem(itemInfo.FullName, Nothing, Nothing)
             Next
-        End If
-    End Sub
-    Private Sub treeViewDirs_BeforeLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles treeViewDirs.BeforeLabelEdit
-        If e.Node.Parent Is Nothing Then
-            e.CancelEdit = True
         End If
     End Sub
     Private Sub lstCurrent_AfterLabelEdit(sender As Object, e As LabelEditEventArgs) Handles lstCurrent.AfterLabelEdit

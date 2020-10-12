@@ -1,5 +1,4 @@
 Imports System
-Imports System.Collections.Generic
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Windows.Forms
@@ -34,13 +33,5 @@ Module Extensions
     <Extension()>
     Public Function FixedFullPath(node As TreeNode) As String
         Return node.FullPath.Replace(Path.DirectorySeparatorChar & Path.DirectorySeparatorChar, Path.DirectorySeparatorChar)
-    End Function
-
-    ''' <summary>Uses the supplied <paramref name="action"/> to convert each element in <paramref name="enumeration"/> to <typeparamref name="TResult"/>.</summary>
-    <Extension()>
-    Public Iterator Function ForEach(Of T, TResult)(enumeration As IEnumerable(Of T), action As Func(Of T, TResult)) As IEnumerable(Of TResult)
-        For Each item As T In enumeration
-            Yield action(item)
-        Next
     End Function
 End Module

@@ -88,7 +88,7 @@ Public Class Settings
         DefaultColumns.Clear()
 
         DefaultColumns.AddRange(FileBrowser.lstCurrent.Columns.Cast(Of ColumnHeader).
-                                    ForEach(Function(ch) New Column With {
+                                    Select(Function(ch) New Column With {
                                         .SaveName = DirectCast(ch.Tag, String),
                                         .DisplayIndex = ch.DisplayIndex,
                                         .Width = ch.Width
@@ -256,7 +256,7 @@ Public Class Settings
 
         Using fb As New FileBrowser
             DefaultColumns.AddRange(fb.lstCurrent.Columns.Cast(Of ColumnHeader).
-                                    ForEach(Function(ch) New Column With {
+                                    Select(Function(ch) New Column With {
                                         .SaveName = DirectCast(ch.Tag, String),
                                         .DisplayIndex = ch.DisplayIndex,
                                         .Width = ch.Width
