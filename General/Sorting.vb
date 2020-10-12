@@ -48,7 +48,7 @@ Public Class Sorting
             itemInfos = itemInfos.ThenByDescending(Function(x) keySelector(x, SortBy.Name))
         End If
 
-        Dim itemArr As ListViewItem() = itemInfos.ToArray
+        Dim itemArr As ListViewItem() = itemInfos.ToArray()
 
         items.Clear()
         items.AddRange(itemArr)

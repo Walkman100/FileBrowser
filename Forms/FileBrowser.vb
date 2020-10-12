@@ -198,7 +198,8 @@ Public Class FileBrowser
             ' load folder-specific columns
         End If
 
-        Sorting.Sort(lstCurrent.Items, Sorting.SortBy.Name, SortOrder.Ascending)
+        lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(Sorting.SortBy.Name, SortOrder.Ascending)
+        Sorting.Sort(lstCurrent.Items, lastSort.Key, lastSort.Value)
     End Sub
 
     Private Sub SelectItem(name As String)
@@ -333,8 +334,17 @@ Public Class FileBrowser
     Private Sub lstCurrent_AfterLabelEdit(sender As Object, e As LabelEditEventArgs) Handles lstCurrent.AfterLabelEdit
         If Not String.IsNullOrEmpty(e.Label) Then Operations.Rename(GetItemInfo(lstCurrent.Items.Item(e.Item)).FullName, e.Label)
     End Sub
+    Private lastSort As KeyValuePair(Of Sorting.SortBy, SortOrder)
     Private Sub lstCurrent_ColumnClick(sender As Object, e As ColumnClickEventArgs) Handles lstCurrent.ColumnClick
+        Dim sortBy As Sorting.SortBy = DirectCast(e.Column, Sorting.SortBy)
 
+        If sortBy = lastSort.Key Then
+            lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(sortBy,
+                If(lastSort.Value = SortOrder.Ascending, SortOrder.Descending, SortOrder.Ascending))
+        Else
+            lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(sortBy, SortOrder.Ascending)
+        End If
+        Sorting.Sort(lstCurrent.Items, lastSort.Key, lastSort.Value)
     End Sub
 #End Region
 
