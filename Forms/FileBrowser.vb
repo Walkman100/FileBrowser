@@ -98,8 +98,8 @@ Public Class FileBrowser
         item.SubItems.Item(2).Text = itemInfo.LastWriteTime.ToString()
         item.SubItems.Item(3).Text = itemInfo.LastAccessTime.ToString()
         item.SubItems.Item(4).Text = itemInfo.CreationTime.ToString()
-        item.SubItems.Item(5).Text = itemInfo.Size.ToString()
-        item.SubItems.Item(6).Text = itemInfo.SizeOnDisk.ToString()
+        item.SubItems.Item(5).Text = Helpers.ConvSize(itemInfo.Size)
+        item.SubItems.Item(6).Text = Helpers.ConvSize(itemInfo.SizeOnDisk)
         item.SubItems.Item(7).Text = itemInfo.Attributes.ToString()
         item.SubItems.Item(8).Text = itemInfo.AllTarget
         item.SubItems.Item(9).Text = itemInfo.SymlinkTarget
