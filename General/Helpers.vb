@@ -94,18 +94,34 @@ Namespace Helpers
             End If
 
             target = Path.Combine(If(rootPath, ""), target)
-            If Clipboard.ContainsImage AndAlso Microsoft.VisualBasic.MsgBox("Image detected in clipboard! Use it as file contents?",
-                                                                            Microsoft.VisualBasic.MsgBoxStyle.YesNo) = Microsoft.VisualBasic.MsgBoxResult.Yes Then
+            If Clipboard.ContainsImage AndAlso MessageBox.Show("Image detected in clipboard! Use it as file contents?",
+                                                               Application.ProductName, MessageBoxButtons.YesNo) = DialogResult.Yes Then
                 Clipboard.GetImage.Save(target)
                 Return target
             End If
 
-            Using f As StreamWriter = File.CreateText(target)
-                Dim text As String = Clipboard.GetText()
-                If Operations.GetInput(text, "File Contents", "Enter file contents:") = DialogResult.OK Then
-                    f.Write(text)
-                End If
-            End Using
+            Try
+                Using f As StreamWriter = File.CreateText(target)
+                    Dim text As String = Clipboard.GetText()
+                    If Operations.GetInput(text, "File Contents", "Enter file contents:") = DialogResult.OK Then
+                        f.Write(text)
+                    End If
+                End Using
+            Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
+                Select Case WalkmanLib.CustomMsgBox(ex.Message, Operations.cMBTitle, Operations.cMBbRelaunch, Operations.cMBbRunSysTool, Operations.cMBbCancel,
+                                                    MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
+                    Case Operations.cMBbRelaunch
+                        FileBrowser.RestartAsAdmin()
+                    Case Operations.cMBbRunSysTool
+                        WalkmanLib.RunAsAdmin("fsutil", "file createnew """ & target & """ 0")
+                        Threading.Thread.Sleep(1000)
+                    Case Operations.cMBbCancel
+                        Return Nothing
+                End Select
+            Catch ex As Exception
+                FileBrowser.ErrorParser(ex)
+            End Try
+
             Return target
         End Function
 
@@ -122,7 +138,24 @@ Namespace Helpers
             End If
 
             target = Path.Combine(If(rootPath, ""), target)
-            target = Directory.CreateDirectory(target).FullName
+
+            Try
+                target = Directory.CreateDirectory(target).FullName
+            Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
+                Select Case WalkmanLib.CustomMsgBox(ex.Message, Operations.cMBTitle, Operations.cMBbRelaunch, Operations.cMBbRunSysTool, Operations.cMBbCancel,
+                                                    MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
+                    Case Operations.cMBbRelaunch
+                        FileBrowser.RestartAsAdmin()
+                    Case Operations.cMBbRunSysTool
+                        WalkmanLib.RunAsAdmin("cmd", "/c mkdir """ & target & """ & pause")
+                        Threading.Thread.Sleep(1000)
+                    Case Operations.cMBbCancel
+                        Return Nothing
+                End Select
+            Catch ex As Exception
+                FileBrowser.ErrorParser(ex)
+            End Try
+
             Return target
         End Function
 
