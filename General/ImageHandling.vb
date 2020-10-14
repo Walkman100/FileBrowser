@@ -29,11 +29,12 @@ Namespace ImageHandling
 
         Public Function GetImageList(items As ListView.ListViewItemCollection, size As Integer, Optional setItemIndexes As Boolean = False) As ImageList
             Dim il As New ImageList With {
-                .ImageSize = New Size(size, size)
+                .ImageSize = New Size(size, size),
+                .ColorDepth = ColorDepth.Depth32Bit
             }
             Dim folderIcon As Image = Nothing
             If Helpers.GetOS() = OS.Windows Then
-                folderIcon = GetIcon("%SystemRoot%\System32\imageres.dll,3", 64).ToBitmap()
+                folderIcon = GetIcon("%SystemRoot%\System32\imageres.dll,3", size).ToBitmap()
             End If
 
             For i = 0 To items.Count - 1
