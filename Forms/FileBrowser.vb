@@ -244,7 +244,7 @@ Public Class FileBrowser
                     foundNodes = parent?.Nodes.Find(folder, False)
                 End If
 
-                If foundNodes?.Length = 0 Then
+                If foundNodes Is Nothing OrElse foundNodes?.Length = 0 Then
                     Exit For
                 End If
 
@@ -631,9 +631,8 @@ Public Class FileBrowser
 
     Public Sub ErrorParser(ex As Exception)
         If TypeOf ex Is UnauthorizedAccessException AndAlso Not WalkmanLib.IsAdmin() Then
-            If Microsoft.VisualBasic.MsgBox(ex.Message & Environment.NewLine & Environment.NewLine & "Restart as Admin?",
-                                            Microsoft.VisualBasic.MsgBoxStyle.YesNo Or Microsoft.VisualBasic.MsgBoxStyle.Exclamation,
-                                            "Access Denied") = Microsoft.VisualBasic.MsgBoxResult.Yes Then
+            If MessageBox.Show(ex.Message & Environment.NewLine & Environment.NewLine & "Restart as Admin?",
+                               "Access Denied", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                 RestartAsAdmin()
             End If
         Else
