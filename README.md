@@ -10,7 +10,7 @@ Get the latest version [here](https://github.com/Walkman100/FileBrowser/releases
 See [CompileInstructions.md](https://github.com/Walkman100/gists/blob/master/CompileInstructions.md)
 
 ## Roadmap
-See #1
+See [#1](https://github.com/Walkman100/FileBrowser/issues/1)
 
 ## Info
 
@@ -35,7 +35,7 @@ See #1
 - Filters are applied with the VB [`Like`](https://docs.microsoft.com/en-us/dotnet/visual-basic/language-reference/operators/like-operator#pattern-options) keyword. This accepts most regex, e.g. `*.jpg;*.png;*.png`
 
 ### `Shift` alternative functions
-- Create File & Create Folder: Hold <kbd>Shift</kbd> to use a SaveFileDialog to enter the file/folder name instead of an InputBox
+- Create File & Create Folder: Hold <kbd>Shift</kbd> to use a SaveFileDialog to enter the new file/folder path instead of an InputBox
 - Copy Path (toolbar item only): Hold <kbd>Shift</kbd> to copy path with surrounding double-quotes (`"`)
 - Send to Recycle bin: Hold <kbd>Shift</kbd> to delete permanently
 - Delete Permanently: Hold <kbd>Shift</kbd> to send to recycle bin
