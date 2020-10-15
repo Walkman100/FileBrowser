@@ -78,7 +78,7 @@ Namespace ImageHandling
                 File.Move(tempFile, Path.ChangeExtension(tempFile, item.Extension))
                 tempFile = Path.ChangeExtension(tempFile, item.Extension)
 
-                Dim img As Image = Icon.ExtractAssociatedIcon(tempFile).ToBitmap()
+                Dim img As Image = BetterExtractAssociatedIcon(tempFile, size)
                 File.Delete(tempFile)
                 Return img
             Else
@@ -94,21 +94,36 @@ Namespace ImageHandling
                     Catch : End Try
                 End If
 
-                Return Icon.ExtractAssociatedIcon(item.FullName).ToBitmap()
+                Return BetterExtractAssociatedIcon(item.FullName, size)
             End If
+        End Function
+
+        Private Function BetterExtractAssociatedIcon(filename As String, size As Integer) As Image
+            Dim ico As Icon = Icon.ExtractAssociatedIcon(filename)
+            ' Icon.ExtractAssociatedIcon always returns 32x32 image
+            If size = 32 Then Return ico.ToBitmap()
+
+            Using bitmap As New Bitmap(ico.ToBitmap())
+                Dim image As New Bitmap(size, size)
+                Using gr As Graphics = Graphics.FromImage(image)
+                    gr.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
+                    gr.DrawImage(bitmap, New Rectangle(0, 0, size, size), New Rectangle(0, 0, bitmap.Width, bitmap.Height), GraphicsUnit.Pixel)
+                End Using
+                Return image
+            End Using
         End Function
     End Module
 
     Module Overlays
         Public Function AddOverlay(image As Image, overlay As Bitmap, Optional resize As Boolean = False) As Image
-            Dim gr As Graphics = Graphics.FromImage(image)
-
-            If resize Then
-                overlay = New Bitmap(overlay, 8, 8)
-                gr.DrawImage(overlay, 8, 8, overlay.Width, overlay.Height)
-            Else
-                gr.DrawImage(overlay, 0, 0, overlay.Width, overlay.Height)
-            End If
+            Using gr As Graphics = Graphics.FromImage(image)
+                If resize Then
+                    overlay = New Bitmap(overlay, 8, 8)
+                    gr.DrawImage(overlay, 8, 8, overlay.Width, overlay.Height)
+                Else
+                    gr.DrawImage(overlay, 0, 0, overlay.Width, overlay.Height)
+                End If
+            End Using
 
             Return image
         End Function
