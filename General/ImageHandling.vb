@@ -99,11 +99,12 @@ Namespace ImageHandling
         End Function
 
         Private Function BetterExtractAssociatedIcon(filename As String, size As Integer) As Image
-            Dim ico As Icon = Icon.ExtractAssociatedIcon(filename)
             ' Icon.ExtractAssociatedIcon always returns 32x32 image
-            If size = 32 Then Return ico.ToBitmap()
+            If size = 32 Then Return Icon.ExtractAssociatedIcon(filename).ToBitmap()
+            ' GetFileIcon with smallIcon = True returns 16x16 image
+            If size = 16 Then Return WalkmanLib.GetFileIcon(filename).ToBitmap()
 
-            Using bitmap As New Bitmap(ico.ToBitmap())
+            Using bitmap As Bitmap = Icon.ExtractAssociatedIcon(filename).ToBitmap()
                 Dim image As New Bitmap(size, size)
                 Using gr As Graphics = Graphics.FromImage(image)
                     gr.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
