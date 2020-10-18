@@ -52,66 +52,61 @@ Namespace ImageHandling
         End Function
 
         Private Function GetFolderImage(item As Filesystem.EntryInfo, size As Integer, defaultIcon As Image) As Image
-            If Not Settings.SpecificItemIcons Then
-                Return defaultIcon
-            Else
-                Dim folderIconPath As String = WalkmanLib.GetFolderIconPath(item.FullName)
-                If folderIconPath = "no icon found" Then
-                    Return defaultIcon
-                Else
-                    Try
-                        Return Image.FromFile(folderIconPath)
-                    Catch : End Try
+            If Not Settings.SpecificItemIcons Then Return defaultIcon
 
-                    Try
-                        Return GetIcon(folderIconPath, size).ToBitmap()
-                    Catch
-                        Return New PictureBox().ErrorImage
-                    End Try
-                End If
-            End If
+            Dim folderIconPath As String = WalkmanLib.GetFolderIconPath(item.FullName)
+            If folderIconPath = "no icon found" Then Return defaultIcon
+
+            Try
+                Return Image.FromFile(folderIconPath)
+            Catch : End Try
+
+            Try
+                Return GetIcon(folderIconPath, size).ToBitmap()
+            Catch
+                Return New PictureBox().ErrorImage
+            End Try
         End Function
 
         Private Function GetFileImage(item As Filesystem.EntryInfo, size As Integer) As Image
             If Not Settings.SpecificItemIcons Then
-                Dim tempFile As String = Path.GetTempFileName()
-                File.Move(tempFile, Path.ChangeExtension(tempFile, item.Extension))
-                tempFile = Path.ChangeExtension(tempFile, item.Extension)
+                If size = 16 OrElse size = 32 Then
+                    Return WalkmanLib.GetFileIcon(item.Extension, False, size = 16).ToBitmap()
+                Else
+                    Dim img As Image = WalkmanLib.GetFileIcon(item.Extension, False, size < 16).ToBitmap()
+                    Return ResizeImage(img, size)
+                End If
+            End If
 
-                Dim img As Image = BetterExtractAssociatedIcon(tempFile, size)
-                File.Delete(tempFile)
-                Return img
-            Else
-                If Settings.ImageThumbs Then
-                    If item.Size < 200000000 Then ' don't try load image if filesize is above 200MB
-                        Try
-                            Return Image.FromFile(item.FullName)
-                        Catch : End Try
-                    End If
-
+            If Settings.ImageThumbs Then
+                If item.Size < 200000000 Then ' don't try load image if filesize is above 200MB
                     Try
-                        Return GetIcon(item.FullName, size).ToBitmap()
+                        Return Image.FromFile(item.FullName)
                     Catch : End Try
                 End If
 
-                Return BetterExtractAssociatedIcon(item.FullName, size)
+                Try
+                    Return GetIcon(item.FullName, size).ToBitmap()
+                Catch : End Try
+            End If
+
+            If size = 16 Then
+                Return WalkmanLib.GetFileIcon(item.FullName).ToBitmap()
+            ElseIf size = 32 Then
+                Return Icon.ExtractAssociatedIcon(item.FullName).ToBitmap()
+            Else
+                Dim img As Image = Icon.ExtractAssociatedIcon(item.FullName).ToBitmap()
+                Return ResizeImage(img, size)
             End If
         End Function
 
-        Private Function BetterExtractAssociatedIcon(filename As String, size As Integer) As Image
-            ' Icon.ExtractAssociatedIcon always returns 32x32 image
-            If size = 32 Then Return Icon.ExtractAssociatedIcon(filename).ToBitmap()
-            ' GetFileIcon with smallIcon = True returns 16x16 image
-            If size = 16 Then Return WalkmanLib.GetFileIcon(filename).ToBitmap()
-
-            Using bitmap As Bitmap = Icon.ExtractAssociatedIcon(filename).ToBitmap()
-                Dim image As New Bitmap(size, size)
-                Using gr As Graphics = Graphics.FromImage(image)
-                    gr.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
-                    gr.DrawImage(bitmap, New Rectangle(0, 0, size, size), New Rectangle(0, 0, bitmap.Width, bitmap.Height), GraphicsUnit.Pixel)
-                End Using
-                Return image
+        Private Function ResizeImage(img As Image, newSize As Integer) As Image
+            Dim rtnImg As New Bitmap(newSize, newSize)
+            Using gr As Graphics = Graphics.FromImage(rtnImg)
+                gr.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
+                gr.DrawImage(img, New Rectangle(0, 0, newSize, newSize), New Rectangle(0, 0, img.Width, img.Height), GraphicsUnit.Pixel)
             End Using
+            Return rtnImg
         End Function
     End Module
 
