@@ -57,6 +57,7 @@ Public Class FileBrowser
         End If
 
         lstCurrent.DoubleBuffered(True)
+        treeViewDirs.DoubleBuffered(True)
         treeViewDirs.PathSeparator = Path.DirectorySeparatorChar
 
         treeViewDirs.Nodes.Clear()

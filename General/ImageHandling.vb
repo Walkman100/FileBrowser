@@ -113,6 +113,7 @@ Namespace ImageHandling
     Module Overlays
         Public Function AddOverlay(image As Image, overlay As Bitmap, Optional resize As Boolean = False) As Image
             Using gr As Graphics = Graphics.FromImage(image)
+                gr.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
                 If resize Then
                     overlay = New Bitmap(overlay, 8, 8)
                     gr.DrawImage(overlay, 8, 8, overlay.Width, overlay.Height)

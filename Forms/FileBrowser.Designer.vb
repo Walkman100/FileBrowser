@@ -398,7 +398,7 @@ Partial Class FileBrowser
         Me.menuToolsRestoreDefault.Image = Global.My.Resources.Resources.RestoreColumns
         Me.menuToolsRestoreDefault.Name = "menuToolsRestoreDefault"
         Me.menuToolsRestoreDefault.Size = New System.Drawing.Size(247, 22)
-        Me.menuToolsRestoreDefault.Text = "Restore Default Columns"
+        Me.menuToolsRestoreDefault.Text = "Restore Saved Columns"
         '
         'btnGo
         '
