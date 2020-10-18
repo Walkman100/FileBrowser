@@ -42,13 +42,39 @@ Namespace ImageHandling
                 Dim itemInfo As Filesystem.EntryInfo = FileBrowser.GetItemInfo(items(i))
 
                 If itemInfo.Attributes.HasFlag(FileAttributes.Directory) Then
-                    il.Images.Add(GetFolderImage(itemInfo, size, folderIcon))
+                    il.Images.Add(AddOverlays(itemInfo, GetFolderImage(itemInfo, size, folderIcon.Clone2())))
                 Else
-                    il.Images.Add(GetFileImage(itemInfo, size))
+                    il.Images.Add(AddOverlays(itemInfo, GetFileImage(itemInfo, size)))
                 End If
             Next
 
             Return il
+        End Function
+
+        Private Function AddOverlays(itemInfo As Filesystem.EntryInfo, image As Image) As Image
+            ' shortcut overlay is automatically applied by WalkmanLib.GetFileIcon / Icon.ExtractAssociatedIcon
+
+            If Settings.OverlayCompressed AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Compressed) Then
+                image = AddOverlay(image, My.Resources.Resources.Compress, True)
+            End If
+
+            If Settings.OverlayEncrypted AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Encrypted) Then
+                image = AddOverlay(image, My.Resources.Resources.Encrypt, True)
+            End If
+
+            If Settings.OverlayReparse AndAlso itemInfo.Attributes.HasFlag(FileAttributes.ReparsePoint) Then
+                Return AddOverlay(image, My.Resources.Resources.OverlaySymlink)
+            End If
+
+            If Settings.OverlayHardlink AndAlso itemInfo.HardlinkCount > 1 Then
+                Return AddOverlay(image, My.Resources.Resources.OverlayHardlink)
+            End If
+
+            If Settings.OverlayOffline AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Offline) Then
+                Return AddOverlay(image, My.Resources.Resources.OverlayOffline)
+            End If
+
+            Return image
         End Function
 
         Private Function GetFolderImage(item As Filesystem.EntryInfo, size As Integer, defaultIcon As Image) As Image
@@ -58,13 +84,13 @@ Namespace ImageHandling
             If folderIconPath = "no icon found" Then Return defaultIcon
 
             Try
-                Return Image.FromFile(folderIconPath)
+                Return ResizeImage(Image.FromFile(folderIconPath), size)
             Catch : End Try
 
             Try
                 Return GetIcon(folderIconPath, size).ToBitmap()
             Catch
-                Return New PictureBox().ErrorImage
+                Return ResizeImage(New PictureBox().ErrorImage, size)
             End Try
         End Function
 
@@ -81,7 +107,7 @@ Namespace ImageHandling
             If Settings.ImageThumbs Then
                 If item.Size < 200000000 Then ' don't try load image if filesize is above 200MB
                     Try
-                        Return Image.FromFile(item.FullName)
+                        Return ResizeImage(Image.FromFile(item.FullName), size)
                     Catch : End Try
                 End If
 

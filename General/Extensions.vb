@@ -1,4 +1,5 @@
 Imports System
+Imports System.Drawing
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Windows.Forms
@@ -33,5 +34,10 @@ Module Extensions
     <Extension()>
     Public Function FixedFullPath(node As TreeNode) As String
         Return node.FullPath.Replace(Path.DirectorySeparatorChar & Path.DirectorySeparatorChar, Path.DirectorySeparatorChar)
+    End Function
+
+    <Extension()>
+    Public Function Clone2(img As Image) As Image
+        Return CType(img.Clone(), Image)
     End Function
 End Module
