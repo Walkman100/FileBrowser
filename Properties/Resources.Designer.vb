@@ -107,6 +107,16 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
+        Friend Shared ReadOnly Property Compress() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Compress", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
         Friend Shared ReadOnly Property ContextConfig() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("ContextConfig", resourceCulture)
@@ -160,6 +170,16 @@ Namespace My.Resources
         Friend Shared ReadOnly Property Delete() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Delete", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend Shared ReadOnly Property Encrypt() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Encrypt", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -260,6 +280,36 @@ Namespace My.Resources
         Friend Shared ReadOnly Property OpenWith() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("OpenWith", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend Shared ReadOnly Property OverlayHardlink() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("OverlayHardlink", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend Shared ReadOnly Property OverlayOffline() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("OverlayOffline", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend Shared ReadOnly Property OverlaySymlink() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("OverlaySymlink", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

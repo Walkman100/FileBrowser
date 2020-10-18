@@ -144,12 +144,14 @@
     <None Include="Properties\DefaultIcons\Back.png" />
     <None Include="Properties\DefaultIcons\Cancel.png" />
     <None Include="Properties\DefaultIcons\ColumnConfig.png" />
+    <None Include="Properties\DefaultIcons\Compress.png" />
     <None Include="Properties\DefaultIcons\ContextConfig.png" />
     <None Include="Properties\DefaultIcons\Copy.png" />
     <None Include="Properties\DefaultIcons\CopyPath.png" />
     <None Include="Properties\DefaultIcons\CopyTo.png" />
     <None Include="Properties\DefaultIcons\Cut.png" />
     <None Include="Properties\DefaultIcons\Delete.png" />
+    <None Include="Properties\DefaultIcons\Encrypt.png" />
     <None Include="Properties\DefaultIcons\Execute.png" />
     <None Include="Properties\DefaultIcons\Forward.png" />
     <None Include="Properties\DefaultIcons\Go.png" />
@@ -160,6 +162,9 @@
     <None Include="Properties\DefaultIcons\NewFolder.png" />
     <None Include="Properties\DefaultIcons\OpenLocation.png" />
     <None Include="Properties\DefaultIcons\OpenWith.png" />
+    <None Include="Properties\DefaultIcons\OverlayHardlink.png" />
+    <None Include="Properties\DefaultIcons\OverlayOffline.png" />
+    <None Include="Properties\DefaultIcons\OverlaySymlink.png" />
     <None Include="Properties\DefaultIcons\Paste.png" />
     <None Include="Properties\DefaultIcons\PasteHardlink.png" />
     <None Include="Properties\DefaultIcons\PasteJunction.png" />
