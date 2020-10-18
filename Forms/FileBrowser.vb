@@ -198,7 +198,12 @@ Public Class FileBrowser
             ' load folder-specific columns
         End If
 
-        lstCurrent.SmallImageList = ImageHandling.GetImageList(lstCurrent.Items, 16, True)
+        If Settings.EnableIcons Then
+            lstCurrent.SmallImageList = ImageHandling.GetImageList(lstCurrent.Items, 16, True)
+        Else
+            lstCurrent.SmallImageList = Nothing
+            lstCurrent.LargeImageList = Nothing
+        End If
 
         lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(Sorting.SortBy.Name, SortOrder.Ascending)
         Sorting.Sort(lstCurrent.Items, lastSort.Key, lastSort.Value)

@@ -68,6 +68,7 @@ Partial Class Settings
         Me.grpColumns = New System.Windows.Forms.GroupBox()
         Me.btnResetColumns = New System.Windows.Forms.Button()
         Me.chkSaveColumns = New System.Windows.Forms.CheckBox()
+        Me.chkEnableIcons = New System.Windows.Forms.CheckBox()
         Me.grpWindowDefault.SuspendLayout()
         Me.grpItemVisibility.SuspendLayout()
         Me.grpWindow.SuspendLayout()
@@ -372,7 +373,7 @@ Partial Class Settings
         Me.grpWindow.Location = New System.Drawing.Point(274, 242)
         Me.grpWindow.Name = "grpWindow"
         Me.grpWindow.Size = New System.Drawing.Size(149, 121)
-        Me.grpWindow.TabIndex = 6
+        Me.grpWindow.TabIndex = 7
         Me.grpWindow.TabStop = False
         Me.grpWindow.Text = "Window Settings"
         '
@@ -398,7 +399,7 @@ Partial Class Settings
         Me.grpHighlighting.Location = New System.Drawing.Point(274, 173)
         Me.grpHighlighting.Name = "grpHighlighting"
         Me.grpHighlighting.Size = New System.Drawing.Size(149, 63)
-        Me.grpHighlighting.TabIndex = 4
+        Me.grpHighlighting.TabIndex = 5
         Me.grpHighlighting.TabStop = False
         Me.grpHighlighting.Text = "Item Highlighting"
         '
@@ -409,9 +410,8 @@ Partial Class Settings
         Me.grpIcons.Location = New System.Drawing.Point(12, 173)
         Me.grpIcons.Name = "grpIcons"
         Me.grpIcons.Size = New System.Drawing.Size(256, 63)
-        Me.grpIcons.TabIndex = 3
+        Me.grpIcons.TabIndex = 4
         Me.grpIcons.TabStop = False
-        Me.grpIcons.Text = "Item Icons"
         '
         'grpOther
         '
@@ -426,7 +426,7 @@ Partial Class Settings
         Me.grpOther.Location = New System.Drawing.Point(12, 242)
         Me.grpOther.Name = "grpOther"
         Me.grpOther.Size = New System.Drawing.Size(256, 198)
-        Me.grpOther.TabIndex = 5
+        Me.grpOther.TabIndex = 6
         Me.grpOther.TabStop = False
         Me.grpOther.Text = "Other"
         '
@@ -492,7 +492,7 @@ Partial Class Settings
         Me.btnClose.Location = New System.Drawing.Point(36, 446)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 23)
-        Me.btnClose.TabIndex = 8
+        Me.btnClose.TabIndex = 9
         Me.btnClose.Text = "Close"
         Me.btnClose.UseVisualStyleBackColor = True
         '
@@ -501,7 +501,7 @@ Partial Class Settings
         Me.btnSave.Location = New System.Drawing.Point(117, 446)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(75, 23)
-        Me.btnSave.TabIndex = 9
+        Me.btnSave.TabIndex = 10
         Me.btnSave.Text = "Force-Save"
         Me.btnSave.UseVisualStyleBackColor = True
         '
@@ -510,7 +510,7 @@ Partial Class Settings
         Me.btnReload.Location = New System.Drawing.Point(198, 446)
         Me.btnReload.Name = "btnReload"
         Me.btnReload.Size = New System.Drawing.Size(92, 23)
-        Me.btnReload.TabIndex = 10
+        Me.btnReload.TabIndex = 11
         Me.btnReload.Text = "Reload Settings"
         Me.btnReload.UseVisualStyleBackColor = True
         '
@@ -519,7 +519,7 @@ Partial Class Settings
         Me.btnShowSettingsFile.Location = New System.Drawing.Point(296, 446)
         Me.btnShowSettingsFile.Name = "btnShowSettingsFile"
         Me.btnShowSettingsFile.Size = New System.Drawing.Size(104, 23)
-        Me.btnShowSettingsFile.TabIndex = 11
+        Me.btnShowSettingsFile.TabIndex = 12
         Me.btnShowSettingsFile.Text = "Show Settings File"
         Me.btnShowSettingsFile.UseVisualStyleBackColor = True
         '
@@ -530,7 +530,7 @@ Partial Class Settings
         Me.grpColumns.Location = New System.Drawing.Point(274, 369)
         Me.grpColumns.Name = "grpColumns"
         Me.grpColumns.Size = New System.Drawing.Size(149, 71)
-        Me.grpColumns.TabIndex = 7
+        Me.grpColumns.TabIndex = 8
         Me.grpColumns.TabStop = False
         Me.grpColumns.Text = "Column Settings"
         '
@@ -553,6 +553,16 @@ Partial Class Settings
         Me.chkSaveColumns.Text = "Save folder columns"
         Me.chkSaveColumns.UseVisualStyleBackColor = True
         '
+        'chkEnableIcons
+        '
+        Me.chkEnableIcons.AutoSize = True
+        Me.chkEnableIcons.Location = New System.Drawing.Point(21, 171)
+        Me.chkEnableIcons.Name = "chkEnableIcons"
+        Me.chkEnableIcons.Size = New System.Drawing.Size(111, 17)
+        Me.chkEnableIcons.TabIndex = 3
+        Me.chkEnableIcons.Text = "Enable Item Icons"
+        Me.chkEnableIcons.UseVisualStyleBackColor = True
+        '
         'Settings
         '
         Me.AcceptButton = Me.btnClose
@@ -566,6 +576,7 @@ Partial Class Settings
         Me.Controls.Add(Me.btnSave)
         Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.grpOther)
+        Me.Controls.Add(Me.chkEnableIcons)
         Me.Controls.Add(Me.grpIcons)
         Me.Controls.Add(Me.grpHighlighting)
         Me.Controls.Add(Me.grpOverlays)
@@ -593,6 +604,7 @@ Partial Class Settings
         Me.grpColumns.ResumeLayout(False)
         Me.grpColumns.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -642,4 +654,5 @@ Partial Class Settings
     Friend WithEvents grpDefaultDir As System.Windows.Forms.GroupBox
     Friend WithEvents txtDefaultDir As System.Windows.Forms.TextBox
     Friend WithEvents btnDefaultDirBrowse As System.Windows.Forms.Button
+    Friend WithEvents chkEnableIcons As System.Windows.Forms.CheckBox
 End Class

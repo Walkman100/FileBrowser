@@ -30,6 +30,7 @@ Public Class Settings
         ElseIf               File.Exists(configFileName) Then
             _settingsPath = New FileInfo(configFileName).FullName
         End If
+        chkEnableIcons_CheckedChanged() ' Make sure grpIcons is in the correct enabled state
 
         _Loaded = True
         If File.Exists(_settingsPath) Then
@@ -56,6 +57,7 @@ Public Class Settings
     Public ReadOnly Property OverlayCompressed As Boolean
     Public ReadOnly Property OverlayEncrypted As Boolean
     Public ReadOnly Property OverlayOffline As Boolean
+    Public ReadOnly Property EnableIcons As Boolean
     Public ReadOnly Property SpecificItemIcons As Boolean
     Public ReadOnly Property ImageThumbs As Boolean
     Public ReadOnly Property HighlightCompressed As Boolean
@@ -156,6 +158,11 @@ Public Class Settings
     Private Sub chkOverlayOffline_CheckedChanged() Handles chkOverlayOffline.CheckedChanged
         _OverlayOffline = chkOverlayOffline.Checked
         SaveSettings()
+    End Sub
+    Private Sub chkEnableIcons_CheckedChanged() Handles chkEnableIcons.CheckedChanged
+        _EnableIcons = chkEnableIcons.Checked
+        SaveSettings()
+        grpIcons.Enabled = chkEnableIcons.Checked
     End Sub
     Private Sub chkSpecificItemIcons_CheckedChanged() Handles chkSpecificItemIcons.CheckedChanged
         _SpecificItemIcons = chkSpecificItemIcons.Checked
@@ -325,6 +332,9 @@ Public Class Settings
                                 Case "OverlayOffline"
                                     reader.Read()
                                     Boolean.TryParse(reader.Value, chkOverlayOffline.Checked)
+                                Case "EnableIcons"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkEnableIcons.Checked)
                                 Case "SpecificItemIcons"
                                     reader.Read()
                                     Boolean.TryParse(reader.Value, chkSpecificItemIcons.Checked)
@@ -419,6 +429,7 @@ Public Class Settings
             writer.WriteElementString("OverlayCompressed", OverlayCompressed.ToString())
             writer.WriteElementString("OverlayEncrypted", OverlayEncrypted.ToString())
             writer.WriteElementString("OverlayOffline", OverlayOffline.ToString())
+            writer.WriteElementString("EnableIcons", EnableIcons.ToString())
             writer.WriteElementString("SpecificItemIcons", SpecificItemIcons.ToString())
             writer.WriteElementString("ImageThumbs", ImageThumbs.ToString())
             writer.WriteElementString("HighlightCompressed", HighlightCompressed.ToString())
