@@ -60,8 +60,14 @@ Public Class FileBrowser
         treeViewDirs.DoubleBuffered(True)
         treeViewDirs.PathSeparator = Path.DirectorySeparatorChar
 
+        treeViewDirs.ImageList = New ImageList() With {
+            .ColorDepth = ColorDepth.Depth32Bit,
+            .ImageSize = New Size(16, 16)
+        }
         treeViewDirs.Nodes.Clear()
         If Helpers.GetOS() = OS.Windows Then
+            treeViewDirs.ImageList.Images.Add(ImageHandling.GetIcon("%SystemRoot%\System32\imageres.dll,3", treeViewDirs.ImageList.ImageSize.Width).ToBitmap())
+
             For Each drive In Environment.GetLogicalDrives()
                 AddNode(treeViewDirs, drive)
             Next
@@ -160,6 +166,12 @@ Public Class FileBrowser
         Return DirectCast(item.Tag, Filesystem.EntryInfo)
     End Function
 
+    Private Function AddNode(root As TreeView, text As String) As TreeNode
+        Return _AddNode_Helper(root.Nodes.Add(text, text), text)
+    End Function
+    Private Function AddNode(parentNode As TreeNode, text As String) As TreeNode
+        Return _AddNode_Helper(parentNode.Nodes.Add(text, text), Path.Combine(parentNode.FullPath, text))
+    End Function
     Private Function GetForeColor(path As String) As Color
         If Settings.HighlightCompressed AndAlso File.GetAttributes(path).HasFlag(FileAttributes.Compressed) Then
             Return Color.MediumBlue
@@ -169,23 +181,15 @@ Public Class FileBrowser
             Return SystemColors.WindowText
         End If
     End Function
-    Private Function AddNode(root As TreeView, text As String) As TreeNode
-        Dim subNode As TreeNode = root.Nodes.Add(text, text)
-        Try : subNode.ForeColor = GetForeColor(text)
-            If Directory.EnumerateDirectories(text).Any() Then
-                subNode.Nodes.Add("")
+    Private Function _AddNode_Helper(node As TreeNode, path As String) As TreeNode
+        Try : node.ForeColor = GetForeColor(path)
+            If Directory.EnumerateDirectories(path).Any() Then
+                node.Nodes.Add("")
             End If
         Catch : End Try
-        Return subNode
-    End Function
-    Private Function AddNode(parentNode As TreeNode, text As String) As TreeNode
-        Dim subNode As TreeNode = parentNode.Nodes.Add(text, text)
-        Try : subNode.ForeColor = GetForeColor(Path.Combine(parentNode.FullPath, text))
-            If Directory.EnumerateDirectories(Path.Combine(parentNode.FullPath, text)).Any() Then
-                subNode.Nodes.Add("")
-            End If
-        Catch : End Try
-        Return subNode
+
+        ImageHandling.SetImage(node, treeViewDirs.ImageList)
+        Return node
     End Function
 
     Private Sub LoadFolder()

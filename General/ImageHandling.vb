@@ -26,7 +26,9 @@ Namespace ImageHandling
 
             Return WalkmanLib.ExtractIconByIndex(resourcePath, iconIndex, CType(size, UInteger))
         End Function
+    End Module
 
+    Module ImageLists
         Public Function GetImageList(items As ListView.ListViewItemCollection, size As Integer, Optional setItemIndexes As Boolean = False) As ImageList
             Dim il As New ImageList With {
                 .ImageSize = New Size(size, size),
@@ -93,7 +95,6 @@ Namespace ImageHandling
                 Return ResizeImage(New PictureBox().ErrorImage, size)
             End Try
         End Function
-
         Private Function GetFileImage(item As Filesystem.EntryInfo, size As Integer) As Image
             If Not Settings.SpecificItemIcons Then
                 If size = 16 OrElse size = 32 Then
@@ -125,6 +126,32 @@ Namespace ImageHandling
                 Return ResizeImage(img, size)
             End If
         End Function
+
+        Public Sub SetImage(node As TreeNode, imageList As ImageList)
+            If Not Settings.SpecificItemIcons Then
+                node.ImageIndex = 0
+                Return
+            End If
+
+            Dim path As String = node.FixedFullPath()
+            Dim folderIconPath As String = WalkmanLib.GetFolderIconPath(path)
+            If folderIconPath = "no icon found" Then
+                node.ImageIndex = 0
+                Return
+            End If
+
+            Dim img As Image
+
+            Try
+                img = ResizeImage(Image.FromFile(folderIconPath), 16)
+            Catch
+                Try : img = GetIcon(folderIconPath, 16).ToBitmap()
+                Catch : img = ResizeImage(New PictureBox().ErrorImage, 16)
+                End Try
+            End Try
+
+            node.ImageIndex = imageList.Images.AddGetKey(img)
+        End Sub
 
         Private Function ResizeImage(img As Image, newSize As Integer) As Image
             Dim rtnImg As New Bitmap(newSize, newSize)

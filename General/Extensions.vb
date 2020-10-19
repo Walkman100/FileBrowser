@@ -1,13 +1,13 @@
-Imports System
 Imports System.Drawing
 Imports System.IO
+Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Windows.Forms
 
 Module Extensions
     <Extension()>
     Public Sub DoubleBuffered(control As Control, enable As Boolean) ' thanks to https://stackoverflow.com/a/15268338/2999220
-        Dim doubleBufferPropertyInfo = control.[GetType]().GetProperty("DoubleBuffered", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic)
+        Dim doubleBufferPropertyInfo = control.[GetType]().GetProperty("DoubleBuffered", BindingFlags.Instance Or BindingFlags.NonPublic)
         doubleBufferPropertyInfo.SetValue(control, enable, Nothing)
     End Sub
 
@@ -36,8 +36,18 @@ Module Extensions
         Return node.FullPath.Replace(Path.DirectorySeparatorChar & Path.DirectorySeparatorChar, Path.DirectorySeparatorChar)
     End Function
 
+    ''' <summary>Creates an exact copy of this <see cref="Image"/>.</summary>
+    ''' <returns>The <see cref="Image"/> <see cref="Image.Clone"/> creates, cast as an image instead of object.</returns>
     <Extension()>
     Public Function Clone2(img As Image) As Image
         Return CType(img.Clone(), Image)
+    End Function
+
+    ''' <summary>Adds the specified image to the <see cref="ImageList"/>, and returns the index of the added image.</summary>
+    ''' <param name="img">A <see cref="Bitmap"/> of the image to add to the list.</param>
+    <Extension()>
+    Public Function AddGetKey(il As ImageList.ImageCollection, img As Image) As Integer
+        il.Add(img)
+        Return il.Count - 1
     End Function
 End Module
