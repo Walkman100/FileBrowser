@@ -121,21 +121,49 @@ Namespace ImageHandling
             If Helpers.GetOS() = OS.Windows Then
                 ' Index 0: default folder icon
                 il.Images.Add(GetIcon("%SystemRoot%\System32\imageres.dll,3", size).ToBitmap())
+                ' Index 1: default folder icon - compressed
+                il.Images.Add(AddOverlay(il.Images(0).Clone2(), My.Resources.Resources.Compress, True))
+                ' Index 2: default folder icon - encrypted
+                il.Images.Add(AddOverlay(il.Images(0).Clone2(), My.Resources.Resources.Encrypt, True))
+                ' Index 3: default folder icon - symlink
+                il.Images.Add(AddOverlay(il.Images(0).Clone2(), My.Resources.Resources.OverlaySymlink))
+                ' Index 4: default folder icon - compressed & symlink
+                il.Images.Add(AddOverlay(il.Images(1).Clone2(), My.Resources.Resources.OverlaySymlink))
+                ' Index 5: default folder icon - encrypted & symlink
+                il.Images.Add(AddOverlay(il.Images(2).Clone2(), My.Resources.Resources.OverlaySymlink))
             End If
 
             Return il
         End Function
 
+        Private Function GetDefaultIndex(path As String) As Integer
+            Dim index As Integer = 0
+            Try ' in case File.GetAttributes fails
+                Dim attrs As FileAttributes = File.GetAttributes(path)
+
+                If attrs.HasFlag(FileAttributes.Compressed) Then
+                    index = 1
+                End If
+                If attrs.HasFlag(FileAttributes.Encrypted) Then
+                    index = 2
+                End If
+                If attrs.HasFlag(FileAttributes.ReparsePoint) Then
+                    index += 3
+                End If
+            Catch : End Try
+            Return index
+        End Function
+
         Public Sub SetImage(node As TreeNode, imageList As ImageList, size As Integer)
             If Not Settings.SpecificItemIcons Then
-                node.ImageIndex = 0
+                node.ImageIndex = GetDefaultIndex(node.FixedFullPath())
                 Return
             End If
 
             Dim path As String = node.FixedFullPath()
             Dim folderIconPath As String = WalkmanLib.GetFolderIconPath(path)
             If folderIconPath = "no icon found" Then
-                node.ImageIndex = 0
+                node.ImageIndex = GetDefaultIndex(path)
                 Return
             End If
 
@@ -154,7 +182,7 @@ Namespace ImageHandling
         End Sub
 
         Public Sub ReleaseImage(node As TreeNode, imageList As ImageList)
-            If node.ImageIndex <> 0 Then
+            If node.ImageIndex = -1 Then ' -1 means the image does not use Index
                 If imageList.Images.ContainsKey(node.FixedFullPath()) Then
                     imageList.Images.RemoveByKey(node.FixedFullPath())
                 End If
