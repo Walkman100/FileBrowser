@@ -147,6 +147,7 @@ Namespace ImageHandling
                 Catch : img = ResizeImage(New PictureBox().ErrorImage, size)
                 End Try
             End Try
+            img = AddOverlays(Filesystem.GetItemEntryInfo(New FileInfo(path)), img)
 
             imageList.Images.Add(path, img)
             node.ImageKey = path

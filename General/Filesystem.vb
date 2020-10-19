@@ -36,58 +36,64 @@ Public Class Filesystem
         Public DownloadReferrer As String
     End Structure
 
+    Public Shared Function GetItemEntryInfo(info As FileInfo) As EntryInfo
+        Dim entryInfo As New EntryInfo With {
+            .FullName = info.FullName,
+            .DisplayName = info.Name,
+            .Extension = info.Extension,
+            .LastWriteTime = info.LastWriteTime,
+            .LastAccessTime = info.LastAccessTime,
+            .CreationTime = info.CreationTime,
+            .Attributes = info.Attributes
+        }
+
+        If entryInfo.Attributes.HasFlag(FileAttributes.ReparsePoint) Then
+            Try : entryInfo.SymlinkTarget = WalkmanLib.GetSymlinkTarget(info.FullName)
+            Catch : End Try
+        End If
+        If entryInfo.Extension.ToLowerInvariant() = ".lnk" Then entryInfo.LinkTarget = WalkmanLib.GetShortcutInfo(info.FullName).TargetPath
+        If entryInfo.Extension.ToLowerInvariant() = ".url" Then entryInfo.UrlTarget = Helpers.GetUrlTarget(info.FullName)
+        entryInfo.AllTarget = If(entryInfo.SymlinkTarget, If(entryInfo.LinkTarget, entryInfo.UrlTarget))
+
+        Try : entryInfo.ADSCount = info.ListAlternateDataStreams.Count
+        Catch : End Try
+
+        entryInfo.OpensWith = WalkmanLib.GetOpenWith(info.FullName)
+        If entryInfo.OpensWith = "Filetype not associated!" Then entryInfo.OpensWith = Nothing
+        entryInfo.DownloadURL = Helpers.GetDownloadURL(info.FullName)
+        entryInfo.DownloadReferrer = Helpers.GetDownloadReferrer(info.FullName)
+
+        If File.Exists(info.FullName) Then
+            entryInfo.Type = EntryType.File
+
+            If Not Settings.ShowExtensions Then
+                entryInfo.DisplayName = info.NameNoExt()
+            End If
+
+            entryInfo.Size = info.Length
+            entryInfo.SizeOnDisk = WalkmanLib.GetCompressedSize(info.FullName)
+            Try
+                entryInfo.HardlinkCount = WalkmanLib.GetHardlinkCount(info.FullName)
+                If entryInfo.HardlinkCount > 1 Then
+                    entryInfo.Type = entryInfo.Type Or EntryType.Hardlink
+                End If
+            Catch : End Try
+
+        ElseIf Directory.Exists(info.FullName) Then
+            entryInfo.Type = EntryType.Directory
+        End If
+
+        Return entryInfo
+    End Function
+
     Private Shared Iterator Function Filter(paths As IEnumerable(Of String)) As IEnumerable(Of EntryInfo)
         For Each path As String In paths
             Dim info As New FileInfo(path)
             If (Settings.ShowHidden OrElse Not info.Attributes.HasFlag(FileAttributes.Hidden)) AndAlso
                (Settings.ShowSystem OrElse Not info.Attributes.HasFlag(FileAttributes.System)) AndAlso
                (Settings.ShowDot OrElse Not info.Name.Chars(0) = "."c) Then
-                Dim entryInfo As New EntryInfo With {
-                    .FullName = info.FullName,
-                    .DisplayName = info.Name,
-                    .Extension = info.Extension,
-                    .LastWriteTime = info.LastWriteTime,
-                    .LastAccessTime = info.LastAccessTime,
-                    .CreationTime = info.CreationTime,
-                    .Attributes = info.Attributes
-                }
 
-                If entryInfo.Attributes.HasFlag(FileAttributes.ReparsePoint) Then
-                    Try : entryInfo.SymlinkTarget = WalkmanLib.GetSymlinkTarget(path)
-                    Catch : End Try
-                End If
-                If entryInfo.Extension.ToLowerInvariant() = ".lnk" Then entryInfo.LinkTarget = WalkmanLib.GetShortcutInfo(path).TargetPath
-                If entryInfo.Extension.ToLowerInvariant() = ".url" Then entryInfo.UrlTarget = Helpers.GetUrlTarget(path)
-                entryInfo.AllTarget = If(entryInfo.SymlinkTarget, If(entryInfo.LinkTarget, entryInfo.UrlTarget))
-
-                Try : entryInfo.ADSCount = info.ListAlternateDataStreams.Count
-                Catch : End Try
-
-                entryInfo.OpensWith = WalkmanLib.GetOpenWith(path)
-                If entryInfo.OpensWith = "Filetype not associated!" Then entryInfo.OpensWith = Nothing
-                entryInfo.DownloadURL = Helpers.GetDownloadURL(path)
-                entryInfo.DownloadReferrer = Helpers.GetDownloadReferrer(path)
-
-                If File.Exists(path) Then
-                    entryInfo.Type = EntryType.File
-
-                    If Not Settings.ShowExtensions Then
-                        entryInfo.DisplayName = info.NameNoExt()
-                    End If
-
-                    entryInfo.Size = info.Length
-                    entryInfo.SizeOnDisk = WalkmanLib.GetCompressedSize(path)
-                    Try
-                        entryInfo.HardlinkCount = WalkmanLib.GetHardlinkCount(path)
-                        If entryInfo.HardlinkCount > 1 Then
-                            entryInfo.Type = entryInfo.Type Or EntryType.Hardlink
-                        End If
-                    Catch : End Try
-
-                ElseIf Directory.Exists(path) Then
-                    entryInfo.Type = EntryType.Directory
-                End If
-
+                Dim entryInfo As EntryInfo = GetItemEntryInfo(info)
                 Yield entryInfo
 
                 If Settings.ShowADSSeparate Then
