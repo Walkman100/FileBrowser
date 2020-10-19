@@ -148,9 +148,8 @@ Namespace ImageHandling
                 End Try
             End Try
 
-            imageList.Images.Add(node.FixedFullPath(), img)
-            node.ImageKey = node.FixedFullPath()
-            node.SelectedImageKey = node.ImageKey
+            imageList.Images.Add(path, img)
+            node.ImageKey = path
         End Sub
 
         Public Sub ReleaseImage(node As TreeNode, imageList As ImageList)

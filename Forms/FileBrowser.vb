@@ -313,7 +313,10 @@ Public Class FileBrowser
 #Region "TreeView"
     Dim g_showingNodes As Boolean = False ' make sure we don't infinitely load nodes
     Private Sub treeViewDirs_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles treeViewDirs.AfterSelect
-        If Not g_showingNodes Then CurrentDir = e.Node.FixedFullPath
+        If Not g_showingNodes Then
+            CurrentDir = e.Node.FixedFullPath()
+            e.Node.SelectedImageKey = e.Node.ImageKey
+        End If
     End Sub
     Private Sub treeViewDirs_BeforeExpand(sender As Object, e As TreeViewCancelEventArgs) Handles treeViewDirs.BeforeExpand
         LoadNode(e.Node)
