@@ -26,9 +26,18 @@ Namespace ImageHandling
 
             Return WalkmanLib.ExtractIconByIndex(resourcePath, iconIndex, CType(size, UInteger))
         End Function
+
+        Public Function ResizeImage(img As Image, newSize As Integer) As Image
+            Dim rtnImg As New Bitmap(newSize, newSize)
+            Using gr As Graphics = Graphics.FromImage(rtnImg)
+                gr.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
+                gr.DrawImage(img, New Rectangle(0, 0, newSize, newSize), New Rectangle(0, 0, img.Width, img.Height), GraphicsUnit.Pixel)
+            End Using
+            Return rtnImg
+        End Function
     End Module
 
-    Module ImageLists
+    Module ListViewImageLists
         Public Function GetImageList(items As ListView.ListViewItemCollection, size As Integer, Optional setItemIndexes As Boolean = False) As ImageList
             Dim il As New ImageList With {
                 .ImageSize = New Size(size, size),
@@ -51,32 +60,6 @@ Namespace ImageHandling
             Next
 
             Return il
-        End Function
-
-        Private Function AddOverlays(itemInfo As Filesystem.EntryInfo, image As Image) As Image
-            ' shortcut overlay is automatically applied by WalkmanLib.GetFileIcon / Icon.ExtractAssociatedIcon
-
-            If Settings.OverlayCompressed AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Compressed) Then
-                image = AddOverlay(image, My.Resources.Resources.Compress, True)
-            End If
-
-            If Settings.OverlayEncrypted AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Encrypted) Then
-                image = AddOverlay(image, My.Resources.Resources.Encrypt, True)
-            End If
-
-            If Settings.OverlayReparse AndAlso itemInfo.Attributes.HasFlag(FileAttributes.ReparsePoint) Then
-                Return AddOverlay(image, My.Resources.Resources.OverlaySymlink)
-            End If
-
-            If Settings.OverlayHardlink AndAlso itemInfo.HardlinkCount > 1 Then
-                Return AddOverlay(image, My.Resources.Resources.OverlayHardlink)
-            End If
-
-            If Settings.OverlayOffline AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Offline) Then
-                Return AddOverlay(image, My.Resources.Resources.OverlayOffline)
-            End If
-
-            Return image
         End Function
 
         Private Function GetFolderImage(item As Filesystem.EntryInfo, size As Integer, defaultIcon As Image) As Image
@@ -126,6 +109,20 @@ Namespace ImageHandling
                 Return ResizeImage(img, size)
             End If
         End Function
+    End Module
+
+    Module TreeViewImageLists
+        Public Function CreateImageList(size As Integer) As ImageList
+            Dim il As New ImageList() With {
+                .ColorDepth = ColorDepth.Depth32Bit,
+                .ImageSize = New Size(size, size)
+            }
+
+            ' Index 0: default folder icon
+            il.Images.Add(GetIcon("%SystemRoot%\System32\imageres.dll,3", size).ToBitmap())
+
+            Return il
+        End Function
 
         Public Sub SetImage(node As TreeNode, imageList As ImageList, size As Integer)
             If Not Settings.SpecificItemIcons Then
@@ -152,15 +149,6 @@ Namespace ImageHandling
             node.ImageIndex = imageList.Images.AddGetKey(img)
             node.SelectedImageIndex = node.ImageIndex
         End Sub
-
-        Private Function ResizeImage(img As Image, newSize As Integer) As Image
-            Dim rtnImg As New Bitmap(newSize, newSize)
-            Using gr As Graphics = Graphics.FromImage(rtnImg)
-                gr.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
-                gr.DrawImage(img, New Rectangle(0, 0, newSize, newSize), New Rectangle(0, 0, img.Width, img.Height), GraphicsUnit.Pixel)
-            End Using
-            Return rtnImg
-        End Function
     End Module
 
     Module Overlays
@@ -180,6 +168,32 @@ Namespace ImageHandling
 
         Public Function AddAdminOverlay(image As Image) As Image
             Return AddOverlay(image, My.Resources.Resources.Admin, True)
+        End Function
+
+        Public Function AddOverlays(itemInfo As Filesystem.EntryInfo, image As Image) As Image
+            ' shortcut overlay is automatically applied by WalkmanLib.GetFileIcon / Icon.ExtractAssociatedIcon
+
+            If Settings.OverlayCompressed AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Compressed) Then
+                image = AddOverlay(image, My.Resources.Resources.Compress, True)
+            End If
+
+            If Settings.OverlayEncrypted AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Encrypted) Then
+                image = AddOverlay(image, My.Resources.Resources.Encrypt, True)
+            End If
+
+            If Settings.OverlayReparse AndAlso itemInfo.Attributes.HasFlag(FileAttributes.ReparsePoint) Then
+                Return AddOverlay(image, My.Resources.Resources.OverlaySymlink)
+            End If
+
+            If Settings.OverlayHardlink AndAlso itemInfo.Type.HasFlag(Filesystem.EntryType.Hardlink) Then
+                Return AddOverlay(image, My.Resources.Resources.OverlayHardlink)
+            End If
+
+            If Settings.OverlayOffline AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Offline) Then
+                Return AddOverlay(image, My.Resources.Resources.OverlayOffline)
+            End If
+
+            Return image
         End Function
     End Module
 End Namespace

@@ -60,14 +60,10 @@ Public Class FileBrowser
         treeViewDirs.DoubleBuffered(True)
         treeViewDirs.PathSeparator = Path.DirectorySeparatorChar
 
-        treeViewDirs.ImageList = New ImageList() With {
-            .ColorDepth = ColorDepth.Depth32Bit,
-            .ImageSize = New Size(16, 16)
-        }
+        treeViewDirs.ImageList = ImageHandling.CreateImageList(16)
+
         treeViewDirs.Nodes.Clear()
         If Helpers.GetOS() = OS.Windows Then
-            treeViewDirs.ImageList.Images.Add(ImageHandling.GetIcon("%SystemRoot%\System32\imageres.dll,3", treeViewDirs.ImageList.ImageSize.Width).ToBitmap())
-
             For Each drive In Environment.GetLogicalDrives()
                 AddNode(treeViewDirs, drive)
             Next
