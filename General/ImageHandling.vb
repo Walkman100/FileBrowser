@@ -141,13 +141,13 @@ Namespace ImageHandling
             Try ' in case File.GetAttributes fails
                 Dim attrs As FileAttributes = File.GetAttributes(path)
 
-                If attrs.HasFlag(FileAttributes.Compressed) Then
+                If Settings.OverlayCompressed AndAlso attrs.HasFlag(FileAttributes.Compressed) Then
                     index = 1
                 End If
-                If attrs.HasFlag(FileAttributes.Encrypted) Then
+                If Settings.OverlayEncrypted AndAlso attrs.HasFlag(FileAttributes.Encrypted) Then
                     index = 2
                 End If
-                If attrs.HasFlag(FileAttributes.ReparsePoint) Then
+                If Settings.OverlayReparse AndAlso attrs.HasFlag(FileAttributes.ReparsePoint) Then
                     index += 3
                 End If
             Catch : End Try
@@ -187,6 +187,10 @@ Namespace ImageHandling
                     imageList.Images.RemoveByKey(node.FixedFullPath())
                 End If
             End If
+
+            For Each item As TreeNode In node.Nodes
+                ReleaseImage(item, imageList)
+            Next
         End Sub
     End Module
 

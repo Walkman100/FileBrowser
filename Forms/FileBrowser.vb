@@ -184,7 +184,9 @@ Public Class FileBrowser
             End If
         Catch : End Try
 
-        ImageHandling.SetImage(node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width)
+        If Settings.EnableIcons Then
+            ImageHandling.SetImage(node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width)
+        End If
         Return node
     End Function
 
