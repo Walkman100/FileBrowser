@@ -127,7 +127,7 @@ Namespace ImageHandling
             End If
         End Function
 
-        Public Sub SetImage(node As TreeNode, imageList As ImageList)
+        Public Sub SetImage(node As TreeNode, imageList As ImageList, size As Integer)
             If Not Settings.SpecificItemIcons Then
                 node.ImageIndex = 0
                 Return
@@ -141,16 +141,16 @@ Namespace ImageHandling
             End If
 
             Dim img As Image
-
             Try
-                img = ResizeImage(Image.FromFile(folderIconPath), 16)
+                img = ResizeImage(Image.FromFile(folderIconPath), size)
             Catch
-                Try : img = GetIcon(folderIconPath, 16).ToBitmap()
-                Catch : img = ResizeImage(New PictureBox().ErrorImage, 16)
+                Try : img = GetIcon(folderIconPath, size).ToBitmap()
+                Catch : img = ResizeImage(New PictureBox().ErrorImage, size)
                 End Try
             End Try
 
             node.ImageIndex = imageList.Images.AddGetKey(img)
+            node.SelectedImageIndex = node.ImageIndex
         End Sub
 
         Private Function ResizeImage(img As Image, newSize As Integer) As Image

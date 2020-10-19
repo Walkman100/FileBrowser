@@ -188,7 +188,7 @@ Public Class FileBrowser
             End If
         Catch : End Try
 
-        ImageHandling.SetImage(node, treeViewDirs.ImageList)
+        ImageHandling.SetImage(node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width)
         Return node
     End Function
 
