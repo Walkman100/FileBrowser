@@ -241,30 +241,25 @@ Public Class FileBrowser
     End Sub
 
     Public Sub ShowNode(nodePath As String)
-        g_showingNodes = True
-        Try
-            Dim parent As TreeNode = Nothing
-            For Each folder As String In nodePath.Split({Path.DirectorySeparatorChar}, StringSplitOptions.RemoveEmptyEntries)
-                Dim foundNodes As TreeNode()
+        Dim parent As TreeNode = Nothing
+        For Each folder As String In nodePath.Split({Path.DirectorySeparatorChar}, StringSplitOptions.RemoveEmptyEntries)
+            Dim foundNodes As TreeNode()
 
-                If folder.EndsWith(Path.VolumeSeparatorChar) Then
-                    If Helpers.GetOS() = OS.Windows Then folder &= Path.DirectorySeparatorChar
-                    foundNodes = treeViewDirs.Nodes.Find(folder, False)
-                Else
-                    foundNodes = parent?.Nodes.Find(folder, False)
-                End If
+            If folder.EndsWith(Path.VolumeSeparatorChar) Then
+                If Helpers.GetOS() = OS.Windows Then folder &= Path.DirectorySeparatorChar
+                foundNodes = treeViewDirs.Nodes.Find(folder, False)
+            Else
+                foundNodes = parent?.Nodes.Find(folder, False)
+            End If
 
-                If foundNodes Is Nothing OrElse foundNodes?.Length = 0 Then
-                    Exit For
-                End If
+            If foundNodes Is Nothing OrElse foundNodes?.Length = 0 Then
+                Exit For
+            End If
 
-                parent = foundNodes(0)
-                parent.Expand()
-            Next
-            treeViewDirs.SelectedNode = parent
-        Finally
-            g_showingNodes = False
-        End Try
+            parent = foundNodes(0)
+            parent.Expand()
+        Next
+        treeViewDirs.SelectedNode = parent
     End Sub
 
     Public Function GetSelectedPaths(Optional forceTree As Boolean = False) As String()
@@ -313,12 +308,9 @@ Public Class FileBrowser
 #End Region
 
 #Region "TreeView"
-    Dim g_showingNodes As Boolean = False ' make sure we don't infinitely load nodes
     Private Sub treeViewDirs_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles treeViewDirs.AfterSelect
-        If Not g_showingNodes Then
-            CurrentDir = e.Node.FixedFullPath()
-            e.Node.SelectedImageKey = e.Node.ImageKey
-        End If
+        CurrentDir = e.Node.FixedFullPath()
+        e.Node.SelectedImageKey = e.Node.ImageKey
     End Sub
     Private Sub treeViewDirs_BeforeExpand(sender As Object, e As TreeViewCancelEventArgs) Handles treeViewDirs.BeforeExpand
         LoadNode(e.Node)
