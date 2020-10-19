@@ -42,12 +42,4 @@ Module Extensions
     Public Function Clone2(img As Image) As Image
         Return CType(img.Clone(), Image)
     End Function
-
-    ''' <summary>Adds the specified image to the <see cref="ImageList"/>, and returns the index of the added image.</summary>
-    ''' <param name="img">A <see cref="Bitmap"/> of the image to add to the list.</param>
-    <Extension()>
-    Public Function AddGetKey(il As ImageList.ImageCollection, img As Image) As Integer
-        il.Add(img)
-        Return il.Count - 1
-    End Function
 End Module

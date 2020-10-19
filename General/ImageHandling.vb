@@ -118,8 +118,10 @@ Namespace ImageHandling
                 .ImageSize = New Size(size, size)
             }
 
-            ' Index 0: default folder icon
-            il.Images.Add(GetIcon("%SystemRoot%\System32\imageres.dll,3", size).ToBitmap())
+            If Helpers.GetOS() = OS.Windows Then
+                ' Index 0: default folder icon
+                il.Images.Add(GetIcon("%SystemRoot%\System32\imageres.dll,3", size).ToBitmap())
+            End If
 
             Return il
         End Function
@@ -146,8 +148,17 @@ Namespace ImageHandling
                 End Try
             End Try
 
-            node.ImageIndex = imageList.Images.AddGetKey(img)
-            node.SelectedImageIndex = node.ImageIndex
+            imageList.Images.Add(node.FixedFullPath(), img)
+            node.ImageKey = node.FixedFullPath()
+            node.SelectedImageKey = node.ImageKey
+        End Sub
+
+        Public Sub ReleaseImage(node As TreeNode, imageList As ImageList)
+            If node.ImageIndex <> 0 Then
+                If imageList.Images.ContainsKey(node.FixedFullPath()) Then
+                    imageList.Images.RemoveByKey(node.FixedFullPath())
+                End If
+            End If
         End Sub
     End Module
 

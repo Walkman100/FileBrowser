@@ -319,6 +319,11 @@ Public Class FileBrowser
         LoadNode(e.Node)
         If e.Node.Nodes.Count = 0 Then e.Cancel = True
     End Sub
+    Private Sub treeViewDirs_AfterCollapse(sender As Object, e As TreeViewEventArgs) Handles treeViewDirs.AfterCollapse
+        For Each item As TreeNode In e.Node.Nodes
+            ImageHandling.ReleaseImage(item, treeViewDirs.ImageList)
+        Next
+    End Sub
     Private Sub treeViewDirs_BeforeLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles treeViewDirs.BeforeLabelEdit
         If e.Node.Parent Is Nothing Then
             e.CancelEdit = True
