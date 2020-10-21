@@ -388,6 +388,16 @@ Public Class Settings
                         End While
                     End If
 
+                    If reader.Read() AndAlso reader.IsStartElement() AndAlso reader.Name = "URIHistory" AndAlso reader.Read() Then
+                        FileBrowser.cbxURI.Items.Clear()
+                        While reader.IsStartElement()
+                            If reader.Name = "item" AndAlso reader.Read() Then
+                                FileBrowser.cbxURI.Items.Add(reader.Value)
+                                reader.Read() : reader.Read()
+                            End If
+                        End While
+                    End If
+
                     If reader.Read() AndAlso reader.IsStartElement() AndAlso reader.Name = "ColumnSettings" Then
                         DefaultColumns.Clear()
                         While reader.IsStartElement
@@ -447,6 +457,12 @@ Public Class Settings
             writer.WriteElementString("WindowDefaultHeight", WindowDefaultHeight.ToString())
             writer.WriteElementString("SaveColumns", SaveColumns.ToString())
             writer.WriteEndElement() ' Settings
+
+            writer.WriteStartElement("URIHistory")
+            For Each item As String In FileBrowser.cbxURI.Items
+                writer.WriteElementString("item", item)
+            Next
+            writer.WriteEndElement() ' URIHistory
 
             writer.WriteStartElement("ColumnSettings")
             For Each column As Column In DefaultColumns
