@@ -539,15 +539,25 @@ Public Class FileBrowser
         Dim newPath As String = Environment.ExpandEnvironmentVariables(cbxURI.Text)
         If Directory.Exists(newPath) Then
             CurrentDir = newPath
-            cbxURI.Items.Add(newPath)
+
+            If cbxURI.Items.Contains(newPath) Then
+                cbxURI.Items.Remove(newPath)
+            End If
+            cbxURI.Items.Insert(0, newPath)
+            Settings.SaveSettings()
+
+            cbxURI.Text = newPath
         End If
     End Sub
-
     Private Sub cbxURI_KeyUp(sender As Object, e As KeyEventArgs) Handles cbxURI.KeyUp
         If e.KeyCode = Keys.Enter Then
             e.Handled = True
             btnGo_Click()
         End If
+    End Sub
+    Private Sub cbxURI_DropDownClosed(sender As Object, e As EventArgs) Handles cbxURI.DropDownClosed
+        cbxURI.Text = DirectCast(cbxURI.SelectedItem, String)
+        btnGo_Click()
     End Sub
 #End Region
 

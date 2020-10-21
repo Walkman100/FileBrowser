@@ -420,7 +420,7 @@ Public Class Settings
 
     Private _loading As Boolean = False ' so that we don't save while loading settings
 
-    Private Sub SaveSettings() Handles btnSave.Click
+    Friend Sub SaveSettings() Handles btnSave.Click
         If Not Loaded OrElse _loading Then Return
         Using writer As XmlWriter = XmlWriter.Create(_settingsPath, New XmlWriterSettings With {.Indent = True})
             writer.WriteStartDocument()
