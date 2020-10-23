@@ -51,6 +51,7 @@ Public Class FileBrowser
         End If
         UseShell = Settings.WindowsShellDefaultValue
         Me.Size = New Size(Settings.WindowDefaultWidth.GetValueOrDefault(Me.Width), Settings.WindowDefaultHeight.GetValueOrDefault(Me.Height))
+        scMain.SplitterDistance = Settings.SplitterSize.GetValueOrDefault(scMain.SplitterDistance)
         Me.CenterToParent()
         If Settings.WindowMaximised Then
             Me.WindowState = FormWindowState.Maximized
@@ -568,6 +569,11 @@ Public Class FileBrowser
         If Settings.Loaded AndAlso Me.WindowState <> FormWindowState.Maximized AndAlso Settings.WindowRemember Then
             Settings.txtWindowDefaultWidth.Text = Me.Width.ToString()
             Settings.txtWindowDefaultHeight.Text = Me.Height.ToString()
+        End If
+    End Sub
+    Public Sub scMain_SplitterDistanceChanged() Handles scMain.SplitterMoved
+        If Settings.Loaded AndAlso Settings.SplitterRemember Then
+            Settings.txtSplitterDefaultSize.Text = scMain.SplitterDistance.ToString()
         End If
     End Sub
     Public Sub handle_SelectedItemChanged() Handles lstCurrent.SelectedIndexChanged, treeViewDirs.AfterSelect

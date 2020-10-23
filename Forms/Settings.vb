@@ -72,6 +72,8 @@ Public Class Settings
     Public ReadOnly Property WindowRemember As Boolean
     Public ReadOnly Property WindowDefaultWidth As Integer?
     Public ReadOnly Property WindowDefaultHeight As Integer?
+    Public ReadOnly Property SplitterRemember As Boolean
+    Public ReadOnly Property SplitterSize As Integer?
     Public ReadOnly Property SaveColumns As Boolean
 #End Region
 
@@ -237,6 +239,24 @@ Public Class Settings
         End If
         SaveSettings()
     End Sub
+    Private Sub chkSplitterRemember_CheckedChanged() Handles chkSplitterRemember.CheckedChanged
+        _SplitterRemember = chkSplitterRemember.Checked
+        SaveSettings()
+        grpSplitterDefault.Enabled = Not chkSplitterRemember.Checked
+        FileBrowser.scMain_SplitterDistanceChanged()
+    End Sub
+    Private Sub txtSplitterDefaultSize_TextChanged() Handles txtSplitterDefaultSize.TextChanged
+        Dim tmpInt As Integer
+        If Integer.TryParse(txtSplitterDefaultSize.Text, tmpInt) Then
+            txtSplitterDefaultSize.BackColor = Drawing.SystemColors.Window
+            _SplitterSize = tmpInt
+        Else
+            txtSplitterDefaultSize.BackColor = Drawing.Color.Red
+            _SplitterSize = Nothing
+        End If
+        SaveSettings()
+    End Sub
+
     Private Sub chkSaveColumns_CheckedChanged() Handles chkSaveColumns.CheckedChanged
         _SaveColumns = chkSaveColumns.Checked
         SaveSettings()
@@ -252,6 +272,9 @@ Public Class Settings
         If sdd.ShowDialog(Me) = DialogResult.OK Then
             txtDefaultDir.Text = sdd.SelectedPath
         End If
+    End Sub
+    Private Sub btnClearURIHistory_Click() Handles btnClearURIHistory.Click
+        FileBrowser.cbxURI.Items.Clear()
     End Sub
     Private Sub btnResetColumns_Click() Handles btnResetColumns.Click
         DefaultColumns.Clear()
@@ -372,6 +395,12 @@ Public Class Settings
                                 Case "WindowDefaultHeight"
                                     reader.Read()
                                     txtWindowDefaultHeight.Text = reader.Value
+                                Case "SplitterRemember"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkSplitterRemember.Checked)
+                                Case "SplitterSize"
+                                    reader.Read()
+                                    txtSplitterDefaultSize.Text = reader.Value
                                 Case "SaveColumns"
                                     reader.Read()
                                     Boolean.TryParse(reader.Value, chkSaveColumns.Checked)
@@ -448,6 +477,8 @@ Public Class Settings
             writer.WriteElementString("WindowRemember", WindowRemember.ToString())
             writer.WriteElementString("WindowDefaultWidth", WindowDefaultWidth.ToString())
             writer.WriteElementString("WindowDefaultHeight", WindowDefaultHeight.ToString())
+            writer.WriteElementString("SplitterRemember", SplitterRemember.ToString())
+            writer.WriteElementString("SplitterSize", SplitterSize.ToString())
             writer.WriteElementString("SaveColumns", SaveColumns.ToString())
             writer.WriteEndElement() ' Settings
 
