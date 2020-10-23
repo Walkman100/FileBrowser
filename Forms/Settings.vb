@@ -51,7 +51,6 @@ Public Class Settings
     Public ReadOnly Property ShowSystem As Boolean
     Public ReadOnly Property ShowDot As Boolean
     Public ReadOnly Property ShowExtensions As Boolean
-    Public ReadOnly Property OverlayShortcut As Boolean
     Public ReadOnly Property OverlayReparse As Boolean
     Public ReadOnly Property OverlayHardlink As Boolean
     Public ReadOnly Property OverlayCompressed As Boolean
@@ -133,10 +132,6 @@ Public Class Settings
     End Sub
     Private Sub chkShowExtensions_CheckedChanged() Handles chkShowExtensions.CheckedChanged
         _ShowExtensions = chkShowExtensions.Checked
-        SaveSettings()
-    End Sub
-    Private Sub chkOverlayShortcut_CheckedChanged() Handles chkOverlayShortcut.CheckedChanged
-        _OverlayShortcut = chkOverlayShortcut.Checked
         SaveSettings()
     End Sub
     Private Sub chkOverlayReparse_CheckedChanged() Handles chkOverlayReparse.CheckedChanged
@@ -314,9 +309,6 @@ Public Class Settings
                                 Case "ShowExtensions"
                                     reader.Read()
                                     Boolean.TryParse(reader.Value, chkShowExtensions.Checked)
-                                Case "OverlayShortcut"
-                                    reader.Read()
-                                    Boolean.TryParse(reader.Value, chkOverlayShortcut.Checked)
                                 Case "OverlayReparse"
                                     reader.Read()
                                     Boolean.TryParse(reader.Value, chkOverlayReparse.Checked)
@@ -383,6 +375,8 @@ Public Class Settings
                                 Case "SaveColumns"
                                     reader.Read()
                                     Boolean.TryParse(reader.Value, chkSaveColumns.Checked)
+                                Case Else
+                                    reader.Read() ' skip unknown values
                             End Select
                             reader.Read() : reader.Read()
                         End While
@@ -433,7 +427,6 @@ Public Class Settings
             writer.WriteElementString("ShowSystem", ShowSystem.ToString())
             writer.WriteElementString("ShowDot", ShowDot.ToString())
             writer.WriteElementString("ShowExtensions", ShowExtensions.ToString())
-            writer.WriteElementString("OverlayShortcut", OverlayShortcut.ToString())
             writer.WriteElementString("OverlayReparse", OverlayReparse.ToString())
             writer.WriteElementString("OverlayHardlink", OverlayHardlink.ToString())
             writer.WriteElementString("OverlayCompressed", OverlayCompressed.ToString())
@@ -450,7 +443,7 @@ Public Class Settings
             writer.WriteElementString("WindowsShellDefaultValue", WindowsShellDefaultValue.ToString())
             writer.WriteElementString("SizeUnits", SizeUnits.ToString())
             writer.WriteElementString("RememberDir", RememberDir.ToString())
-            writer.WriteElementString("DefaultDir", DefaultDir.ToString())
+            writer.WriteElementString("DefaultDir", DefaultDir)
             writer.WriteElementString("WindowMaximised", WindowMaximised.ToString())
             writer.WriteElementString("WindowRemember", WindowRemember.ToString())
             writer.WriteElementString("WindowDefaultWidth", WindowDefaultWidth.ToString())
