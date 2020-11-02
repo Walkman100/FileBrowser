@@ -216,11 +216,7 @@ Public Class Operations
             End If
 
             Dim pathInfo = WalkmanLib.IsFileOrDirectory(sourcePath)
-            If pathInfo.HasFlag(PathEnum.IsFile) Then
-                WalkmanLib.CreateSymLink(targetPath, sourcePath, SymbolicLinkType.File)
-            ElseIf pathInfo.HasFlag(PathEnum.IsDirectory) Then
-                WalkmanLib.CreateSymLink(targetPath, sourcePath, SymbolicLinkType.Directory)
-            End If
+            WalkmanLib.CreateSymLink(targetPath, sourcePath, pathInfo.HasFlag(PathEnum.IsDirectory))
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
             Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
