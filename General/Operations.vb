@@ -30,7 +30,7 @@ Public Class Operations
             If WalkmanLib.IsFileOrDirectory(fullTargetName).HasFlag(PathEnum.Exists) AndAlso sourcePath <> fullTargetName Then
                 Select Case MsgBox("Target """ & fullTargetName & """ already exists! Remove first?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
                     Case MsgBoxResult.Yes
-                        Delete({fullTargetName}, False, Nothing)
+                        Delete({fullTargetName}, False, True)
                     Case MsgBoxResult.Cancel
                         Exit Sub
                 End Select
@@ -67,7 +67,7 @@ Public Class Operations
                 If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
                     Select Case MsgBox("Target """ & targetPath & """ already exists! Remove first?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
                         Case MsgBoxResult.Yes
-                            Delete({targetPath}, useShell, True)
+                            Delete({targetPath}, False, True)
                         Case MsgBoxResult.Cancel
                             Exit Sub
                     End Select
@@ -209,7 +209,7 @@ Public Class Operations
             If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
                 Select Case MsgBox("Target """ & targetPath & """ already exists! Remove first?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
                     Case MsgBoxResult.Yes
-                        Delete({targetPath}, False, Nothing)
+                        Delete({targetPath}, False, True)
                     Case MsgBoxResult.Cancel
                         Exit Sub
                 End Select
@@ -239,7 +239,7 @@ Public Class Operations
             If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
                 Select Case MsgBox("Target """ & targetPath & """ already exists! Remove first?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
                     Case MsgBoxResult.Yes
-                        Delete({targetPath}, False, Nothing)
+                        Delete({targetPath}, False, True)
                     Case MsgBoxResult.Cancel
                         Exit Sub
                 End Select

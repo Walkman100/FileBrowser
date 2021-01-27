@@ -155,12 +155,12 @@ Namespace ImageHandling
         End Function
 
         Public Sub SetImage(node As TreeNode, imageList As ImageList, size As Integer)
+            Dim path As String = node.FixedFullPath()
             If Not Settings.SpecificItemIcons Then
-                node.ImageIndex = GetDefaultIndex(node.FixedFullPath())
+                node.ImageIndex = GetDefaultIndex(path)
                 Return
             End If
 
-            Dim path As String = node.FixedFullPath()
             Dim folderIconPath As String = WalkmanLib.GetFolderIconPath(path)
             If folderIconPath = "no icon found" Then
                 node.ImageIndex = GetDefaultIndex(path)
