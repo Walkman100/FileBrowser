@@ -28,24 +28,27 @@ Public Class Operations
 
         Try
             If WalkmanLib.IsFileOrDirectory(fullTargetName).HasFlag(PathEnum.Exists) AndAlso sourcePath <> fullTargetName Then
-                Select Case MsgBox("Target """ & fullTargetName & """ already exists! Remove first?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
-                    Case MsgBoxResult.Yes
+                Select Case MessageBox.Show("Target """ & fullTargetName & """ already exists! Remove first?", "Target exists",
+                                            MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
+                    Case DialogResult.Yes
                         Delete({fullTargetName}, False, True)
-                    Case MsgBoxResult.Cancel
+                    Case DialogResult.Cancel
                         Exit Sub
                 End Select
             End If
 
             fileProperties.MoveTo(fullTargetName)
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
+            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel,
+                                                MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
                     WalkmanLib.RunAsAdmin("cmd", "/c ren """ & sourcePath & """ """ & targetName & """ && pause")
             End Select
         Catch ex As IOException When Win32FromHResult(ex.HResult) = shareViolation
-            If MsgBox("File """ & sourcePath & """ is in use! Open Handle Manager?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            If MessageBox.Show("File """ & sourcePath & """ is in use! Open Handle Manager?", "Item in use",
+                               MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                 'HandleManager.Show(FileBrowser)
                 'HandleManager.Activate()
             End If
@@ -65,10 +68,11 @@ Public Class Operations
                 End If
             Else
                 If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
-                    Select Case MsgBox("Target """ & targetPath & """ already exists! Remove first?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
-                        Case MsgBoxResult.Yes
+                    Select Case MessageBox.Show("Target """ & targetPath & """ already exists! Remove first?", "Target exists",
+                                                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
+                        Case DialogResult.Yes
                             Delete({targetPath}, False, True)
-                        Case MsgBoxResult.Cancel
+                        Case DialogResult.Cancel
                             Exit Sub
                     End Select
                 End If
@@ -77,14 +81,16 @@ Public Class Operations
             End If
         Catch ex As OperationCanceledException ' ignore user cancellation
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
+            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel,
+                                                MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
                     WalkmanLib.RunAsAdmin("cmd", "/c move """ & sourcePath & """ """ & targetPath & """ & pause")
             End Select
         Catch ex As IOException When Win32FromHResult(ex.HResult) = shareViolation
-            If MsgBox("File """ & sourcePath & """ is in use! Open Handle Manager?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            If MessageBox.Show("File """ & sourcePath & """ is in use! Open Handle Manager?", "Item in use",
+                               MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                 'HandleManager.Show(FileBrowser)
                 'HandleManager.Activate()
             End If
@@ -105,7 +111,8 @@ Public Class Operations
             Else
                 If pathInfo.HasFlag(PathEnum.IsFile) Then
                     If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath AndAlso
-                            MsgBox("Target """ & targetPath & """ already exists! Are you sure you want to overwrite it?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                            MessageBox.Show("Target """ & targetPath & """ already exists! Are you sure you want to overwrite it?", "Target exists",
+                                            MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.No Then
                         Exit Sub
                     End If
 
@@ -117,14 +124,16 @@ Public Class Operations
             End If
         Catch ex As OperationCanceledException ' ignore user cancellation
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
+            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel,
+                                                MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
                     WalkmanLib.RunAsAdmin("xcopy", "/F /H /K """ & sourcePath & """ """ & targetPath & "*""")
             End Select
         Catch ex As IOException When Win32FromHResult(ex.HResult) = shareViolation
-            If MsgBox("A file is in use! Open Handle Manager on """ & sourcePath & """?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            If MessageBox.Show("A file is in use! Open Handle Manager on """ & sourcePath & """?", "Item in use",
+                               MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                 'HandleManager.Show(FileBrowser)
                 'HandleManager.Activate()
             End If
@@ -156,14 +165,16 @@ Public Class Operations
                     End If
                 Catch ex As OperationCanceledException ' ignore user cancellation
                 Catch ex As IOException When Win32FromHResult(ex.HResult) = shareViolation
-                    If MsgBox("File """ & path & """ is in use! Open Handle Manager?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                    If MessageBox.Show("File """ & path & """ is in use! Open Handle Manager?", "Item in use",
+                                           MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                         'HandleManager.Show(FileBrowser)
                         'HandleManager.Activate()
                     End If
                 End Try
             Next
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
+            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel,
+                                                    MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
@@ -180,13 +191,15 @@ Public Class Operations
     Public Shared Sub CreateShortcut(sourcePath As String, targetPath As String)
         Try
             If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath AndAlso
-                    MsgBox("Target """ & targetPath & """ already exists! Are you sure you want to overwrite the shortcut's Target Path?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                        MessageBox.Show("Target """ & targetPath & """ already exists! Are you sure you want to overwrite the shortcut's Target Path?",
+                                        "Target exists", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.No Then
                 Exit Sub
             End If
 
             WalkmanLib.CreateShortcut(targetPath, sourcePath)
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
+            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel,
+                                                    MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
@@ -207,10 +220,11 @@ Public Class Operations
     Public Shared Sub CreateSymlink(sourcePath As String, targetPath As String)
         Try
             If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
-                Select Case MsgBox("Target """ & targetPath & """ already exists! Remove first?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
-                    Case MsgBoxResult.Yes
+                Select Case MessageBox.Show("Target """ & targetPath & """ already exists! Remove first?", "Target exists",
+                                                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
+                    Case DialogResult.Yes
                         Delete({targetPath}, False, True)
-                    Case MsgBoxResult.Cancel
+                    Case DialogResult.Cancel
                         Exit Sub
                 End Select
             End If
@@ -218,7 +232,8 @@ Public Class Operations
             Dim pathInfo = WalkmanLib.IsFileOrDirectory(sourcePath)
             WalkmanLib.CreateSymLink(targetPath, sourcePath, pathInfo.HasFlag(PathEnum.IsDirectory))
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
+            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel,
+                                                    MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
@@ -237,17 +252,19 @@ Public Class Operations
     Public Shared Sub CreateHardlink(sourcePath As String, targetPath As String)
         Try
             If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
-                Select Case MsgBox("Target """ & targetPath & """ already exists! Remove first?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
-                    Case MsgBoxResult.Yes
+                Select Case MessageBox.Show("Target """ & targetPath & """ already exists! Remove first?", "Target exists",
+                                                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
+                    Case DialogResult.Yes
                         Delete({targetPath}, False, True)
-                    Case MsgBoxResult.Cancel
+                    Case DialogResult.Cancel
                         Exit Sub
                 End Select
             End If
 
             WalkmanLib.CreateHardLink(targetPath, sourcePath)
         Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
+            Select Case WalkmanLib.CustomMsgBox(ex.Message, cMBTitle, cMBbRelaunch, cMBbRunSysTool, cMBbCancel,
+                                                    MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                 Case cMBbRelaunch
                     FileBrowser.RestartAsAdmin()
                 Case cMBbRunSysTool
@@ -298,7 +315,8 @@ Public Class Operations
         Catch ex As FileNotFoundException When ex.FileName.StartsWith("Ookii.Dialogs")
             Return False
         Catch ex As Exception
-            MsgBox("Unexpected error loading Ookii.Dialogs.dll!" & Environment.NewLine & Environment.NewLine & ex.Message, MsgBoxStyle.Exclamation)
+            MessageBox.Show("Unexpected error loading Ookii.Dialogs.dll!" & Environment.NewLine & Environment.NewLine & ex.Message,
+                            "Unexpected Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         End Try
     End Function
