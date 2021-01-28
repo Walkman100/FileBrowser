@@ -1,3 +1,5 @@
+Imports System.IO
+
 Namespace Operations
     Module Delegator
         Private Enum ADSFiles
@@ -30,14 +32,15 @@ Namespace Operations
         Public Sub Rename(sourcePath As String, targetName As String)
             sourcePath = CleanDataADS(sourcePath)
             targetName = CleanDataADS(targetName)
+            Dim fullTargetName = Path.GetDirectoryName(sourcePath) & Path.DirectorySeparatorChar & targetName
 
-            Select Case GetIsADS(sourcePath, targetName)
+            Select Case GetIsADS(sourcePath, fullTargetName)
                 Case ADSFiles.BothAreADS
-                    ADSToADS.Rename(sourcePath, targetName)
+                    ADSToADS.Move(sourcePath, fullTargetName)
                 Case ADSFiles.SourceIsADS
-                    ADSToFile.Rename(sourcePath, targetName)
+                    ADSToFile.Move(sourcePath, fullTargetName)
                 Case ADSFiles.TargetIsADS
-                    FileToADS.Rename(sourcePath, targetName)
+                    FileToADS.Move(sourcePath, fullTargetName)
                 Case ADSFiles.BothAreFiles
                     FileToFile.Rename(sourcePath, targetName)
             End Select
