@@ -8,19 +8,29 @@ Namespace Operations
         End Enum
 
         Private Function GetIsADS(sourcePath As String, targetPath As String) As ADSFiles
-            If Helpers.PathContainsADS(sourcePath) AndAlso Helpers.GetADSPathStream(sourcePath) <> ":$DATA" AndAlso
-                    Helpers.PathContainsADS(targetPath) AndAlso Helpers.GetADSPathStream(sourcePath) <> ":$DATA" Then
+            If Helpers.PathContainsADS(sourcePath) AndAlso Helpers.PathContainsADS(targetPath) Then
                 Return ADSFiles.BothAreADS
-            ElseIf Helpers.PathContainsADS(sourcePath) AndAlso Helpers.GetADSPathStream(sourcePath) <> ":$DATA" Then
+            ElseIf Helpers.PathContainsADS(sourcePath) Then
                 Return ADSFiles.SourceIsADS
-            ElseIf Helpers.PathContainsADS(targetPath) AndAlso Helpers.GetADSPathStream(targetPath) <> ":$DATA" Then
+            ElseIf Helpers.PathContainsADS(targetPath) Then
                 Return ADSFiles.TargetIsADS
             Else
                 Return ADSFiles.BothAreFiles
             End If
         End Function
 
+        Private Function CleanDataADS(path As String) As String
+            If Helpers.PathContainsADS(path) AndAlso Helpers.GetADSPathStream(path) = ":$DATA" Then
+                path = Helpers.GetADSPathFile(path)
+            End If
+
+            Return path
+        End Function
+
         Public Sub Rename(sourcePath As String, targetName As String)
+            sourcePath = CleanDataADS(sourcePath)
+            targetName = CleanDataADS(targetName)
+
             Select Case GetIsADS(sourcePath, targetName)
                 Case ADSFiles.BothAreADS
                     ADSToADS.Rename(sourcePath, targetName)
@@ -34,6 +44,9 @@ Namespace Operations
         End Sub
 
         Public Sub Move(sourcePath As String, targetPath As String, useShell As Boolean)
+            sourcePath = CleanDataADS(sourcePath)
+            targetPath = CleanDataADS(targetPath)
+
             Select Case GetIsADS(sourcePath, targetPath)
                 Case ADSFiles.BothAreADS
                     ADSToADS.Move(sourcePath, targetPath)
@@ -47,6 +60,9 @@ Namespace Operations
         End Sub
 
         Public Sub Copy(sourcePath As String, targetPath As String, useShell As Boolean)
+            sourcePath = CleanDataADS(sourcePath)
+            targetPath = CleanDataADS(targetPath)
+
             Select Case GetIsADS(sourcePath, targetPath)
                 Case ADSFiles.BothAreADS
                     ADSToADS.Copy(sourcePath, targetPath)
