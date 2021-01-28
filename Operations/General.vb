@@ -11,7 +11,10 @@ Namespace Operations
                     Try
                         Dim pathInfo = WalkmanLib.IsFileOrDirectory(path)
                         If Helpers.PathContainsADS(path) Then
-                            Trinet.Core.IO.Ntfs.DeleteAlternateDataStream(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path))
+                            If deletePermanently OrElse MessageBox.Show("Cannot recycle AlternateDataStreams! Delete permanently?", "Deleting ADS",
+                                                                        MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+                                Trinet.Core.IO.Ntfs.DeleteAlternateDataStream(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path))
+                            End If
                         ElseIf pathInfo.HasFlag(PathEnum.IsDirectory) AndAlso File.GetAttributes(path).HasFlag(FileAttributes.ReparsePoint) Then
                             File.Delete(path)
                         ElseIf useShell OrElse Not deletePermanently Then

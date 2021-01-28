@@ -79,35 +79,39 @@ Namespace ImageHandling
             End Try
         End Function
         Private Function GetFileImage(item As Filesystem.EntryInfo, size As Integer) As Image
-            If Not Settings.SpecificItemIcons Then
-                If size = 16 OrElse size = 32 Then
-                    Return WalkmanLib.GetFileIcon(item.Extension, False, size = 16).ToBitmap()
-                Else
-                    Dim img As Image = WalkmanLib.GetFileIcon(item.Extension, False, size < 16).ToBitmap()
-                    Return ResizeImage(img, size)
+            Try
+                If Not Settings.SpecificItemIcons Then
+                    If size = 16 OrElse size = 32 Then
+                        Return WalkmanLib.GetFileIcon(item.Extension, False, size = 16).ToBitmap()
+                    Else
+                        Dim img As Image = WalkmanLib.GetFileIcon(item.Extension, False, size < 16).ToBitmap()
+                        Return ResizeImage(img, size)
+                    End If
                 End If
-            End If
 
-            If Settings.ImageThumbs Then
-                If item.Size < 200000000 Then ' don't try load image if filesize is above 200MB
+                If Settings.ImageThumbs Then
+                    If item.Size < 200000000 Then ' don't try load image if filesize is above 200MB
+                        Try
+                            Return ResizeImage(Image.FromFile(item.FullName), size)
+                        Catch : End Try
+                    End If
+
                     Try
-                        Return ResizeImage(Image.FromFile(item.FullName), size)
+                        Return GetIcon(item.FullName, size).ToBitmap()
                     Catch : End Try
                 End If
 
-                Try
-                    Return GetIcon(item.FullName, size).ToBitmap()
-                Catch : End Try
-            End If
-
-            If size = 16 Then
-                Return WalkmanLib.GetFileIcon(item.FullName).ToBitmap()
-            ElseIf size = 32 Then
-                Return Icon.ExtractAssociatedIcon(item.FullName).ToBitmap()
-            Else
-                Dim img As Image = Icon.ExtractAssociatedIcon(item.FullName).ToBitmap()
-                Return ResizeImage(img, size)
-            End If
+                If size = 16 Then
+                    Return WalkmanLib.GetFileIcon(item.FullName).ToBitmap()
+                ElseIf size = 32 Then
+                    Return Icon.ExtractAssociatedIcon(item.FullName).ToBitmap()
+                Else
+                    Dim img As Image = Icon.ExtractAssociatedIcon(item.FullName).ToBitmap()
+                    Return ResizeImage(img, size)
+                End If
+            Catch
+                Return ResizeImage(New PictureBox().ErrorImage, size)
+            End Try
         End Function
     End Module
 
