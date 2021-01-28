@@ -250,9 +250,9 @@ Public Class CtxMenu
             Case ActionType.Rename
                 FileBrowser.RenameSelected()
             Case ActionType.CopyTo
-                Helpers.CopyTo(paths, My.Computer.Keyboard.ShiftKeyDown)
+                Operations.CopyTo(paths, My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.MoveTo
-                Helpers.MoveTo(paths, My.Computer.Keyboard.ShiftKeyDown)
+                Operations.MoveTo(paths, My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.DeleteToRecycleBin
                 Operations.Delete(paths, FileBrowser.UseShell, My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.DeletePermanently

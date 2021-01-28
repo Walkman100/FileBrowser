@@ -361,10 +361,10 @@ Public Class FileBrowser
 
 #Region "ToolStrips"
     Private Sub menuFileCreateFile_Click() Handles menuFileCreateFile.Click
-        ShowFile(Helpers.CreateFile(CurrentDir, Not My.Computer.Keyboard.ShiftKeyDown))
+        ShowFile(Operations.CreateFile(CurrentDir, Not My.Computer.Keyboard.ShiftKeyDown))
     End Sub
     Private Sub menuFileCreateFolder_Click() Handles menuFileCreateFolder.Click
-        ShowFile(Helpers.CreateFolder(CurrentDir, Not My.Computer.Keyboard.ShiftKeyDown))
+        ShowFile(Operations.CreateFolder(CurrentDir, Not My.Computer.Keyboard.ShiftKeyDown))
     End Sub
     Private Sub menuFileCopyPath_Click() Handles menuFileCopyPath.Click
         Launch.Copy(GetSelectedPaths(), If(My.Computer.Keyboard.ShiftKeyDown, """{path}""", "{path}"))
@@ -379,10 +379,10 @@ Public Class FileBrowser
         Operations.Delete(GetSelectedPaths(), UseShell, Not My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuFileCopyTo_Click() Handles menuFileCopyTo.Click
-        Helpers.CopyTo(GetSelectedPaths(), My.Computer.Keyboard.ShiftKeyDown)
+        Operations.CopyTo(GetSelectedPaths(), My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuFileMoveTo_Click() Handles menuFileMoveTo.Click
-        Helpers.MoveTo(GetSelectedPaths(), My.Computer.Keyboard.ShiftKeyDown)
+        Operations.MoveTo(GetSelectedPaths(), My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuFileProperties_Click() Handles menuFileProperties.Click
         For Each path As String In GetSelectedPaths()
