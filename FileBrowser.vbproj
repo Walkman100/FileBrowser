@@ -91,7 +91,10 @@
     <Compile Include="NTFS-Streams\SafeHGlobalHandle.vb" />
     <Compile Include="NTFS-Streams\SafeNativeMethods.vb" />
     <Compile Include="NTFS-Streams\StreamName.vb" />
+    <Compile Include="Operations\ADSToADS.vb" />
+    <Compile Include="Operations\ADSToFile.vb" />
     <Compile Include="Operations\Delegator.vb" />
+    <Compile Include="Operations\FileToADS.vb" />
     <Compile Include="Operations\FileToFile.vb" />
     <Compile Include="Operations\General.vb" />
     <Compile Include="Operations\Other.vb" />
