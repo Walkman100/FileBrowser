@@ -74,6 +74,7 @@
     <Compile Include="Forms\Settings.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="General\Input.vb" />
     <Compile Include="General\ItemClipboard.vb" />
     <Compile Include="General\CtxMenu.vb" />
     <Compile Include="General\Extensions.vb" />
@@ -81,7 +82,6 @@
     <Compile Include="General\Helpers.vb" />
     <Compile Include="General\ImageHandling.vb" />
     <Compile Include="General\Launch.vb" />
-    <Compile Include="General\Operations.vb" />
     <Compile Include="General\Sorting.vb" />
     <Compile Include="NTFS-Streams\AlternateDataStreamInfo.vb" />
     <Compile Include="NTFS-Streams\FileStreamAttributes.vb" />
@@ -91,6 +91,11 @@
     <Compile Include="NTFS-Streams\SafeHGlobalHandle.vb" />
     <Compile Include="NTFS-Streams\SafeNativeMethods.vb" />
     <Compile Include="NTFS-Streams\StreamName.vb" />
+    <Compile Include="Operations\Delegator.vb" />
+    <Compile Include="Operations\FileToFile.vb" />
+    <Compile Include="Operations\General.vb" />
+    <Compile Include="Operations\Other.vb" />
+    <Compile Include="Operations\Win32.vb" />
     <Compile Include="Properties\Application.vb" />
     <Compile Include="Properties\AssemblyInfo.vb" />
     <Compile Include="Properties\Resources.Designer.vb">
@@ -121,6 +126,7 @@
     <Folder Include="Forms" />
     <Folder Include="General" />
     <Folder Include="NTFS-Streams" />
+    <Folder Include="Operations" />
     <Folder Include="WalkmanLib" />
   </ItemGroup>
   <ItemGroup>

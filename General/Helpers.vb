@@ -25,7 +25,7 @@ Namespace Helpers
             If paths.Length > 1 Then
                 target = Path.GetDirectoryName(paths(0))
                 If manualEdit Then
-                    If Operations.GetInput(target, "Copy Files", "Enter folder to copy files to:") = DialogResult.Cancel Then Exit Sub
+                    If Input.GetInput(target, "Copy Files", "Enter folder to copy files to:") = DialogResult.Cancel Then Exit Sub
                 Else
                     sdd.SelectedPath = target
                     sdd.Description = "Select folder to copy files to:"
@@ -36,7 +36,7 @@ Namespace Helpers
             Else ' if one file will be copied, allow getting full file path to copy to
                 target = paths(0)
                 If manualEdit Then
-                    If Operations.GetInput(target, "Copy File", "Enter path to copy file to:") = DialogResult.Cancel Then Exit Sub
+                    If Input.GetInput(target, "Copy File", "Enter path to copy file to:") = DialogResult.Cancel Then Exit Sub
                 Else
                     sfd.FileName = Path.GetFileName(target)
                     sfd.InitialDirectory = Path.GetDirectoryName(target)
@@ -56,7 +56,7 @@ Namespace Helpers
             If paths.Length > 1 Then
                 target = Path.GetDirectoryName(paths(0))
                 If manualEdit Then
-                    If Operations.GetInput(target, "Move Files", "Enter folder to move files to:") = DialogResult.Cancel Then Exit Sub
+                    If Input.GetInput(target, "Move Files", "Enter folder to move files to:") = DialogResult.Cancel Then Exit Sub
                 Else
                     sdd.SelectedPath = target
                     sdd.Description = "Select folder to move files to:"
@@ -66,7 +66,7 @@ Namespace Helpers
             Else
                 target = paths(0)
                 If manualEdit Then
-                    If Operations.GetInput(target, "Move File", "Enter path to move file to:") = DialogResult.Cancel Then Exit Sub
+                    If Input.GetInput(target, "Move File", "Enter path to move file to:") = DialogResult.Cancel Then Exit Sub
                 Else
                     sfd.FileName = Path.GetFileName(target)
                     sfd.InitialDirectory = Path.GetDirectoryName(target)
@@ -84,7 +84,7 @@ Namespace Helpers
         Public Function CreateFile(rootPath As String, useInputBox As Boolean) As String
             Dim target As String = "New File"
             If useInputBox Then
-                If Operations.GetInput(target, "Create File", "Enter name of file to create:") = DialogResult.Cancel Then Return Nothing
+                If Input.GetInput(target, "Create File", "Enter name of file to create:") = DialogResult.Cancel Then Return Nothing
             Else
                 sfd.FileName = target
                 sfd.InitialDirectory = rootPath
@@ -103,19 +103,19 @@ Namespace Helpers
             Try
                 Using f As StreamWriter = File.CreateText(target)
                     Dim text As String = Clipboard.GetText()
-                    If Operations.GetInput(text, "File Contents", "Enter file contents:") = DialogResult.OK Then
+                    If Input.GetInput(text, "File Contents", "Enter file contents:") = DialogResult.OK Then
                         f.Write(text)
                     End If
                 End Using
             Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-                Select Case WalkmanLib.CustomMsgBox(ex.Message, Operations.cMBTitle, Operations.cMBbRelaunch, Operations.cMBbRunSysTool, Operations.cMBbCancel,
+                Select Case WalkmanLib.CustomMsgBox(ex.Message, Operations.Other.cMBTitle, Operations.Other.cMBbRelaunch, Operations.Other.cMBbRunSysTool, Operations.Other.cMBbCancel,
                                                     MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
-                    Case Operations.cMBbRelaunch
+                    Case Operations.Other.cMBbRelaunch
                         FileBrowser.RestartAsAdmin()
-                    Case Operations.cMBbRunSysTool
+                    Case Operations.Other.cMBbRunSysTool
                         WalkmanLib.RunAsAdmin("fsutil", "file createnew """ & target & """ 0")
                         Threading.Thread.Sleep(1000)
-                    Case Operations.cMBbCancel
+                    Case Operations.Other.cMBbCancel
                         Return Nothing
                 End Select
             Catch ex As Exception
@@ -128,7 +128,7 @@ Namespace Helpers
         Public Function CreateFolder(rootPath As String, useInputBox As Boolean) As String
             Dim target As String = "New Folder"
             If useInputBox Then
-                If Operations.GetInput(target, "Create Folder", "Enter name of folder to create:") = DialogResult.Cancel Then Return Nothing
+                If Input.GetInput(target, "Create Folder", "Enter name of folder to create:") = DialogResult.Cancel Then Return Nothing
             Else
                 sfd.FileName = target
                 sfd.InitialDirectory = rootPath
@@ -142,14 +142,14 @@ Namespace Helpers
             Try
                 target = Directory.CreateDirectory(target).FullName
             Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
-                Select Case WalkmanLib.CustomMsgBox(ex.Message, Operations.cMBTitle, Operations.cMBbRelaunch, Operations.cMBbRunSysTool, Operations.cMBbCancel,
+                Select Case WalkmanLib.CustomMsgBox(ex.Message, Operations.Other.cMBTitle, Operations.Other.cMBbRelaunch, Operations.Other.cMBbRunSysTool, Operations.Other.cMBbCancel,
                                                     MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
-                    Case Operations.cMBbRelaunch
+                    Case Operations.Other.cMBbRelaunch
                         FileBrowser.RestartAsAdmin()
-                    Case Operations.cMBbRunSysTool
+                    Case Operations.Other.cMBbRunSysTool
                         WalkmanLib.RunAsAdmin("cmd", "/c mkdir """ & target & """ & pause")
                         Threading.Thread.Sleep(1000)
-                    Case Operations.cMBbCancel
+                    Case Operations.Other.cMBbCancel
                         Return Nothing
                 End Select
             Catch ex As Exception
