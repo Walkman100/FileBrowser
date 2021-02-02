@@ -9,7 +9,7 @@ Namespace Operations
             Try
                 For Each path As String In paths
                     Try
-                        Dim pathInfo = WalkmanLib.IsFileOrDirectory(path)
+                        Dim pathInfo As PathEnum = WalkmanLib.IsFileOrDirectory(path)
                         If Helpers.PathContainsADS(path) Then
                             If deletePermanently OrElse MessageBox.Show("Cannot recycle AlternateDataStreams! Delete permanently?", "Deleting ADS",
                                                                         MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
@@ -56,7 +56,7 @@ Namespace Operations
             End Try
         End Sub
 
-        Private sfd As New SaveFileDialog 'With {.CheckFileExists = False}
+        Private sfd As New SaveFileDialog With {.ValidateNames = False}
         Private sdd As New Ookii.Dialogs.VistaFolderBrowserDialog With {.UseDescriptionForTitle = True}
 
         Public Sub MoveTo(paths As String(), manualEdit As Boolean)
@@ -133,18 +133,38 @@ Namespace Operations
                 target = sfd.FileName
             End If
 
-            target = Path.Combine(If(rootPath, ""), target)
+            If rootPath Is Nothing Then
+                target = Path.GetFullPath(target)
+            Else
+                target = Path.Combine(rootPath, target)
+            End If
             If Clipboard.ContainsImage AndAlso MessageBox.Show("Image detected in clipboard! Use it as file contents?",
                                                                Application.ProductName, MessageBoxButtons.YesNo) = DialogResult.Yes Then
-                Clipboard.GetImage.Save(target)
+                If Helpers.PathContainsADS(target) Then
+                    Dim tmpFile As String = Path.GetTempFileName()
+                    Clipboard.GetImage().Save(tmpFile)
+                    FileToADS.Move(tmpFile, target)
+                Else
+                    Clipboard.GetImage().Save(target)
+                End If
                 Return target
             End If
 
             Try
-                Using f As StreamWriter = File.CreateText(target)
+                If Helpers.PathContainsADS(target) Then
+                    If Not File.Exists(Helpers.GetADSPathFile(target)) Then
+                        File.Create(Helpers.GetADSPathFile(target)).Close()
+                    End If
+                End If
+
+                Using sw As StreamWriter = If(Helpers.PathContainsADS(target),
+                                                New StreamWriter(Trinet.Core.IO.Ntfs.GetAlternateDataStream(
+                                                        Helpers.GetADSPathFile(target), Helpers.GetADSPathStream(target)
+                                                    ).OpenWrite()),
+                                                File.CreateText(target))
                     Dim text As String = Clipboard.GetText()
                     If Input.GetInput(text, "File Contents", "Enter file contents:") = DialogResult.OK Then
-                        f.Write(text)
+                        sw.Write(text)
                     End If
                 End Using
             Catch ex As UnauthorizedAccessException When Not WalkmanLib.IsAdmin()
