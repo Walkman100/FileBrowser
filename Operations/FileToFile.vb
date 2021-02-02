@@ -98,7 +98,23 @@ Namespace Operations
                             Exit Sub
                         End If
 
-                        File.Copy(sourcePath, targetPath, overwrite:=True)
+                        Dim sourceStream As FileStream = Nothing
+                        Dim targetStream As FileStream = Nothing
+
+                        Try
+                            sourceStream = File.OpenRead(sourcePath)
+                            targetStream = File.OpenWrite(targetPath)
+                            WalkmanLib.StreamCopy(sourceStream, targetStream, "Copying " & sourcePath & " to " & targetPath & "...",
+                                                  "File to File copy", Sub(s, e)
+                                                                           If e.Error IsNot Nothing Then
+                                                                               FileBrowser.ErrorParser(e.Error)
+                                                                           End If
+                                                                       End Sub)
+                        Catch
+                            sourceStream?.Dispose()
+                            targetStream?.Dispose()
+                            Throw
+                        End Try
                     ElseIf pathInfo.HasFlag(PathEnum.IsDirectory) Then
                         'BackgroundProgress.bwFolderOperations.RunWorkerAsync({"copy", sourcePath, targetPath})
                         'BackgroundProgress.ShowDialog()

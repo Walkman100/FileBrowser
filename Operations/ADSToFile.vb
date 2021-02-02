@@ -5,12 +5,12 @@ Imports Trinet.Core.IO.Ntfs
 Namespace Operations
     Public Class ADSToFile
         Public Shared Sub Move(sourcePath As String, targetPath As String)
-            If Copy(sourcePath, targetPath) Then
-                Delete({sourcePath}, False, True)
-            End If
+            Copy(sourcePath, targetPath, Sub(e)
+                                             If e.Error Is Nothing Then Delete({sourcePath}, False, True)
+                                         End Sub)
         End Sub
 
-        Public Shared Function Copy(sourcePath As String, targetPath As String) As Boolean
+        Public Shared Sub Copy(sourcePath As String, targetPath As String, Optional onComplete As Action(Of ComponentModel.RunWorkerCompletedEventArgs) = Nothing)
             Try
                 Dim adsSource As New AlternateDataStreamInfo(Helpers.GetADSPathFile(sourcePath), Helpers.GetADSPathStream(sourcePath), Nothing, True)
 
@@ -18,17 +18,27 @@ Namespace Operations
                     File.Create(targetPath).Close()
                 End If
 
-                Using sourceStream As FileStream = adsSource.OpenRead()
-                    Using targetStream As FileStream = File.Open(targetPath, FileMode.Truncate)
-                        sourceStream.CopyTo(targetStream)
-                    End Using
-                End Using
+                Dim sourceStream As FileStream = Nothing
+                Dim targetStream As FileStream = Nothing
 
-                Return True
+                Try
+                    sourceStream = adsSource.OpenRead()
+                    targetStream = File.OpenWrite(targetPath)
+                    WalkmanLib.StreamCopy(sourceStream, targetStream, "Copying " & sourcePath & " to " & targetPath & "...",
+                                          "Stream to File copy", Sub(s, e)
+                                                                     If e.Error IsNot Nothing Then
+                                                                         FileBrowser.ErrorParser(e.Error)
+                                                                     End If
+                                                                     onComplete?(e)
+                                                                 End Sub)
+                Catch
+                    sourceStream?.Dispose()
+                    targetStream?.Dispose()
+                    Throw
+                End Try
             Catch ex As Exception
                 FileBrowser.ErrorParser(ex)
-                Return False
             End Try
-        End Function
+        End Sub
     End Class
 End Namespace
