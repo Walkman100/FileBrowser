@@ -74,6 +74,7 @@
     <Compile Include="Forms\Settings.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="General\FolderSettings.vb" />
     <Compile Include="General\Input.vb" />
     <Compile Include="General\ItemClipboard.vb" />
     <Compile Include="General\CtxMenu.vb" />
