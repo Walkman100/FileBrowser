@@ -632,10 +632,13 @@ Public Class FileBrowser
             ShowContext(sender, e.Location)
         End If
     End Sub
-    Private Sub handleKeyUp(sender As Object, e As KeyEventArgs) Handles lstCurrent.KeyUp, treeViewDirs.KeyUp
+    Private Sub handleKeyUp(sender As Object, e As KeyEventArgs) Handles lstCurrent.KeyUp, treeViewDirs.KeyUp, menuStrip.KeyUp, toolStripURL.KeyUp
         e.Handled = True
         If e.KeyCode = Keys.F4 OrElse e.KeyCode = Keys.F6 Then
             cbxURI.ComboBox.Select()
+        ElseIf e.KeyCode = Keys.N AndAlso e.Modifiers = (Keys.Control Or Keys.Shift) Then
+            ' have to handle this separately as shift is still being held down
+            ShowFile(Operations.CreateFolder(CurrentDir, True))
         ElseIf e.KeyCode = Keys.Delete AndAlso e.Modifiers = Keys.Shift Then
             menuFileRecycle_Click()
         ElseIf e.KeyCode = Keys.Apps OrElse (e.KeyCode = Keys.F10 AndAlso e.Modifiers = Keys.Shift) Then

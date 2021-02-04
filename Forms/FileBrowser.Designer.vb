@@ -57,13 +57,12 @@ Partial Class FileBrowser
         Me.menuGoSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuTools = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuToolsSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuToolsSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuToolsUseShell = New System.Windows.Forms.ToolStripMenuItem()
         Me.status = New System.Windows.Forms.StatusStrip()
         Me.statusLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.toolStripURL = New System.Windows.Forms.ToolStrip()
         Me.cbxURI = New System.Windows.Forms.ToolStripComboBox()
-        Me.menuToolsSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuToolsRestoreDefault = New System.Windows.Forms.ToolStripMenuItem()
         Me.btnGo = New System.Windows.Forms.ToolStripButton()
         Me.menuFileCreateFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileCreateFolder = New System.Windows.Forms.ToolStripMenuItem()
@@ -103,6 +102,7 @@ Partial Class FileBrowser
         Me.menuToolsColumns = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuToolsResizeColumns = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuToolsSaveColumns = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuToolsRestoreDefault = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.scMain, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.scMain.Panel1.SuspendLayout()
         Me.scMain.Panel2.SuspendLayout()
@@ -349,6 +349,11 @@ Partial Class FileBrowser
         Me.menuToolsSeparator1.Name = "menuToolsSeparator1"
         Me.menuToolsSeparator1.Size = New System.Drawing.Size(244, 6)
         '
+        'menuToolsSeparator2
+        '
+        Me.menuToolsSeparator2.Name = "menuToolsSeparator2"
+        Me.menuToolsSeparator2.Size = New System.Drawing.Size(244, 6)
+        '
         'menuToolsUseShell
         '
         Me.menuToolsUseShell.CheckOnClick = True
@@ -388,18 +393,6 @@ Partial Class FileBrowser
         Me.cbxURI.Name = "cbxURI"
         Me.cbxURI.Size = New System.Drawing.Size(800, 25)
         '
-        'menuToolsSeparator2
-        '
-        Me.menuToolsSeparator2.Name = "menuToolsSeparator2"
-        Me.menuToolsSeparator2.Size = New System.Drawing.Size(244, 6)
-        '
-        'menuToolsRestoreDefault
-        '
-        Me.menuToolsRestoreDefault.Image = Global.My.Resources.Resources.RestoreColumns
-        Me.menuToolsRestoreDefault.Name = "menuToolsRestoreDefault"
-        Me.menuToolsRestoreDefault.Size = New System.Drawing.Size(247, 22)
-        Me.menuToolsRestoreDefault.Text = "Restore Saved Columns"
-        '
         'btnGo
         '
         Me.btnGo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -421,10 +414,8 @@ Partial Class FileBrowser
         '
         Me.menuFileCreateFolder.Image = Global.My.Resources.Resources.NewFolder
         Me.menuFileCreateFolder.Name = "menuFileCreateFolder"
-        Me.menuFileCreateFolder.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-            Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
         Me.menuFileCreateFolder.Size = New System.Drawing.Size(237, 22)
-        Me.menuFileCreateFolder.Text = "Create Folder..."
+        Me.menuFileCreateFolder.Text = "Create Folder... (Ctrl+Shift+N)"
         '
         'menuFileCopyPath
         '
@@ -701,6 +692,13 @@ Partial Class FileBrowser
         Me.menuToolsSaveColumns.Name = "menuToolsSaveColumns"
         Me.menuToolsSaveColumns.Size = New System.Drawing.Size(247, 22)
         Me.menuToolsSaveColumns.Text = "Save Current Columns as Default"
+        '
+        'menuToolsRestoreDefault
+        '
+        Me.menuToolsRestoreDefault.Image = Global.My.Resources.Resources.RestoreColumns
+        Me.menuToolsRestoreDefault.Name = "menuToolsRestoreDefault"
+        Me.menuToolsRestoreDefault.Size = New System.Drawing.Size(247, 22)
+        Me.menuToolsRestoreDefault.Text = "Restore Saved Columns"
         '
         'FileBrowser
         '
