@@ -538,9 +538,9 @@ Public Class FileBrowser
 
     Private Sub btnGo_Click() Handles btnGo.Click
         Dim newPath As String = Environment.ExpandEnvironmentVariables(cbxURI.Text)
-        If Directory.Exists(newPath) Then
-            CurrentDir = newPath
+        CurrentDir = newPath
 
+        If CurrentDir = newPath Then
             If cbxURI.Items.Contains(newPath) Then
                 cbxURI.Items.Remove(newPath)
             End If
@@ -548,6 +548,7 @@ Public Class FileBrowser
             Settings.SaveSettings()
 
             cbxURI.Text = newPath
+            lstCurrent.Select()
         End If
     End Sub
     Private Sub cbxURI_KeyUp(sender As Object, e As KeyEventArgs) Handles cbxURI.KeyUp
@@ -632,10 +633,15 @@ Public Class FileBrowser
         End If
     End Sub
     Private Sub handleKeyUp(sender As Object, e As KeyEventArgs) Handles lstCurrent.KeyUp, treeViewDirs.KeyUp
-        If e.KeyCode = Keys.Delete AndAlso e.Modifiers = Keys.Shift Then
+        e.Handled = True
+        If e.KeyCode = Keys.F4 OrElse e.KeyCode = Keys.F6 Then
+            cbxURI.ComboBox.Select()
+        ElseIf e.KeyCode = Keys.Delete AndAlso e.Modifiers = Keys.Shift Then
             menuFileRecycle_Click()
         ElseIf e.KeyCode = Keys.Apps OrElse (e.KeyCode = Keys.F10 AndAlso e.Modifiers = Keys.Shift) Then
             ShowContext(sender, New Point(0, 0))
+        Else
+            e.Handled = False
         End If
     End Sub
     Public Sub ctxMenuL_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ctxMenuL.ItemClicked
