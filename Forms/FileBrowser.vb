@@ -632,7 +632,7 @@ Public Class FileBrowser
             ShowContext(sender, e.Location)
         End If
     End Sub
-    Private Sub handleKeyUp(sender As Object, e As KeyEventArgs) Handles lstCurrent.KeyUp, treeViewDirs.KeyUp, menuStrip.KeyUp, toolStripURL.KeyUp
+    Private Sub handleKeyUp(sender As Object, e As KeyEventArgs) Handles lstCurrent.KeyUp, treeViewDirs.KeyUp, menuStrip.KeyUp, toolStripURL.KeyUp, cbxURI.KeyUp
         e.Handled = True
         If e.KeyCode = Keys.F4 OrElse e.KeyCode = Keys.F6 Then
             cbxURI.ComboBox.Select()

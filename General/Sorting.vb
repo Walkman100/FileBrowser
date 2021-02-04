@@ -3,7 +3,8 @@ Imports System.Linq
 Imports System.Windows.Forms
 
 Public Class Sorting
-    Enum SortBy ' equivalent to FileBrowser.lstCurrent.Columns index field
+    ''' <summary>equivalent to <see cref="FileBrowser.lstCurrent"/> Columns index field</summary>
+    Enum SortBy
         Name
         Extension
         LastModified
