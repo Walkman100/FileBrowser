@@ -335,7 +335,7 @@ Partial Class FileBrowser
         'menuGoSeparator1
         '
         Me.menuGoSeparator1.Name = "menuGoSeparator1"
-        Me.menuGoSeparator1.Size = New System.Drawing.Size(172, 6)
+        Me.menuGoSeparator1.Size = New System.Drawing.Size(177, 6)
         '
         'menuTools
         '
@@ -360,6 +360,8 @@ Partial Class FileBrowser
         Me.menuToolsUseShell.Name = "menuToolsUseShell"
         Me.menuToolsUseShell.Size = New System.Drawing.Size(247, 22)
         Me.menuToolsUseShell.Text = "Use Windows Shell"
+        Me.menuToolsUseShell.ToolTipText = "Enable this to use Windows' built-in copy/move functions. Disable to use custom F" &
+    "ileBrowser methods"
         '
         'status
         '
@@ -389,6 +391,7 @@ Partial Class FileBrowser
         '
         Me.cbxURI.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
         Me.cbxURI.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystemDirectories
+        Me.cbxURI.AutoToolTip = True
         Me.cbxURI.FlatStyle = System.Windows.Forms.FlatStyle.Standard
         Me.cbxURI.Name = "cbxURI"
         Me.cbxURI.Size = New System.Drawing.Size(800, 25)
@@ -409,6 +412,7 @@ Partial Class FileBrowser
         Me.menuFileCreateFile.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
         Me.menuFileCreateFile.Size = New System.Drawing.Size(237, 22)
         Me.menuFileCreateFile.Text = "Create File..."
+        Me.menuFileCreateFile.ToolTipText = "Hold Shift to use a Select Dialog. Can create ADSs"
         '
         'menuFileCreateFolder
         '
@@ -416,6 +420,7 @@ Partial Class FileBrowser
         Me.menuFileCreateFolder.Name = "menuFileCreateFolder"
         Me.menuFileCreateFolder.Size = New System.Drawing.Size(237, 22)
         Me.menuFileCreateFolder.Text = "Create Folder... (Ctrl+Shift+N)"
+        Me.menuFileCreateFolder.ToolTipText = "Hold Shift to use a Select Dialog"
         '
         'menuFileCopyPath
         '
@@ -425,6 +430,7 @@ Partial Class FileBrowser
             Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
         Me.menuFileCopyPath.Size = New System.Drawing.Size(237, 22)
         Me.menuFileCopyPath.Text = "Copy Path"
+        Me.menuFileCopyPath.ToolTipText = "Hold Shift to surround path with quotes"
         '
         'menuFileRename
         '
@@ -441,6 +447,7 @@ Partial Class FileBrowser
         Me.menuFileRecycle.ShortcutKeys = System.Windows.Forms.Keys.Delete
         Me.menuFileRecycle.Size = New System.Drawing.Size(237, 22)
         Me.menuFileRecycle.Text = "Delete to Recycle Bin"
+        Me.menuFileRecycle.ToolTipText = "Hold Shift to delete Permanently"
         '
         'menuFileDelete
         '
@@ -448,6 +455,7 @@ Partial Class FileBrowser
         Me.menuFileDelete.Name = "menuFileDelete"
         Me.menuFileDelete.Size = New System.Drawing.Size(237, 22)
         Me.menuFileDelete.Text = "Delete Permanently (Shift+Del)"
+        Me.menuFileDelete.ToolTipText = "Hold Shift to send to Recycle Bin"
         '
         'menuFileCopyTo
         '
@@ -455,6 +463,7 @@ Partial Class FileBrowser
         Me.menuFileCopyTo.Name = "menuFileCopyTo"
         Me.menuFileCopyTo.Size = New System.Drawing.Size(237, 22)
         Me.menuFileCopyTo.Text = "Copy To..."
+        Me.menuFileCopyTo.ToolTipText = "Hold Shift to enter path in a textbox instead of a Select Dialog"
         '
         'menuFileMoveTo
         '
@@ -462,6 +471,7 @@ Partial Class FileBrowser
         Me.menuFileMoveTo.Name = "menuFileMoveTo"
         Me.menuFileMoveTo.Size = New System.Drawing.Size(237, 22)
         Me.menuFileMoveTo.Text = "Move To..."
+        Me.menuFileMoveTo.ToolTipText = "Hold Shift to enter path in a textbox instead of a Select Dialog"
         '
         'menuFileProperties
         '
@@ -470,6 +480,7 @@ Partial Class FileBrowser
         Me.menuFileProperties.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Enter), System.Windows.Forms.Keys)
         Me.menuFileProperties.Size = New System.Drawing.Size(237, 22)
         Me.menuFileProperties.Text = "Properties"
+        Me.menuFileProperties.ToolTipText = "Open the Windows Properties window on the currently selected items"
         '
         'menuFileLaunch
         '
@@ -477,6 +488,7 @@ Partial Class FileBrowser
         Me.menuFileLaunch.Name = "menuFileLaunch"
         Me.menuFileLaunch.Size = New System.Drawing.Size(237, 22)
         Me.menuFileLaunch.Text = "Launch"
+        Me.menuFileLaunch.ToolTipText = "Launch the currently selected items with the default assigned program"
         '
         'menuFileExecute
         '
@@ -484,6 +496,8 @@ Partial Class FileBrowser
         Me.menuFileExecute.Name = "menuFileExecute"
         Me.menuFileExecute.Size = New System.Drawing.Size(237, 22)
         Me.menuFileExecute.Text = "Execute"
+        Me.menuFileExecute.ToolTipText = "Execute the currently selected items. This can be used to run programs without th" &
+    "e default .exe or .com extension, or in an ADS"
         '
         'menuFileRunAs
         '
@@ -491,6 +505,8 @@ Partial Class FileBrowser
         Me.menuFileRunAs.Name = "menuFileRunAs"
         Me.menuFileRunAs.Size = New System.Drawing.Size(237, 22)
         Me.menuFileRunAs.Text = "Open As Admin"
+        Me.menuFileRunAs.ToolTipText = "Attempts to open the currently selected items as Admin. If these are not programs" &
+    ", they will be opened with the assigned program"
         '
         'menuFileOpenWith
         '
@@ -498,6 +514,7 @@ Partial Class FileBrowser
         Me.menuFileOpenWith.Name = "menuFileOpenWith"
         Me.menuFileOpenWith.Size = New System.Drawing.Size(237, 22)
         Me.menuFileOpenWith.Text = "Open With..."
+        Me.menuFileOpenWith.ToolTipText = "Launches the Windows Open With dialog on the currently selected items"
         '
         'menuFileShowTarget
         '
@@ -505,6 +522,8 @@ Partial Class FileBrowser
         Me.menuFileShowTarget.Name = "menuFileShowTarget"
         Me.menuFileShowTarget.Size = New System.Drawing.Size(237, 22)
         Me.menuFileShowTarget.Text = "Show Target"
+        Me.menuFileShowTarget.ToolTipText = "Goes to the folder containing the target of the currently selected Symlink or Sho" &
+    "rtcut"
         '
         'menuFileRelaunch
         '
@@ -512,6 +531,7 @@ Partial Class FileBrowser
         Me.menuFileRelaunch.Name = "menuFileRelaunch"
         Me.menuFileRelaunch.Size = New System.Drawing.Size(237, 22)
         Me.menuFileRelaunch.Text = "Relaunch as Admin"
+        Me.menuFileRelaunch.ToolTipText = "Relaunches FileBrowser in the current folder with Admin permissions"
         '
         'menuFileExit
         '
@@ -529,6 +549,7 @@ Partial Class FileBrowser
         Me.menuEditCut.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
         Me.menuEditCut.Size = New System.Drawing.Size(220, 22)
         Me.menuEditCut.Text = "Cu&t"
+        Me.menuEditCut.ToolTipText = "Hold Shift to add items to clipboard instead of replacing current items"
         '
         'menuEditCopy
         '
@@ -538,6 +559,7 @@ Partial Class FileBrowser
         Me.menuEditCopy.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
         Me.menuEditCopy.Size = New System.Drawing.Size(220, 22)
         Me.menuEditCopy.Text = "&Copy"
+        Me.menuEditCopy.ToolTipText = "Hold Shift to add items to clipboard instead of replacing current items"
         '
         'menuEditPaste
         '
@@ -547,6 +569,7 @@ Partial Class FileBrowser
         Me.menuEditPaste.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
         Me.menuEditPaste.Size = New System.Drawing.Size(220, 22)
         Me.menuEditPaste.Text = "&Paste"
+        Me.menuEditPaste.ToolTipText = "Paste items in clipboard"
         '
         'menuEditPasteAsHardlink
         '
@@ -607,7 +630,7 @@ Partial Class FileBrowser
         Me.menuGoBack.Image = Global.My.Resources.Resources.Back
         Me.menuGoBack.Name = "menuGoBack"
         Me.menuGoBack.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Left), System.Windows.Forms.Keys)
-        Me.menuGoBack.Size = New System.Drawing.Size(175, 22)
+        Me.menuGoBack.Size = New System.Drawing.Size(180, 22)
         Me.menuGoBack.Text = "Back"
         '
         'menuGoForward
@@ -615,7 +638,7 @@ Partial Class FileBrowser
         Me.menuGoForward.Image = Global.My.Resources.Resources.Forward
         Me.menuGoForward.Name = "menuGoForward"
         Me.menuGoForward.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Right), System.Windows.Forms.Keys)
-        Me.menuGoForward.Size = New System.Drawing.Size(175, 22)
+        Me.menuGoForward.Size = New System.Drawing.Size(180, 22)
         Me.menuGoForward.Text = "Forward"
         '
         'menuGoUp
@@ -623,31 +646,34 @@ Partial Class FileBrowser
         Me.menuGoUp.Image = Global.My.Resources.Resources.Up
         Me.menuGoUp.Name = "menuGoUp"
         Me.menuGoUp.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Up), System.Windows.Forms.Keys)
-        Me.menuGoUp.Size = New System.Drawing.Size(175, 22)
+        Me.menuGoUp.Size = New System.Drawing.Size(180, 22)
         Me.menuGoUp.Text = "Up"
+        Me.menuGoUp.ToolTipText = "Go to parent folder"
         '
         'menuGoRoot
         '
         Me.menuGoRoot.Image = Global.My.Resources.Resources.Root
         Me.menuGoRoot.Name = "menuGoRoot"
         Me.menuGoRoot.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.menuGoRoot.Size = New System.Drawing.Size(175, 22)
+        Me.menuGoRoot.Size = New System.Drawing.Size(180, 22)
         Me.menuGoRoot.Text = "Root"
+        Me.menuGoRoot.ToolTipText = "Go to current Drive Root"
         '
         'menuGoHome
         '
         Me.menuGoHome.Image = Global.My.Resources.Resources.Home
         Me.menuGoHome.Name = "menuGoHome"
         Me.menuGoHome.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.H), System.Windows.Forms.Keys)
-        Me.menuGoHome.Size = New System.Drawing.Size(175, 22)
+        Me.menuGoHome.Size = New System.Drawing.Size(180, 22)
         Me.menuGoHome.Text = "Home"
+        Me.menuGoHome.ToolTipText = "Go to User's home folder"
         '
         'menuGoRefresh
         '
         Me.menuGoRefresh.Image = Global.My.Resources.Resources.Refresh
         Me.menuGoRefresh.Name = "menuGoRefresh"
         Me.menuGoRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.menuGoRefresh.Size = New System.Drawing.Size(175, 22)
+        Me.menuGoRefresh.Size = New System.Drawing.Size(180, 22)
         Me.menuGoRefresh.Text = "Refresh"
         '
         'menuGoStop
@@ -655,7 +681,7 @@ Partial Class FileBrowser
         Me.menuGoStop.Image = Global.My.Resources.Resources.Cancel
         Me.menuGoStop.Name = "menuGoStop"
         Me.menuGoStop.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.menuGoStop.Size = New System.Drawing.Size(175, 22)
+        Me.menuGoStop.Size = New System.Drawing.Size(180, 22)
         Me.menuGoStop.Text = "Stop"
         '
         'menuToolsSettings
@@ -664,6 +690,7 @@ Partial Class FileBrowser
         Me.menuToolsSettings.Name = "menuToolsSettings"
         Me.menuToolsSettings.Size = New System.Drawing.Size(247, 22)
         Me.menuToolsSettings.Text = "Settings"
+        Me.menuToolsSettings.ToolTipText = "Open or Show FileBrowser Settings dialog"
         '
         'menuToolsContextMenu
         '
@@ -671,6 +698,7 @@ Partial Class FileBrowser
         Me.menuToolsContextMenu.Name = "menuToolsContextMenu"
         Me.menuToolsContextMenu.Size = New System.Drawing.Size(247, 22)
         Me.menuToolsContextMenu.Text = "Context Menu Configuration"
+        Me.menuToolsContextMenu.ToolTipText = "Open or Show Context Menu setup dialog"
         '
         'menuToolsColumns
         '
@@ -678,6 +706,7 @@ Partial Class FileBrowser
         Me.menuToolsColumns.Name = "menuToolsColumns"
         Me.menuToolsColumns.Size = New System.Drawing.Size(247, 22)
         Me.menuToolsColumns.Text = "Columns Configuration"
+        Me.menuToolsColumns.ToolTipText = "Open or Show Column Hide/Show dialog"
         '
         'menuToolsResizeColumns
         '
@@ -685,6 +714,7 @@ Partial Class FileBrowser
         Me.menuToolsResizeColumns.Name = "menuToolsResizeColumns"
         Me.menuToolsResizeColumns.Size = New System.Drawing.Size(247, 22)
         Me.menuToolsResizeColumns.Text = "Resize All Columns"
+        Me.menuToolsResizeColumns.ToolTipText = "Resizes all columns that are visible. Hidden columns (Width = 0) stay hidden"
         '
         'menuToolsSaveColumns
         '
@@ -692,6 +722,7 @@ Partial Class FileBrowser
         Me.menuToolsSaveColumns.Name = "menuToolsSaveColumns"
         Me.menuToolsSaveColumns.Size = New System.Drawing.Size(247, 22)
         Me.menuToolsSaveColumns.Text = "Save Current Columns as Default"
+        Me.menuToolsSaveColumns.ToolTipText = "Save the current view's columns as the default configuration"
         '
         'menuToolsRestoreDefault
         '
@@ -699,6 +730,7 @@ Partial Class FileBrowser
         Me.menuToolsRestoreDefault.Name = "menuToolsRestoreDefault"
         Me.menuToolsRestoreDefault.Size = New System.Drawing.Size(247, 22)
         Me.menuToolsRestoreDefault.Text = "Restore Saved Columns"
+        Me.menuToolsRestoreDefault.ToolTipText = "Restore the saved column configuration to the current view"
         '
         'FileBrowser
         '
