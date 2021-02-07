@@ -6,9 +6,8 @@ Imports Trinet.Core.IO.Ntfs
 Public Class Launch
     Private Shared Function FormatEntry(path As String, format As String, Optional returnPathOnFormatEmpty As Boolean = True) As String
         If String.IsNullOrEmpty(format) Then Return If(returnPathOnFormatEmpty, path, String.Empty)
-        If Helpers.PathContainsADS(path) Then
-            If Not AlternateDataStreamExists(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path)) Then Return format
 
+        If Helpers.PathContainsADS(path) AndAlso AlternateDataStreamExists(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path)) Then
             Dim adsInfo As AlternateDataStreamInfo = GetAlternateDataStream(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path))
 
             If format.Contains("{path}") Then
@@ -36,9 +35,7 @@ Public Class Launch
                     format = format.Replace("{target}", WalkmanLib.GetShortcutInfo(Helpers.GetADSPath(adsInfo)).TargetPath)
                 End If
             End If
-        Else
-            If WalkmanLib.IsFileOrDirectory(path) = PathEnum.NotFound Then Return format
-
+        ElseIf WalkmanLib.IsFileOrDirectory(path) <> PathEnum.NotFound Then
             Dim fileInfo As New FileInfo(path)
 
             If format.Contains("{path}") Then
@@ -67,6 +64,16 @@ Public Class Launch
                 Else
                     Throw New InvalidOperationException(String.Format("""{0}"" is not a SymLink or Shortcut!", path))
                 End If
+            End If
+        Else ' path is not found. try our best to replace values
+            If format.Contains("{path}") Then
+                format = format.Replace("{path}", path)
+            End If
+            If format.Contains("{directory}") Then
+                format = format.Replace("{directory}", path.Remove(path.LastIndexOf(IO.Path.DirectorySeparatorChar)))
+            End If
+            If format.Contains("{name}") Then
+                format = format.Replace("{name}", path.Substring(path.LastIndexOf(IO.Path.DirectorySeparatorChar) + 1))
             End If
         End If
 

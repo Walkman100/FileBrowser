@@ -88,28 +88,42 @@ Public Class Filesystem
 
     Private Shared Iterator Function Filter(paths As IEnumerable(Of String)) As IEnumerable(Of EntryInfo)
         For Each path As String In paths
-            Dim info As New FileInfo(path)
-            If (Settings.ShowHidden OrElse Not info.Attributes.HasFlag(FileAttributes.Hidden)) AndAlso
-               (Settings.ShowSystem OrElse Not info.Attributes.HasFlag(FileAttributes.System)) AndAlso
-               (Settings.ShowDot OrElse Not info.Name.Chars(0) = "."c) Then
+            Dim errored As Boolean = False
+            Try
 
-                Dim entryInfo As EntryInfo = GetItemEntryInfo(info)
-                Yield entryInfo
+                Dim info As New FileInfo(path)
+                If (Settings.ShowHidden OrElse Not info.Attributes.HasFlag(FileAttributes.Hidden)) AndAlso
+                   (Settings.ShowSystem OrElse Not info.Attributes.HasFlag(FileAttributes.System)) AndAlso
+                   (Settings.ShowDot OrElse Not info.Name.Chars(0) = "."c) Then
 
-                If Settings.ShowADSSeparate Then
-                    If entryInfo.ADSCount > 0 Then
-                        For Each adsInfo As AlternateDataStreamInfo In info.ListAlternateDataStreams()
-                            entryInfo = New EntryInfo With {
-                                .FullName = adsInfo.FullPath.Remove(adsInfo.FullPath.LastIndexOf(":"c)),
-                                .Size = adsInfo.Size,
-                                .Type = EntryType.AlternateDataStream,
-                                .DisplayName = IO.Path.GetFileName(adsInfo.FilePath) & ":" & adsInfo.Name
-                            }
+                    Dim entryInfo As EntryInfo = GetItemEntryInfo(info)
+                    Yield entryInfo
 
-                            Yield entryInfo
-                        Next
+                    If Settings.ShowADSSeparate Then
+                        If entryInfo.ADSCount > 0 Then
+                            For Each adsInfo As AlternateDataStreamInfo In info.ListAlternateDataStreams()
+                                entryInfo = New EntryInfo With {
+                                    .FullName = adsInfo.FullPath.Remove(adsInfo.FullPath.LastIndexOf(":"c)),
+                                    .Size = adsInfo.Size,
+                                    .Type = EntryType.AlternateDataStream,
+                                    .DisplayName = IO.Path.GetFileName(adsInfo.FilePath) & ":" & adsInfo.Name
+                                }
+
+                                Yield entryInfo
+                            Next
+                        End If
                     End If
                 End If
+
+            Catch ex As NotSupportedException ' invalid path created on linux
+                errored = True
+            End Try
+
+            If errored Then ' can't put yield in a Catch or Finally...
+                Yield New EntryInfo With {
+                    .FullName = path,
+                    .DisplayName = path.Substring(path.LastIndexOf(IO.Path.DirectorySeparatorChar) + 1) & " (Error)"
+                }
             End If
         Next
     End Function
