@@ -561,18 +561,24 @@ Public Class ContextMenuConfig
             Case 0, 1, 2, 4
                 lblItemActionFile.Enabled = True
                 txtItemActionFile.Enabled = True
+                toolStripItemActionFileBtnInsert.Enabled = True
                 lblItemActionArgs.Enabled = True
                 txtItemActionArgs.Enabled = True
+                toolStripItemActionArgsBtnInsert.Enabled = True
             Case 3, 5, 6
                 lblItemActionFile.Enabled = True
                 txtItemActionFile.Enabled = True
+                toolStripItemActionFileBtnInsert.Enabled = True
                 lblItemActionArgs.Enabled = False
                 txtItemActionArgs.Enabled = False
+                toolStripItemActionArgsBtnInsert.Enabled = False
             Case Else
                 lblItemActionFile.Enabled = False
                 txtItemActionFile.Enabled = False
+                toolStripItemActionFileBtnInsert.Enabled = False
                 lblItemActionArgs.Enabled = False
                 txtItemActionArgs.Enabled = False
+                toolStripItemActionArgsBtnInsert.Enabled = False
         End Select
 
         If cbxItemActionType.SelectedIndex = 4 Then
@@ -614,6 +620,42 @@ Public Class ContextMenuConfig
                 UpdateItem(item, info)
             Next
             lstMain.EndUpdate()
+        End If
+    End Sub
+
+    Private Sub toolStripItemActionFileInsertPath_Click(sender As Object, e As EventArgs) Handles _
+            toolStripItemActionFileInsertPath.Click,        toolStripItemActionArgsInsertPath.Click,
+            toolStripItemActionFileInsertDirectory.Click,   toolStripItemActionArgsInsertDirectory.Click,
+            toolStripItemActionFileInsertName.Click,        toolStripItemActionArgsInsertName.Click,
+            toolStripItemActionFileInsertNameNoExt.Click,   toolStripItemActionArgsInsertNameNoExt.Click,
+            toolStripItemActionFileInsertExt.Click,         toolStripItemActionArgsInsertExt.Click,
+            toolStripItemActionFileInsertOpenWith.Click,    toolStripItemActionArgsInsertOpenWith.Click,
+            toolStripItemActionFileInsertTarget.Click,      toolStripItemActionArgsInsertTarget.Click
+        Dim tSI As ToolStripItem = CType(sender, ToolStripItem)
+        Dim text As String = Nothing
+
+        Select Case tSI.Name.Substring(23)
+            Case "InsertPath"
+                text = "{path}"
+            Case "InsertDirectory"
+                text = "{directory}"
+            Case "InsertName"
+                text = "{name}"
+            Case "InsertNameNoExt"
+                text = "{namenoext}"
+            Case "InsertExt"
+                text = "{fileext}"
+            Case "InsertOpenWith"
+                text = "{openwith}"
+            Case "InsertTarget"
+                text = "{target}"
+        End Select
+
+        Dim parent As ToolStripDropDownButton = CType(tSI.OwnerItem, ToolStripDropDownButton)
+        If parent Is toolStripItemActionFileBtnInsert Then
+            txtItemActionFile.Text &= text
+        ElseIf parent Is toolStripItemActionArgsBtnInsert Then
+            txtItemActionArgs.Text &= text
         End If
     End Sub
 #End Region
