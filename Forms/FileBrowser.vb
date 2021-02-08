@@ -195,10 +195,12 @@ Public Class FileBrowser
             lstCurrent.Items.Add(CreateItem(itemInfo))
         Next
 
+        g_disableSaveColumns = True
         Settings.LoadDefaultColumns()
         If Settings.SaveColumns Then
-            ' load folder-specific columns
+            FolderSettings.GetColumns(CurrentDir)
         End If
+        g_disableSaveColumns = False
 
         If Settings.EnableIcons Then
             lstCurrent.SmallImageList = ImageHandling.GetImageList(lstCurrent.Items, 16, True)
@@ -354,6 +356,13 @@ Public Class FileBrowser
             lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(sortBy, SortOrder.Ascending)
         End If
         Sorting.Sort(lstCurrent.Items, lastSort.Key, lastSort.Value)
+    End Sub
+
+    Private g_disableSaveColumns As Boolean = True
+    Private Sub lstCurrent_ColumnEdit() Handles lstCurrent.ColumnReordered, lstCurrent.ColumnWidthChanged
+        If Not g_disableSaveColumns AndAlso Settings.SaveColumns Then
+            FolderSettings.SaveColumns(CurrentDir)
+        End If
     End Sub
 #End Region
 
@@ -530,7 +539,7 @@ Public Class FileBrowser
         Settings.SaveDefaultColumns()
     End Sub
     Private Sub menuToolsRestoreDefault_Click() Handles menuToolsRestoreDefault.Click
-        ' delete current folder column config
+        FolderSettings.DeleteColumnConfig(CurrentDir)
         Settings.LoadDefaultColumns()
     End Sub
 
