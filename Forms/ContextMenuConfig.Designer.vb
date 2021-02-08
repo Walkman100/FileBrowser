@@ -661,7 +661,6 @@ Partial Class ContextMenuConfig
         Me.ResumeLayout(False)
 
     End Sub
-
     Friend WithEvents lstMain As System.Windows.Forms.ListView
     Friend WithEvents colHeadText As System.Windows.Forms.ColumnHeader
     Friend WithEvents colHeadIcon As System.Windows.Forms.ColumnHeader

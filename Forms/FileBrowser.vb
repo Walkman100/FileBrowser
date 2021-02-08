@@ -106,16 +106,14 @@ Public Class FileBrowser
                           ShowFile(file)
                           Return True
                       End Function
-            }
-        },
+        }},
         {"show", New WalkmanLib.FlagInfo With {
             .hasArgs = True,
             .action = Function(file)
                           ShowFile(file)
                           Return True
                       End Function
-            }
-        }
+        }}
     }
 
     Protected Overrides Sub WndProc(ByRef m As Message)

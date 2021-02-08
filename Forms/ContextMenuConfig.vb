@@ -401,7 +401,7 @@ Public Class ContextMenuConfig
         chkItemIsSubItem.Enabled = (cbxItemType.SelectedIndex = 0)
         chkItemExtended.Enabled = (cbxItemType.SelectedIndex = 0)
         chkItemRestrict.Enabled = (cbxItemType.SelectedIndex = 0)
-        cbxItemRestrict.Enabled = If(cbxItemType.SelectedIndex <> 0, False, chkItemRestrict.Checked)
+        cbxItemRestrict.Enabled = cbxItemType.SelectedIndex = 0 AndAlso chkItemRestrict.Checked
         lblItemFilter.Enabled = (cbxItemType.SelectedIndex = 0)
         txtItemFilter.Enabled = (cbxItemType.SelectedIndex = 0)
         grpItemAction.Enabled = (cbxItemType.SelectedIndex = 0)
