@@ -11,9 +11,9 @@ Imports System.Runtime.InteropServices
 <assembly: AssemblyTitle("FileBrowser")>
 <assembly: AssemblyDescription("")>
 <assembly: AssemblyConfiguration("")>
-<assembly: AssemblyCompany("")>
+<assembly: AssemblyCompany("WalkmanOSS")>
 <assembly: AssemblyProduct("FileBrowser")>
-<assembly: AssemblyCopyright("Copyright 2020")>
+<assembly: AssemblyCopyright("FOSS from Walkman 2020-21")>
 <assembly: AssemblyTrademark("")>
 <assembly: AssemblyCulture("")>
 
