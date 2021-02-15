@@ -48,6 +48,15 @@ Partial Class ContextMenuConfig
         Me.lblItemIconPath = New System.Windows.Forms.Label()
         Me.grpItemAction = New System.Windows.Forms.GroupBox()
         Me.toolStripItemActionArgs = New System.Windows.Forms.ToolStrip()
+        Me.toolStripItemActionArgsBtnInsert = New System.Windows.Forms.ToolStripDropDownButton()
+        Me.toolStripItemActionArgsInsertPath = New System.Windows.Forms.ToolStripMenuItem()
+        Me.toolStripItemActionArgsInsertDirectory = New System.Windows.Forms.ToolStripMenuItem()
+        Me.toolStripItemActionArgsInsertName = New System.Windows.Forms.ToolStripMenuItem()
+        Me.toolStripItemActionArgsInsertNameNoExt = New System.Windows.Forms.ToolStripMenuItem()
+        Me.toolStripItemActionArgsInsertExt = New System.Windows.Forms.ToolStripMenuItem()
+        Me.toolStripItemActionArgsInsertOpenWith = New System.Windows.Forms.ToolStripMenuItem()
+        Me.toolStripItemActionArgsInsertTarget = New System.Windows.Forms.ToolStripMenuItem()
+        Me.toolStripItemActionArgsInsertWalkmanUtils = New System.Windows.Forms.ToolStripMenuItem()
         Me.toolStripItemActionFile = New System.Windows.Forms.ToolStrip()
         Me.toolStripItemActionFileBtnInsert = New System.Windows.Forms.ToolStripDropDownButton()
         Me.toolStripItemActionFileInsertPath = New System.Windows.Forms.ToolStripMenuItem()
@@ -57,6 +66,7 @@ Partial Class ContextMenuConfig
         Me.toolStripItemActionFileInsertExt = New System.Windows.Forms.ToolStripMenuItem()
         Me.toolStripItemActionFileInsertOpenWith = New System.Windows.Forms.ToolStripMenuItem()
         Me.toolStripItemActionFileInsertTarget = New System.Windows.Forms.ToolStripMenuItem()
+        Me.toolStripItemActionFileInsertWalkmanUtils = New System.Windows.Forms.ToolStripMenuItem()
         Me.lblItemActionType = New System.Windows.Forms.Label()
         Me.cbxItemActionType = New System.Windows.Forms.ComboBox()
         Me.lblItemActionFile = New System.Windows.Forms.Label()
@@ -73,14 +83,6 @@ Partial Class ContextMenuConfig
         Me.lblItemText = New System.Windows.Forms.Label()
         Me.cbxItemType = New System.Windows.Forms.ComboBox()
         Me.scMain = New System.Windows.Forms.SplitContainer()
-        Me.toolStripItemActionArgsBtnInsert = New System.Windows.Forms.ToolStripDropDownButton()
-        Me.toolStripItemActionArgsInsertPath = New System.Windows.Forms.ToolStripMenuItem()
-        Me.toolStripItemActionArgsInsertDirectory = New System.Windows.Forms.ToolStripMenuItem()
-        Me.toolStripItemActionArgsInsertName = New System.Windows.Forms.ToolStripMenuItem()
-        Me.toolStripItemActionArgsInsertNameNoExt = New System.Windows.Forms.ToolStripMenuItem()
-        Me.toolStripItemActionArgsInsertExt = New System.Windows.Forms.ToolStripMenuItem()
-        Me.toolStripItemActionArgsInsertOpenWith = New System.Windows.Forms.ToolStripMenuItem()
-        Me.toolStripItemActionArgsInsertTarget = New System.Windows.Forms.ToolStripMenuItem()
         Me.grpItemConfig.SuspendLayout()
         CType(Me.imgItemIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpItemAction.SuspendLayout()
@@ -350,6 +352,63 @@ Partial Class ContextMenuConfig
         Me.toolStripItemActionArgs.Size = New System.Drawing.Size(52, 25)
         Me.toolStripItemActionArgs.TabIndex = 7
         '
+        'toolStripItemActionArgsBtnInsert
+        '
+        Me.toolStripItemActionArgsBtnInsert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.toolStripItemActionArgsBtnInsert.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripItemActionArgsInsertPath, Me.toolStripItemActionArgsInsertDirectory, Me.toolStripItemActionArgsInsertName, Me.toolStripItemActionArgsInsertNameNoExt, Me.toolStripItemActionArgsInsertExt, Me.toolStripItemActionArgsInsertOpenWith, Me.toolStripItemActionArgsInsertTarget, Me.toolStripItemActionArgsInsertWalkmanUtils})
+        Me.toolStripItemActionArgsBtnInsert.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.toolStripItemActionArgsBtnInsert.Name = "toolStripItemActionArgsBtnInsert"
+        Me.toolStripItemActionArgsBtnInsert.Size = New System.Drawing.Size(49, 22)
+        Me.toolStripItemActionArgsBtnInsert.Text = "Insert"
+        '
+        'toolStripItemActionArgsInsertPath
+        '
+        Me.toolStripItemActionArgsInsertPath.Name = "toolStripItemActionArgsInsertPath"
+        Me.toolStripItemActionArgsInsertPath.Size = New System.Drawing.Size(231, 22)
+        Me.toolStripItemActionArgsInsertPath.Text = "Item Path"
+        '
+        'toolStripItemActionArgsInsertDirectory
+        '
+        Me.toolStripItemActionArgsInsertDirectory.Name = "toolStripItemActionArgsInsertDirectory"
+        Me.toolStripItemActionArgsInsertDirectory.Size = New System.Drawing.Size(231, 22)
+        Me.toolStripItemActionArgsInsertDirectory.Text = "Containing Directory"
+        '
+        'toolStripItemActionArgsInsertName
+        '
+        Me.toolStripItemActionArgsInsertName.Name = "toolStripItemActionArgsInsertName"
+        Me.toolStripItemActionArgsInsertName.Size = New System.Drawing.Size(231, 22)
+        Me.toolStripItemActionArgsInsertName.Text = "Item Name"
+        '
+        'toolStripItemActionArgsInsertNameNoExt
+        '
+        Me.toolStripItemActionArgsInsertNameNoExt.Name = "toolStripItemActionArgsInsertNameNoExt"
+        Me.toolStripItemActionArgsInsertNameNoExt.Size = New System.Drawing.Size(231, 22)
+        Me.toolStripItemActionArgsInsertNameNoExt.Text = "Item Name without Extension"
+        '
+        'toolStripItemActionArgsInsertExt
+        '
+        Me.toolStripItemActionArgsInsertExt.Name = "toolStripItemActionArgsInsertExt"
+        Me.toolStripItemActionArgsInsertExt.Size = New System.Drawing.Size(231, 22)
+        Me.toolStripItemActionArgsInsertExt.Text = "Item Extension"
+        '
+        'toolStripItemActionArgsInsertOpenWith
+        '
+        Me.toolStripItemActionArgsInsertOpenWith.Name = "toolStripItemActionArgsInsertOpenWith"
+        Me.toolStripItemActionArgsInsertOpenWith.Size = New System.Drawing.Size(231, 22)
+        Me.toolStripItemActionArgsInsertOpenWith.Text = "Open With Program path"
+        '
+        'toolStripItemActionArgsInsertTarget
+        '
+        Me.toolStripItemActionArgsInsertTarget.Name = "toolStripItemActionArgsInsertTarget"
+        Me.toolStripItemActionArgsInsertTarget.Size = New System.Drawing.Size(231, 22)
+        Me.toolStripItemActionArgsInsertTarget.Text = "Symlink/Shortcut target"
+        '
+        'toolStripItemActionArgsInsertWalkmanUtils
+        '
+        Me.toolStripItemActionArgsInsertWalkmanUtils.Name = "toolStripItemActionArgsInsertWalkmanUtils"
+        Me.toolStripItemActionArgsInsertWalkmanUtils.Size = New System.Drawing.Size(231, 22)
+        Me.toolStripItemActionArgsInsertWalkmanUtils.Text = "WalkmanUtils path"
+        '
         'toolStripItemActionFile
         '
         Me.toolStripItemActionFile.Dock = System.Windows.Forms.DockStyle.None
@@ -363,7 +422,7 @@ Partial Class ContextMenuConfig
         'toolStripItemActionFileBtnInsert
         '
         Me.toolStripItemActionFileBtnInsert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.toolStripItemActionFileBtnInsert.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripItemActionFileInsertPath, Me.toolStripItemActionFileInsertDirectory, Me.toolStripItemActionFileInsertName, Me.toolStripItemActionFileInsertNameNoExt, Me.toolStripItemActionFileInsertExt, Me.toolStripItemActionFileInsertOpenWith, Me.toolStripItemActionFileInsertTarget})
+        Me.toolStripItemActionFileBtnInsert.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripItemActionFileInsertPath, Me.toolStripItemActionFileInsertDirectory, Me.toolStripItemActionFileInsertName, Me.toolStripItemActionFileInsertNameNoExt, Me.toolStripItemActionFileInsertExt, Me.toolStripItemActionFileInsertOpenWith, Me.toolStripItemActionFileInsertTarget, Me.toolStripItemActionFileInsertWalkmanUtils})
         Me.toolStripItemActionFileBtnInsert.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.toolStripItemActionFileBtnInsert.Name = "toolStripItemActionFileBtnInsert"
         Me.toolStripItemActionFileBtnInsert.Size = New System.Drawing.Size(49, 22)
@@ -410,6 +469,12 @@ Partial Class ContextMenuConfig
         Me.toolStripItemActionFileInsertTarget.Name = "toolStripItemActionFileInsertTarget"
         Me.toolStripItemActionFileInsertTarget.Size = New System.Drawing.Size(231, 22)
         Me.toolStripItemActionFileInsertTarget.Text = "Symlink/Shortcut target"
+        '
+        'toolStripItemActionFileInsertWalkmanUtils
+        '
+        Me.toolStripItemActionFileInsertWalkmanUtils.Name = "toolStripItemActionFileInsertWalkmanUtils"
+        Me.toolStripItemActionFileInsertWalkmanUtils.Size = New System.Drawing.Size(231, 22)
+        Me.toolStripItemActionFileInsertWalkmanUtils.Text = "WalkmanUtils path"
         '
         'lblItemActionType
         '
@@ -583,57 +648,6 @@ Partial Class ContextMenuConfig
         Me.scMain.SplitterDistance = 1066
         Me.scMain.TabIndex = 0
         '
-        'toolStripItemActionArgsBtnInsert
-        '
-        Me.toolStripItemActionArgsBtnInsert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.toolStripItemActionArgsBtnInsert.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripItemActionArgsInsertPath, Me.toolStripItemActionArgsInsertDirectory, Me.toolStripItemActionArgsInsertName, Me.toolStripItemActionArgsInsertNameNoExt, Me.toolStripItemActionArgsInsertExt, Me.toolStripItemActionArgsInsertOpenWith, Me.toolStripItemActionArgsInsertTarget})
-        Me.toolStripItemActionArgsBtnInsert.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.toolStripItemActionArgsBtnInsert.Name = "toolStripItemActionArgsBtnInsert"
-        Me.toolStripItemActionArgsBtnInsert.Size = New System.Drawing.Size(49, 22)
-        Me.toolStripItemActionArgsBtnInsert.Text = "Insert"
-        '
-        'toolStripItemActionArgsInsertPath
-        '
-        Me.toolStripItemActionArgsInsertPath.Name = "toolStripItemActionArgsInsertPath"
-        Me.toolStripItemActionArgsInsertPath.Size = New System.Drawing.Size(231, 22)
-        Me.toolStripItemActionArgsInsertPath.Text = "Item Path"
-        '
-        'toolStripItemActionArgsInsertDirectory
-        '
-        Me.toolStripItemActionArgsInsertDirectory.Name = "toolStripItemActionArgsInsertDirectory"
-        Me.toolStripItemActionArgsInsertDirectory.Size = New System.Drawing.Size(231, 22)
-        Me.toolStripItemActionArgsInsertDirectory.Text = "Containing Directory"
-        '
-        'toolStripItemActionArgsInsertName
-        '
-        Me.toolStripItemActionArgsInsertName.Name = "toolStripItemActionArgsInsertName"
-        Me.toolStripItemActionArgsInsertName.Size = New System.Drawing.Size(231, 22)
-        Me.toolStripItemActionArgsInsertName.Text = "Item Name"
-        '
-        'toolStripItemActionArgsInsertNameNoExt
-        '
-        Me.toolStripItemActionArgsInsertNameNoExt.Name = "toolStripItemActionArgsInsertNameNoExt"
-        Me.toolStripItemActionArgsInsertNameNoExt.Size = New System.Drawing.Size(231, 22)
-        Me.toolStripItemActionArgsInsertNameNoExt.Text = "Item Name without Extension"
-        '
-        'toolStripItemActionArgsInsertExt
-        '
-        Me.toolStripItemActionArgsInsertExt.Name = "toolStripItemActionArgsInsertExt"
-        Me.toolStripItemActionArgsInsertExt.Size = New System.Drawing.Size(231, 22)
-        Me.toolStripItemActionArgsInsertExt.Text = "Item Extension"
-        '
-        'toolStripItemActionArgsInsertOpenWith
-        '
-        Me.toolStripItemActionArgsInsertOpenWith.Name = "toolStripItemActionArgsInsertOpenWith"
-        Me.toolStripItemActionArgsInsertOpenWith.Size = New System.Drawing.Size(231, 22)
-        Me.toolStripItemActionArgsInsertOpenWith.Text = "Open With Program path"
-        '
-        'toolStripItemActionArgsInsertTarget
-        '
-        Me.toolStripItemActionArgsInsertTarget.Name = "toolStripItemActionArgsInsertTarget"
-        Me.toolStripItemActionArgsInsertTarget.Size = New System.Drawing.Size(231, 22)
-        Me.toolStripItemActionArgsInsertTarget.Text = "Symlink/Shortcut target"
-        '
         'ContextMenuConfig
         '
         Me.AcceptButton = Me.btnSave
@@ -712,6 +726,7 @@ Partial Class ContextMenuConfig
     Friend WithEvents toolStripItemActionFileInsertExt As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents toolStripItemActionFileInsertOpenWith As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents toolStripItemActionFileInsertTarget As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents toolStripItemActionFileInsertWalkmanUtils As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents toolStripItemActionArgsBtnInsert As System.Windows.Forms.ToolStripDropDownButton
     Friend WithEvents toolStripItemActionArgsInsertPath As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents toolStripItemActionArgsInsertDirectory As System.Windows.Forms.ToolStripMenuItem
@@ -720,4 +735,5 @@ Partial Class ContextMenuConfig
     Friend WithEvents toolStripItemActionArgsInsertExt As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents toolStripItemActionArgsInsertOpenWith As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents toolStripItemActionArgsInsertTarget As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents toolStripItemActionArgsInsertWalkmanUtils As System.Windows.Forms.ToolStripMenuItem
 End Class

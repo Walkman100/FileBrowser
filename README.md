@@ -24,6 +24,7 @@ See [#1](https://github.com/Walkman100/FileBrowser/issues/1)
 - `{fileext}`: Extension of the file. Empty string on directories.
 - `{openwith}`: "OpenWith" program path
 - `{target}`: Target path for a symlink, or target path for a shortcut (.lnk)
+- `{walkmanutils}`: Currently installed WalkmanUtils path
 
 ### Context Menu Icon format
 - Environment Variables are expanded

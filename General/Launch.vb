@@ -77,6 +77,10 @@ Public Class Launch
             End If
         End If
 
+        If format.Contains("{walkmanutils}") Then
+            format = format.Replace("{walkmanutils}", WalkmanLib.GetWalkmanUtilsPath())
+        End If
+
         format = Environment.ExpandEnvironmentVariables(format)
         Return format
     End Function

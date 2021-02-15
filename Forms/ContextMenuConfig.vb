@@ -630,7 +630,8 @@ Public Class ContextMenuConfig
             toolStripItemActionFileInsertNameNoExt.Click,   toolStripItemActionArgsInsertNameNoExt.Click,
             toolStripItemActionFileInsertExt.Click,         toolStripItemActionArgsInsertExt.Click,
             toolStripItemActionFileInsertOpenWith.Click,    toolStripItemActionArgsInsertOpenWith.Click,
-            toolStripItemActionFileInsertTarget.Click,      toolStripItemActionArgsInsertTarget.Click
+            toolStripItemActionFileInsertTarget.Click,      toolStripItemActionArgsInsertTarget.Click,
+            toolStripItemActionFileInsertWalkmanUtils.Click,toolStripItemActionArgsInsertWalkmanUtils.Click
         Dim tSI As ToolStripItem = CType(sender, ToolStripItem)
         Dim text As String = Nothing
 
@@ -649,6 +650,8 @@ Public Class ContextMenuConfig
                 text = "{openwith}"
             Case "InsertTarget"
                 text = "{target}"
+            Case "InsertWalkmanUtils"
+                text = "{walkmanutils}"
         End Select
 
         Dim parent As ToolStripDropDownButton = CType(tSI.OwnerItem, ToolStripDropDownButton)
