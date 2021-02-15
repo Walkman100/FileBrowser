@@ -149,4 +149,18 @@ Public Class Launch
 
         WalkmanLib.SafeSetText(text)
     End Sub
+
+    Public Shared Sub HandleManager(item As String, Optional args As String = Nothing)
+        Dim walkmanUtilsPath As String = WalkmanLib.GetWalkmanUtilsPath()
+        Dim handleManagerPath As String = Path.Combine(walkmanUtilsPath, "HandleManager.exe")
+
+        If Not File.Exists(handleManagerPath) Then
+            Windows.Forms.MessageBox.Show("Could not find HandleManager in WalkmanUtils install!" & Environment.NewLine & Environment.NewLine &
+                                          "Looking for: " & handleManagerPath, "Launching HandleManager",
+                                          Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        Process.Start(handleManagerPath, If(args Is Nothing, "", args & " ") & """" & item & """")
+    End Sub
 End Class

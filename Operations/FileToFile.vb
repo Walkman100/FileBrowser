@@ -31,8 +31,7 @@ Namespace Operations
             Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = Other.shareViolation
                 If MessageBox.Show("File """ & sourcePath & """ is in use! Open Handle Manager?", "Item in use",
                                    MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-                    'HandleManager.Show(FileBrowser)
-                    'HandleManager.Activate()
+                    Launch.HandleManager(sourcePath)
                 End If
             Catch ex As Exception
                 FileBrowser.ErrorParser(ex)
@@ -73,8 +72,7 @@ Namespace Operations
             Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = Other.shareViolation
                 If MessageBox.Show("File """ & sourcePath & """ is in use! Open Handle Manager?", "Item in use",
                                    MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-                    'HandleManager.Show(FileBrowser)
-                    'HandleManager.Activate()
+                    Launch.HandleManager(sourcePath)
                 End If
             Catch ex As Exception
                 FileBrowser.ErrorParser(ex)
@@ -132,8 +130,7 @@ Namespace Operations
             Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = Other.shareViolation
                 If MessageBox.Show("A file is in use! Open Handle Manager on """ & sourcePath & """?", "Item in use",
                                    MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-                    'HandleManager.Show(FileBrowser)
-                    'HandleManager.Activate()
+                    Launch.HandleManager(sourcePath)
                 End If
             Catch ex As Exception
                 FileBrowser.ErrorParser(ex)

@@ -37,8 +37,7 @@ Namespace Operations
                     Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = Other.shareViolation
                         If MessageBox.Show("File """ & path & """ is in use! Open Handle Manager?", "Item in use",
                                            MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-                            'HandleManager.Show(FileBrowser)
-                            'HandleManager.Activate()
+                            Launch.HandleManager(path)
                         End If
                     End Try
                 Next
