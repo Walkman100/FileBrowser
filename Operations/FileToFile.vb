@@ -26,7 +26,7 @@ Namespace Operations
                     Case Other.cMBbRelaunch
                         FileBrowser.RestartAsAdmin()
                     Case Other.cMBbRunSysTool
-                        WalkmanLib.RunAsAdmin("cmd", "/c ren """ & sourcePath & """ """ & targetName & """ && pause")
+                        WalkmanLib.RunAsAdmin("cmd", "/c ren """ & sourcePath & """ """ & targetName & """ & pause")
                 End Select
             Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = Other.shareViolation
                 If MessageBox.Show("File """ & sourcePath & """ is in use! Open Handle Manager?", "Item in use",

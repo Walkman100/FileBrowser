@@ -344,6 +344,7 @@ Partial Class ContextMenuConfig
         '
         'toolStripItemActionArgs
         '
+        Me.toolStripItemActionArgs.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.toolStripItemActionArgs.Dock = System.Windows.Forms.DockStyle.None
         Me.toolStripItemActionArgs.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.toolStripItemActionArgs.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripItemActionArgsBtnInsert})
@@ -411,6 +412,7 @@ Partial Class ContextMenuConfig
         '
         'toolStripItemActionFile
         '
+        Me.toolStripItemActionFile.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.toolStripItemActionFile.Dock = System.Windows.Forms.DockStyle.None
         Me.toolStripItemActionFile.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.toolStripItemActionFile.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripItemActionFileBtnInsert})
