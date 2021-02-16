@@ -1,6 +1,7 @@
 Imports System.Collections.Generic
 Imports System.IO
 Imports System.Linq
+Imports System.Windows.Forms
 
 Public Enum ItemType
     Cut
@@ -18,6 +19,12 @@ End Enum
 Public Class ItemClipboard
     Public ReadOnly Property ItemStore As New Dictionary(Of String, ItemType)
 
+    Private Sub ItemsUpdated()
+        FileBrowser.clipboardList.Items = ItemStore.Select(Function(kv As KeyValuePair(Of String, ItemType)) As ListViewItem
+                                                               Return New ListViewItem({kv.Key, kv.Value.ToString()})
+                                                           End Function).ToList()
+    End Sub
+
     Public Sub AddItems(paths() As String, type As ItemType, replace As Boolean)
         If replace Then ItemStore.Clear()
 
@@ -25,6 +32,7 @@ Public Class ItemClipboard
             ItemStore.Add(path, type)
         Next
 
+        ItemsUpdated()
         FileBrowser.handle_SelectedItemChanged()
     End Sub
 
@@ -67,6 +75,7 @@ Public Class ItemClipboard
             End If
         Next
 
+        ItemsUpdated()
         FileBrowser.handle_SelectedItemChanged()
     End Sub
 End Class
