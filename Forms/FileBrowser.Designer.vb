@@ -44,6 +44,9 @@ Partial Class FileBrowser
         Me.colHeadDownloadURL = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.colHeadDownloadReferrer = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.scMain = New System.Windows.Forms.SplitContainer()
+        Me.clipboardList = New ExpandableList()
+        Me.colHeadItemPath = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colHeadItemType = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.menuStrip = New System.Windows.Forms.MenuStrip()
         Me.menuFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileSeparator1 = New System.Windows.Forms.ToolStripSeparator()
@@ -267,6 +270,28 @@ Partial Class FileBrowser
         Me.scMain.SplitterDistance = 220
         Me.scMain.TabIndex = 2
         '
+        'clipboardList
+        '
+        Me.clipboardList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.clipboardList.ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colHeadItemPath, Me.colHeadItemType})
+        Me.clipboardList.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.clipboardList.ListView.FullRowSelect = True
+        Me.clipboardList.ListView.GridLines = True
+        Me.clipboardList.Location = New System.Drawing.Point(439, -1)
+        Me.clipboardList.Name = "clipboardList"
+        Me.clipboardList.Size = New System.Drawing.Size(400, 26)
+        Me.clipboardList.TabIndex = 1
+        '
+        'colHeadItemPath
+        '
+        Me.colHeadItemPath.Text = "Item Path"
+        Me.colHeadItemPath.Width = 299
+        '
+        'colHeadItemType
+        '
+        Me.colHeadItemType.Text = "Item Type"
+        Me.colHeadItemType.Width = 59
+        '
         'menuStrip
         '
         Me.menuStrip.AllowItemReorder = True
@@ -335,7 +360,7 @@ Partial Class FileBrowser
         'menuGoSeparator1
         '
         Me.menuGoSeparator1.Name = "menuGoSeparator1"
-        Me.menuGoSeparator1.Size = New System.Drawing.Size(177, 6)
+        Me.menuGoSeparator1.Size = New System.Drawing.Size(172, 6)
         '
         'menuTools
         '
@@ -630,7 +655,7 @@ Partial Class FileBrowser
         Me.menuGoBack.Image = Global.My.Resources.Resources.Back
         Me.menuGoBack.Name = "menuGoBack"
         Me.menuGoBack.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Left), System.Windows.Forms.Keys)
-        Me.menuGoBack.Size = New System.Drawing.Size(180, 22)
+        Me.menuGoBack.Size = New System.Drawing.Size(175, 22)
         Me.menuGoBack.Text = "Back"
         '
         'menuGoForward
@@ -638,7 +663,7 @@ Partial Class FileBrowser
         Me.menuGoForward.Image = Global.My.Resources.Resources.Forward
         Me.menuGoForward.Name = "menuGoForward"
         Me.menuGoForward.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Right), System.Windows.Forms.Keys)
-        Me.menuGoForward.Size = New System.Drawing.Size(180, 22)
+        Me.menuGoForward.Size = New System.Drawing.Size(175, 22)
         Me.menuGoForward.Text = "Forward"
         '
         'menuGoUp
@@ -646,7 +671,7 @@ Partial Class FileBrowser
         Me.menuGoUp.Image = Global.My.Resources.Resources.Up
         Me.menuGoUp.Name = "menuGoUp"
         Me.menuGoUp.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Up), System.Windows.Forms.Keys)
-        Me.menuGoUp.Size = New System.Drawing.Size(180, 22)
+        Me.menuGoUp.Size = New System.Drawing.Size(175, 22)
         Me.menuGoUp.Text = "Up"
         Me.menuGoUp.ToolTipText = "Go to parent folder"
         '
@@ -655,7 +680,7 @@ Partial Class FileBrowser
         Me.menuGoRoot.Image = Global.My.Resources.Resources.Root
         Me.menuGoRoot.Name = "menuGoRoot"
         Me.menuGoRoot.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.menuGoRoot.Size = New System.Drawing.Size(180, 22)
+        Me.menuGoRoot.Size = New System.Drawing.Size(175, 22)
         Me.menuGoRoot.Text = "Root"
         Me.menuGoRoot.ToolTipText = "Go to current Drive Root"
         '
@@ -664,7 +689,7 @@ Partial Class FileBrowser
         Me.menuGoHome.Image = Global.My.Resources.Resources.Home
         Me.menuGoHome.Name = "menuGoHome"
         Me.menuGoHome.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.H), System.Windows.Forms.Keys)
-        Me.menuGoHome.Size = New System.Drawing.Size(180, 22)
+        Me.menuGoHome.Size = New System.Drawing.Size(175, 22)
         Me.menuGoHome.Text = "Home"
         Me.menuGoHome.ToolTipText = "Go to User's home folder"
         '
@@ -673,7 +698,7 @@ Partial Class FileBrowser
         Me.menuGoRefresh.Image = Global.My.Resources.Resources.Refresh
         Me.menuGoRefresh.Name = "menuGoRefresh"
         Me.menuGoRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.menuGoRefresh.Size = New System.Drawing.Size(180, 22)
+        Me.menuGoRefresh.Size = New System.Drawing.Size(175, 22)
         Me.menuGoRefresh.Text = "Refresh"
         '
         'menuGoStop
@@ -681,7 +706,7 @@ Partial Class FileBrowser
         Me.menuGoStop.Image = Global.My.Resources.Resources.Cancel
         Me.menuGoStop.Name = "menuGoStop"
         Me.menuGoStop.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.menuGoStop.Size = New System.Drawing.Size(180, 22)
+        Me.menuGoStop.Size = New System.Drawing.Size(175, 22)
         Me.menuGoStop.Text = "Stop"
         '
         'menuToolsSettings
@@ -737,6 +762,7 @@ Partial Class FileBrowser
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(838, 498)
+        Me.Controls.Add(Me.clipboardList)
         Me.Controls.Add(Me.toolStripURL)
         Me.Controls.Add(Me.status)
         Me.Controls.Add(Me.menuStrip)
@@ -758,6 +784,7 @@ Partial Class FileBrowser
         Me.PerformLayout()
 
     End Sub
+    Friend WithEvents clipboardList As ExpandableList
     Friend WithEvents treeViewDirs As System.Windows.Forms.TreeView
     Friend WithEvents lstCurrent As System.Windows.Forms.ListView
     Friend WithEvents scMain As System.Windows.Forms.SplitContainer
@@ -838,4 +865,6 @@ Partial Class FileBrowser
     Friend WithEvents menuToolsSaveColumns As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuToolsRestoreDefault As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuToolsSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents colHeadItemPath As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadItemType As System.Windows.Forms.ColumnHeader
 End Class

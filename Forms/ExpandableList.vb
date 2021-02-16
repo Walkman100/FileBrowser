@@ -41,8 +41,10 @@ Public Class ExpandableList
 
     Private Sub setHeight()
         If isExpanded Then
+            Dim minHeight As Integer = MeHeightDiff + (ItemSize * 1)
             Dim newHeight As Integer = MeHeightDiff + (ItemSize * lstMain.Items.Count)
-            Me.Height = newHeight
+            newHeight = Math.Min(newHeight, Me.Parent.ClientSize.Height)
+            Me.Height = Math.Max(minHeight, newHeight)
         End If
     End Sub
 
