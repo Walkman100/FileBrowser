@@ -152,17 +152,13 @@ Public Class CtxMenu
             End If
 
             For Each path As String In paths
-                Dim existsInfo As PathEnum
-                Try
-                    existsInfo = WalkmanLib.IsFileOrDirectory(path)
-                Catch ex As NotSupportedException
-                    If Helpers.PathContainsADS(path) AndAlso Trinet.Core.IO.Ntfs.AlternateDataStreamExists(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path)) Then
-                        ' we're dealing with an ADS
-                        existsInfo = PathEnum.Exists Or PathEnum.IsFile
-                    Else
-                        existsInfo = PathEnum.NotFound
-                    End If
-                End Try
+                Dim existsInfo As PathEnum = WalkmanLib.IsFileOrDirectory(path)
+
+                If existsInfo = PathEnum.NotFound AndAlso Helpers.PathContainsADS(path) AndAlso
+                        Trinet.Core.IO.Ntfs.AlternateDataStreamExists(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path)) Then
+                    ' we're dealing with an ADS
+                    existsInfo = PathEnum.Exists Or PathEnum.IsFile
+                End If
 
                 If itemShouldBeVisible Then
                     If itemInfo.DirectoryOnly Then
