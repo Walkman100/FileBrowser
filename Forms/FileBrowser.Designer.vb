@@ -277,6 +277,7 @@ Partial Class FileBrowser
         Me.clipboardList.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.clipboardList.ListView.FullRowSelect = True
         Me.clipboardList.ListView.GridLines = True
+        Me.clipboardList.LabelPrefix = "Clipboard Items: "
         Me.clipboardList.Location = New System.Drawing.Point(439, -1)
         Me.clipboardList.Name = "clipboardList"
         Me.clipboardList.Size = New System.Drawing.Size(400, 26)

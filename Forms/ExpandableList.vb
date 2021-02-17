@@ -22,6 +22,7 @@ Public Class ExpandableList
             Return lstMain
         End Get
     End Property
+    Public Property LabelPrefix As String = Nothing
     Public Property Items As List(Of ListViewItem)
         Get
             Return New List(Of ListViewItem)(lstMain.Items.Cast(Of ListViewItem))
@@ -31,13 +32,21 @@ Public Class ExpandableList
             lstMain.Items.Clear()
             lstMain.Items.AddRange(value.ToArray())
             lstMain.EndUpdate()
-            lblItemCount.Text = "Items: " & lstMain.Items.Count
+            setLabelText()
             setHeight()
         End Set
     End Property
 
     Private isExpanded As Boolean = False
     Private oldHeight As Integer = -1
+
+    Private Sub setLabelText() Handles Me.VisibleChanged
+        If LabelPrefix Is Nothing Then
+            lblItemCount.Text = "Items: " & lstMain.Items.Count
+        Else
+            lblItemCount.Text = LabelPrefix & lstMain.Items.Count
+        End If
+    End Sub
 
     Private Sub setHeight()
         If isExpanded Then
