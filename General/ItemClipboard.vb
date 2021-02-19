@@ -29,7 +29,12 @@ Public Class ItemClipboard
         If replace Then ItemStore.Clear()
 
         For Each path As String In paths
-            ItemStore.Add(path, type)
+            If Not ItemStore.ContainsKey(path) Then
+                ItemStore.Add(path, type)
+            Else
+                ' if path already exists, update type
+                ItemStore(path) = type
+            End If
         Next
 
         ItemsUpdated()

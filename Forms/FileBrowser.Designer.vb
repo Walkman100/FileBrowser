@@ -274,9 +274,10 @@ Partial Class FileBrowser
         '
         Me.clipboardList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.clipboardList.ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colHeadItemPath, Me.colHeadItemType})
-        Me.clipboardList.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.clipboardList.ListView.FullRowSelect = True
         Me.clipboardList.ListView.GridLines = True
+        Me.clipboardList.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.clipboardList.ListView.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.clipboardList.LabelPrefix = "Clipboard Items: "
         Me.clipboardList.Location = New System.Drawing.Point(439, -1)
         Me.clipboardList.Name = "clipboardList"
