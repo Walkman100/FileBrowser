@@ -35,7 +35,7 @@ Partial Class ExpandableList
         Me.lstMain.HideSelection = False
         Me.lstMain.Location = New System.Drawing.Point(1, 1)
         Me.lstMain.Name = "lstMain"
-        Me.lstMain.Size = New System.Drawing.Size(627, 38)
+        Me.lstMain.Size = New System.Drawing.Size(373, 24)
         Me.lstMain.TabIndex = 0
         Me.lstMain.UseCompatibleStateImageBehavior = False
         Me.lstMain.View = System.Windows.Forms.View.Details
@@ -43,9 +43,9 @@ Partial Class ExpandableList
         'btnExpandCollapse
         '
         Me.btnExpandCollapse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExpandCollapse.Location = New System.Drawing.Point(628, 0)
+        Me.btnExpandCollapse.Location = New System.Drawing.Point(374, 0)
         Me.btnExpandCollapse.Name = "btnExpandCollapse"
-        Me.btnExpandCollapse.Size = New System.Drawing.Size(20, 20)
+        Me.btnExpandCollapse.Size = New System.Drawing.Size(26, 26)
         Me.btnExpandCollapse.TabIndex = 1
         Me.btnExpandCollapse.Text = "▼"
         Me.btnExpandCollapse.UseVisualStyleBackColor = True
@@ -54,7 +54,7 @@ Partial Class ExpandableList
         '
         Me.lblItemCount.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.lblItemCount.AutoSize = True
-        Me.lblItemCount.Location = New System.Drawing.Point(5, 13)
+        Me.lblItemCount.Location = New System.Drawing.Point(5, 6)
         Me.lblItemCount.Name = "lblItemCount"
         Me.lblItemCount.Size = New System.Drawing.Size(44, 13)
         Me.lblItemCount.Text = "Items: 0"
@@ -67,7 +67,7 @@ Partial Class ExpandableList
         Me.Controls.Add(Me.btnExpandCollapse)
         Me.Controls.Add(Me.lstMain)
         Me.Name = "ExpandableList"
-        Me.Size = New System.Drawing.Size(648, 40)
+        Me.Size = New System.Drawing.Size(400, 26)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

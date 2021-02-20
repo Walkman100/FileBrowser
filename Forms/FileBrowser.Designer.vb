@@ -287,7 +287,7 @@ Partial Class FileBrowser
         'colHeadItemPath
         '
         Me.colHeadItemPath.Text = "Item Path"
-        Me.colHeadItemPath.Width = 299
+        Me.colHeadItemPath.Width = 293
         '
         'colHeadItemType
         '
