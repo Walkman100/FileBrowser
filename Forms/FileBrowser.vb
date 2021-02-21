@@ -202,15 +202,15 @@ Public Class FileBrowser
         End If
         g_disableSaveColumns = False
 
+        lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(Sorting.SortBy.Name, SortOrder.Ascending)
+        Sorting.Sort(lstCurrent.Items, lastSort.Key, lastSort.Value)
+
         If Settings.EnableIcons Then
             lstCurrent.SmallImageList = ImageHandling.GetImageList(lstCurrent.Items, 16, True)
         Else
             lstCurrent.SmallImageList = Nothing
             lstCurrent.LargeImageList = Nothing
         End If
-
-        lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(Sorting.SortBy.Name, SortOrder.Ascending)
-        Sorting.Sort(lstCurrent.Items, lastSort.Key, lastSort.Value)
     End Sub
 
     Private Sub SelectItem(name As String)

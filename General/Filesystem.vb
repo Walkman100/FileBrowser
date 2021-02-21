@@ -6,11 +6,11 @@ Imports Trinet.Core.IO.Ntfs
 Public Class Filesystem
     <Flags>
     Public Enum EntryType
-        None
-        File
-        Directory
-        Hardlink
-        AlternateDataStream
+        None = 0
+        File = 1
+        Directory = 2
+        Hardlink = 4
+        AlternateDataStream = 8
         ' Symlink, Compressed, Hidden e.t.c. are Attributes
     End Enum
 
