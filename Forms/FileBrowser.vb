@@ -263,10 +263,12 @@ Public Class FileBrowser
         treeViewDirs.SelectedNode = parent
     End Sub
 
-    Public Function GetSelectedPaths(Optional forceTree As Boolean = False) As String()
+    Public Function GetSelectedPaths(Optional forceTree As Boolean = False, Optional useGlobalNode As Boolean = False) As String()
         If Not forceTree AndAlso lstCurrent.SelectedItems.Count > 0 Then
             Return lstCurrent.SelectedItems.Cast(Of ListViewItem).Select(Function(t) GetItemInfo(t).FullName).ToArray()
-        ElseIf treeViewDirs.SelectedNode IsNot Nothing Then
+        ElseIf useGlobalNode AndAlso g_selectedNode IsNot Nothing Then
+            Return {g_selectedNode.FixedFullPath}
+        ElseIf Not useGlobalNode AndAlso treeViewDirs.SelectedNode IsNot Nothing Then
             Return {treeViewDirs.SelectedNode.FixedFullPath}
         Else
             Return {}
@@ -284,8 +286,8 @@ Public Class FileBrowser
                     Operations.Rename(itemInfo.FullName, String.Format(newName, i))
                 Next
             End If
-        ElseIf treeViewDirs.SelectedNode IsNot Nothing Then
-            treeViewDirs.SelectedNode.BeginEdit()
+        ElseIf g_selectedNode IsNot Nothing Then
+            g_selectedNode.BeginEdit()
         End If
     End Sub
 
@@ -377,6 +379,7 @@ Public Class FileBrowser
         Launch.Copy(GetSelectedPaths(), If(My.Computer.Keyboard.ShiftKeyDown, """{path}""", "{path}"))
     End Sub
     Private Sub menuFileRename_Click() Handles menuFileRename.Click
+        g_selectedNode = treeViewDirs.SelectedNode
         RenameSelected()
     End Sub
     Private Sub menuFileRecycle_Click() Handles menuFileRecycle.Click
@@ -614,8 +617,9 @@ Public Class FileBrowser
     End Sub
 
     Private g_forceTree As Boolean = False
+    Private g_selectedNode As TreeNode = Nothing
     Private Sub ShowContext(sender As Object, pos As Point)
-        Dim paths As String() = GetSelectedPaths(sender Is treeViewDirs)
+        Dim paths As String() = GetSelectedPaths(sender Is treeViewDirs, useGlobalNode:=True)
 
         If My.Computer.Keyboard.CtrlKeyDown Then
             winCtxMenu.BuildMenu(Handle, paths, flags:=WalkmanLib.ContextMenu.QueryContextMenuFlags.CanRename Or
@@ -634,11 +638,18 @@ Public Class FileBrowser
             End If
         End If
     End Sub
-    Private Sub handleMouseUp(sender As Object, e As MouseEventArgs) Handles lstCurrent.MouseUp, treeViewDirs.MouseUp
+    Private Sub treeViewDirs_NodeMouseClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles treeViewDirs.NodeMouseClick
+        If e.Button = MouseButtons.Right Then
+            g_selectedNode = e.Node
+            ShowContext(sender, e.Location)
+        End If
+    End Sub
+    Private Sub lstCurrent_MouseUp(sender As Object, e As MouseEventArgs) Handles lstCurrent.MouseUp
         If e.Button = MouseButtons.Right Then
             ShowContext(sender, e.Location)
         End If
     End Sub
+
     Private Sub handleKeyUp(sender As Object, e As KeyEventArgs) Handles lstCurrent.KeyUp, treeViewDirs.KeyUp, menuStrip.KeyUp, toolStripURL.KeyUp, cbxURI.KeyUp
         e.Handled = True
         If e.KeyCode = Keys.F4 OrElse e.KeyCode = Keys.F6 Then
@@ -649,6 +660,7 @@ Public Class FileBrowser
         ElseIf e.KeyCode = Keys.Delete AndAlso e.Modifiers = Keys.Shift Then
             menuFileRecycle_Click()
         ElseIf e.KeyCode = Keys.Apps OrElse (e.KeyCode = Keys.F10 AndAlso e.Modifiers = Keys.Shift) Then
+            g_selectedNode = treeViewDirs.SelectedNode
             ShowContext(sender, New Point(0, 0))
         Else
             e.Handled = False
@@ -656,7 +668,7 @@ Public Class FileBrowser
     End Sub
     Public Sub ctxMenuL_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ctxMenuL.ItemClicked
         ctxMenuL.Close()
-        ctxMenu.RunItem(e.ClickedItem, GetSelectedPaths(g_forceTree))
+        ctxMenu.RunItem(e.ClickedItem, GetSelectedPaths(g_forceTree, useGlobalNode:=True))
     End Sub
     Private Sub handleToolTipChanged(text As String, ex As Exception) Handles winCtxMenu.HelpTextChanged
         If ex Is Nothing AndAlso Not String.IsNullOrEmpty(text) Then
