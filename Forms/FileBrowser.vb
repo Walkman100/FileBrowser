@@ -260,7 +260,10 @@ Public Class FileBrowser
             parent = foundNodes(0)
             parent.Expand()
         Next
+
+        g_disableNavigate = True ' suppress treeViewDirs_AfterSelect navigating to the selected node
         treeViewDirs.SelectedNode = parent
+        g_disableNavigate = False
     End Sub
 
     Public Function GetSelectedPaths(Optional forceTree As Boolean = False, Optional useGlobalNode As Boolean = False) As String()
@@ -311,8 +314,11 @@ Public Class FileBrowser
 #End Region
 
 #Region "TreeView"
+    Private g_disableNavigate As Boolean = False
     Private Sub treeViewDirs_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles treeViewDirs.AfterSelect
-        CurrentDir = e.Node.FixedFullPath()
+        If Not g_disableNavigate Then
+            CurrentDir = e.Node.FixedFullPath()
+        End If
         e.Node.SelectedImageKey = e.Node.ImageKey
     End Sub
     Private Sub treeViewDirs_BeforeExpand(sender As Object, e As TreeViewCancelEventArgs) Handles treeViewDirs.BeforeExpand
