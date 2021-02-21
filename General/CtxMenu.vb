@@ -250,9 +250,9 @@ Public Class CtxMenu
             Case ActionType.MoveTo
                 Operations.MoveTo(paths, My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.DeleteToRecycleBin
-                Operations.Delete(paths, FileBrowser.UseShell, My.Computer.Keyboard.ShiftKeyDown)
+                Operations.Delete(paths, useShell:=FileBrowser.UseShell, deletePermanently:=My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.DeletePermanently
-                Operations.Delete(paths, FileBrowser.UseShell, Not My.Computer.Keyboard.ShiftKeyDown)
+                Operations.Delete(paths, useShell:=FileBrowser.UseShell, deletePermanently:=Not My.Computer.Keyboard.ShiftKeyDown)
         End Select
     End Sub
 End Class

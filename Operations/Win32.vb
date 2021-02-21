@@ -39,7 +39,7 @@ Namespace Operations
                     Select Case MessageBox.Show("Target """ & targetPath & """ already exists! Remove first?", "Target exists",
                                                 MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
                         Case DialogResult.Yes
-                            Delete({targetPath}, False, True)
+                            Delete({targetPath}, skipDialog:=True)
                         Case DialogResult.Cancel
                             Exit Sub
                     End Select
@@ -71,7 +71,7 @@ Namespace Operations
                     Select Case MessageBox.Show("Target """ & targetPath & """ already exists! Remove first?", "Target exists",
                                                 MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
                         Case DialogResult.Yes
-                            Delete({targetPath}, False, True)
+                            Delete({targetPath}, skipDialog:=True)
                         Case DialogResult.Cancel
                             Exit Sub
                     End Select

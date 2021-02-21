@@ -5,16 +5,38 @@ Imports Microsoft.VisualBasic
 
 Namespace Operations
     Module General
-        Public Sub Delete(paths As String(), useShell As Boolean, deletePermanently As Boolean)
+        Public Sub Delete(paths As String(), Optional skipDialog As Boolean = False, Optional useShell As Boolean = False, Optional deletePermanently As Boolean = True)
             Try
                 For Each path As String In paths
                     Try
                         Dim pathInfo As PathEnum = WalkmanLib.IsFileOrDirectory(path)
-                        If Helpers.PathContainsADS(path) Then
-                            If deletePermanently OrElse MessageBox.Show("Cannot recycle AlternateDataStreams! Delete permanently?", "Deleting ADS",
-                                                                        MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-                                Trinet.Core.IO.Ntfs.DeleteAlternateDataStream(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path))
+
+                        If Not skipDialog Then
+                            Dim itemName As String = Nothing
+                            If Helpers.PathContainsADS(path) Then
+                                itemName = "ADS"
+                            ElseIf pathInfo.HasFlag(PathEnum.IsDirectory) AndAlso File.GetAttributes(path).HasFlag(FileAttributes.ReparsePoint) Then
+                                itemName = "reparse point"
+                            ElseIf useShell OrElse Not deletePermanently Then
+                            ElseIf pathInfo.HasFlag(PathEnum.IsFile) Then
+                                itemName = "file"
+                            ElseIf pathInfo.HasFlag(PathEnum.IsDirectory) Then
+                                itemName = "folder"
                             End If
+
+                            If itemName IsNot Nothing Then
+                                Select Case MessageBox.Show("Permanently delete this " & itemName & "?" & Environment.NewLine & Environment.NewLine & path,
+                                                            "Delete Item", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+                                    Case DialogResult.No
+                                        Continue For
+                                    Case DialogResult.Cancel
+                                        Exit For
+                                End Select
+                            End If
+                        End If
+
+                        If Helpers.PathContainsADS(path) Then
+                            Trinet.Core.IO.Ntfs.DeleteAlternateDataStream(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path))
                         ElseIf pathInfo.HasFlag(PathEnum.IsDirectory) AndAlso File.GetAttributes(path).HasFlag(FileAttributes.ReparsePoint) Then
                             File.Delete(path)
                         ElseIf useShell OrElse Not deletePermanently Then
@@ -25,13 +47,11 @@ Namespace Operations
                                 My.Computer.FileSystem.DeleteDirectory(path, FileIO.UIOption.AllDialogs,
                                     If(deletePermanently, FileIO.RecycleOption.DeletePermanently, FileIO.RecycleOption.SendToRecycleBin))
                             End If
-                        Else
-                            If pathInfo.HasFlag(PathEnum.IsFile) Then
-                                File.Delete(path)
-                            ElseIf pathInfo.HasFlag(PathEnum.IsDirectory) Then
-                                'BackgroundProgress.bwFolderOperations.RunWorkerAsync({"delete", path})
-                                'BackgroundProgress.ShowDialog()
-                            End If
+                        ElseIf pathInfo.HasFlag(PathEnum.IsFile) Then
+                            File.Delete(path)
+                        ElseIf pathInfo.HasFlag(PathEnum.IsDirectory) Then
+                            'BackgroundProgress.bwFolderOperations.RunWorkerAsync({"delete", path})
+                            'BackgroundProgress.ShowDialog()
                         End If
                     Catch ex As OperationCanceledException ' ignore user cancellation
                     Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = Other.shareViolation

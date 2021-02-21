@@ -6,7 +6,7 @@ Namespace Operations
     Public Class FileToADS
         Public Shared Sub Move(sourcePath As String, targetPath As String)
             Copy(sourcePath, targetPath, Sub(e)
-                                             If e.Error Is Nothing Then Delete({sourcePath}, False, True)
+                                             If e.Error Is Nothing Then Delete({sourcePath}, skipDialog:=True)
                                          End Sub)
         End Sub
 

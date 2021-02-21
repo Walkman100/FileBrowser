@@ -380,10 +380,10 @@ Public Class FileBrowser
         RenameSelected()
     End Sub
     Private Sub menuFileRecycle_Click() Handles menuFileRecycle.Click
-        Operations.Delete(GetSelectedPaths(), UseShell, My.Computer.Keyboard.ShiftKeyDown)
+        Operations.Delete(GetSelectedPaths(), useShell:=UseShell, deletePermanently:=My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuFileDelete_Click() Handles menuFileDelete.Click
-        Operations.Delete(GetSelectedPaths(), UseShell, Not My.Computer.Keyboard.ShiftKeyDown)
+        Operations.Delete(GetSelectedPaths(), useShell:=UseShell, deletePermanently:=Not My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuFileCopyTo_Click() Handles menuFileCopyTo.Click
         Operations.CopyTo(GetSelectedPaths(), My.Computer.Keyboard.ShiftKeyDown)
