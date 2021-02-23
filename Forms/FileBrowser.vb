@@ -218,7 +218,7 @@ Public Class FileBrowser
 
         For Each item As ListViewItem In lstCurrent.Items
             Dim itemInfo As Filesystem.EntryInfo = GetItemInfo(item)
-            If Path.GetFileName(itemInfo.FullName) = name Then
+            If Helpers.GetFileName(itemInfo.FullName).ToLowerInvariant() = name.ToLowerInvariant() Then
                 item.Selected = True
                 item.Focused = True
                 item.EnsureVisible()
@@ -230,7 +230,7 @@ Public Class FileBrowser
     Public Sub ShowFile(filePath As String)
         CurrentDir = Path.GetDirectoryName(filePath)
         If CurrentDir = Path.GetDirectoryName(filePath) Then ' have to check, as the path could be not loaded
-            SelectItem(Path.GetFileName(filePath))
+            SelectItem(Helpers.GetFileName(filePath))
         End If
     End Sub
 

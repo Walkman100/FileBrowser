@@ -131,6 +131,24 @@ Namespace Helpers
 
             Return size.ToString("#,##0.### ### ### ### ### ### ### ###").Trim & postString
         End Function
+
+        ''' <summary>
+        ''' <see cref="Path.GetFileName"/> except it works with ADSs
+        ''' <br />Returns the file name and extension of the specified path string.
+        ''' </summary>
+        ''' <param name="fullPath">The path string from which to obtain the file name and extension.</param>
+        ''' <returns>
+        ''' The characters after the last directory character in <paramref name="fullPath"/>. If the last character of <paramref name="fullPath"/> is a directory separator character,
+        ''' this method returns <see cref="[String].Empty"/>. If <paramref name="fullPath"/> is <see langword="Nothing"/>, this method returns <see langword="Nothing"/>.
+        ''' </returns>
+        Public Function GetFileName(fullPath As String) As String
+            If fullPath Is Nothing Then Return Nothing
+
+            Dim lIO As Integer = fullPath.LastIndexOf(Path.DirectorySeparatorChar)
+            If lIO = -1 Then Return String.Empty
+
+            Return fullPath.Substring(lIO + 1)
+        End Function
     End Module
 
     Module ADSHelpers
