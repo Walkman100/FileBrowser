@@ -245,9 +245,11 @@ Public Class FileBrowser
     End Sub
 
     Private Sub bwLoadFolder_DoWork(sender As Object, e As DoWorkEventArgs) Handles bwLoadFolder.DoWork
-        For Each itemInfo In Filesystem.GetItems(_currentDir)
-            Invoke(Sub() lstCurrent.Items.Add(CreateItem(itemInfo)))
-        Next
+        Threading.Tasks.Parallel.ForEach(Filesystem.GetItems(_currentDir),
+                                         New Threading.Tasks.ParallelOptions With {.MaxDegreeOfParallelism = Environment.ProcessorCount},
+                                         Sub(itemInfo)
+                                             Invoke(Sub() lstCurrent.Items.Add(CreateItem(itemInfo)))
+                                         End Sub)
 
         Invoke(Sub() Settings.LoadDefaultColumns())
         If Settings.SaveColumns Then
@@ -258,7 +260,7 @@ Public Class FileBrowser
         Invoke(Sub() lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(Sorting.SortBy.Name, SortOrder.Ascending))
         Invoke(Sub() Sorting.Sort(lstCurrent.Items, lastSort.Key, lastSort.Value))
 
-        If DirectCast(Invoke(Function() Settings.EnableIcons), Boolean) Then
+        If Helpers.Invoke(Me, Function() Settings.EnableIcons) Then
             Invoke(Sub() lstCurrent.SmallImageList = ImageHandling.GetImageList(lstCurrent.Items, 16, True))
         Else
             Invoke(Sub() lstCurrent.SmallImageList = Nothing)
