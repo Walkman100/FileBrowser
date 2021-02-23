@@ -66,6 +66,7 @@ Partial Class FileBrowser
         Me.statusLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.toolStripURL = New System.Windows.Forms.ToolStrip()
         Me.cbxURI = New System.Windows.Forms.ToolStripComboBox()
+        Me.bwLoadFolder = New System.ComponentModel.BackgroundWorker()
         Me.btnGo = New System.Windows.Forms.ToolStripButton()
         Me.menuFileCreateFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileCreateFolder = New System.Windows.Forms.ToolStripMenuItem()
@@ -422,6 +423,10 @@ Partial Class FileBrowser
         Me.cbxURI.FlatStyle = System.Windows.Forms.FlatStyle.Standard
         Me.cbxURI.Name = "cbxURI"
         Me.cbxURI.Size = New System.Drawing.Size(800, 25)
+        '
+        'bwLoadFolder
+        '
+        Me.bwLoadFolder.WorkerSupportsCancellation = True
         '
         'btnGo
         '
@@ -869,4 +874,5 @@ Partial Class FileBrowser
     Friend WithEvents menuToolsSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents colHeadItemPath As System.Windows.Forms.ColumnHeader
     Friend WithEvents colHeadItemType As System.Windows.Forms.ColumnHeader
+    Friend WithEvents bwLoadFolder As System.ComponentModel.BackgroundWorker
 End Class

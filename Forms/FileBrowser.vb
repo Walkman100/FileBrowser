@@ -239,25 +239,38 @@ Public Class FileBrowser
 #Region "Loading Data"
     Private Sub LoadFolder()
         lstCurrent.Items.Clear()
+        g_disableSaveColumns = True
+
+        bwLoadFolder.RunWorkerAsync()
+    End Sub
+
+    Private Sub bwLoadFolder_DoWork(sender As Object, e As DoWorkEventArgs) Handles bwLoadFolder.DoWork
         For Each itemInfo In Filesystem.GetItems(_currentDir)
-            lstCurrent.Items.Add(CreateItem(itemInfo))
+            Invoke(Sub() lstCurrent.Items.Add(CreateItem(itemInfo)))
         Next
 
-        g_disableSaveColumns = True
-        Settings.LoadDefaultColumns()
+        Invoke(Sub() Settings.LoadDefaultColumns())
         If Settings.SaveColumns Then
-            FolderSettings.GetColumns(CurrentDir)
+            Invoke(Sub() FolderSettings.GetColumns(CurrentDir))
         End If
+        Invoke(Sub() g_disableSaveColumns = False)
+
+        Invoke(Sub() lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(Sorting.SortBy.Name, SortOrder.Ascending))
+        Invoke(Sub() Sorting.Sort(lstCurrent.Items, lastSort.Key, lastSort.Value))
+
+        If DirectCast(Invoke(Function() Settings.EnableIcons), Boolean) Then
+            Invoke(Sub() lstCurrent.SmallImageList = ImageHandling.GetImageList(lstCurrent.Items, 16, True))
+        Else
+            Invoke(Sub() lstCurrent.SmallImageList = Nothing)
+            Invoke(Sub() lstCurrent.LargeImageList = Nothing)
+        End If
+    End Sub
+
+    Private Sub bwLoadFolder_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bwLoadFolder.RunWorkerCompleted
         g_disableSaveColumns = False
 
-        lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(Sorting.SortBy.Name, SortOrder.Ascending)
-        Sorting.Sort(lstCurrent.Items, lastSort.Key, lastSort.Value)
-
-        If Settings.EnableIcons Then
-            lstCurrent.SmallImageList = ImageHandling.GetImageList(lstCurrent.Items, 16, True)
-        Else
-            lstCurrent.SmallImageList = Nothing
-            lstCurrent.LargeImageList = Nothing
+        If e.Error IsNot Nothing Then
+            ErrorParser(e.Error)
         End If
     End Sub
 
@@ -515,7 +528,7 @@ Public Class FileBrowser
         LoadFolder()
     End Sub
     Private Sub menuGoStop_Click() Handles menuGoStop.Click
-
+        bwLoadFolder.CancelAsync()
     End Sub
 
     Private Sub menuToolsSettings_Click() Handles menuToolsSettings.Click
