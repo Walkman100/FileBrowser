@@ -189,6 +189,54 @@ Public Class FileBrowser
         Return node
     End Function
 
+    Public Function GetSelectedPaths(Optional forceTree As Boolean = False, Optional useGlobalNode As Boolean = False) As String()
+        If Not forceTree AndAlso lstCurrent.SelectedItems.Count > 0 Then
+            Return lstCurrent.SelectedItems.Cast(Of ListViewItem).Select(Function(t) GetItemInfo(t).FullName).ToArray()
+        ElseIf useGlobalNode AndAlso g_selectedNode IsNot Nothing Then
+            Return {g_selectedNode.FixedFullPath}
+        ElseIf Not useGlobalNode AndAlso treeViewDirs.SelectedNode IsNot Nothing Then
+            Return {treeViewDirs.SelectedNode.FixedFullPath}
+        Else
+            Return {}
+        End If
+    End Function
+
+    Public Sub RenameSelected() Handles winCtxMenu.ItemRenamed
+        If lstCurrent.SelectedItems.Count = 1 Then
+            lstCurrent.SelectedItems(0).BeginEdit()
+        ElseIf lstCurrent.SelectedItems.Count > 1 Then
+            Dim newName As String = Path.GetFileNameWithoutExtension(lstCurrent.SelectedItems(0).Text) & "_{0}" & GetItemInfo(lstCurrent.SelectedItems(0)).Extension
+            If Input.GetInput(newName, "Rename Items", "Enter New Name:", "{0} will be replaced with an incrementing number.") = DialogResult.OK Then
+                For i = 1 To lstCurrent.SelectedItems.Count
+                    Dim itemInfo As Filesystem.EntryInfo = GetItemInfo(lstCurrent.SelectedItems(i - 1))
+                    Operations.Rename(itemInfo.FullName, String.Format(newName, i))
+                Next
+            End If
+        ElseIf g_selectedNode IsNot Nothing Then
+            g_selectedNode.BeginEdit()
+        End If
+    End Sub
+
+    Private Sub UpdateCheckComplete(sender As Object, e As RunWorkerCompletedEventArgs)
+        If Not Settings.DisableUpdateCheck Then
+            If e.Error Is Nothing Then
+                If DirectCast(e.Result, Boolean) Then
+                    Select Case WalkmanLib.CustomMsgBox("An update is available!", "Update Check", "Go to Download page", "Disable Update Check",
+                                                        "Ignore", MessageBoxIcon.Information, ownerForm:=Me)
+                        Case "Go to Download page"
+                            Launch.LaunchItem("https://github.com/Walkman100/FileBrowser/releases/latest", Nothing, Nothing)
+                        Case "Disable Update Check"
+                            Settings.chkDisableUpdateCheck.Checked = True
+                    End Select
+                End If
+            Else
+                MessageBox.Show("Update check failed!" & Environment.NewLine & e.Error.Message, "Update Check", 0, MessageBoxIcon.Exclamation)
+            End If
+        End If
+    End Sub
+#End Region
+
+#Region "Loading Data"
     Private Sub LoadFolder()
         lstCurrent.Items.Clear()
         For Each itemInfo In Filesystem.GetItems(_currentDir)
@@ -264,52 +312,6 @@ Public Class FileBrowser
         g_disableNavigate = True ' suppress treeViewDirs_AfterSelect navigating to the selected node
         treeViewDirs.SelectedNode = parent
         g_disableNavigate = False
-    End Sub
-
-    Public Function GetSelectedPaths(Optional forceTree As Boolean = False, Optional useGlobalNode As Boolean = False) As String()
-        If Not forceTree AndAlso lstCurrent.SelectedItems.Count > 0 Then
-            Return lstCurrent.SelectedItems.Cast(Of ListViewItem).Select(Function(t) GetItemInfo(t).FullName).ToArray()
-        ElseIf useGlobalNode AndAlso g_selectedNode IsNot Nothing Then
-            Return {g_selectedNode.FixedFullPath}
-        ElseIf Not useGlobalNode AndAlso treeViewDirs.SelectedNode IsNot Nothing Then
-            Return {treeViewDirs.SelectedNode.FixedFullPath}
-        Else
-            Return {}
-        End If
-    End Function
-
-    Public Sub RenameSelected() Handles winCtxMenu.ItemRenamed
-        If lstCurrent.SelectedItems.Count = 1 Then
-            lstCurrent.SelectedItems(0).BeginEdit()
-        ElseIf lstCurrent.SelectedItems.Count > 1 Then
-            Dim newName As String = Path.GetFileNameWithoutExtension(lstCurrent.SelectedItems(0).Text) & "_{0}" & GetItemInfo(lstCurrent.SelectedItems(0)).Extension
-            If Input.GetInput(newName, "Rename Items", "Enter New Name:", "{0} will be replaced with an incrementing number.") = DialogResult.OK Then
-                For i = 1 To lstCurrent.SelectedItems.Count
-                    Dim itemInfo As Filesystem.EntryInfo = GetItemInfo(lstCurrent.SelectedItems(i - 1))
-                    Operations.Rename(itemInfo.FullName, String.Format(newName, i))
-                Next
-            End If
-        ElseIf g_selectedNode IsNot Nothing Then
-            g_selectedNode.BeginEdit()
-        End If
-    End Sub
-
-    Private Sub UpdateCheckComplete(sender As Object, e As RunWorkerCompletedEventArgs)
-        If Not Settings.DisableUpdateCheck Then
-            If e.Error Is Nothing Then
-                If DirectCast(e.Result, Boolean) Then
-                    Select Case WalkmanLib.CustomMsgBox("An update is available!", "Update Check", "Go to Download page", "Disable Update Check",
-                                                        "Ignore", MessageBoxIcon.Information, ownerForm:=Me)
-                        Case "Go to Download page"
-                            Launch.LaunchItem("https://github.com/Walkman100/FileBrowser/releases/latest", Nothing, Nothing)
-                        Case "Disable Update Check"
-                            Settings.chkDisableUpdateCheck.Checked = True
-                    End Select
-                End If
-            Else
-                MessageBox.Show("Update check failed!" & Environment.NewLine & e.Error.Message, "Update Check", 0, MessageBoxIcon.Exclamation)
-            End If
-        End If
     End Sub
 #End Region
 
