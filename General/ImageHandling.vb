@@ -162,12 +162,14 @@ Namespace ImageHandling
             Dim path As String = node.FixedFullPath()
             If Not Settings.SpecificItemIcons Then
                 node.ImageIndex = GetDefaultIndex(path)
+                node.SelectedImageIndex = node.ImageIndex
                 Return
             End If
 
             Dim folderIconPath As String = WalkmanLib.GetFolderIconPath(path)
             If folderIconPath = "no icon found" Then
                 node.ImageIndex = GetDefaultIndex(path)
+                node.SelectedImageIndex = node.ImageIndex
                 Return
             End If
 
@@ -183,6 +185,7 @@ Namespace ImageHandling
 
             imageList.Images.Add(path, img)
             node.ImageKey = path
+            node.SelectedImageKey = node.ImageKey
         End Sub
 
         Public Sub ReleaseImage(node As TreeNode, imageList As ImageList)

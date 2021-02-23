@@ -321,7 +321,6 @@ Public Class FileBrowser
         If Not g_disableNavigate Then
             CurrentDir = e.Node.FixedFullPath()
         End If
-        e.Node.SelectedImageKey = e.Node.ImageKey
     End Sub
     Private Sub treeViewDirs_BeforeExpand(sender As Object, e As TreeViewCancelEventArgs) Handles treeViewDirs.BeforeExpand
         LoadNode(e.Node)
