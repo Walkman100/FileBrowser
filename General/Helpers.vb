@@ -42,7 +42,7 @@ Namespace Helpers
         Public Function GetDownloadURL(path As String) As String
             Try
                 If AlternateDataStreamExists(path, DownloadADS) Then
-                    Using fs As StreamReader = GetAlternateDataStream(path, DownloadADS).OpenText
+                    Using fs As StreamReader = GetAlternateDataStream(path, DownloadADS).OpenText()
                         While Not fs.EndOfStream
                             Dim line As String = fs.ReadLine()
                             If line?.StartsWith("HostUrl=", True, Globalization.CultureInfo.InvariantCulture) Then
@@ -58,7 +58,7 @@ Namespace Helpers
         Public Function GetDownloadReferrer(path As String) As String
             Try
                 If AlternateDataStreamExists(path, DownloadADS) Then
-                    Using fs As StreamReader = GetAlternateDataStream(path, DownloadADS).OpenText
+                    Using fs As StreamReader = GetAlternateDataStream(path, DownloadADS).OpenText()
                         While Not fs.EndOfStream
                             Dim line As String = fs.ReadLine()
                             If line?.StartsWith("ReferrerUrl=", True, Globalization.CultureInfo.InvariantCulture) Then
@@ -144,10 +144,10 @@ Namespace Helpers
         Public Function GetFileName(fullPath As String) As String
             If fullPath Is Nothing Then Return Nothing
 
-            Dim lIO As Integer = fullPath.LastIndexOf(Path.DirectorySeparatorChar)
-            If lIO = -1 Then Return String.Empty
+            Dim lDSC As Integer = fullPath.LastIndexOf(Path.DirectorySeparatorChar)
+            If lDSC = -1 Then Return String.Empty
 
-            Return fullPath.Substring(lIO + 1)
+            Return fullPath.Substring(lDSC + 1)
         End Function
     End Module
 

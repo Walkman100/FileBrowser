@@ -7,9 +7,7 @@ Namespace ImageHandling
     Module ImageHandling
         Public Function TransformResourcePath(iconResource As String, Optional ByRef iconIndex As Integer = 0) As String
             If iconResource.Contains(",") Then
-                If Microsoft.VisualBasic.IsNumeric(iconResource.Substring(iconResource.LastIndexOf(",") + 1)) Then
-                    iconIndex = Integer.Parse(iconResource.Substring(iconResource.LastIndexOf(",") + 1))
-
+                If Integer.TryParse(iconResource.Substring(iconResource.LastIndexOf(",") + 1), iconIndex) Then
                     iconResource = iconResource.Remove(iconResource.LastIndexOf(","))
                 End If
             End If

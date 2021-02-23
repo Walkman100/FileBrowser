@@ -158,14 +158,13 @@ Public Class FolderSettings
 
     ''' <summary>Saves current columns from <see cref="FileBrowser.lstCurrent"/> to folder config</summary>
     Public Shared Sub SaveColumns(folderPath As String)
-        Dim colLst As New List(Of Settings.Column)
-
-        colLst.AddRange(FileBrowser.lstCurrent.Columns.Cast(Of ColumnHeader).
-                                    Select(Function(ch) New Settings.Column With {
-                                        .SaveName = DirectCast(ch.Tag, String),
-                                        .DisplayIndex = ch.DisplayIndex,
-                                        .Width = ch.Width
-                                    }))
+        Dim colLst As IEnumerable(Of Settings.Column) =
+            FileBrowser.lstCurrent.Columns.Cast(Of ColumnHeader).
+                        Select(Function(ch) New Settings.Column With {
+                            .SaveName = DirectCast(ch.Tag, String),
+                            .DisplayIndex = ch.DisplayIndex,
+                            .Width = ch.Width
+                        })
 
         Dim colConfig As String = Nothing
         For Each col As Settings.Column In colLst
