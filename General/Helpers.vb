@@ -30,15 +30,15 @@ Namespace Helpers
         End Function
 
         Public Sub ApplyColumns(fb As FileBrowser, colLst As List(Of Settings.Column))
-            For Each col As Settings.Column In colLst
-                AutoInvoke(fb, Sub()
-                                   With fb.lstCurrent.Columns.Cast(Of Windows.Forms.ColumnHeader).
-                                           First(Function(c) DirectCast(c.Tag, String).ToLowerInvariant() = col.SaveName.ToLowerInvariant())
-                                       .DisplayIndex = col.DisplayIndex
-                                       .Width = col.Width
-                                   End With
-                               End Sub)
-            Next
+            Threading.Tasks.Parallel.ForEach(colLst,
+                                             New Threading.Tasks.ParallelOptions With {.MaxDegreeOfParallelism = Environment.ProcessorCount},
+                                             Sub(col)
+                                                 With fb.lstCurrent.Columns.Cast(Of Windows.Forms.ColumnHeader).
+                                                         First(Function(c) DirectCast(c.Tag, String).ToLowerInvariant() = col.SaveName.ToLowerInvariant())
+                                                     .DisplayIndex = col.DisplayIndex
+                                                     .Width = col.Width
+                                                 End With
+                                             End Sub)
         End Sub
 
         Public Function Invoke(Of T)(control As Windows.Forms.Control, method As Func(Of T)) As T
