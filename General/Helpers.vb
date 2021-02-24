@@ -31,11 +31,13 @@ Namespace Helpers
 
         Public Sub ApplyColumns(fb As FileBrowser, colLst As List(Of Settings.Column))
             For Each col As Settings.Column In colLst
-                With fb.lstCurrent.Columns.Cast(Of Windows.Forms.ColumnHeader).
-                            First(Function(c) DirectCast(c.Tag, String).ToLowerInvariant() = col.SaveName.ToLowerInvariant())
-                    .DisplayIndex = col.DisplayIndex
-                    .Width = col.Width
-                End With
+                AutoInvoke(fb, Sub()
+                                   With fb.lstCurrent.Columns.Cast(Of Windows.Forms.ColumnHeader).
+                                           First(Function(c) DirectCast(c.Tag, String).ToLowerInvariant() = col.SaveName.ToLowerInvariant())
+                                       .DisplayIndex = col.DisplayIndex
+                                       .Width = col.Width
+                                   End With
+                               End Sub)
             Next
         End Sub
 

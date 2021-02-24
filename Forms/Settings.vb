@@ -98,11 +98,6 @@ Public Class Settings
                                     }))
         SaveSettings()
     End Sub
-
-    ''' <summary>Loads columns from <see cref="DefaultColumns"/> to columns in <see cref="FileBrowser.lstCurrent"/></summary>
-    Public Sub LoadDefaultColumns(fb As FileBrowser)
-        Helpers.ApplyColumns(fb, DefaultColumns)
-    End Sub
 #End Region
 
 #Region "GUI Methods"
