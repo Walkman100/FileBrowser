@@ -122,7 +122,7 @@ Public Class FileBrowser
     End Sub
 
 #Region "Helpers"
-    Private Function UpdateItem(item As ListViewItem, itemInfo As Filesystem.EntryInfo) As ListViewItem
+    Private Shared Function UpdateItem(item As ListViewItem, itemInfo As Filesystem.EntryInfo) As ListViewItem
         item.Tag = itemInfo
         item.Text = itemInfo.DisplayName
         item.SubItems.Item(1).Text = itemInfo.Extension
@@ -153,11 +153,11 @@ Public Class FileBrowser
         Return item
     End Function
 
-    Private Function CreateItem(itemInfo As Filesystem.EntryInfo) As ListViewItem
+    Private Shared Function CreateItem(itemInfo As Filesystem.EntryInfo) As ListViewItem
         Return UpdateItem(New ListViewItem(Enumerable.Repeat(String.Empty, 17).ToArray()), itemInfo)
     End Function
 
-    Public Function GetItemInfo(item As ListViewItem) As Filesystem.EntryInfo
+    Public Shared Function GetItemInfo(item As ListViewItem) As Filesystem.EntryInfo
         Return DirectCast(item.Tag, Filesystem.EntryInfo)
     End Function
 
@@ -245,12 +245,6 @@ Public Class FileBrowser
     End Sub
 
     Private Sub bwLoadFolder_DoWork(sender As Object, e As DoWorkEventArgs) Handles bwLoadFolder.DoWork
-        Threading.Tasks.Parallel.ForEach(Filesystem.GetItems(Me, _currentDir),
-                                         New Threading.Tasks.ParallelOptions With {.MaxDegreeOfParallelism = Environment.ProcessorCount},
-                                         Sub(itemInfo)
-                                             Invoke(Sub() lstCurrent.Items.Add(CreateItem(itemInfo)))
-                                         End Sub)
-
         Dim colLst As List(Of Settings.Column) = Helpers.Invoke(Me, Function() Settings.DefaultColumns)
         Helpers.ApplyColumns(Me, colLst)
 
@@ -259,8 +253,14 @@ Public Class FileBrowser
         End If
         Invoke(Sub() g_disableSaveColumns = False)
 
+        Threading.Tasks.Parallel.ForEach(Filesystem.GetItems(Me, _currentDir),
+                                         New Threading.Tasks.ParallelOptions With {.MaxDegreeOfParallelism = Environment.ProcessorCount},
+                                         Sub(itemInfo)
+                                             Invoke(Sub() lstCurrent.Items.Add(CreateItem(itemInfo)))
+                                         End Sub)
+
         Invoke(Sub() lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(Sorting.SortBy.Name, SortOrder.Ascending))
-        Invoke(Sub() Sorting.Sort(lstCurrent.Items, lastSort.Key, lastSort.Value))
+        Sorting.Sort(Me, lstCurrent.Items, lastSort.Key, lastSort.Value)
 
         If Helpers.Invoke(Me, Function() Settings.EnableIcons) Then
             Invoke(Sub() lstCurrent.SmallImageList = ImageHandling.GetImageList(lstCurrent.Items, 16, True))
@@ -381,7 +381,7 @@ Public Class FileBrowser
         Else
             lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(sortBy, SortOrder.Ascending)
         End If
-        Sorting.Sort(lstCurrent.Items, lastSort.Key, lastSort.Value)
+        Sorting.Sort(Me, lstCurrent.Items, lastSort.Key, lastSort.Value)
     End Sub
 
     Private g_disableSaveColumns As Boolean = True

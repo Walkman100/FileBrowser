@@ -24,10 +24,10 @@ Public Class Sorting
         DownloadReferrer
     End Enum
 
-    Public Shared Sub Sort(items As ListView.ListViewItemCollection, sortBy As SortBy, sortOrder As SortOrder)
+    Public Shared Sub Sort(baseControl As Control, items As ListView.ListViewItemCollection, sortBy As SortBy, sortOrder As SortOrder)
         Dim itemInfos As IOrderedEnumerable(Of ListViewItem) = items.Cast(Of ListViewItem).OrderBy(Function(x) x.Text)
 
-        If Settings.ShowFoldersFirst Then
+        If Helpers.AutoInvoke(baseControl, Function() Settings.ShowFoldersFirst) Then
             itemInfos = itemInfos.OrderByDescending(Function(x) FileBrowser.GetItemInfo(x).Attributes.HasFlag(IO.FileAttributes.Directory))
 
             If sortOrder = SortOrder.Ascending Then
@@ -51,8 +51,8 @@ Public Class Sorting
 
         Dim itemArr As ListViewItem() = itemInfos.ToArray()
 
-        items.Clear()
-        items.AddRange(itemArr)
+        Helpers.AutoInvoke(baseControl, Sub() items.Clear())
+        Helpers.AutoInvoke(baseControl, Sub() items.AddRange(itemArr))
     End Sub
 
     Private Shared Function keySelector(item As ListViewItem, sortBy As SortBy) As Object
