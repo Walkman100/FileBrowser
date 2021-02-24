@@ -100,14 +100,8 @@ Public Class Settings
     End Sub
 
     ''' <summary>Loads columns from <see cref="DefaultColumns"/> to columns in <see cref="FileBrowser.lstCurrent"/></summary>
-    Public Sub LoadDefaultColumns()
-        For Each col As Column In DefaultColumns
-            With FileBrowser.lstCurrent.Columns.Cast(Of ColumnHeader).
-                        First(Function(c) DirectCast(c.Tag, String).ToLowerInvariant() = col.SaveName.ToLowerInvariant())
-                .DisplayIndex = col.DisplayIndex
-                .Width = col.Width
-            End With
-        Next
+    Public Sub LoadDefaultColumns(fb As FileBrowser)
+        Helpers.ApplyColumns(fb, DefaultColumns)
     End Sub
 #End Region
 

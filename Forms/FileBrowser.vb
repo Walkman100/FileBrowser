@@ -251,9 +251,9 @@ Public Class FileBrowser
                                              Invoke(Sub() lstCurrent.Items.Add(CreateItem(itemInfo)))
                                          End Sub)
 
-        Invoke(Sub() Settings.LoadDefaultColumns())
+        Invoke(Sub() Settings.LoadDefaultColumns(Me))
         If Helpers.Invoke(Me, Function() Settings.SaveColumns) Then
-            Invoke(Sub() FolderSettings.GetColumns(CurrentDir))
+            Invoke(Sub() FolderSettings.GetColumns(Me, CurrentDir))
         End If
         Invoke(Sub() g_disableSaveColumns = False)
 
@@ -565,7 +565,7 @@ Public Class FileBrowser
     End Sub
     Private Sub menuToolsRestoreDefault_Click() Handles menuToolsRestoreDefault.Click
         FolderSettings.DeleteColumnConfig(CurrentDir)
-        Settings.LoadDefaultColumns()
+        Settings.LoadDefaultColumns(Me)
     End Sub
 
     Private Sub btnGo_Click() Handles btnGo.Click

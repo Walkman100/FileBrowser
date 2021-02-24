@@ -1,4 +1,5 @@
 Imports System
+Imports System.Collections.Generic
 Imports System.IO
 Imports System.Linq
 Imports Trinet.Core.IO.Ntfs
@@ -27,6 +28,16 @@ Namespace Helpers
         Public Function Clone(img As Drawing.Image) As Drawing.Image
             Return DirectCast(img.Clone(), Drawing.Image)
         End Function
+
+        Public Sub ApplyColumns(fb As FileBrowser, colLst As List(Of Settings.Column))
+            For Each col As Settings.Column In colLst
+                With fb.lstCurrent.Columns.Cast(Of Windows.Forms.ColumnHeader).
+                            First(Function(c) DirectCast(c.Tag, String).ToLowerInvariant() = col.SaveName.ToLowerInvariant())
+                    .DisplayIndex = col.DisplayIndex
+                    .Width = col.Width
+                End With
+            Next
+        End Sub
 
         Public Function Invoke(Of T)(control As Windows.Forms.Control, method As Func(Of T)) As T
             Return DirectCast(control.Invoke(method), T)

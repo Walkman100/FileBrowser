@@ -124,7 +124,7 @@ Public Class FolderSettings
     End Class
 
     ''' <summary>Loads columns from folder config to columns in <see cref="FileBrowser.lstCurrent"/></summary>
-    Public Shared Sub GetColumns(folderPath As String)
+    Public Shared Sub GetColumns(fb As FileBrowser, folderPath As String)
         Dim colLst As New List(Of Settings.Column)
 
         Dim colConfig As String = FileAccess.GetSetting(folderPath, "Columns")
@@ -147,13 +147,7 @@ Public Class FolderSettings
             colLst.Add(col)
         Next
 
-        For Each col As Settings.Column In colLst
-            With FileBrowser.lstCurrent.Columns.Cast(Of ColumnHeader).
-                        First(Function(c) DirectCast(c.Tag, String).ToLowerInvariant() = col.SaveName.ToLowerInvariant())
-                .DisplayIndex = col.DisplayIndex
-                .Width = col.Width
-            End With
-        Next
+        Helpers.ApplyColumns(fb, colLst)
     End Sub
 
     ''' <summary>Saves current columns from <see cref="FileBrowser.lstCurrent"/> to folder config</summary>
