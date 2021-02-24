@@ -51,7 +51,7 @@ Namespace ImageHandling
                 Dim itemInfo As Filesystem.EntryInfo = FileBrowser.GetItemInfo(items(i))
 
                 If itemInfo.Attributes.HasFlag(FileAttributes.Directory) Then
-                    il.Images.Add(AddOverlays(itemInfo, GetFolderImage(itemInfo, size, folderIcon.Clone2())))
+                    il.Images.Add(AddOverlays(itemInfo, GetFolderImage(itemInfo, size, Helpers.Clone(folderIcon))))
                 Else
                     il.Images.Add(AddOverlays(itemInfo, GetFileImage(itemInfo, size)))
                 End If
@@ -124,15 +124,15 @@ Namespace ImageHandling
                 ' Index 0: default folder icon
                 il.Images.Add(GetIcon("%SystemRoot%\System32\imageres.dll,3", size).ToBitmap())
                 ' Index 1: default folder icon - compressed
-                il.Images.Add(AddOverlay(il.Images(0).Clone2(), My.Resources.Resources.Compress, True))
+                il.Images.Add(AddOverlay(Helpers.Clone(il.Images(0)), My.Resources.Resources.Compress, True))
                 ' Index 2: default folder icon - encrypted
-                il.Images.Add(AddOverlay(il.Images(0).Clone2(), My.Resources.Resources.Encrypt, True))
+                il.Images.Add(AddOverlay(Helpers.Clone(il.Images(0)), My.Resources.Resources.Encrypt, True))
                 ' Index 3: default folder icon - symlink
-                il.Images.Add(AddOverlay(il.Images(0).Clone2(), My.Resources.Resources.OverlaySymlink))
+                il.Images.Add(AddOverlay(Helpers.Clone(il.Images(0)), My.Resources.Resources.OverlaySymlink))
                 ' Index 4: default folder icon - compressed & symlink
-                il.Images.Add(AddOverlay(il.Images(1).Clone2(), My.Resources.Resources.OverlaySymlink))
+                il.Images.Add(AddOverlay(Helpers.Clone(il.Images(1)), My.Resources.Resources.OverlaySymlink))
                 ' Index 5: default folder icon - encrypted & symlink
-                il.Images.Add(AddOverlay(il.Images(2).Clone2(), My.Resources.Resources.OverlaySymlink))
+                il.Images.Add(AddOverlay(Helpers.Clone(il.Images(2)), My.Resources.Resources.OverlaySymlink))
             End If
 
             Return il

@@ -126,7 +126,7 @@ Public Class Filesystem
             If errored Then ' can't put yield in a Catch or Finally...
                 Yield New EntryInfo With {
                     .FullName = path,
-                    .DisplayName = path.Substring(path.LastIndexOf(IO.Path.DirectorySeparatorChar) + 1) & " (Error)"
+                    .DisplayName = Helpers.GetFileName(path) & " (Error)"
                 }
             End If
         Next

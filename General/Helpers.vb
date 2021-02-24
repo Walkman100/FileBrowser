@@ -22,6 +22,12 @@ Namespace Helpers
             End If
         End Sub
 
+        ''' <summary>Creates an exact copy of this <see cref="Drawing.Image"/>.</summary>
+        ''' <returns>The <see cref="Drawing.Image"/> <see cref="Drawing.Image.Clone"/> creates, cast as an image instead of object.</returns>
+        Public Function Clone(img As Drawing.Image) As Drawing.Image
+            Return DirectCast(img.Clone(), Drawing.Image)
+        End Function
+
         Public Function Invoke(Of T)(control As Windows.Forms.Control, method As Func(Of T)) As T
             Return DirectCast(control.Invoke(method), T)
         End Function

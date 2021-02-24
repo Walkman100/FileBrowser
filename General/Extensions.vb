@@ -1,4 +1,3 @@
-Imports System.Drawing
 Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
@@ -34,12 +33,5 @@ Module Extensions
     <Extension()>
     Public Function FixedFullPath(node As TreeNode) As String
         Return node.FullPath.Replace(Path.DirectorySeparatorChar & Path.DirectorySeparatorChar, Path.DirectorySeparatorChar)
-    End Function
-
-    ''' <summary>Creates an exact copy of this <see cref="Image"/>.</summary>
-    ''' <returns>The <see cref="Image"/> <see cref="Image.Clone"/> creates, cast as an image instead of object.</returns>
-    <Extension()>
-    Public Function Clone2(img As Image) As Image
-        Return CType(img.Clone(), Image)
     End Function
 End Module
