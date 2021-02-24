@@ -245,14 +245,14 @@ Public Class FileBrowser
     End Sub
 
     Private Sub bwLoadFolder_DoWork(sender As Object, e As DoWorkEventArgs) Handles bwLoadFolder.DoWork
-        Threading.Tasks.Parallel.ForEach(Filesystem.GetItems(_currentDir),
+        Threading.Tasks.Parallel.ForEach(Filesystem.GetItems(Me, _currentDir),
                                          New Threading.Tasks.ParallelOptions With {.MaxDegreeOfParallelism = Environment.ProcessorCount},
                                          Sub(itemInfo)
                                              Invoke(Sub() lstCurrent.Items.Add(CreateItem(itemInfo)))
                                          End Sub)
 
         Invoke(Sub() Settings.LoadDefaultColumns())
-        If Settings.SaveColumns Then
+        If Helpers.Invoke(Me, Function() Settings.SaveColumns) Then
             Invoke(Sub() FolderSettings.GetColumns(CurrentDir))
         End If
         Invoke(Sub() g_disableSaveColumns = False)
@@ -299,7 +299,7 @@ Public Class FileBrowser
 
     Private Sub LoadNode(node As TreeNode)
         node.Nodes.Clear()
-        For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(node.FullPath)
+        For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(Me, node.FullPath)
             AddNode(node, item.DisplayName)
         Next
     End Sub

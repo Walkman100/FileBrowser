@@ -36,7 +36,7 @@ Public Class Filesystem
         Public DownloadReferrer As String
     End Structure
 
-    Public Shared Function GetItemEntryInfo(info As FileInfo) As EntryInfo
+    Public Shared Function GetItemEntryInfo(info As FileInfo, showExtensions As Boolean) As EntryInfo
         Dim entryInfo As New EntryInfo With {
             .FullName = info.FullName,
             .DisplayName = info.Name,
@@ -66,7 +66,7 @@ Public Class Filesystem
         If File.Exists(info.FullName) Then
             entryInfo.Type = EntryType.File
 
-            If Not Settings.ShowExtensions Then
+            If Not showExtensions Then
                 entryInfo.DisplayName = info.NameNoExt()
             End If
 
@@ -86,17 +86,21 @@ Public Class Filesystem
         Return entryInfo
     End Function
 
-    Private Shared Iterator Function Filter(paths As IEnumerable(Of String)) As IEnumerable(Of EntryInfo)
+    Private Shared Iterator Function Filter(baseControl As Windows.Forms.Control, paths As IEnumerable(Of String)) As IEnumerable(Of EntryInfo)
+        Dim _showHidden As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.ShowHidden)
+        Dim _showSystem As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.ShowSystem)
+        Dim _showDot As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.ShowDot)
+        Dim _showExtensions As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.ShowExtensions)
+
         For Each path As String In paths
             Dim errored As Boolean = False
             Try
-
                 Dim info As New FileInfo(path)
-                If (Settings.ShowHidden OrElse Not info.Attributes.HasFlag(FileAttributes.Hidden)) AndAlso
-                   (Settings.ShowSystem OrElse Not info.Attributes.HasFlag(FileAttributes.System)) AndAlso
-                   (Settings.ShowDot OrElse Not info.Name.Chars(0) = "."c) Then
+                If (_showHidden OrElse Not info.Attributes.HasFlag(FileAttributes.Hidden)) AndAlso
+                   (_showSystem OrElse Not info.Attributes.HasFlag(FileAttributes.System)) AndAlso
+                   (_showDot OrElse Not info.Name.Chars(0) = "."c) Then
 
-                    Dim entryInfo As EntryInfo = GetItemEntryInfo(info)
+                    Dim entryInfo As EntryInfo = GetItemEntryInfo(info, _showExtensions)
                     Yield entryInfo
 
                     If Settings.ShowADSSeparate Then
@@ -128,17 +132,17 @@ Public Class Filesystem
         Next
     End Function
 
-    Public Shared Function GetFolders(path As String) As IEnumerable(Of EntryInfo)
+    Public Shared Function GetFolders(baseControl As Windows.Forms.Control, path As String) As IEnumerable(Of EntryInfo)
         If Directory.Exists(path) Then
-            Return Filter(Directory.EnumerateDirectories(path))
+            Return Filter(baseControl, Directory.EnumerateDirectories(path))
         Else
             Throw New DirectoryNotFoundException($"Directory ""{path}"" not found!")
         End If
     End Function
 
-    Public Shared Function GetItems(path As String) As IEnumerable(Of EntryInfo)
+    Public Shared Function GetItems(baseControl As Windows.Forms.Control, path As String) As IEnumerable(Of EntryInfo)
         If Directory.Exists(path) Then
-            Return Filter(Directory.EnumerateFileSystemEntries(path))
+            Return Filter(baseControl, Directory.EnumerateFileSystemEntries(path))
         Else
             Throw New DirectoryNotFoundException($"Directory ""{path}"" not found!")
         End If
