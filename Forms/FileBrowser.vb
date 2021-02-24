@@ -5,6 +5,7 @@ Imports System.Diagnostics
 Imports System.Drawing
 Imports System.IO
 Imports System.Linq
+Imports System.Threading.Tasks
 Imports System.Windows.Forms
 
 Public Class FileBrowser
@@ -239,6 +240,8 @@ Public Class FileBrowser
 #Region "Loading Data"
     Private Sub LoadFolder()
         lstCurrent.Items.Clear()
+        lstCurrent.SmallImageList = Nothing
+        lstCurrent.LargeImageList = Nothing
         g_disableSaveColumns = True
 
         bwLoadFolder.RunWorkerAsync()
@@ -253,20 +256,17 @@ Public Class FileBrowser
         End If
         Invoke(Sub() g_disableSaveColumns = False)
 
-        Threading.Tasks.Parallel.ForEach(Filesystem.GetItems(Me, _currentDir),
-                                         New Threading.Tasks.ParallelOptions With {.MaxDegreeOfParallelism = Environment.ProcessorCount},
-                                         Sub(itemInfo)
-                                             Invoke(Sub() lstCurrent.Items.Add(CreateItem(itemInfo)))
-                                         End Sub)
+        Parallel.ForEach(Filesystem.GetItems(Me, _currentDir),
+                         New ParallelOptions With {.MaxDegreeOfParallelism = Environment.ProcessorCount},
+                         Sub(itemInfo)
+                             Invoke(Sub() lstCurrent.Items.Add(CreateItem(itemInfo)))
+                         End Sub)
 
         Invoke(Sub() lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(Sorting.SortBy.Name, SortOrder.Ascending))
-        Sorting.Sort(Me, lstCurrent.Items, lastSort.Key, lastSort.Value)
+        Sorting.Sort(Me, lstCurrent, lstCurrent.Items, lastSort.Key, lastSort.Value)
 
         If Helpers.Invoke(Me, Function() Settings.EnableIcons) Then
             Invoke(Sub() lstCurrent.SmallImageList = ImageHandling.GetImageList(lstCurrent.Items, 16, True))
-        Else
-            Invoke(Sub() lstCurrent.SmallImageList = Nothing)
-            Invoke(Sub() lstCurrent.LargeImageList = Nothing)
         End If
     End Sub
 
@@ -381,7 +381,7 @@ Public Class FileBrowser
         Else
             lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(sortBy, SortOrder.Ascending)
         End If
-        Sorting.Sort(Me, lstCurrent.Items, lastSort.Key, lastSort.Value)
+        Sorting.Sort(Me, lstCurrent, lstCurrent.Items, lastSort.Key, lastSort.Value)
     End Sub
 
     Private g_disableSaveColumns As Boolean = True
