@@ -36,32 +36,46 @@ Namespace ImageHandling
     End Module
 
     Module ListViewImageLists
-        Public Function GetImageList(items As ListView.ListViewItemCollection, size As Integer, Optional setItemIndexes As Boolean = False) As ImageList
+        Public Function GetImageList(size As Integer) As ImageList
             Dim il As New ImageList With {
                 .ImageSize = New Size(size, size),
                 .ColorDepth = ColorDepth.Depth32Bit
             }
+            Return il
+        End Function
+
+        Public Sub SetImageListImages(baseControl As Control, items As ListView.ListViewItemCollection, il As ImageList, size As Integer, Optional setItemIndexes As Boolean = False)
             Dim folderIcon As Image = Nothing
             If Helpers.GetOS() = OS.Windows Then
                 folderIcon = GetIcon("%SystemRoot%\System32\imageres.dll,3", size).ToBitmap()
             End If
 
+            Dim _specificItemIcons As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.SpecificItemIcons)
+            Dim _imageThumbs As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.ImageThumbs)
+
+            Dim _overlayCompressed As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.OverlayCompressed)
+            Dim _overlayEncrypted As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.OverlayEncrypted)
+            Dim _overlayReparse As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.OverlayReparse)
+            Dim _overlayHardlink As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.OverlayHardlink)
+            Dim _overlayOffline As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.OverlayOffline)
+
             For i = 0 To items.Count - 1
-                If setItemIndexes Then items(i).ImageIndex = i
                 Dim itemInfo As Filesystem.EntryInfo = FileBrowser.GetItemInfo(items(i))
 
                 If itemInfo.Attributes.HasFlag(FileAttributes.Directory) Then
-                    il.Images.Add(AddOverlays(itemInfo, GetFolderImage(itemInfo, size, Helpers.Clone(folderIcon))))
+                    il.Images.Add(AddOverlays(itemInfo, GetFolderImage(itemInfo, size, _specificItemIcons, Helpers.Clone(folderIcon)),
+                                              _overlayCompressed, _overlayEncrypted, _overlayReparse, _overlayHardlink, _overlayOffline))
                 Else
-                    il.Images.Add(AddOverlays(itemInfo, GetFileImage(itemInfo, size)))
+                    il.Images.Add(AddOverlays(itemInfo, GetFileImage(baseControl, itemInfo, size, _specificItemIcons, _imageThumbs),
+                                              _overlayCompressed, _overlayEncrypted, _overlayReparse, _overlayHardlink, _overlayOffline))
                 End If
+
+                If setItemIndexes Then items(i).ImageIndex = i
             Next
+        End Sub
 
-            Return il
-        End Function
-
-        Private Function GetFolderImage(item As Filesystem.EntryInfo, size As Integer, defaultIcon As Image) As Image
-            If Not Settings.SpecificItemIcons Then Return defaultIcon
+        Private Function GetFolderImage(item As Filesystem.EntryInfo, size As Integer, specificItemIcons As Boolean, defaultIcon As Image) As Image
+            If Not specificItemIcons Then Return defaultIcon
 
             Dim folderIconPath As String = WalkmanLib.GetFolderIconPath(item.FullName)
             If folderIconPath = "no icon found" Then Return defaultIcon
@@ -76,9 +90,9 @@ Namespace ImageHandling
                 Return ResizeImage(New PictureBox().ErrorImage, size)
             End Try
         End Function
-        Private Function GetFileImage(item As Filesystem.EntryInfo, size As Integer) As Image
+        Private Function GetFileImage(baseControl As Control, item As Filesystem.EntryInfo, size As Integer, specificItemIcons As Boolean, imageThumbs As Boolean) As Image
             Try
-                If Not Settings.SpecificItemIcons Then
+                If Not specificItemIcons Then
                     If size = 16 OrElse size = 32 Then
                         Return WalkmanLib.GetFileIcon(item.Extension, False, size = 16).ToBitmap()
                     Else
@@ -87,7 +101,7 @@ Namespace ImageHandling
                     End If
                 End If
 
-                If Settings.ImageThumbs Then
+                If imageThumbs Then
                     If item.Size < 200000000 Then ' don't try load image if filesize is above 200MB
                         Try
                             Return ResizeImage(Image.FromFile(item.FullName), size)
@@ -100,7 +114,8 @@ Namespace ImageHandling
                 End If
 
                 If size = 16 Then
-                    Return WalkmanLib.GetFileIcon(item.FullName).ToBitmap()
+                    ' SHGetFileInfo needs to be run on UI thread
+                    Return Helpers.AutoInvoke(baseControl, Function() WalkmanLib.GetFileIcon(item.FullName).ToBitmap())
                 ElseIf size = 32 Then
                     Return Icon.ExtractAssociatedIcon(item.FullName).ToBitmap()
                 Else
@@ -179,7 +194,8 @@ Namespace ImageHandling
                 Catch : img = ResizeImage(New PictureBox().ErrorImage, size)
                 End Try
             End Try
-            img = AddOverlays(Filesystem.GetItemEntryInfo(New FileInfo(path), Settings.ShowExtensions), img)
+            img = AddOverlays(Filesystem.GetItemEntryInfo(New FileInfo(path), Settings.ShowExtensions), img,
+                              Settings.OverlayCompressed, Settings.OverlayEncrypted, Settings.OverlayReparse, Settings.OverlayHardlink, Settings.OverlayOffline)
 
             imageList.Images.Add(path, img)
             node.ImageKey = path
@@ -218,26 +234,28 @@ Namespace ImageHandling
             Return AddOverlay(image, My.Resources.Resources.Admin, True)
         End Function
 
-        Public Function AddOverlays(itemInfo As Filesystem.EntryInfo, image As Image) As Image
+        Public Function AddOverlays(itemInfo As Filesystem.EntryInfo, image As Image,
+                                    overlayCompressed As Boolean, overlayEncrypted As Boolean, overlayReparse As Boolean,
+                                    overlayHardlink As Boolean, overlayOffline As Boolean) As Image
             ' shortcut overlay is automatically applied by WalkmanLib.GetFileIcon / Icon.ExtractAssociatedIcon
 
-            If Settings.OverlayCompressed AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Compressed) Then
+            If overlayCompressed AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Compressed) Then
                 image = AddOverlay(image, My.Resources.Resources.Compress, True)
             End If
 
-            If Settings.OverlayEncrypted AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Encrypted) Then
+            If overlayEncrypted AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Encrypted) Then
                 image = AddOverlay(image, My.Resources.Resources.Encrypt, True)
             End If
 
-            If Settings.OverlayReparse AndAlso itemInfo.Attributes.HasFlag(FileAttributes.ReparsePoint) Then
+            If overlayReparse AndAlso itemInfo.Attributes.HasFlag(FileAttributes.ReparsePoint) Then
                 Return AddOverlay(image, My.Resources.Resources.OverlaySymlink)
             End If
 
-            If Settings.OverlayHardlink AndAlso itemInfo.Type.HasFlag(Filesystem.EntryType.Hardlink) Then
+            If overlayHardlink AndAlso itemInfo.Type.HasFlag(Filesystem.EntryType.Hardlink) Then
                 Return AddOverlay(image, My.Resources.Resources.OverlayHardlink)
             End If
 
-            If Settings.OverlayOffline AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Offline) Then
+            If overlayOffline AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Offline) Then
                 Return AddOverlay(image, My.Resources.Resources.OverlayOffline)
             End If
 

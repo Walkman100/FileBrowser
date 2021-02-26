@@ -266,7 +266,8 @@ Public Class FileBrowser
         Sorting.Sort(Me, lstCurrent, lstCurrent.Items, lastSort.Key, lastSort.Value)
 
         If Helpers.Invoke(Me, Function() Settings.EnableIcons) Then
-            Invoke(Sub() lstCurrent.SmallImageList = ImageHandling.GetImageList(lstCurrent.Items, 16, True))
+            lstCurrent.SmallImageList = ImageHandling.GetImageList(16)
+            ImageHandling.SetImageListImages(Me, lstCurrent.Items, lstCurrent.SmallImageList, 16, True)
         End If
     End Sub
 
