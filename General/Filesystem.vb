@@ -91,6 +91,7 @@ Public Class Filesystem
         Dim _showSystem As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.ShowSystem)
         Dim _showDot As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.ShowDot)
         Dim _showExtensions As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.ShowExtensions)
+        Dim _showADSSeparate As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.ShowADSSeparate)
 
         For Each path As String In paths
             Dim errored As Boolean = False
@@ -103,7 +104,7 @@ Public Class Filesystem
                     Dim entryInfo As EntryInfo = GetItemEntryInfo(info, _showExtensions)
                     Yield entryInfo
 
-                    If Settings.ShowADSSeparate Then
+                    If _showADSSeparate Then
                         If entryInfo.ADSCount > 0 Then
                             For Each adsInfo As AlternateDataStreamInfo In info.ListAlternateDataStreams()
                                 entryInfo = New EntryInfo With {

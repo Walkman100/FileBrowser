@@ -1,5 +1,6 @@
 Imports System
 Imports System.Collections.Generic
+Imports System.Drawing
 Imports System.IO
 Imports System.Linq
 Imports Trinet.Core.IO.Ntfs
@@ -23,10 +24,10 @@ Namespace Helpers
             End If
         End Sub
 
-        ''' <summary>Creates an exact copy of this <see cref="Drawing.Image"/>.</summary>
-        ''' <returns>The <see cref="Drawing.Image"/> <see cref="Drawing.Image.Clone"/> creates, cast as an image instead of object.</returns>
-        Public Function Clone(img As Drawing.Image) As Drawing.Image
-            Return DirectCast(img.Clone(), Drawing.Image)
+        ''' <summary>Creates an exact copy of a <see cref="Image"/>.</summary>
+        ''' <returns>The <see cref="Image"/> <see cref="Image.Clone"/> creates, cast as <see cref="Image"/> instead of <see cref="Object"/>.</returns>
+        Public Function Clone(img As Image) As Image
+            Return DirectCast(img.Clone(), Image)
         End Function
 
         Public Sub ApplyColumns(fb As FileBrowser, colLst As List(Of Settings.Column))
