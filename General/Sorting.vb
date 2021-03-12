@@ -31,24 +31,12 @@ Public Class Sorting
         If Helpers.AutoInvoke(baseControl, Function() Settings.ShowFoldersFirst) Then
             itemInfos = itemInfos.OrderByDescending(Function(x) FileBrowser.GetItemInfo(x).Attributes.HasFlag(IO.FileAttributes.Directory))
 
-            If sortOrder = SortOrder.Ascending Then
-                itemInfos = itemInfos.ThenBy(Function(x) keySelector(x, sortBy))
-            ElseIf sortOrder = SortOrder.Descending Then
-                itemInfos = itemInfos.ThenByDescending(Function(x) keySelector(x, sortBy))
-            End If
+            itemInfos = itemInfos.ThenByAorD(sortOrder, Function(x) keySelector(x, sortBy))
         Else
-            If sortOrder = SortOrder.Ascending Then
-                itemInfos = itemInfos.OrderBy(Function(x) keySelector(x, sortBy))
-            ElseIf sortOrder = SortOrder.Descending Then
-                itemInfos = itemInfos.OrderByDescending(Function(x) keySelector(x, sortBy))
-            End If
+            itemInfos = itemInfos.OrderByAorD(sortOrder, Function(x) keySelector(x, sortBy))
         End If
 
-        If sortOrder = SortOrder.Ascending Then
-            itemInfos = itemInfos.ThenBy(Function(x) keySelector(x, SortBy.Name))
-        ElseIf sortOrder = SortOrder.Descending Then
-            itemInfos = itemInfos.ThenByDescending(Function(x) keySelector(x, SortBy.Name))
-        End If
+        itemInfos = itemInfos.ThenByAorD(sortOrder, Function(x) keySelector(x, SortBy.Name))
 
         Dim itemArr As ListViewItem() = itemInfos.ToArray()
 

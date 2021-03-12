@@ -1,3 +1,5 @@
+Imports System
+Imports System.Collections.Generic
 Imports System.IO
 Imports System.Linq
 Imports System.Reflection
@@ -26,5 +28,31 @@ Module Extensions
     <Extension()>
     Public Function FixedFullPath(node As TreeNode) As String
         Return node.FullPath.Replace(Path.DirectorySeparatorChar & Path.DirectorySeparatorChar, Path.DirectorySeparatorChar)
+    End Function
+
+    <Extension()>
+    Public Function OrderByAorD(Of TSource, TKey)(source As IEnumerable(Of TSource), sortOrder As SortOrder,
+                                                  keySelector As Func(Of TSource, TKey)) As IOrderedEnumerable(Of TSource)
+        Select Case sortOrder
+            Case SortOrder.Ascending
+                Return source.OrderBy(keySelector)
+            Case SortOrder.Descending
+                Return source.OrderByDescending(keySelector)
+        End Select
+
+        Return DirectCast(source, IOrderedEnumerable(Of TSource))
+    End Function
+
+    <Extension()>
+    Public Function ThenByAorD(Of TSource, TKey)(source As IOrderedEnumerable(Of TSource), sortOrder As SortOrder,
+                                                 keySelector As Func(Of TSource, TKey)) As IOrderedEnumerable(Of TSource)
+        Select Case sortOrder
+            Case SortOrder.Ascending
+                Return source.ThenBy(keySelector)
+            Case SortOrder.Descending
+                Return source.ThenByDescending(keySelector)
+        End Select
+
+        Return source
     End Function
 End Module
