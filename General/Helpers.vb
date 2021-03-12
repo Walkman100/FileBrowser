@@ -77,16 +77,27 @@ Namespace Helpers
             End Using
         End Function
 
-        Private Const DownloadADS As String = "Zone.Identifier"
+        Private Const WindowsDownloadADS As String = "Zone.Identifier"
+        Private Const XDGOriginADS As String = "xdg.origin.url"
+        Private Const XDGReferrerADS As String = "xdg.referrer.url"
 
         Public Function GetDownloadURL(path As String) As String
             Try
-                If AlternateDataStreamExists(path, DownloadADS) Then
-                    Using fs As StreamReader = GetAlternateDataStream(path, DownloadADS).OpenText()
+                If AlternateDataStreamExists(path, WindowsDownloadADS) Then
+                    Using fs As StreamReader = GetAlternateDataStream(path, WindowsDownloadADS).OpenText()
                         While Not fs.EndOfStream
                             Dim line As String = fs.ReadLine()
                             If line?.StartsWith("HostUrl=", True, Globalization.CultureInfo.InvariantCulture) Then
                                 Return line.Substring(8)
+                            End If
+                        End While
+                    End Using
+                ElseIf AlternateDataStreamExists(path, XDGOriginADS) Then
+                    Using fs As StreamReader = GetAlternateDataStream(path, XDGOriginADS).OpenText()
+                        While Not fs.EndOfStream
+                            Dim line As String = fs.ReadLine()
+                            If Not String.IsNullOrWhiteSpace(line) Then
+                                Return line.Trim()
                             End If
                         End While
                     End Using
@@ -97,12 +108,21 @@ Namespace Helpers
 
         Public Function GetDownloadReferrer(path As String) As String
             Try
-                If AlternateDataStreamExists(path, DownloadADS) Then
-                    Using fs As StreamReader = GetAlternateDataStream(path, DownloadADS).OpenText()
+                If AlternateDataStreamExists(path, WindowsDownloadADS) Then
+                    Using fs As StreamReader = GetAlternateDataStream(path, WindowsDownloadADS).OpenText()
                         While Not fs.EndOfStream
                             Dim line As String = fs.ReadLine()
                             If line?.StartsWith("ReferrerUrl=", True, Globalization.CultureInfo.InvariantCulture) Then
                                 Return line.Substring(12)
+                            End If
+                        End While
+                    End Using
+                ElseIf AlternateDataStreamExists(path, XDGReferrerADS) Then
+                    Using fs As StreamReader = GetAlternateDataStream(path, XDGReferrerADS).OpenText()
+                        While Not fs.EndOfStream
+                            Dim line As String = fs.ReadLine()
+                            If Not String.IsNullOrWhiteSpace(line) Then
+                                Return line.Trim()
                             End If
                         End While
                     End Using
