@@ -24,7 +24,8 @@ Public Class Sorting
         DownloadReferrer
     End Enum
 
-    Public Shared Sub Sort(baseControl As Control, listView As ListView, items As ListView.ListViewItemCollection, sortBy As SortBy, sortOrder As SortOrder)
+    Public Shared Sub Sort(baseControl As Control, hostControl As System.ComponentModel.Component,
+                           items As ListView.ListViewItemCollection, sortBy As SortBy, sortOrder As SortOrder)
         Dim itemInfos As IOrderedEnumerable(Of ListViewItem) = items.Cast(Of ListViewItem).OrderBy(Function(x) x.Text)
 
         If Helpers.AutoInvoke(baseControl, Function() Settings.ShowFoldersFirst) Then
@@ -52,10 +53,10 @@ Public Class Sorting
         Dim itemArr As ListViewItem() = itemInfos.ToArray()
 
         Helpers.AutoInvoke(baseControl, Sub()
-                                            listView.BeginUpdate()
+                                            Helpers.BeginUpdate(hostControl)
                                             items.Clear()
                                             items.AddRange(itemArr)
-                                            listView.EndUpdate()
+                                            Helpers.EndUpdate(hostControl)
                                         End Sub)
     End Sub
 

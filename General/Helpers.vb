@@ -3,6 +3,7 @@ Imports System.Collections.Generic
 Imports System.Drawing
 Imports System.IO
 Imports System.Linq
+Imports System.Windows.Forms
 Imports Trinet.Core.IO.Ntfs
 
 Enum OS
@@ -42,11 +43,44 @@ Namespace Helpers
                                              End Sub)
         End Sub
 
-        Public Function Invoke(Of T)(control As Windows.Forms.Control, method As Func(Of T)) As T
+        Public Sub BeginUpdate(control As System.ComponentModel.Component)
+            If control Is Nothing Then Return
+
+            Select Case control.GetType()
+                Case GetType(TreeView)
+                    DirectCast(control, TreeView).BeginUpdate()
+                Case GetType(ListView)
+                    DirectCast(control, ListView).BeginUpdate()
+                Case GetType(ListBox)
+                    DirectCast(control, ListBox).BeginUpdate()
+                Case GetType(ComboBox)
+                    DirectCast(control, ComboBox).BeginUpdate()
+                Case GetType(ToolStripComboBox)
+                    DirectCast(control, ToolStripComboBox).BeginUpdate()
+            End Select
+        End Sub
+        Public Sub EndUpdate(control As System.ComponentModel.Component)
+            If control Is Nothing Then Return
+
+            Select Case control.GetType()
+                Case GetType(TreeView)
+                    DirectCast(control, TreeView).EndUpdate()
+                Case GetType(ListView)
+                    DirectCast(control, ListView).EndUpdate()
+                Case GetType(ListBox)
+                    DirectCast(control, ListBox).EndUpdate()
+                Case GetType(ComboBox)
+                    DirectCast(control, ComboBox).EndUpdate()
+                Case GetType(ToolStripComboBox)
+                    DirectCast(control, ToolStripComboBox).EndUpdate()
+            End Select
+        End Sub
+
+        Public Function Invoke(Of T)(control As Control, method As Func(Of T)) As T
             Return DirectCast(control.Invoke(method), T)
         End Function
 
-        Public Function AutoInvoke(Of T)(control As Windows.Forms.Control, method As Func(Of T)) As T
+        Public Function AutoInvoke(Of T)(control As Control, method As Func(Of T)) As T
             If control.InvokeRequired Then
                 Return Helpers.Invoke(control, method)
             Else
@@ -54,7 +88,7 @@ Namespace Helpers
             End If
         End Function
 
-        Public Sub AutoInvoke(control As Windows.Forms.Control, method As Action)
+        Public Sub AutoInvoke(control As Control, method As Action)
             If control.InvokeRequired Then
                 control.Invoke(method)
             Else
