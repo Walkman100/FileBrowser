@@ -25,7 +25,7 @@ Public Class FileBrowser
                 _currentDir = value
                 cbxURI.Text = value
                 LoadFolder()
-                ShowNode(value)
+                Task.Run(Sub() ShowNode(Me, value))
                 If Settings.RememberDir Then
                     Settings.txtDefaultDir.Text = value
                 End If
@@ -67,7 +67,7 @@ Public Class FileBrowser
         treeViewDirs.Nodes.Clear()
         If Helpers.GetOS() = OS.Windows Then
             For Each drive In Environment.GetLogicalDrives()
-                AddNode(treeViewDirs, drive)
+                AddRootNode(treeViewDirs, drive)
             Next
 
             If WalkmanLib.IsAdmin Then
@@ -162,30 +162,34 @@ Public Class FileBrowser
         Return DirectCast(item.Tag, Filesystem.EntryInfo)
     End Function
 
-    Private Function AddNode(root As TreeView, text As String) As TreeNode
-        Return _AddNode_Helper(root.Nodes.Add(text, text), text)
+    Private Function AddRootNode(root As TreeView, text As String) As TreeNode
+        Return _AddNode_Helper(Me, root.Nodes.Add(text, text), text)
     End Function
-    Private Function AddNode(parentNode As TreeNode, text As String) As TreeNode
-        Return _AddNode_Helper(parentNode.Nodes.Add(text, text), Path.Combine(parentNode.FullPath, text))
+    Private Function AddNode(baseControl As Control, parentNode As TreeNode, text As String) As TreeNode
+        Dim node As TreeNode = Helpers.AutoInvoke(baseControl, Function() parentNode.Nodes.Add(text, text))
+
+        Return _AddNode_Helper(baseControl, node, Path.Combine(parentNode.FullPath, text))
     End Function
-    Private Function GetForeColor(path As String) As Color
-        If Settings.HighlightCompressed AndAlso File.GetAttributes(path).HasFlag(FileAttributes.Compressed) Then
+    Private Function GetForeColor(baseControl As Control, path As String) As Color
+        If Helpers.AutoInvoke(baseControl, Function() Settings.HighlightCompressed) AndAlso
+                File.GetAttributes(path).HasFlag(FileAttributes.Compressed) Then
             Return Color.MediumBlue
-        ElseIf Settings.HighlightEncrypted AndAlso File.GetAttributes(path).HasFlag(FileAttributes.Encrypted) Then
+        ElseIf Helpers.AutoInvoke(baseControl, Function() Settings.HighlightEncrypted) AndAlso
+                File.GetAttributes(path).HasFlag(FileAttributes.Encrypted) Then
             Return Color.Green
         Else
             Return SystemColors.WindowText
         End If
     End Function
-    Private Function _AddNode_Helper(node As TreeNode, path As String) As TreeNode
-        Try : node.ForeColor = GetForeColor(path)
+    Private Function _AddNode_Helper(baseControl As Control, node As TreeNode, path As String) As TreeNode
+        Try : node.ForeColor = GetForeColor(baseControl, path)
             If Directory.EnumerateDirectories(path).Any() Then
-                node.Nodes.Add("")
+                Helpers.AutoInvoke(baseControl, Sub() node.Nodes.Add(""))
             End If
         Catch : End Try
 
-        If Settings.EnableIcons Then
-            ImageHandling.SetImage(node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width)
+        If Helpers.AutoInvoke(baseControl, Function() Settings.EnableIcons) Then
+            Helpers.AutoInvoke(baseControl, Sub() ImageHandling.SetImage(node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width))
         End If
         Return node
     End Function
@@ -300,14 +304,15 @@ Public Class FileBrowser
         End If
     End Sub
 
-    Private Sub LoadNode(node As TreeNode)
-        node.Nodes.Clear()
+    Private Sub LoadNode(baseControl As Control, node As TreeNode)
+        Helpers.AutoInvoke(baseControl, Sub() node.Nodes.Clear())
+
         For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(Me, node.FullPath)
-            AddNode(node, item.DisplayName)
+            AddNode(baseControl, node, item.DisplayName)
         Next
     End Sub
 
-    Public Sub ShowNode(nodePath As String)
+    Public Sub ShowNode(baseControl As Control, nodePath As String)
         Dim parent As TreeNode = Nothing
         For Each folder As String In nodePath.Split({Path.DirectorySeparatorChar}, StringSplitOptions.RemoveEmptyEntries)
             Dim foundNodes As TreeNode()
@@ -324,7 +329,13 @@ Public Class FileBrowser
             End If
 
             parent = foundNodes(0)
-            parent.Expand()
+            If Not parent.IsExpanded Then
+                g_disableNodeLoad = True ' expand event is ran Async, so run it manually instead
+                parent.Expand()
+                g_disableNodeLoad = False
+
+                LoadNode(baseControl, parent)
+            End If
         Next
 
         g_disableNavigate = True ' suppress treeViewDirs_AfterSelect navigating to the selected node
@@ -340,9 +351,16 @@ Public Class FileBrowser
             CurrentDir = e.Node.FixedFullPath()
         End If
     End Sub
-    Private Sub treeViewDirs_BeforeExpand(sender As Object, e As TreeViewCancelEventArgs) Handles treeViewDirs.BeforeExpand
-        LoadNode(e.Node)
-        If e.Node.Nodes.Count = 0 Then e.Cancel = True
+    Private g_disableNodeLoad As Boolean = False
+    Private Async Sub treeViewDirs_BeforeExpand(sender As Object, e As TreeViewCancelEventArgs) Handles treeViewDirs.BeforeExpand
+        Try
+            If Not g_disableNodeLoad Then
+                Await Task.Run(Sub() LoadNode(Me, e.Node))
+                If e.Node.Nodes.Count = 0 Then e.Cancel = True
+            End If
+        Catch ex As Exception
+            ErrorParser(ex)
+        End Try
     End Sub
     Private Sub treeViewDirs_AfterCollapse(sender As Object, e As TreeViewEventArgs) Handles treeViewDirs.AfterCollapse
         For Each item As TreeNode In e.Node.Nodes
