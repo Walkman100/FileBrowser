@@ -189,7 +189,8 @@ Public Class FileBrowser
         Catch : End Try
 
         If Helpers.AutoInvoke(baseControl, Function() Settings.EnableIcons) Then
-            Helpers.AutoInvoke(baseControl, Sub() ImageHandling.SetImage(node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width))
+            ImageHandling.SetImage(Helpers.AutoInvoke(baseControl, Function() Settings),
+                                   node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width)
         End If
         Return node
     End Function

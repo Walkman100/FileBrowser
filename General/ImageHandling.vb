@@ -153,35 +153,35 @@ Namespace ImageHandling
             Return il
         End Function
 
-        Private Function GetDefaultIndex(path As String) As Integer
+        Private Function GetDefaultIndex(settings As Settings, path As String) As Integer
             Dim index As Integer = 0
             Try ' in case File.GetAttributes fails
                 Dim attrs As FileAttributes = File.GetAttributes(path)
 
-                If Settings.OverlayCompressed AndAlso attrs.HasFlag(FileAttributes.Compressed) Then
+                If settings.OverlayCompressed AndAlso attrs.HasFlag(FileAttributes.Compressed) Then
                     index = 1
                 End If
-                If Settings.OverlayEncrypted AndAlso attrs.HasFlag(FileAttributes.Encrypted) Then
+                If settings.OverlayEncrypted AndAlso attrs.HasFlag(FileAttributes.Encrypted) Then
                     index = 2
                 End If
-                If Settings.OverlayReparse AndAlso attrs.HasFlag(FileAttributes.ReparsePoint) Then
+                If settings.OverlayReparse AndAlso attrs.HasFlag(FileAttributes.ReparsePoint) Then
                     index += 3
                 End If
             Catch : End Try
             Return index
         End Function
 
-        Public Sub SetImage(node As TreeNode, imageList As ImageList, size As Integer)
+        Public Sub SetImage(settings As Settings, node As TreeNode, imageList As ImageList, size As Integer)
             Dim path As String = node.FixedFullPath()
-            If Not Settings.SpecificItemIcons Then
-                node.ImageIndex = GetDefaultIndex(path)
+            If Not settings.SpecificItemIcons Then
+                node.ImageIndex = GetDefaultIndex(settings, path)
                 node.SelectedImageIndex = node.ImageIndex
                 Return
             End If
 
             Dim folderIconPath As String = WalkmanLib.GetFolderIconPath(path)
             If folderIconPath = "no icon found" Then
-                node.ImageIndex = GetDefaultIndex(path)
+                node.ImageIndex = GetDefaultIndex(settings, path)
                 node.SelectedImageIndex = node.ImageIndex
                 Return
             End If
@@ -194,8 +194,8 @@ Namespace ImageHandling
                 Catch : img = ResizeImage(New PictureBox().ErrorImage, size)
                 End Try
             End Try
-            img = AddOverlays(Filesystem.GetItemEntryInfo(New FileInfo(path), Settings.ShowExtensions), img,
-                              Settings.OverlayCompressed, Settings.OverlayEncrypted, Settings.OverlayReparse, Settings.OverlayHardlink, Settings.OverlayOffline)
+            img = AddOverlays(Filesystem.GetItemEntryInfo(New FileInfo(path), settings.ShowExtensions), img,
+                              settings.OverlayCompressed, settings.OverlayEncrypted, settings.OverlayReparse, settings.OverlayHardlink, settings.OverlayOffline)
 
             imageList.Images.Add(path, img)
             node.ImageKey = path
