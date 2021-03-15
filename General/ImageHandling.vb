@@ -50,24 +50,19 @@ Namespace ImageHandling
                 folderIcon = GetIcon("%SystemRoot%\System32\imageres.dll,3", size).ToBitmap()
             End If
 
-            Dim _specificItemIcons As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.SpecificItemIcons)
-            Dim _imageThumbs As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.ImageThumbs)
-
-            Dim _overlayCompressed As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.OverlayCompressed)
-            Dim _overlayEncrypted As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.OverlayEncrypted)
-            Dim _overlayReparse As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.OverlayReparse)
-            Dim _overlayHardlink As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.OverlayHardlink)
-            Dim _overlayOffline As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.OverlayOffline)
+            Dim _settings As Settings = Helpers.AutoInvoke(baseControl, Function() Settings)
 
             For i = 0 To items.Count - 1
                 Dim itemInfo As Filesystem.EntryInfo = FileBrowser.GetItemInfo(items(i))
 
                 If itemInfo.Attributes.HasFlag(FileAttributes.Directory) Then
-                    il.Images.Add(AddOverlays(itemInfo, GetFolderImage(itemInfo, size, _specificItemIcons, Helpers.Clone(folderIcon)),
-                                              _overlayCompressed, _overlayEncrypted, _overlayReparse, _overlayHardlink, _overlayOffline))
+                    il.Images.Add(AddOverlays(itemInfo, GetFolderImage(itemInfo, size, _settings.SpecificItemIcons, Helpers.Clone(folderIcon)),
+                                              _settings.OverlayCompressed, _settings.OverlayEncrypted, _settings.OverlayReparse,
+                                              _settings.OverlayHardlink, _settings.OverlayOffline))
                 Else
-                    il.Images.Add(AddOverlays(itemInfo, GetFileImage(baseControl, itemInfo, size, _specificItemIcons, _imageThumbs),
-                                              _overlayCompressed, _overlayEncrypted, _overlayReparse, _overlayHardlink, _overlayOffline))
+                    il.Images.Add(AddOverlays(itemInfo, GetFileImage(baseControl, itemInfo, size, _settings.SpecificItemIcons, _settings.ImageThumbs),
+                                              _settings.OverlayCompressed, _settings.OverlayEncrypted, _settings.OverlayReparse,
+                                              _settings.OverlayHardlink, _settings.OverlayOffline))
                 End If
 
                 If setItemIndexes Then items(i).ImageIndex = i
