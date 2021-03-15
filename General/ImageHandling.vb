@@ -44,17 +44,24 @@ Namespace ImageHandling
             Return il
         End Function
 
-        Public Sub SetImageListImages(baseControl As Control, items As ListView.ListViewItemCollection, il As ImageList, size As Integer, Optional setItemIndexes As Boolean = False)
+        Public Sub SetImageListImages(baseControl As Control, items As ListView.ListViewItemCollection, il As ImageList, size As Integer,
+                                     Optional setItemIndexes As Boolean = False, Optional cancelCheck As Func(Of Boolean) = Nothing)
+
+            If cancelCheck?() = True Then Return
             Dim folderIcon As Image = Nothing
             If Helpers.GetOS() = OS.Windows Then
                 folderIcon = GetIcon("%SystemRoot%\System32\imageres.dll,3", size).ToBitmap()
             End If
 
+            If cancelCheck?() = True Then Return
             Dim _settings As Settings = Helpers.AutoInvoke(baseControl, Function() Settings)
 
+            If cancelCheck?() = True Then Return
             For i = 0 To items.Count - 1
+                If cancelCheck?() = True Then Return
                 Dim itemInfo As Filesystem.EntryInfo = FileBrowser.GetItemInfo(items(i))
 
+                If cancelCheck?() = True Then Return
                 If itemInfo.Attributes.HasFlag(FileAttributes.Directory) Then
                     il.Images.Add(AddOverlays(itemInfo, GetFolderImage(itemInfo, size, _settings.SpecificItemIcons, Helpers.Clone(folderIcon)),
                                               _settings.OverlayCompressed, _settings.OverlayEncrypted, _settings.OverlayReparse,
@@ -65,6 +72,7 @@ Namespace ImageHandling
                                               _settings.OverlayHardlink, _settings.OverlayOffline))
                 End If
 
+                If cancelCheck?() = True Then Return
                 If setItemIndexes Then items(i).ImageIndex = i
             Next
         End Sub

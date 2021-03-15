@@ -25,7 +25,8 @@ Public Class Sorting
     End Enum
 
     Public Shared Sub Sort(baseControl As Control, hostControl As System.ComponentModel.Component,
-                           items As ListView.ListViewItemCollection, sortBy As SortBy, sortOrder As SortOrder)
+                           items As ListView.ListViewItemCollection, sortBy As SortBy, sortOrder As SortOrder,
+                           Optional cancelCheck As Func(Of Boolean) = Nothing)
         Dim itemInfos As IOrderedEnumerable(Of ListViewItem) = items.Cast(Of ListViewItem).OrderBy(Function(x) x.Text)
 
         If Helpers.AutoInvoke(baseControl, Function() Settings.ShowFoldersFirst) Then
@@ -40,12 +41,14 @@ Public Class Sorting
 
         Dim itemArr As ListViewItem() = itemInfos.ToArray()
 
-        Helpers.AutoInvoke(baseControl, Sub()
-                                            Helpers.BeginUpdate(hostControl)
-                                            items.Clear()
-                                            items.AddRange(itemArr)
-                                            Helpers.EndUpdate(hostControl)
-                                        End Sub)
+        If cancelCheck Is Nothing OrElse Not cancelCheck() Then
+            Helpers.AutoInvoke(baseControl, Sub()
+                                                Helpers.BeginUpdate(hostControl)
+                                                items.Clear()
+                                                items.AddRange(itemArr)
+                                                Helpers.EndUpdate(hostControl)
+                                            End Sub)
+        End If
     End Sub
 
     Private Shared Function keySelector(item As ListViewItem, sortBy As SortBy) As Object
