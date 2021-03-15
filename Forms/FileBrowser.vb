@@ -253,25 +253,39 @@ Public Class FileBrowser
     End Sub
 
     Private Sub bwLoadFolder_DoWork(sender As Object, e As DoWorkEventArgs) Handles bwLoadFolder.DoWork
+        Dim bw As BackgroundWorker = DirectCast(sender, BackgroundWorker)
+
+        If bw.CancellationPending Then e.Cancel = True : Return
         Dim colLst As List(Of Settings.Column) = Helpers.Invoke(Me, Function() Settings.DefaultColumns)
+        If bw.CancellationPending Then e.Cancel = True : Return
         Helpers.ApplyColumns(Me, colLst)
+        If bw.CancellationPending Then e.Cancel = True : Return
 
         If Helpers.Invoke(Me, Function() Settings.SaveColumns) Then
             FolderSettings.GetColumns(Me, CurrentDir)
         End If
+        If bw.CancellationPending Then e.Cancel = True : Return
         Invoke(Sub() g_disableSaveColumns = False)
 
         Parallel.ForEach(Filesystem.GetItems(Me, _currentDir),
                          New ParallelOptions With {.MaxDegreeOfParallelism = Environment.ProcessorCount},
-                         Sub(itemInfo)
+                         Sub(itemInfo, loopState)
+                             If bw.CancellationPending Then loopState.Stop() : Return
                              Invoke(Sub() lstCurrent.Items.Add(CreateItem(itemInfo)))
+                             If bw.CancellationPending Then loopState.Stop() : Return
                          End Sub)
 
+        If bw.CancellationPending Then e.Cancel = True : Return
+
         Invoke(Sub() lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(Sorting.SortBy.Name, SortOrder.Ascending))
+        If bw.CancellationPending Then e.Cancel = True : Return
         Sorting.Sort(Me, lstCurrent, lstCurrent.Items, lastSort.Key, lastSort.Value)
 
+        If bw.CancellationPending Then e.Cancel = True : Return
         If Helpers.Invoke(Me, Function() Settings.EnableIcons) Then
+            If bw.CancellationPending Then e.Cancel = True : Return
             lstCurrent.SmallImageList = ImageHandling.GetImageList(16)
+            If bw.CancellationPending Then e.Cancel = True : Return
             ImageHandling.SetImageListImages(Me, lstCurrent.Items, lstCurrent.SmallImageList, 16, True)
         End If
     End Sub
