@@ -165,20 +165,9 @@ Public Class FileBrowser
     Private Function AddRootNode(root As TreeView, text As String) As TreeNode
         Dim node As TreeNode = root.Nodes.Add(text, text)
         SetNodeExpandable(Me, node)
-        SetNodeColor(Me, node)
-        If Settings.EnableIcons Then SetNodeImage(Me, node)
+        SetNodeColor(node, Settings.HighlightCompressed, Settings.HighlightEncrypted)
+        If Settings.EnableIcons Then SetNodeImage(Settings, node)
         Return node
-    End Function
-    Private Function GetForeColor(baseControl As Control, path As String) As Color
-        If Helpers.AutoInvoke(baseControl, Function() Settings.HighlightCompressed) AndAlso
-                File.GetAttributes(path).HasFlag(FileAttributes.Compressed) Then
-            Return Color.MediumBlue
-        ElseIf Helpers.AutoInvoke(baseControl, Function() Settings.HighlightEncrypted) AndAlso
-                File.GetAttributes(path).HasFlag(FileAttributes.Encrypted) Then
-            Return Color.Green
-        Else
-            Return SystemColors.WindowText
-        End If
     End Function
     Private Sub SetNodeExpandable(baseControl As Control, node As TreeNode)
         Try
@@ -187,13 +176,23 @@ Public Class FileBrowser
             End If
         Catch : End Try
     End Sub
-    Private Sub SetNodeColor(baseControl As Control, node As TreeNode)
-        Try : node.ForeColor = GetForeColor(baseControl, node.FullPath)
+    Private Function GetForeColor(path As String, checkCompressed As Boolean, checkEncrypted As Boolean) As Color
+        If checkCompressed AndAlso
+                File.GetAttributes(path).HasFlag(FileAttributes.Compressed) Then
+            Return Color.MediumBlue
+        ElseIf checkEncrypted AndAlso
+                File.GetAttributes(path).HasFlag(FileAttributes.Encrypted) Then
+            Return Color.Green
+        Else
+            Return SystemColors.WindowText
+        End If
+    End Function
+    Private Sub SetNodeColor(node As TreeNode, checkCompressed As Boolean, checkEncrypted As Boolean)
+        Try : node.ForeColor = GetForeColor(node.FullPath, checkCompressed, checkEncrypted)
         Catch : End Try
     End Sub
-    Private Sub SetNodeImage(baseControl As Control, node As TreeNode)
-        ImageHandling.SetImage(Helpers.AutoInvoke(baseControl, Function() Settings),
-                               node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width)
+    Private Sub SetNodeImage(settings As Settings, node As TreeNode)
+        ImageHandling.SetImage(settings, node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width)
     End Sub
 
     Public Function GetSelectedPaths(Optional forceTree As Boolean = False, Optional useGlobalNode As Boolean = False) As String()
@@ -309,7 +308,7 @@ Public Class FileBrowser
     Private Sub LoadNode(baseControl As Control, node As TreeNode)
         Helpers.AutoInvoke(baseControl, Sub() node.Nodes.Clear())
 
-        Dim enableIcons As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.EnableIcons)
+        Dim _settings As Settings = Helpers.AutoInvoke(baseControl, Function() Settings)
 
         treeViewDirs.BeginUpdate()
         For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(Me, node.FullPath)
@@ -324,17 +323,17 @@ Public Class FileBrowser
                               End Sub),
                      Task.Run(Sub()
                                   For Each subNode As TreeNode In node.Nodes
-                                      SetNodeColor(baseControl, subNode)
+                                      SetNodeColor(subNode, _settings.HighlightCompressed, _settings.HighlightEncrypted)
                                   Next
                               End Sub),
                      Task.Run(Sub()
-                                  If enableIcons Then
+                                  If _settings.EnableIcons Then
                                       For Each subNode As TreeNode In node.Nodes
-                                          SetNodeImage(baseControl, subNode)
+                                          SetNodeImage(_settings, subNode)
                                       Next
                                   End If
                               End Sub)
-                         )
+                     )
     End Sub
 
     Public Sub ShowNode(baseControl As Control, nodePath As String)
@@ -354,6 +353,8 @@ Public Class FileBrowser
             End If
 
             parent = foundNodes(0)
+            parent.EnsureVisible()
+
             If Not parent.IsExpanded Then
                 g_disableNodeLoad = True ' expand event is ran Async, so run it manually instead
                 parent.Expand()
