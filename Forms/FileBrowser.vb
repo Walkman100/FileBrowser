@@ -261,7 +261,11 @@ Public Class FileBrowser
         lstCurrent.LargeImageList = Nothing
         g_disableSaveColumns = True
 
-        bwLoadFolder.RunWorkerAsync()
+        Try
+            bwLoadFolder.RunWorkerAsync()
+        Catch ex As Exception
+            statusLabel.Text = "Error starting BackgroundWorker: " & ex.Message
+        End Try
     End Sub
 
     Private Sub bwLoadFolder_DoWork(sender As Object, e As DoWorkEventArgs) Handles bwLoadFolder.DoWork
@@ -411,6 +415,7 @@ Public Class FileBrowser
         Try
             If Not g_disableNodeLoad Then
                 Await Task.Run(Sub() LoadNode(Me, e.Node))
+                ' note the below actually does nothing, as the event finishes firing when Await is reached
                 If e.Node.Nodes.Count = 0 Then e.Cancel = True
             End If
         Catch ex As Exception
@@ -717,7 +722,7 @@ Public Class FileBrowser
     Private g_forceTree As Boolean = False
     Private g_selectedNode As TreeNode = Nothing
     Private Sub ShowContext(sender As Object, pos As Point)
-        Dim paths As String() = GetSelectedPaths(sender Is treeViewDirs, useGlobalNode:=True)
+        Dim paths As String() = GetSelectedPaths(forceTree:=sender Is treeViewDirs, useGlobalNode:=sender Is treeViewDirs)
 
         If My.Computer.Keyboard.CtrlKeyDown Then
             winCtxMenu.BuildMenu(Handle, paths, flags:=WalkmanLib.ContextMenu.QueryContextMenuFlags.CanRename Or
@@ -766,7 +771,7 @@ Public Class FileBrowser
     End Sub
     Public Sub ctxMenuL_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ctxMenuL.ItemClicked
         ctxMenuL.Close()
-        ctxMenu.RunItem(e.ClickedItem, GetSelectedPaths(g_forceTree, useGlobalNode:=True))
+        ctxMenu.RunItem(e.ClickedItem, GetSelectedPaths(forceTree:=g_forceTree, useGlobalNode:=g_forceTree))
     End Sub
     Private Sub handleToolTipChanged(text As String, ex As Exception) Handles winCtxMenu.HelpTextChanged
         If ex Is Nothing AndAlso Not String.IsNullOrEmpty(text) Then
