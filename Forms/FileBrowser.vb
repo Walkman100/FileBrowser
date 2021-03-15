@@ -243,7 +243,19 @@ Public Class FileBrowser
 #End Region
 
 #Region "Loading Data"
-    Private Sub LoadFolder()
+    Private Async Sub LoadFolder()
+        If bwLoadFolder.IsBusy Then
+            ' thanks to https://web.archive.org/web/20210315183540/https://social.msdn.microsoft.com/Forums/windowsapps/en-US/a9330b2a-9552-4722-a238-3a6d24f0c3a0/quotawaitquot-for-backgroundworker#54a41b87-8fbd-4416-b356-c64b0f79d935-isAnswer
+            Dim tcs As New TaskCompletionSource(Of Object)
+            Dim handler As RunWorkerCompletedEventHandler = Sub() tcs.TrySetResult(Nothing)
+
+            AddHandler bwLoadFolder.RunWorkerCompleted, handler
+            bwLoadFolder.CancelAsync()
+
+            Await tcs.Task
+            RemoveHandler bwLoadFolder.RunWorkerCompleted, handler
+        End If
+
         lstCurrent.Items.Clear()
         lstCurrent.SmallImageList = Nothing
         lstCurrent.LargeImageList = Nothing
@@ -370,7 +382,6 @@ Public Class FileBrowser
             End If
 
             parent = foundNodes(0)
-            parent.EnsureVisible()
 
             If Not parent.IsExpanded Then
                 g_disableNodeLoad = True ' expand event is ran Async, so run it manually instead
@@ -381,6 +392,7 @@ Public Class FileBrowser
             End If
         Next
 
+        parent.EnsureVisible()
         g_disableNavigate = True ' suppress treeViewDirs_AfterSelect navigating to the selected node
         treeViewDirs.SelectedNode = parent
         g_disableNavigate = False
