@@ -163,12 +163,11 @@ Public Class FileBrowser
     End Function
 
     Private Function AddRootNode(root As TreeView, text As String) As TreeNode
-        Return _AddNode_Helper(Me, root.Nodes.Add(text, text), text)
-    End Function
-    Private Function AddNode(baseControl As Control, parentNode As TreeNode, text As String) As TreeNode
-        Dim node As TreeNode = Helpers.AutoInvoke(baseControl, Function() parentNode.Nodes.Add(text, text))
-
-        Return _AddNode_Helper(baseControl, node, Path.Combine(parentNode.FullPath, text))
+        Dim node As TreeNode = root.Nodes.Add(text, text)
+        SetNodeExpandable(Me, node)
+        SetNodeColor(Me, node)
+        If Settings.EnableIcons Then SetNodeImage(Me, node)
+        Return node
     End Function
     Private Function GetForeColor(baseControl As Control, path As String) As Color
         If Helpers.AutoInvoke(baseControl, Function() Settings.HighlightCompressed) AndAlso
@@ -181,19 +180,21 @@ Public Class FileBrowser
             Return SystemColors.WindowText
         End If
     End Function
-    Private Function _AddNode_Helper(baseControl As Control, node As TreeNode, path As String) As TreeNode
-        Try : node.ForeColor = GetForeColor(baseControl, path)
-            If Directory.EnumerateDirectories(path).Any() Then
+    Private Sub SetNodeExpandable(baseControl As Control, node As TreeNode)
+        Try
+            If Directory.EnumerateDirectories(node.FullPath).Any() Then
                 Helpers.AutoInvoke(baseControl, Sub() node.Nodes.Add(""))
             End If
         Catch : End Try
-
-        If Helpers.AutoInvoke(baseControl, Function() Settings.EnableIcons) Then
-            ImageHandling.SetImage(Helpers.AutoInvoke(baseControl, Function() Settings),
-                                   node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width)
-        End If
-        Return node
-    End Function
+    End Sub
+    Private Sub SetNodeColor(baseControl As Control, node As TreeNode)
+        Try : node.ForeColor = GetForeColor(baseControl, node.FullPath)
+        Catch : End Try
+    End Sub
+    Private Sub SetNodeImage(baseControl As Control, node As TreeNode)
+        ImageHandling.SetImage(Helpers.AutoInvoke(baseControl, Function() Settings),
+                               node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width)
+    End Sub
 
     Public Function GetSelectedPaths(Optional forceTree As Boolean = False, Optional useGlobalNode As Boolean = False) As String()
         If Not forceTree AndAlso lstCurrent.SelectedItems.Count > 0 Then
@@ -308,9 +309,32 @@ Public Class FileBrowser
     Private Sub LoadNode(baseControl As Control, node As TreeNode)
         Helpers.AutoInvoke(baseControl, Sub() node.Nodes.Clear())
 
+        Dim enableIcons As Boolean = Helpers.AutoInvoke(baseControl, Function() Settings.EnableIcons)
+
+        treeViewDirs.BeginUpdate()
         For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(Me, node.FullPath)
-            AddNode(baseControl, node, item.DisplayName)
+            Helpers.AutoInvoke(baseControl, Function() node.Nodes.Add(item.DisplayName, item.DisplayName))
         Next
+        treeViewDirs.EndUpdate()
+
+        Task.WaitAll(Task.Run(Sub()
+                                  For Each subNode As TreeNode In node.Nodes
+                                      SetNodeExpandable(baseControl, subNode)
+                                  Next
+                              End Sub),
+                     Task.Run(Sub()
+                                  For Each subNode As TreeNode In node.Nodes
+                                      SetNodeColor(baseControl, subNode)
+                                  Next
+                              End Sub),
+                     Task.Run(Sub()
+                                  If enableIcons Then
+                                      For Each subNode As TreeNode In node.Nodes
+                                          SetNodeImage(baseControl, subNode)
+                                      Next
+                                  End If
+                              End Sub)
+                         )
     End Sub
 
     Public Sub ShowNode(baseControl As Control, nodePath As String)
