@@ -72,7 +72,7 @@ Public Class ItemClipboard
                     If Directory.Exists(target) AndAlso File.GetAttributes(target).HasFlag(FileAttributes.ReparsePoint) AndAlso Directory.Exists(item.Key) Then
                         target2 = target
                     End If
-                    'Operations.CreateJunction(item.Key, target2)
+                    Operations.CreateJunction(item.Key, target2)
             End Select
 
             If item.Value = ItemType.Cut Then

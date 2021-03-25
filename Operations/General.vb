@@ -38,7 +38,7 @@ Namespace Operations
                         If Helpers.PathContainsADS(path) Then
                             Trinet.Core.IO.Ntfs.DeleteAlternateDataStream(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path))
                         ElseIf pathInfo.HasFlag(PathEnum.IsDirectory) AndAlso File.GetAttributes(path).HasFlag(FileAttributes.ReparsePoint) Then
-                            File.Delete(path)
+                            Directory.Delete(path)
                         ElseIf useShell OrElse Not deletePermanently Then
                             If pathInfo.HasFlag(PathEnum.IsFile) Then
                                 My.Computer.FileSystem.DeleteFile(path, FileIO.UIOption.AllDialogs,
