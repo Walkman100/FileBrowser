@@ -25,7 +25,7 @@ Namespace Operations
                             End If
 
                             If itemName IsNot Nothing Then
-                                Select Case MessageBox.Show("Permanently delete this " & itemName & "?" & Environment.NewLine & Environment.NewLine & path,
+                                Select Case MessageBox.Show($"Permanently delete this {itemName}?{Environment.NewLine}{Environment.NewLine}{path}",
                                                             "Delete Item", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
                                     Case DialogResult.No
                                         Continue For
@@ -55,7 +55,7 @@ Namespace Operations
                         End If
                     Catch ex As OperationCanceledException ' ignore user cancellation
                     Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = Other.shareViolation
-                        If MessageBox.Show("File """ & path & """ is in use! Open Handle Manager?", "Item in use",
+                        If MessageBox.Show($"File ""{path}"" is in use! Open Handle Manager?", "Item in use",
                                            MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                             Launch.HandleManager(path)
                         End If
@@ -67,7 +67,7 @@ Namespace Operations
                     Case Other.cMBbRelaunch
                         FileBrowser.RestartAsAdmin()
                     Case Other.cMBbRunSysTool
-                        WalkmanLib.RunAsAdmin("cmd", "/c del " & paths.PathsConcat() & " & pause")
+                        WalkmanLib.RunAsAdmin("cmd", $"/c del {paths.PathsConcat()} & pause")
                         Threading.Thread.Sleep(500)
                 End Select
             Catch ex As Exception
@@ -192,7 +192,7 @@ Namespace Operations
                     Case Other.cMBbRelaunch
                         FileBrowser.RestartAsAdmin()
                     Case Other.cMBbRunSysTool
-                        WalkmanLib.RunAsAdmin("fsutil", "file createnew """ & target & """ 0")
+                        WalkmanLib.RunAsAdmin("fsutil", $"file createnew ""{target}"" 0")
                         Threading.Thread.Sleep(1000)
                     Case Other.cMBbCancel
                         Return Nothing
@@ -225,7 +225,7 @@ Namespace Operations
                     Case Other.cMBbRelaunch
                         FileBrowser.RestartAsAdmin()
                     Case Other.cMBbRunSysTool
-                        WalkmanLib.RunAsAdmin("cmd", "/c mkdir """ & target & """ & pause")
+                        WalkmanLib.RunAsAdmin("cmd", $"/c mkdir ""{target}"" & pause")
                         Threading.Thread.Sleep(1000)
                     Case Other.cMBbCancel
                         Return Nothing

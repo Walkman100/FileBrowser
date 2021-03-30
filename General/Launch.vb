@@ -62,7 +62,7 @@ Public Class Launch
                 ElseIf fileInfo.Extension.ToLower() = ".lnk" Then
                     format = format.Replace("{target}", WalkmanLib.GetShortcutInfo(path).TargetPath)
                 Else
-                    Throw New InvalidOperationException(String.Format("""{0}"" is not a SymLink or Shortcut!", path))
+                    Throw New InvalidOperationException($"""{path}"" is not a SymLink or Shortcut!")
                 End If
             End If
         Else ' path is not found. try our best to replace values
@@ -100,7 +100,7 @@ Public Class Launch
         If fileFormat.ToLowerInvariant() = ieframePath.ToLowerInvariant() Then
             ' rundll32.exe "%WinDir%\system32\ieframe.dll",OpenURL FilePath
             argumentsFormat = argumentsFormat.Trim(""""c)
-            WalkmanLib.RunAsAdmin("rundll32", String.Format("""{0}"",OpenURL {1}", ieframePath, argumentsFormat))
+            WalkmanLib.RunAsAdmin("rundll32", $"""{ieframePath}"",OpenURL {argumentsFormat}")
             Exit Sub
         End If
 
@@ -109,7 +109,7 @@ Public Class Launch
             If fileFormat.ToLowerInvariant() = PhotoViewerPath.ToLowerInvariant() Then
                 ' rundll32 "%ProgramFiles%\Windows Photo Viewer\PhotoViewer.dll", ImageView_Fullscreen FilePath
                 argumentsFormat = argumentsFormat.Trim(""""c)
-                WalkmanLib.RunAsAdmin("rundll32", String.Format("""{0}"", ImageView_Fullscreen {1}", PhotoViewerPath, argumentsFormat))
+                WalkmanLib.RunAsAdmin("rundll32", $"""{PhotoViewerPath}"", ImageView_Fullscreen {argumentsFormat}")
                 Exit Sub
             End If
         Next
@@ -159,12 +159,12 @@ Public Class Launch
         Dim handleManagerPath As String = Path.Combine(walkmanUtilsPath, "HandleManager.exe")
 
         If Not File.Exists(handleManagerPath) Then
-            Windows.Forms.MessageBox.Show("Could not find HandleManager in WalkmanUtils install!" & Environment.NewLine & Environment.NewLine &
+            Windows.Forms.MessageBox.Show($"Could not find HandleManager in WalkmanUtils install!{Environment.NewLine}{Environment.NewLine}" &
                                           "Looking for: " & handleManagerPath, "Launching HandleManager",
                                           Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Exclamation)
             Exit Sub
         End If
 
-        Process.Start(handleManagerPath, If(args Is Nothing, "", args & " ") & """" & item & """")
+        Process.Start(handleManagerPath, If(args Is Nothing, "", args & " ") & $"""{item}""")
     End Sub
 End Class

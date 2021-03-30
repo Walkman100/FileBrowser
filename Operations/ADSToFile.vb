@@ -24,7 +24,7 @@ Namespace Operations
                 Try
                     sourceStream = adsSource.OpenRead()
                     targetStream = File.OpenWrite(targetPath)
-                    WalkmanLib.StreamCopy(sourceStream, targetStream, "Copying " & sourcePath & " to " & targetPath & "...",
+                    WalkmanLib.StreamCopy(sourceStream, targetStream, $"Copying {sourcePath} to {targetPath}...",
                                           "Stream to File copy", Sub(s, e)
                                                                      If e.Error IsNot Nothing Then
                                                                          FileBrowser.ErrorParser(e.Error)

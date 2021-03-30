@@ -10,7 +10,7 @@ Namespace Operations
 
             Try
                 If WalkmanLib.IsFileOrDirectory(fullTargetName).HasFlag(PathEnum.Exists) AndAlso sourcePath <> fullTargetName Then
-                    Select Case MessageBox.Show("Target """ & fullTargetName & """ already exists! Remove first?", "Target exists",
+                    Select Case MessageBox.Show($"Target ""{fullTargetName}"" already exists! Remove first?", "Target exists",
                                                 MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
                         Case DialogResult.Yes
                             Delete({fullTargetName}, skipDialog:=True)
@@ -26,10 +26,10 @@ Namespace Operations
                     Case Other.cMBbRelaunch
                         FileBrowser.RestartAsAdmin()
                     Case Other.cMBbRunSysTool
-                        WalkmanLib.RunAsAdmin("cmd", "/c ren """ & sourcePath & """ """ & targetName & """ & pause")
+                        WalkmanLib.RunAsAdmin("cmd", $"/c ren ""{sourcePath}"" ""{targetName}"" & pause")
                 End Select
             Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = Other.shareViolation
-                If MessageBox.Show("File """ & sourcePath & """ is in use! Open Handle Manager?", "Item in use",
+                If MessageBox.Show($"File ""{sourcePath}"" is in use! Open Handle Manager?", "Item in use",
                                    MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                     Launch.HandleManager(sourcePath)
                 End If
@@ -49,7 +49,7 @@ Namespace Operations
                     End If
                 Else
                     If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
-                        Select Case MessageBox.Show("Target """ & targetPath & """ already exists! Remove first?", "Target exists",
+                        Select Case MessageBox.Show($"Target ""{targetPath}"" already exists! Remove first?", "Target exists",
                                                     MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
                             Case DialogResult.Yes
                                 Delete({targetPath}, skipDialog:=True)
@@ -67,10 +67,10 @@ Namespace Operations
                     Case Other.cMBbRelaunch
                         FileBrowser.RestartAsAdmin()
                     Case Other.cMBbRunSysTool
-                        WalkmanLib.RunAsAdmin("cmd", "/c move """ & sourcePath & """ """ & targetPath & """ & pause")
+                        WalkmanLib.RunAsAdmin("cmd", $"/c move ""{sourcePath}"" ""{targetPath}"" & pause")
                 End Select
             Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = Other.shareViolation
-                If MessageBox.Show("File """ & sourcePath & """ is in use! Open Handle Manager?", "Item in use",
+                If MessageBox.Show($"File ""{sourcePath}"" is in use! Open Handle Manager?", "Item in use",
                                    MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                     Launch.HandleManager(sourcePath)
                 End If
@@ -91,7 +91,7 @@ Namespace Operations
                 Else
                     If pathInfo.HasFlag(PathEnum.IsFile) Then
                         If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath AndAlso
-                                MessageBox.Show("Target """ & targetPath & """ already exists! Are you sure you want to overwrite it?", "Target exists",
+                                MessageBox.Show($"Target ""{targetPath}"" already exists! Are you sure you want to overwrite it?", "Target exists",
                                                 MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.No Then
                             Exit Sub
                         End If
@@ -102,7 +102,7 @@ Namespace Operations
                         Try
                             sourceStream = File.OpenRead(sourcePath)
                             targetStream = File.OpenWrite(targetPath)
-                            WalkmanLib.StreamCopy(sourceStream, targetStream, "Copying " & sourcePath & " to " & targetPath & "...",
+                            WalkmanLib.StreamCopy(sourceStream, targetStream, $"Copying {sourcePath} to {targetPath}...",
                                                   "File to File copy", Sub(s, e)
                                                                            If e.Error IsNot Nothing Then
                                                                                FileBrowser.ErrorParser(e.Error)
@@ -125,10 +125,10 @@ Namespace Operations
                     Case Other.cMBbRelaunch
                         FileBrowser.RestartAsAdmin()
                     Case Other.cMBbRunSysTool
-                        WalkmanLib.RunAsAdmin("xcopy", "/F /H /K """ & sourcePath & """ """ & targetPath & "*""")
+                        WalkmanLib.RunAsAdmin("xcopy", $"/F /H /K ""{sourcePath}"" ""{targetPath}*""")
                 End Select
             Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = Other.shareViolation
-                If MessageBox.Show("A file is in use! Open Handle Manager on """ & sourcePath & """?", "Item in use",
+                If MessageBox.Show($"A file is in use! Open Handle Manager on ""{sourcePath}""?", "Item in use",
                                    MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                     Launch.HandleManager(sourcePath)
                 End If

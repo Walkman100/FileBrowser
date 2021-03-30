@@ -21,7 +21,7 @@ Module Extensions
     ''' <summary>Concatenates all elements of the array, with double-quotation marks (") around each path.</summary>
     <Extension()>
     Public Function PathsConcat(arr As String()) As String
-        Return String.Join(" ", arr.Select(Function(p) """" & p & """"))
+        Return String.Join(" ", arr.Select(Function(p) $"""{p}"""))
     End Function
 
     <Extension()>

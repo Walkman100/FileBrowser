@@ -7,7 +7,7 @@ Namespace Operations
         Public Sub CreateShortcut(sourcePath As String, targetPath As String)
             Try
                 If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath AndAlso
-                        MessageBox.Show("Target """ & targetPath & """ already exists! Are you sure you want to overwrite the shortcut's Target Path?",
+                        MessageBox.Show($"Target ""{targetPath}"" already exists! Are you sure you want to overwrite the shortcut's Target Path?",
                                         "Target exists", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.No Then
                     Exit Sub
                 End If
@@ -19,10 +19,10 @@ Namespace Operations
                     Case Other.cMBbRelaunch
                         FileBrowser.RestartAsAdmin()
                     Case Other.cMBbRunSysTool
-                        Dim scriptPath As String = Environment.GetEnvironmentVariable("temp") & Path.DirectorySeparatorChar & "createShortcut.vbs"
+                        Dim scriptPath As String = Environment.GetEnvironmentVariable("TEMP") & Path.DirectorySeparatorChar & "createShortcut.vbs"
                         Using writer As New StreamWriter(File.Open(scriptPath, FileMode.Create))
-                            writer.WriteLine("Set lnk = WScript.CreateObject(""WScript.Shell"").CreateShortcut(""" & targetPath & """)")
-                            writer.WriteLine("lnk.TargetPath = """ & sourcePath & """")
+                            writer.WriteLine($"Set lnk = WScript.CreateObject(""WScript.Shell"").CreateShortcut(""{targetPath}"")")
+                            writer.WriteLine($"lnk.TargetPath = ""{sourcePath}""")
                             writer.WriteLine("lnk.Save")
                         End Using
 
@@ -36,7 +36,7 @@ Namespace Operations
         Public Sub CreateSymlink(sourcePath As String, targetPath As String)
             Try
                 If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
-                    Select Case MessageBox.Show("Target """ & targetPath & """ already exists! Remove first?", "Target exists",
+                    Select Case MessageBox.Show($"Target ""{targetPath}"" already exists! Remove first?", "Target exists",
                                                 MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
                         Case DialogResult.Yes
                             Delete({targetPath}, skipDialog:=True)
@@ -55,9 +55,9 @@ Namespace Operations
                     Case Other.cMBbRunSysTool
                         Dim pathInfo = WalkmanLib.IsFileOrDirectory(sourcePath)
                         If pathInfo.HasFlag(PathEnum.IsFile) Then
-                            WalkmanLib.RunAsAdmin("cmd", "/c mklink """ & targetPath & """ """ & sourcePath & """ & pause")
+                            WalkmanLib.RunAsAdmin("cmd", $"/c mklink ""{targetPath}"" ""{sourcePath}"" & pause")
                         ElseIf pathInfo.HasFlag(PathEnum.IsDirectory) Then
-                            WalkmanLib.RunAsAdmin("cmd", "/c mklink /d """ & targetPath & """ """ & sourcePath & """ & pause")
+                            WalkmanLib.RunAsAdmin("cmd", $"/c mklink /d ""{targetPath}"" ""{sourcePath}"" & pause")
                         End If
                 End Select
             Catch ex As Exception
@@ -68,7 +68,7 @@ Namespace Operations
         Public Sub CreateHardlink(sourcePath As String, targetPath As String)
             Try
                 If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
-                    Select Case MessageBox.Show("Target """ & targetPath & """ already exists! Remove first?", "Target exists",
+                    Select Case MessageBox.Show($"Target ""{targetPath}"" already exists! Remove first?", "Target exists",
                                                 MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
                         Case DialogResult.Yes
                             Delete({targetPath}, skipDialog:=True)
@@ -84,7 +84,7 @@ Namespace Operations
                     Case Other.cMBbRelaunch
                         FileBrowser.RestartAsAdmin()
                     Case Other.cMBbRunSysTool
-                        WalkmanLib.RunAsAdmin("cmd", "/c mklink /h """ & targetPath & """ """ & sourcePath & """ & pause")
+                        WalkmanLib.RunAsAdmin("cmd", $"/c mklink /h ""{targetPath}"" ""{sourcePath}"" & pause")
                 End Select
             Catch ex As Exception
                 FileBrowser.ErrorParser(ex)
@@ -94,7 +94,7 @@ Namespace Operations
         Public Sub CreateJunction(sourcePath As String, targetPath As String)
             Try
                 If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
-                    Select Case MessageBox.Show("Target """ & targetPath & """ already exists! Remove first?", "Target exists",
+                    Select Case MessageBox.Show($"Target ""{targetPath}"" already exists! Remove first?", "Target exists",
                                                 MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
                         Case DialogResult.Yes
                             Delete({targetPath}, skipDialog:=True)
@@ -110,7 +110,7 @@ Namespace Operations
                     Case Other.cMBbRelaunch
                         FileBrowser.RestartAsAdmin()
                     Case Other.cMBbRunSysTool
-                        WalkmanLib.RunAsAdmin("cmd", "/c mklink /j """ & targetPath & """ """ & sourcePath & """ & pause")
+                        WalkmanLib.RunAsAdmin("cmd", $"/c mklink /j ""{targetPath}"" ""{sourcePath}"" & pause")
                 End Select
             Catch ex As Exception
                 FileBrowser.ErrorParser(ex)
