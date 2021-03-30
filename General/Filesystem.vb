@@ -34,6 +34,28 @@ Public Class Filesystem
         Public OpensWith As String
         Public DownloadURL As String
         Public DownloadReferrer As String
+
+        Public Overrides Function ToString() As String
+            Return $"FullName: {FullName.DisplayString}{Environment.NewLine}" &
+                $"DisplayName: {DisplayName.DisplayString}{Environment.NewLine}" &
+                $"Extension: {Extension.DisplayString}{Environment.NewLine}" &
+                $"LastWriteTime: {LastWriteTime}{Environment.NewLine}" &
+                $"LastAccessTime: {LastAccessTime}{Environment.NewLine}" &
+                $"CreationTime: {CreationTime}{Environment.NewLine}" &
+                $"Size: {Size}{Environment.NewLine}" &
+                $"SizeOnDisk: {SizeOnDisk}{Environment.NewLine}" &
+                $"Type: {Type}{Environment.NewLine}" &
+                $"Attributes: {Attributes}{Environment.NewLine}" &
+                $"SymlinkTarget: {SymlinkTarget.DisplayString}{Environment.NewLine}" &
+                $"LinkTarget: {LinkTarget.DisplayString}{Environment.NewLine}" &
+                $"UrlTarget: {UrlTarget.DisplayString}{Environment.NewLine}" &
+                $"AllTarget: {AllTarget.DisplayString}{Environment.NewLine}" &
+                $"HardlinkCount: {HardlinkCount}{Environment.NewLine}" &
+                $"ADSCount: {ADSCount}{Environment.NewLine}" &
+                $"OpensWith: {OpensWith.DisplayString}{Environment.NewLine}" &
+                $"DownloadURL: {DownloadURL.DisplayString}{Environment.NewLine}" &
+                $"DownloadReferrer: {DownloadReferrer.DisplayString}{Environment.NewLine}"
+        End Function
     End Structure
 
     Public Shared Function GetItemEntryInfo(info As FileInfo, showExtensions As Boolean) As EntryInfo
@@ -107,6 +129,7 @@ Public Class Filesystem
                     If _showADSSeparate Then
                         If entryInfo.ADSCount > 0 Then
                             For Each adsInfo As AlternateDataStreamInfo In info.ListAlternateDataStreams()
+                                ' adsInfo.FullPath ends with :$DATA
                                 entryInfo = New EntryInfo With {
                                     .FullName = adsInfo.FullPath.Remove(adsInfo.FullPath.LastIndexOf(":"c)),
                                     .Size = adsInfo.Size,

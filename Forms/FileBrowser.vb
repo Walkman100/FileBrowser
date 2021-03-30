@@ -448,7 +448,16 @@ Public Class FileBrowser
         End If
     End Sub
     Private Sub lstCurrent_AfterLabelEdit(sender As Object, e As LabelEditEventArgs) Handles lstCurrent.AfterLabelEdit
-        If Not String.IsNullOrEmpty(e.Label) Then Operations.Rename(GetItemInfo(lstCurrent.Items.Item(e.Item)).FullName, e.Label)
+        If Not String.IsNullOrEmpty(e.Label) Then
+            Dim itemInfo As Filesystem.EntryInfo = GetItemInfo(lstCurrent.Items.Item(e.Item))
+            Dim targetName As String = e.Label
+
+            If Settings.ShowExtensions = False AndAlso itemInfo.Type <> Filesystem.EntryType.AlternateDataStream Then
+                targetName &= itemInfo.Extension
+            End If
+
+            Operations.Rename(itemInfo.FullName, targetName)
+        End If
     End Sub
     Private lastSort As KeyValuePair(Of Sorting.SortBy, SortOrder)
     Private Sub lstCurrent_ColumnClick(sender As Object, e As ColumnClickEventArgs) Handles lstCurrent.ColumnClick

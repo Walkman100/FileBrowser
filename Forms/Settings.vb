@@ -295,12 +295,11 @@ Public Class Settings
                 Try
                     reader.Read()
                 Catch ex As XmlException
-                    reader.Close()
                     Return
                 End Try
 
-                If reader.IsStartElement AndAlso reader.Name = "FileBrowser" Then
-                    If reader.Read() AndAlso reader.IsStartElement AndAlso reader.Name = "Settings" AndAlso reader.Read() Then
+                If reader.IsStartElement() AndAlso reader.Name = "FileBrowser" Then
+                    If reader.Read() AndAlso reader.IsStartElement() AndAlso reader.Name = "Settings" AndAlso reader.Read() Then
                         While reader.IsStartElement
                             Select Case reader.Name
                                 Case "ShowFoldersFirst"

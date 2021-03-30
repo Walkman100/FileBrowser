@@ -24,6 +24,14 @@ Module Extensions
         Return String.Join(" ", arr.Select(Function(p) """" & p & """"))
     End Function
 
+    <Extension()>
+    Public Function DisplayString(str As String) As String
+        If str Is Nothing Then Return "NULL"
+        If str = String.Empty Then Return "EMPTY"
+        If str.Trim() = String.Empty Then Return "WHITESPACE"
+        Return str
+    End Function
+
     ''' <summary>Returns node.FullPath, with duplicate DirectorySeparatorChars removed</summary>
     <Extension()>
     Public Function FixedFullPath(node As TreeNode) As String
