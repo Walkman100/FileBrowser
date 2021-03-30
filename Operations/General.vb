@@ -78,11 +78,13 @@ Namespace Operations
         Private sfd As New SaveFileDialog With {.ValidateNames = False}
         Private sdd As New Ookii.Dialogs.VistaFolderBrowserDialog With {.UseDescriptionForTitle = True}
 
-        Public Sub MoveTo(paths As String(), manualEdit As Boolean)
+        Public Sub MoveTo(paths As String(), textInput As Boolean)
             Dim target As String
+
+            ' if multiple files will be copied, get directory to move all files to
             If paths.Length > 1 Then
                 target = Path.GetDirectoryName(paths(0))
-                If manualEdit Then
+                If textInput Then
                     If Input.GetInput(target, "Move Files", "Enter folder to move files to:") = DialogResult.Cancel Then Exit Sub
                 Else
                     sdd.SelectedPath = target
@@ -90,9 +92,10 @@ Namespace Operations
                     If sdd.ShowDialog(FileBrowser) = DialogResult.Cancel Then Exit Sub
                     target = sdd.SelectedPath
                 End If
-            Else
+
+            Else ' if one file will be moved, allow getting full file path to move to
                 target = paths(0)
-                If manualEdit Then
+                If textInput Then
                     If Input.GetInput(target, "Move File", "Enter path to move file to:") = DialogResult.Cancel Then Exit Sub
                 Else
                     sfd.FileName = Path.GetFileName(target)
@@ -107,13 +110,13 @@ Namespace Operations
                 Delegator.Move(path, target, FileBrowser.UseShell)
             Next
         End Sub
-        Public Sub CopyTo(paths As String(), manualEdit As Boolean)
+        Public Sub CopyTo(paths As String(), textInput As Boolean)
             Dim target As String
 
             ' if multiple files will be copied, get directory to copy all files to
             If paths.Length > 1 Then
                 target = Path.GetDirectoryName(paths(0))
-                If manualEdit Then
+                If textInput Then
                     If Input.GetInput(target, "Copy Files", "Enter folder to copy files to:") = DialogResult.Cancel Then Exit Sub
                 Else
                     sdd.SelectedPath = target
@@ -124,7 +127,7 @@ Namespace Operations
 
             Else ' if one file will be copied, allow getting full file path to copy to
                 target = paths(0)
-                If manualEdit Then
+                If textInput Then
                     If Input.GetInput(target, "Copy File", "Enter path to copy file to:") = DialogResult.Cancel Then Exit Sub
                 Else
                     sfd.FileName = Path.GetFileName(target)
@@ -140,9 +143,9 @@ Namespace Operations
             Next
         End Sub
 
-        Public Function CreateFile(rootPath As String, useInputBox As Boolean) As String
+        Public Function CreateFile(rootPath As String, textInput As Boolean) As String
             Dim target As String = "New File"
-            If useInputBox Then
+            If textInput Then
                 If Input.GetInput(target, "Create File", "Enter name of file to create:") = DialogResult.Cancel Then Return Nothing
             Else
                 sfd.FileName = target
@@ -203,9 +206,9 @@ Namespace Operations
 
             Return target
         End Function
-        Public Function CreateFolder(rootPath As String, useInputBox As Boolean) As String
+        Public Function CreateFolder(rootPath As String, textInput As Boolean) As String
             Dim target As String = "New Folder"
-            If useInputBox Then
+            If textInput Then
                 If Input.GetInput(target, "Create Folder", "Enter name of folder to create:") = DialogResult.Cancel Then Return Nothing
             Else
                 sfd.FileName = target
