@@ -42,12 +42,27 @@ Public Class ItemClipboard
     End Sub
 
     Public Sub PasteItems(target As String, type As PasteType)
-        For Each item As KeyValuePair(Of String, ItemType) In ItemStore.ToList ' so that we can modify the original
-            Dim target2 As String
+        For Each item As KeyValuePair(Of String, ItemType) In ItemStore.ToList() ' so that we can modify the original
+            Dim target2 As String = target
             If WalkmanLib.IsFileOrDirectory(target).HasFlag(PathEnum.IsDirectory) Then
-                target2 = Path.Combine(target, Path.GetFileName(item.Key))
-            Else
-                target2 = target
+                target2 = Path.Combine(target, Helpers.GetFileName(item.Key))
+            End If
+
+            If type = PasteType.Shortcut AndAlso Not target2.ToLower().EndsWith(".lnk") Then target2 &= ".lnk"
+            Dim targetExists As Boolean = False
+            If Helpers.PathContainsADS(target2) AndAlso
+                    Trinet.Core.IO.Ntfs.AlternateDataStreamExists(Helpers.GetADSPathFile(target2), Helpers.GetADSPathStream(target2)) Then
+                targetExists = True
+            ElseIf WalkmanLib.IsFileOrDirectory(target2).HasFlag(PathEnum.Exists) Then
+                targetExists = True
+            End If
+            If targetExists Then
+                Dim newName As String = Helpers.GetFileName(target2)
+                If Input.GetInput(newName, "Target Exists!", "Enter name to paste as:") = DialogResult.OK Then
+                    target2 = Path.Combine(Path.GetDirectoryName(target2), newName)
+                Else
+                    Exit Sub
+                End If
             End If
 
             Select Case type
@@ -66,7 +81,7 @@ Public Class ItemClipboard
                     End If
                     Operations.CreateSymlink(item.Key, target2)
                 Case PasteType.Shortcut
-                    Operations.CreateShortcut(item.Key, target2 & ".lnk")
+                    Operations.CreateShortcut(item.Key, target2)
                 Case PasteType.Junction
                     ' allow overwriting directory junctions if pasting as a junction and source is a folder
                     If Directory.Exists(target) AndAlso File.GetAttributes(target).HasFlag(FileAttributes.ReparsePoint) AndAlso Directory.Exists(item.Key) Then
