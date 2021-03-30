@@ -90,10 +90,14 @@ Namespace Operations
                     End If
                 Else
                     If pathInfo.HasFlag(PathEnum.IsFile) Then
-                        If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath AndAlso
-                                MessageBox.Show($"Target ""{targetPath}"" already exists! Are you sure you want to overwrite it?", "Target exists",
-                                                MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.No Then
-                            Exit Sub
+                        If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
+                            Select Case MessageBox.Show($"Target ""{targetPath}"" already exists! Remove first?", "Target exists",
+                                                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
+                                Case DialogResult.Yes
+                                    Delete({targetPath}, skipDialog:=True)
+                                Case DialogResult.Cancel
+                                    Exit Sub
+                            End Select
                         End If
 
                         Dim sourceStream As FileStream = Nothing

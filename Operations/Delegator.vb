@@ -10,11 +10,14 @@ Namespace Operations
         End Enum
 
         Private Function GetIsADS(sourcePath As String, targetPath As String) As ADSFiles
-            If Helpers.PathContainsADS(sourcePath) AndAlso Helpers.PathContainsADS(targetPath) Then
+            Dim sourcePathContainsADS As Boolean = Helpers.PathContainsADS(sourcePath)
+            Dim targetPathContainsADS As Boolean = Helpers.PathContainsADS(targetPath)
+
+            If sourcePathContainsADS AndAlso targetPathContainsADS Then
                 Return ADSFiles.BothAreADS
-            ElseIf Helpers.PathContainsADS(sourcePath) Then
+            ElseIf sourcePathContainsADS Then
                 Return ADSFiles.SourceIsADS
-            ElseIf Helpers.PathContainsADS(targetPath) Then
+            ElseIf targetPathContainsADS Then
                 Return ADSFiles.TargetIsADS
             Else
                 Return ADSFiles.BothAreFiles

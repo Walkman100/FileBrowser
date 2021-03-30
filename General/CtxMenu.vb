@@ -68,7 +68,7 @@ Public Class CtxMenu
         Public FileOnly As Boolean
         ''' <summary>
         ''' Item filters separated by ";".
-        ''' See https://docs.microsoft.com/en-us/dotnet/visual-basic/language-reference/operators/like-operator#pattern-options for filter info
+        ''' See <a href="https://docs.microsoft.com/en-us/dotnet/visual-basic/language-reference/operators/like-operator#pattern-options">Like-Operator</a> for filter info
         ''' </summary>
         Public Filter As String
 

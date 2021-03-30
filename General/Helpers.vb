@@ -35,7 +35,7 @@ Namespace Helpers
             Threading.Tasks.Parallel.ForEach(colLst,
                                              New Threading.Tasks.ParallelOptions With {.MaxDegreeOfParallelism = Environment.ProcessorCount},
                                              Sub(col)
-                                                 With fb.lstCurrent.Columns.Cast(Of Windows.Forms.ColumnHeader).
+                                                 With fb.lstCurrent.Columns.Cast(Of ColumnHeader).
                                                          First(Function(c) DirectCast(c.Tag, String).ToLowerInvariant() = col.SaveName.ToLowerInvariant())
                                                      .DisplayIndex = col.DisplayIndex
                                                      .Width = col.Width
@@ -223,7 +223,7 @@ Namespace Helpers
                 Case 5 : postString = If(binary, " PiB", " PB")
             End Select
 
-            Return size.ToString("#,##0.### ### ### ### ### ### ### ###").Trim & postString
+            Return size.ToString("#,##0.### ### ### ### ### ### ### ###").Trim() & postString
         End Function
 
         ''' <summary>

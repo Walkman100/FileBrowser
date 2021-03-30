@@ -81,7 +81,7 @@ Public Class FolderSettings
             ElseIf fileContents.All(Function(s) s.Trim() = String.Empty) Then
                 ' file exists, but all lines are empty. replace with just setting
                 fileContents = {settingsSectionName, settingLine}
-            ElseIf Not fileContents.Any(Function(s As String) lineIsSectionName(s)) Then
+            ElseIf Not fileContents.Any(AddressOf lineIsSectionName) Then
                 ' file exists, has content, but no SectionName found. append to the end
                 Array.Resize(fileContents, fileContents.Length + 3)
                 fileContents(fileContents.Length - 2) = settingsSectionName
