@@ -67,6 +67,7 @@ Partial Class FileBrowser
         Me.toolStripURL = New System.Windows.Forms.ToolStrip()
         Me.cbxURI = New System.Windows.Forms.ToolStripComboBox()
         Me.bwLoadFolder = New System.ComponentModel.BackgroundWorker()
+        Me.fswCurrent = New System.IO.FileSystemWatcher()
         Me.btnGo = New System.Windows.Forms.ToolStripButton()
         Me.menuFileCreateFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileCreateFolder = New System.Windows.Forms.ToolStripMenuItem()
@@ -114,6 +115,7 @@ Partial Class FileBrowser
         Me.menuStrip.SuspendLayout()
         Me.status.SuspendLayout()
         Me.toolStripURL.SuspendLayout()
+        CType(Me.fswCurrent, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'treeViewDirs
@@ -427,6 +429,10 @@ Partial Class FileBrowser
         'bwLoadFolder
         '
         Me.bwLoadFolder.WorkerSupportsCancellation = True
+        '
+        'fswCurrent
+        '
+        Me.fswCurrent.SynchronizingObject = Me
         '
         'btnGo
         '
@@ -787,6 +793,7 @@ Partial Class FileBrowser
         Me.status.PerformLayout()
         Me.toolStripURL.ResumeLayout(False)
         Me.toolStripURL.PerformLayout()
+        CType(Me.fswCurrent, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -875,4 +882,5 @@ Partial Class FileBrowser
     Friend WithEvents colHeadItemPath As System.Windows.Forms.ColumnHeader
     Friend WithEvents colHeadItemType As System.Windows.Forms.ColumnHeader
     Friend WithEvents bwLoadFolder As System.ComponentModel.BackgroundWorker
+    Friend WithEvents fswCurrent As System.IO.FileSystemWatcher
 End Class

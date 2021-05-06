@@ -244,6 +244,8 @@ Public Class FileBrowser
 
 #Region "Loading Data"
     Private Async Sub LoadFolder()
+        fswCurrent.EnableRaisingEvents = False
+
         If bwLoadFolder.IsBusy Then
             ' thanks to https://web.archive.org/web/20210315183540/https://social.msdn.microsoft.com/Forums/windowsapps/en-US/a9330b2a-9552-4722-a238-3a6d24f0c3a0/quotawaitquot-for-backgroundworker#54a41b87-8fbd-4416-b356-c64b0f79d935-isAnswer
             Dim tcs As New TaskCompletionSource(Of Object)
@@ -314,7 +316,15 @@ Public Class FileBrowser
 
         If e.Error IsNot Nothing Then
             ErrorParser(e.Error)
+        ElseIf Not Settings.DisableViewAutoUpdate Then
+            fswCurrent.Path = CurrentDir
+            fswCurrent.EnableRaisingEvents = True
         End If
+    End Sub
+
+    Private Sub fswCurrent_ItemChanged() Handles fswCurrent.Changed, fswCurrent.Created, fswCurrent.Deleted, fswCurrent.Renamed
+        fswCurrent.EnableRaisingEvents = False
+        If Not Settings.DisableViewAutoUpdate Then LoadFolder()
     End Sub
 
     Private Sub SelectItem(name As String)
