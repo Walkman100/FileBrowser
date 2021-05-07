@@ -359,24 +359,23 @@ Public Class FileBrowser
         Next
         treeViewDirs.EndUpdate()
 
-        Task.WaitAll(Task.Run(Sub()
-                                  For Each subNode As TreeNode In node.Nodes
-                                      SetNodeExpandable(baseControl, subNode)
-                                  Next
-                              End Sub),
-                     Task.Run(Sub()
-                                  For Each subNode As TreeNode In node.Nodes
-                                      SetNodeColor(subNode, _settings.HighlightCompressed, _settings.HighlightEncrypted)
-                                  Next
-                              End Sub),
-                     Task.Run(Sub()
-                                  If _settings.EnableIcons Then
-                                      For Each subNode As TreeNode In node.Nodes
-                                          SetNodeImage(_settings, subNode)
-                                      Next
-                                  End If
-                              End Sub)
-                     )
+        ' set node Color and Image in background, use Task.Run so we can continue loading nodes while these are running
+        Task.Run(Sub()
+                     For Each subNode As TreeNode In node.Nodes
+                         SetNodeColor(subNode, _settings.HighlightCompressed, _settings.HighlightEncrypted)
+                     Next
+                 End Sub)
+        Task.Run(Sub()
+                     If _settings.EnableIcons Then
+                         For Each subNode As TreeNode In node.Nodes
+                             SetNodeImage(_settings, subNode)
+                         Next
+                     End If
+                 End Sub)
+
+        For Each subNode As TreeNode In node.Nodes
+            SetNodeExpandable(baseControl, subNode)
+        Next
     End Sub
 
     Public Sub ShowNode(baseControl As Control, nodePath As String)
