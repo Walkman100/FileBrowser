@@ -31,6 +31,7 @@ Public Class Settings
             _settingsPath = New FileInfo(configFileName).FullName
         End If
         chkEnableIcons_CheckedChanged() ' Make sure grpIcons is in the correct enabled state
+        cbxTheme.SelectedIndex = 0 ' ensure Theme is set
 
         _Loaded = True
         If File.Exists(_settingsPath) Then
@@ -264,8 +265,11 @@ Public Class Settings
                 _Theme = WalkmanLib.Theme.Inverted
             Case 4 'Test
                 _Theme = WalkmanLib.Theme.Test
+            Case Else
+                Return
         End Select
 
+        FileBrowser.ApplyTheme(Theme)
         SaveSettings()
     End Sub
 

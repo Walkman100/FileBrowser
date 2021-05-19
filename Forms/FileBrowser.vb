@@ -99,6 +99,12 @@ Public Class FileBrowser
         End If
     End Sub
 
+    Public Sub ApplyTheme(theme As WalkmanLib.Theme)
+        WalkmanLib.ApplyTheme(theme, Me)
+        WalkmanLib.ApplyTheme(theme, Me.components.Components)
+        WalkmanLib.ApplyTheme(theme, Settings)
+    End Sub
+
     Private flagDict As New Dictionary(Of String, WalkmanLib.FlagInfo) From {
         {"select", New WalkmanLib.FlagInfo With {
             .shortFlag = "s"c,
