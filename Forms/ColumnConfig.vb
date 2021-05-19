@@ -17,6 +17,10 @@ Public Class ColumnConfig
             .GridLines = True
         }
         lst.Columns.Add("Column").Width = 140
+        lst.Tag = Settings.Theme.ListViewColumnColors
+        AddHandler lst.DrawColumnHeader, AddressOf WalkmanLib.CustomPaint.ListView_DrawCustomColumnHeader
+        AddHandler lst.DrawItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultItem
+        AddHandler lst.DrawSubItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultSubItem
 
         btn = New Button With {
             .Text = "Close",
@@ -36,6 +40,11 @@ Public Class ColumnConfig
         For Each column As ColumnHeader In FileBrowser.lstCurrent.Columns
             lst.Items.Add(column.Text).Checked = (column.Width > 0)
         Next
+
+        WalkmanLib.ApplyTheme(Settings.Theme, Me)
+        If Settings.Theme = WalkmanLib.Theme.Dark Then
+            lst.OwnerDraw = True
+        End If
     End Sub
 
     Sub MeShown() Handles Me.Shown

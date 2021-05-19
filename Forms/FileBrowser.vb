@@ -121,6 +121,27 @@ Public Class FileBrowser
         If theme = WalkmanLib.Theme.Dark Then ' override Dark theme setting this to false
             lstCurrent.OwnerDraw = True
         End If
+
+        ' update items
+        Dim _settings As Settings = Settings
+        Task.Run(Sub()
+                     For Each node As TreeNode In treeViewDirs.Nodes
+                         SetNodeColor(node, _settings, True)
+                     Next
+                 End Sub)
+        Dim colors As Tuple(Of Color, Color, Color) = GetItemColors(_settings)
+        Task.Run(Sub()
+                     For Each item As ListViewItem In lstCurrent.Items
+                         Dim itemInfo As Filesystem.EntryInfo = GetItemInfo(item)
+                         If _settings.HighlightCompressed AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Compressed) Then
+                             item.ForeColor = colors.Item2
+                         ElseIf _Settings.HighlightEncrypted AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Encrypted) Then
+                             item.ForeColor = colors.Item3
+                         Else
+                             item.ForeColor = colors.Item1
+                         End If
+                     Next
+                 End Sub)
     End Sub
 
     ''' <summary>Get item colors for current theme</summary>
@@ -226,9 +247,15 @@ Public Class FileBrowser
             Return colors.Item1
         End If
     End Function
-    Private Sub SetNodeColor(node As TreeNode, _settings As Settings)
+    Private Sub SetNodeColor(node As TreeNode, _settings As Settings, Optional recurse As Boolean = False)
         Try : node.ForeColor = GetForeColor(node.FullPath, _settings)
         Catch : End Try
+
+        If recurse Then
+            For Each subNode As TreeNode In node.Nodes
+                SetNodeColor(subNode, _settings, recurse)
+            Next
+        End If
     End Sub
     Private Sub SetNodeImage(settings As Settings, node As TreeNode)
         ImageHandling.SetImage(settings, node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width)
