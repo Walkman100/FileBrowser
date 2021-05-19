@@ -7,7 +7,7 @@ Imports System.Xml
 
 Public Class ContextMenuConfig
 #Region "Helper Functions"
-    Private Function GetFilterText(itemInfo As CtxMenu.EntryInfo) As String
+    Private Shared Function GetFilterText(itemInfo As CtxMenu.EntryInfo) As String
         Dim rtn As String = String.Empty
         If (itemInfo.FileOnly AndAlso itemInfo.DirectoryOnly AndAlso itemInfo.DriveOnly) OrElse
             (itemInfo.FileOnly AndAlso itemInfo.DirectoryOnly) OrElse
@@ -33,7 +33,7 @@ Public Class ContextMenuConfig
         Return rtn
     End Function
 
-    Private Function GetActionSettingsText(itemInfo As CtxMenu.EntryInfo) As String
+    Private Shared Function GetActionSettingsText(itemInfo As CtxMenu.EntryInfo) As String
         If String.IsNullOrEmpty(itemInfo.ActionArgs1) Then Return Nothing
         If String.IsNullOrEmpty(itemInfo.ActionArgs2) Then Return itemInfo.ActionArgs1
         If itemInfo.ActionType = CtxMenu.ActionType.Properties Then Return $"Path format: ""{itemInfo.ActionArgs1}"" Properties Tab: {itemInfo.ActionArgs2}"
@@ -41,7 +41,7 @@ Public Class ContextMenuConfig
         Return $"Path format: ""{itemInfo.ActionArgs1}"" Arguments format: ""{itemInfo.ActionArgs2}"""
     End Function
 
-    Private Function UpdateItem(item As ListViewItem, itemInfo As CtxMenu.EntryInfo) As ListViewItem
+    Private Shared Function UpdateItem(item As ListViewItem, itemInfo As CtxMenu.EntryInfo) As ListViewItem
         item.Tag = itemInfo
         item.Text = itemInfo.EntryType.ToString()
         item.SubItems.Item(1).Text = itemInfo.Text
@@ -55,11 +55,11 @@ Public Class ContextMenuConfig
         Return item
     End Function
 
-    Private Function CreateItem(itemInfo As CtxMenu.EntryInfo) As ListViewItem
+    Private Shared Function CreateItem(itemInfo As CtxMenu.EntryInfo) As ListViewItem
         Return UpdateItem(New ListViewItem({"", "", "", "", "", "", "", "", ""}), itemInfo)
     End Function
 
-    Private Function GetItemInfo(item As ListViewItem) As CtxMenu.EntryInfo
+    Private Shared Function GetItemInfo(item As ListViewItem) As CtxMenu.EntryInfo
         Return DirectCast(item.Tag, CtxMenu.EntryInfo)
     End Function
 #End Region
@@ -256,6 +256,16 @@ Public Class ContextMenuConfig
 
 #Region "Item / Window Management"
     Private Sub MeShown() Handles Me.Shown
+        lstMain.Tag = Settings.Theme.ListViewColumnColors
+        AddHandler lstMain.DrawColumnHeader, AddressOf WalkmanLib.CustomPaint.ListView_DrawCustomColumnHeader
+        AddHandler lstMain.DrawItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultItem
+        AddHandler lstMain.DrawSubItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultSubItem
+
+        WalkmanLib.ApplyTheme(Settings.Theme, Me)
+        If Settings.Theme = WalkmanLib.Theme.Dark Then
+            lstMain.OwnerDraw = True
+        End If
+
         lstMain.DoubleBuffered(True)
         lstMain_SelectedIndexChanged()
         cbxItemType_SelectedIndexChanged()
