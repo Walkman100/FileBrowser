@@ -75,6 +75,7 @@ Public Class Settings
     Public ReadOnly Property SplitterRemember As Boolean
     Public ReadOnly Property SplitterSize As Integer?
     Public ReadOnly Property SaveColumns As Boolean
+    Public ReadOnly Property Theme As WalkmanLib.Theme
 #End Region
 
 #Region "Column Saving"
@@ -251,6 +252,23 @@ Public Class Settings
         SaveSettings()
     End Sub
 
+    Private Sub cbxTheme_SelectedIndexChanged() Handles cbxTheme.SelectedIndexChanged
+        Select Case cbxTheme.SelectedIndex
+            Case 0 'Default
+                _Theme = WalkmanLib.Theme.Default
+            Case 1 'SystemDark
+                _Theme = WalkmanLib.Theme.SystemDark
+            Case 2 'Dark
+                _Theme = WalkmanLib.Theme.Dark
+            Case 3 'Inverted
+                _Theme = WalkmanLib.Theme.Inverted
+            Case 4 'Test
+                _Theme = WalkmanLib.Theme.Test
+        End Select
+
+        SaveSettings()
+    End Sub
+
     Private Sub btnDefaultDirBrowse_Click() Handles btnDefaultDirBrowse.Click
         Dim sdd As New VistaFolderBrowserDialog With {
             .UseDescriptionForTitle = True,
@@ -392,6 +410,9 @@ Public Class Settings
                                 Case "SaveColumns"
                                     reader.Read()
                                     Boolean.TryParse(reader.Value, chkSaveColumns.Checked)
+                                Case "ThemeIndex"
+                                    reader.Read()
+                                    Integer.TryParse(reader.Value, cbxTheme.SelectedIndex)
                                 Case Else
                                     reader.Read() ' skip unknown values
                             End Select
@@ -468,6 +489,7 @@ Public Class Settings
             writer.WriteElementString("SplitterRemember", SplitterRemember.ToString())
             writer.WriteElementString("SplitterSize", SplitterSize.ToString())
             writer.WriteElementString("SaveColumns", SaveColumns.ToString())
+            writer.WriteElementString("ThemeIndex", cbxTheme.SelectedIndex.ToString())
             writer.WriteEndElement() ' Settings
 
             writer.WriteStartElement("URIHistory")

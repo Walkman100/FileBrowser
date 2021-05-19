@@ -72,6 +72,8 @@ Partial Class Settings
         Me.btnResetColumns = New System.Windows.Forms.Button()
         Me.chkSaveColumns = New System.Windows.Forms.CheckBox()
         Me.chkEnableIcons = New System.Windows.Forms.CheckBox()
+        Me.grpTheme = New System.Windows.Forms.GroupBox()
+        Me.cbxTheme = New System.Windows.Forms.ComboBox()
         Me.grpWindowDefault.SuspendLayout()
         Me.grpItemVisibility.SuspendLayout()
         Me.grpWindow.SuspendLayout()
@@ -82,6 +84,7 @@ Partial Class Settings
         Me.grpOther.SuspendLayout()
         Me.grpDefaultDir.SuspendLayout()
         Me.grpColumns.SuspendLayout()
+        Me.grpTheme.SuspendLayout()
         Me.SuspendLayout()
         '
         'chkShowFoldersFirst
@@ -301,7 +304,7 @@ Partial Class Settings
         Me.grpWindowDefault.Controls.Add(Me.txtWindowDefaultHeight)
         Me.grpWindowDefault.Controls.Add(Me.txtWindowDefaultWidth)
         Me.grpWindowDefault.Controls.Add(Me.lblWindowDefaultWidth)
-        Me.grpWindowDefault.Location = New System.Drawing.Point(6, 57)
+        Me.grpWindowDefault.Location = New System.Drawing.Point(6, 56)
         Me.grpWindowDefault.Name = "grpWindowDefault"
         Me.grpWindowDefault.Size = New System.Drawing.Size(137, 58)
         Me.grpWindowDefault.TabIndex = 2
@@ -354,7 +357,7 @@ Partial Class Settings
         Me.grpItemVisibility.Controls.Add(Me.chkShowExtensions)
         Me.grpItemVisibility.Location = New System.Drawing.Point(12, 12)
         Me.grpItemVisibility.Name = "grpItemVisibility"
-        Me.grpItemVisibility.Size = New System.Drawing.Size(256, 155)
+        Me.grpItemVisibility.Size = New System.Drawing.Size(256, 157)
         Me.grpItemVisibility.TabIndex = 1
         Me.grpItemVisibility.TabStop = False
         Me.grpItemVisibility.Text = "Item Visibility"
@@ -362,13 +365,13 @@ Partial Class Settings
         'grpWindow
         '
         Me.grpWindow.Controls.Add(Me.grpSplitterDefault)
+        Me.grpWindow.Controls.Add(Me.chkSplitterRemember)
+        Me.grpWindow.Controls.Add(Me.grpWindowDefault)
         Me.grpWindow.Controls.Add(Me.chkWindowMaximised)
         Me.grpWindow.Controls.Add(Me.chkWindowRemember)
-        Me.grpWindow.Controls.Add(Me.grpWindowDefault)
-        Me.grpWindow.Controls.Add(Me.chkSplitterRemember)
-        Me.grpWindow.Location = New System.Drawing.Point(274, 221)
+        Me.grpWindow.Location = New System.Drawing.Point(274, 219)
         Me.grpWindow.Name = "grpWindow"
-        Me.grpWindow.Size = New System.Drawing.Size(149, 187)
+        Me.grpWindow.Size = New System.Drawing.Size(149, 185)
         Me.grpWindow.TabIndex = 7
         Me.grpWindow.TabStop = False
         Me.grpWindow.Text = "Window Settings"
@@ -376,7 +379,7 @@ Partial Class Settings
         'grpSplitterDefault
         '
         Me.grpSplitterDefault.Controls.Add(Me.txtSplitterDefaultSize)
-        Me.grpSplitterDefault.Location = New System.Drawing.Point(6, 136)
+        Me.grpSplitterDefault.Location = New System.Drawing.Point(6, 134)
         Me.grpSplitterDefault.Name = "grpSplitterDefault"
         Me.grpSplitterDefault.Size = New System.Drawing.Size(137, 45)
         Me.grpSplitterDefault.TabIndex = 4
@@ -385,15 +388,15 @@ Partial Class Settings
         '
         'txtSplitterDefaultSize
         '
-        Me.txtSplitterDefaultSize.Location = New System.Drawing.Point(6, 19)
+        Me.txtSplitterDefaultSize.Location = New System.Drawing.Point(5, 19)
         Me.txtSplitterDefaultSize.Name = "txtSplitterDefaultSize"
-        Me.txtSplitterDefaultSize.Size = New System.Drawing.Size(125, 20)
+        Me.txtSplitterDefaultSize.Size = New System.Drawing.Size(127, 20)
         Me.txtSplitterDefaultSize.TabIndex = 0
         '
         'chkSplitterRemember
         '
         Me.chkSplitterRemember.AutoSize = True
-        Me.chkSplitterRemember.Location = New System.Drawing.Point(6, 121)
+        Me.chkSplitterRemember.Location = New System.Drawing.Point(6, 120)
         Me.chkSplitterRemember.Name = "chkSplitterRemember"
         Me.chkSplitterRemember.Size = New System.Drawing.Size(135, 17)
         Me.chkSplitterRemember.TabIndex = 3
@@ -409,7 +412,7 @@ Partial Class Settings
         Me.grpOverlays.Controls.Add(Me.chkOverlayOffline)
         Me.grpOverlays.Location = New System.Drawing.Point(274, 12)
         Me.grpOverlays.Name = "grpOverlays"
-        Me.grpOverlays.Size = New System.Drawing.Size(149, 134)
+        Me.grpOverlays.Size = New System.Drawing.Size(149, 132)
         Me.grpOverlays.TabIndex = 2
         Me.grpOverlays.TabStop = False
         Me.grpOverlays.Text = "Thumbnail Overlays"
@@ -418,7 +421,7 @@ Partial Class Settings
         '
         Me.grpHighlighting.Controls.Add(Me.chkHighlightCompressed)
         Me.grpHighlighting.Controls.Add(Me.chkHighlightEncrypted)
-        Me.grpHighlighting.Location = New System.Drawing.Point(274, 152)
+        Me.grpHighlighting.Location = New System.Drawing.Point(274, 150)
         Me.grpHighlighting.Name = "grpHighlighting"
         Me.grpHighlighting.Size = New System.Drawing.Size(149, 63)
         Me.grpHighlighting.TabIndex = 5
@@ -429,9 +432,9 @@ Partial Class Settings
         '
         Me.grpIcons.Controls.Add(Me.chkSpecificItemIcons)
         Me.grpIcons.Controls.Add(Me.chkImageThumbs)
-        Me.grpIcons.Location = New System.Drawing.Point(12, 173)
+        Me.grpIcons.Location = New System.Drawing.Point(12, 175)
         Me.grpIcons.Name = "grpIcons"
-        Me.grpIcons.Size = New System.Drawing.Size(256, 63)
+        Me.grpIcons.Size = New System.Drawing.Size(256, 65)
         Me.grpIcons.TabIndex = 4
         Me.grpIcons.TabStop = False
         '
@@ -446,9 +449,9 @@ Partial Class Settings
         Me.grpOther.Controls.Add(Me.chkDisableTreeAutoUpdate)
         Me.grpOther.Controls.Add(Me.chkDisableUpdateCheck)
         Me.grpOther.Controls.Add(Me.chkWindowsShellDefaultValue)
-        Me.grpOther.Location = New System.Drawing.Point(12, 242)
+        Me.grpOther.Location = New System.Drawing.Point(12, 246)
         Me.grpOther.Name = "grpOther"
-        Me.grpOther.Size = New System.Drawing.Size(256, 243)
+        Me.grpOther.Size = New System.Drawing.Size(256, 287)
         Me.grpOther.TabIndex = 6
         Me.grpOther.TabStop = False
         Me.grpOther.Text = "Other"
@@ -457,16 +460,16 @@ Partial Class Settings
         '
         Me.grpDefaultDir.Controls.Add(Me.btnDefaultDirBrowse)
         Me.grpDefaultDir.Controls.Add(Me.txtDefaultDir)
-        Me.grpDefaultDir.Location = New System.Drawing.Point(6, 161)
+        Me.grpDefaultDir.Location = New System.Drawing.Point(6, 152)
         Me.grpDefaultDir.Name = "grpDefaultDir"
-        Me.grpDefaultDir.Size = New System.Drawing.Size(244, 45)
+        Me.grpDefaultDir.Size = New System.Drawing.Size(244, 48)
         Me.grpDefaultDir.TabIndex = 7
         Me.grpDefaultDir.TabStop = False
         Me.grpDefaultDir.Text = "Default Directory:"
         '
         'btnDefaultDirBrowse
         '
-        Me.btnDefaultDirBrowse.Location = New System.Drawing.Point(163, 17)
+        Me.btnDefaultDirBrowse.Location = New System.Drawing.Point(163, 19)
         Me.btnDefaultDirBrowse.Name = "btnDefaultDirBrowse"
         Me.btnDefaultDirBrowse.Size = New System.Drawing.Size(75, 23)
         Me.btnDefaultDirBrowse.TabIndex = 1
@@ -475,14 +478,14 @@ Partial Class Settings
         '
         'txtDefaultDir
         '
-        Me.txtDefaultDir.Location = New System.Drawing.Point(6, 19)
+        Me.txtDefaultDir.Location = New System.Drawing.Point(6, 21)
         Me.txtDefaultDir.Name = "txtDefaultDir"
         Me.txtDefaultDir.Size = New System.Drawing.Size(151, 20)
         Me.txtDefaultDir.TabIndex = 0
         '
         'btnClearURIHistory
         '
-        Me.btnClearURIHistory.Location = New System.Drawing.Point(6, 214)
+        Me.btnClearURIHistory.Location = New System.Drawing.Point(6, 258)
         Me.btnClearURIHistory.Name = "btnClearURIHistory"
         Me.btnClearURIHistory.Size = New System.Drawing.Size(244, 23)
         Me.btnClearURIHistory.TabIndex = 8
@@ -522,7 +525,7 @@ Partial Class Settings
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnClose.Location = New System.Drawing.Point(36, 491)
+        Me.btnClose.Location = New System.Drawing.Point(36, 539)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 23)
         Me.btnClose.TabIndex = 9
@@ -532,7 +535,7 @@ Partial Class Settings
         'btnSave
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Location = New System.Drawing.Point(117, 491)
+        Me.btnSave.Location = New System.Drawing.Point(117, 539)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(75, 23)
         Me.btnSave.TabIndex = 10
@@ -542,7 +545,7 @@ Partial Class Settings
         'btnReload
         '
         Me.btnReload.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReload.Location = New System.Drawing.Point(198, 491)
+        Me.btnReload.Location = New System.Drawing.Point(198, 539)
         Me.btnReload.Name = "btnReload"
         Me.btnReload.Size = New System.Drawing.Size(92, 23)
         Me.btnReload.TabIndex = 11
@@ -552,7 +555,7 @@ Partial Class Settings
         'btnShowSettingsFile
         '
         Me.btnShowSettingsFile.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnShowSettingsFile.Location = New System.Drawing.Point(296, 491)
+        Me.btnShowSettingsFile.Location = New System.Drawing.Point(296, 539)
         Me.btnShowSettingsFile.Name = "btnShowSettingsFile"
         Me.btnShowSettingsFile.Size = New System.Drawing.Size(104, 23)
         Me.btnShowSettingsFile.TabIndex = 12
@@ -563,7 +566,7 @@ Partial Class Settings
         '
         Me.grpColumns.Controls.Add(Me.btnResetColumns)
         Me.grpColumns.Controls.Add(Me.chkSaveColumns)
-        Me.grpColumns.Location = New System.Drawing.Point(274, 414)
+        Me.grpColumns.Location = New System.Drawing.Point(274, 410)
         Me.grpColumns.Name = "grpColumns"
         Me.grpColumns.Size = New System.Drawing.Size(149, 71)
         Me.grpColumns.TabIndex = 8
@@ -592,12 +595,34 @@ Partial Class Settings
         'chkEnableIcons
         '
         Me.chkEnableIcons.AutoSize = True
-        Me.chkEnableIcons.Location = New System.Drawing.Point(21, 171)
+        Me.chkEnableIcons.Location = New System.Drawing.Point(21, 173)
         Me.chkEnableIcons.Name = "chkEnableIcons"
         Me.chkEnableIcons.Size = New System.Drawing.Size(111, 17)
         Me.chkEnableIcons.TabIndex = 3
         Me.chkEnableIcons.Text = "Enable Item Icons"
         Me.chkEnableIcons.UseVisualStyleBackColor = True
+        '
+        'grpTheme
+        '
+        Me.grpTheme.Controls.Add(Me.cbxTheme)
+        Me.grpTheme.Location = New System.Drawing.Point(274, 487)
+        Me.grpTheme.Name = "grpTheme"
+        Me.grpTheme.Size = New System.Drawing.Size(149, 46)
+        Me.grpTheme.TabIndex = 13
+        Me.grpTheme.TabStop = False
+        Me.grpTheme.Text = "Theme"
+        '
+        'cbxTheme
+        '
+        Me.cbxTheme.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cbxTheme.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbxTheme.FormattingEnabled = True
+        Me.cbxTheme.Items.AddRange(New Object() {"Default", "System Dark", "Dark", "Inverted", "Test"})
+        Me.cbxTheme.Location = New System.Drawing.Point(6, 19)
+        Me.cbxTheme.Name = "cbxTheme"
+        Me.cbxTheme.Size = New System.Drawing.Size(137, 21)
+        Me.cbxTheme.TabIndex = 0
         '
         'Settings
         '
@@ -605,7 +630,8 @@ Partial Class Settings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnClose
-        Me.ClientSize = New System.Drawing.Size(435, 526)
+        Me.ClientSize = New System.Drawing.Size(435, 574)
+        Me.Controls.Add(Me.grpTheme)
         Me.Controls.Add(Me.grpColumns)
         Me.Controls.Add(Me.btnShowSettingsFile)
         Me.Controls.Add(Me.btnReload)
@@ -641,6 +667,7 @@ Partial Class Settings
         Me.grpDefaultDir.PerformLayout()
         Me.grpColumns.ResumeLayout(False)
         Me.grpColumns.PerformLayout()
+        Me.grpTheme.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -695,4 +722,6 @@ Partial Class Settings
     Friend WithEvents chkSplitterRemember As System.Windows.Forms.CheckBox
     Friend WithEvents grpSplitterDefault As System.Windows.Forms.GroupBox
     Friend WithEvents txtSplitterDefaultSize As System.Windows.Forms.TextBox
+    Friend WithEvents grpTheme As System.Windows.Forms.GroupBox
+    Friend WithEvents cbxTheme As System.Windows.Forms.ComboBox
 End Class
