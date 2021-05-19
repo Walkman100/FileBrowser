@@ -44,6 +44,9 @@ Public Class FileBrowser
 #End Region
 
     Private Sub FileBrowser_Load() Handles Me.Shown
+        AddHandler lstCurrent.DrawColumnHeader, AddressOf WalkmanLib.CustomPaint.ListView_DrawCustomColumnHeader
+        AddHandler lstCurrent.DrawItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultItem
+        AddHandler lstCurrent.DrawSubItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultSubItem
         Settings.Init()
         ContextMenuConfig.Init()
 
@@ -100,9 +103,24 @@ Public Class FileBrowser
     End Sub
 
     Public Sub ApplyTheme(theme As WalkmanLib.Theme)
-        WalkmanLib.ApplyTheme(theme, Me)
-        WalkmanLib.ApplyTheme(theme, Me.components.Components)
+        WalkmanLib.ApplyTheme(theme, Me, True)
+        WalkmanLib.ApplyTheme(theme, Me.components.Components, True)
         WalkmanLib.ApplyTheme(theme, Settings)
+
+        ' ToolStrip custom paint
+        If theme = WalkmanLib.Theme.Default Then
+            ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional
+        ElseIf theme = WalkmanLib.Theme.SystemDark Then
+            ToolStripManager.RenderMode = ToolStripManagerRenderMode.System
+        Else
+            ToolStripManager.Renderer = New WalkmanLib.CustomPaint.ToolStripSystemRendererWithDisabled(theme.ToolStripItemDisabledText)
+        End If
+
+        ' ListView custom paint
+        lstCurrent.Tag = theme.ListViewColumnColors
+        If theme = WalkmanLib.Theme.Dark Then ' override Dark theme setting this to false
+            lstCurrent.OwnerDraw = True
+        End If
     End Sub
 
     Private flagDict As New Dictionary(Of String, WalkmanLib.FlagInfo) From {
