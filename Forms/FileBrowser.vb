@@ -123,6 +123,23 @@ Public Class FileBrowser
         End If
     End Sub
 
+    ''' <summary>Get item colors for current theme</summary>
+    ''' <param name="_settings">Instance of <see cref="Settings"/> to get theme from</param>
+    ''' <returns><see cref="Tuple"/> with default color as <see langword="Item1"/>, compressed color as <see langword="Item2"/>, and encrypted color as <see langword="Item3"/></returns>
+    Private Shared Function GetItemColors(_settings As Settings) As Tuple(Of Color, Color, Color)
+        If _settings.Theme = WalkmanLib.Theme.Default Then
+            Return New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.MediumBlue, Color.Green)
+        ElseIf _settings.Theme = WalkmanLib.Theme.SystemDark Then
+            Return New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.LightSkyBlue, Color.LimeGreen)
+        ElseIf _settings.Theme = WalkmanLib.Theme.Dark Then
+            Return New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.FromArgb(&HFF3A99E8), Color.LimeGreen)
+        ElseIf _settings.Theme = WalkmanLib.Theme.Inverted Then
+            Return New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.DeepSkyBlue, Color.LimeGreen)
+        Else
+            Return New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.RoyalBlue, Color.Green)
+        End If
+    End Function
+
     Private flagDict As New Dictionary(Of String, WalkmanLib.FlagInfo) From {
         {"select", New WalkmanLib.FlagInfo With {
             .shortFlag = "s"c,
@@ -167,21 +184,20 @@ Public Class FileBrowser
         item.SubItems.Item(15).Text = itemInfo.DownloadURL
         item.SubItems.Item(16).Text = itemInfo.DownloadReferrer
 
+        Dim colors As Tuple(Of Color, Color, Color) = GetItemColors(Settings)
         If Settings.HighlightCompressed AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Compressed) Then
-            item.ForeColor = Color.MediumBlue
+            item.ForeColor = colors.Item2
         ElseIf Settings.HighlightEncrypted AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Encrypted) Then
-            item.ForeColor = Color.Green
+            item.ForeColor = colors.Item3
         Else
-            item.ForeColor = SystemColors.WindowText
+            item.ForeColor = colors.Item1
         End If
 
         Return item
     End Function
-
     Private Shared Function CreateItem(itemInfo As Filesystem.EntryInfo) As ListViewItem
         Return UpdateItem(New ListViewItem(Enumerable.Repeat(String.Empty, 17).ToArray()), itemInfo)
     End Function
-
     Public Shared Function GetItemInfo(item As ListViewItem) As Filesystem.EntryInfo
         Return DirectCast(item.Tag, Filesystem.EntryInfo)
     End Function
@@ -189,7 +205,7 @@ Public Class FileBrowser
     Private Function AddRootNode(root As TreeView, text As String) As TreeNode
         Dim node As TreeNode = root.Nodes.Add(text, text)
         SetNodeExpandable(Me, node)
-        SetNodeColor(node, Settings.HighlightCompressed, Settings.HighlightEncrypted)
+        SetNodeColor(node, Settings)
         If Settings.EnableIcons Then SetNodeImage(Settings, node)
         Return node
     End Function
@@ -200,19 +216,18 @@ Public Class FileBrowser
             End If
         Catch : End Try
     End Sub
-    Private Function GetForeColor(path As String, checkCompressed As Boolean, checkEncrypted As Boolean) As Color
-        If checkCompressed AndAlso
-                File.GetAttributes(path).HasFlag(FileAttributes.Compressed) Then
-            Return Color.MediumBlue
-        ElseIf checkEncrypted AndAlso
-                File.GetAttributes(path).HasFlag(FileAttributes.Encrypted) Then
-            Return Color.Green
+    Private Function GetForeColor(path As String, _settings As Settings) As Color
+        Dim colors As Tuple(Of Color, Color, Color) = GetItemColors(_settings)
+        If _settings.HighlightCompressed AndAlso File.GetAttributes(path).HasFlag(FileAttributes.Compressed) Then
+            Return colors.Item2
+        ElseIf _settings.HighlightEncrypted AndAlso File.GetAttributes(path).HasFlag(FileAttributes.Encrypted) Then
+            Return colors.Item3
         Else
-            Return SystemColors.WindowText
+            Return colors.Item1
         End If
     End Function
-    Private Sub SetNodeColor(node As TreeNode, checkCompressed As Boolean, checkEncrypted As Boolean)
-        Try : node.ForeColor = GetForeColor(node.FullPath, checkCompressed, checkEncrypted)
+    Private Sub SetNodeColor(node As TreeNode, _settings As Settings)
+        Try : node.ForeColor = GetForeColor(node.FullPath, _settings)
         Catch : End Try
     End Sub
     Private Sub SetNodeImage(settings As Settings, node As TreeNode)
@@ -386,7 +401,7 @@ Public Class FileBrowser
         ' set node Color and Image in background, use Task.Run so we can continue loading nodes while these are running
         Task.Run(Sub()
                      For Each subNode As TreeNode In node.Nodes
-                         SetNodeColor(subNode, _settings.HighlightCompressed, _settings.HighlightEncrypted)
+                         SetNodeColor(subNode, _settings)
                      Next
                  End Sub)
         Task.Run(Sub()
