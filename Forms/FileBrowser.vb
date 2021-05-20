@@ -106,6 +106,7 @@ Public Class FileBrowser
         WalkmanLib.ApplyTheme(theme, Me, True)
         WalkmanLib.ApplyTheme(theme, Me.components.Components, True)
         WalkmanLib.ApplyTheme(theme, Settings)
+        WalkmanLib.ApplyTheme(theme, clipboardList.Controls, True)
 
         ' ToolStrip custom paint
         If theme = WalkmanLib.Theme.Default Then
@@ -118,9 +119,13 @@ Public Class FileBrowser
 
         ' ListView custom paint
         lstCurrent.Tag = theme.ListViewColumnColors
+        clipboardList.lstMain.Tag = theme.ListViewColumnColors
         If theme = WalkmanLib.Theme.Dark Then ' override Dark theme setting this to false
             lstCurrent.OwnerDraw = True
+            clipboardList.lstMain.OwnerDraw = True
         End If
+        clipboardList.BackColor = theme.MenuStripBG
+        clipboardList.lblItemCount.BackColor = theme.MenuStripBG
 
         ' update items
         Dim _settings As Settings = Settings

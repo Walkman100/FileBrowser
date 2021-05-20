@@ -8,13 +8,16 @@ Public Class ExpandableList
         ' This call is required by the designer.
         InitializeComponent()
         lstMain.DoubleBuffered(True)
+        AddHandler lstMain.DrawColumnHeader, AddressOf WalkmanLib.CustomPaint.ListView_DrawCustomColumnHeader
+        AddHandler lstMain.DrawItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultItem
+        AddHandler lstMain.DrawSubItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultSubItem
         MeHeightDiff = Me.Height - lstMain.Height + 28 ' column header height
 
         lstMain.Visible = False
         lblItemCount.Visible = True
     End Sub
 
-    Private Const ItemSize As Integer = 17
+    Private Const ItemHeight As Integer = 17
     Private ReadOnly MeHeightDiff As Integer ' set in Me.New()
 
     Public ReadOnly Property ListView As ListView
@@ -50,8 +53,8 @@ Public Class ExpandableList
 
     Private Sub setHeight()
         If isExpanded Then
-            Dim minHeight As Integer = MeHeightDiff + (ItemSize * 1)
-            Dim newHeight As Integer = MeHeightDiff + (ItemSize * lstMain.Items.Count)
+            Dim minHeight As Integer = MeHeightDiff + (ItemHeight * 1)
+            Dim newHeight As Integer = MeHeightDiff + (ItemHeight * lstMain.Items.Count)
             newHeight = Math.Min(newHeight, Me.Parent.ClientSize.Height)
             Me.Height = Math.Max(minHeight, newHeight)
         End If
