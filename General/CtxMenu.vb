@@ -130,6 +130,7 @@ Public Class CtxMenu
                 Next
             End If
         Next
+        WalkmanLib.ApplyTheme(Settings.Theme, contextMenu.Items)
     End Sub
 
     Private Function FilterName(name As String, filter As String) As Boolean
