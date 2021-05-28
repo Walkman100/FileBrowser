@@ -58,6 +58,7 @@ Public Class Settings
     Public ReadOnly Property DisableViewAutoUpdate As Boolean
     Public ReadOnly Property DisableTreeAutoUpdate As Boolean
     Public ReadOnly Property DisableUpdateCheck As Boolean
+    Public ReadOnly Property CopySystem As Boolean
     Public ReadOnly Property WindowsShellDefaultValue As Boolean
     Public ReadOnly Property SizeUnits As Integer
     Public ReadOnly Property RememberDir As Boolean
@@ -150,6 +151,10 @@ Public Class Settings
     End Sub
     Private Sub chkDisableUpdateCheck_CheckedChanged() Handles chkDisableUpdateCheck.CheckedChanged
         _DisableUpdateCheck = chkDisableUpdateCheck.Checked
+        SaveSettings()
+    End Sub
+    Private Sub chkCopySystem_CheckedChanged() Handles chkCopySystem.CheckedChanged
+        _CopySystem = chkCopySystem.Checked
         SaveSettings()
     End Sub
     Private Sub chkWindowsShellDefaultValue_CheckedChanged() Handles chkWindowsShellDefaultValue.CheckedChanged
@@ -358,6 +363,9 @@ Public Class Settings
                                 Case "DisableUpdateCheck"
                                     reader.Read()
                                     Boolean.TryParse(reader.Value, chkDisableUpdateCheck.Checked)
+                                Case "CopySystem"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkCopySystem.Checked)
                                 Case "WindowsShellDefaultValue"
                                     reader.Read()
                                     Boolean.TryParse(reader.Value, chkWindowsShellDefaultValue.Checked)
@@ -473,6 +481,7 @@ Public Class Settings
             writer.WriteElementString("DisableViewAutoUpdate", DisableViewAutoUpdate.ToString())
             writer.WriteElementString("DisableTreeAutoUpdate", DisableTreeAutoUpdate.ToString())
             writer.WriteElementString("DisableUpdateCheck", DisableUpdateCheck.ToString())
+            writer.WriteElementString("CopySystem", CopySystem.ToString())
             writer.WriteElementString("WindowsShellDefaultValue", WindowsShellDefaultValue.ToString())
             writer.WriteElementString("SizeUnits", SizeUnits.ToString())
             writer.WriteElementString("RememberDir", RememberDir.ToString())

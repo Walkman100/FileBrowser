@@ -39,6 +39,19 @@ Public Class ItemClipboard
 
         ItemsUpdated()
         FileBrowser.handle_SelectedItemChanged()
+
+        If Settings.CopySystem Then
+            If replace Then Clipboard.Clear()
+
+            Dim dataObject As New DataObject
+            dataObject.SetData(DataFormats.FileDrop, True, paths)
+
+            If type = ItemType.Cut Then ' copy is default - thanks to https://stackoverflow.com/q/2077981/2999220
+                dataObject.SetData("Preferred DropEffect", New MemoryStream(System.BitConverter.GetBytes(DragDropEffects.Move)))
+            End If
+
+            Clipboard.SetDataObject(dataObject, True)
+        End If
     End Sub
 
     Public Sub PasteItems(target As String, type As PasteType)
