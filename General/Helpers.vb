@@ -6,14 +6,14 @@ Imports System.Linq
 Imports System.Windows.Forms
 Imports Trinet.Core.IO.Ntfs
 
-Enum OS
-    Windows
-    Other
-End Enum
-
 Namespace Helpers
+    Enum OS
+        Windows
+        Other
+    End Enum
+
     Module Helpers
-        Friend Function GetOS() As OS
+        Public Function GetOS() As OS
             Return If(Environment.GetEnvironmentVariable("OS") = "Windows_NT", OS.Windows, OS.Other)
         End Function
 

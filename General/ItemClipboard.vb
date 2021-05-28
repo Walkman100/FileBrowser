@@ -3,20 +3,20 @@ Imports System.IO
 Imports System.Linq
 Imports System.Windows.Forms
 
-Public Enum ItemType
-    Cut
-    Copy
-End Enum
-
-Public Enum PasteType
-    Normal
-    Hardlink
-    Symlink
-    Shortcut
-    Junction
-End Enum
-
 Public Class ItemClipboard
+    Public Enum ItemType
+        Cut
+        Copy
+    End Enum
+
+    Public Enum PasteType
+        Normal
+        Hardlink
+        Symlink
+        Shortcut
+        Junction
+    End Enum
+
     Public ReadOnly Property ItemStore As New Dictionary(Of String, ItemType)
 
     Private Sub ItemsUpdated()

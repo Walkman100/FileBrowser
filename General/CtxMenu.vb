@@ -230,19 +230,19 @@ Public Class CtxMenu
                 Launch.Copy(paths, itemInfo.ActionArgs1)
 
             Case ActionType.Cut
-                FileBrowser.itemClipboard.AddItems(paths, ItemType.Cut, Not My.Computer.Keyboard.ShiftKeyDown)
+                FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Cut, Not My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.Copy
-                FileBrowser.itemClipboard.AddItems(paths, ItemType.Copy, Not My.Computer.Keyboard.ShiftKeyDown)
+                FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Copy, Not My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.Paste
-                FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Normal)
+                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Normal)
             Case ActionType.PasteAsHardlink
-                FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Hardlink)
+                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Hardlink)
             Case ActionType.PasteAsSymlink
-                FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Symlink)
+                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Symlink)
             Case ActionType.PasteAsShortcut
-                FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Shortcut)
+                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Shortcut)
             Case ActionType.PasteAsJunction
-                FileBrowser.itemClipboard.PasteItems(paths(0), PasteType.Junction)
+                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Junction)
 
             Case ActionType.Rename
                 FileBrowser.RenameSelected()

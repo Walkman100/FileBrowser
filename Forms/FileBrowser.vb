@@ -68,7 +68,7 @@ Public Class FileBrowser
         treeViewDirs.ImageList = ImageHandling.CreateImageList(16)
 
         treeViewDirs.Nodes.Clear()
-        If Helpers.GetOS() = OS.Windows Then
+        If Helpers.GetOS() = Helpers.OS.Windows Then
             For Each drive In Environment.GetLogicalDrives()
                 AddRootNode(treeViewDirs, drive)
             Next
@@ -136,7 +136,7 @@ Public Class FileBrowser
                          Dim itemInfo As Filesystem.EntryInfo = GetItemInfo(item)
                          If _settings.HighlightCompressed AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Compressed) Then
                              item.ForeColor = colors.Item2
-                         ElseIf _Settings.HighlightEncrypted AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Encrypted) Then
+                         ElseIf _settings.HighlightEncrypted AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Encrypted) Then
                              item.ForeColor = colors.Item3
                          Else
                              item.ForeColor = colors.Item1
@@ -451,7 +451,7 @@ Public Class FileBrowser
             Dim foundNodes As TreeNode()
 
             If folder.EndsWith(Path.VolumeSeparatorChar) Then
-                If Helpers.GetOS() = OS.Windows Then folder &= Path.DirectorySeparatorChar
+                If Helpers.GetOS() = Helpers.OS.Windows Then folder &= Path.DirectorySeparatorChar
                 foundNodes = treeViewDirs.Nodes.Find(folder, False)
             Else
                 foundNodes = parent?.Nodes.Find(folder, False)
@@ -633,25 +633,25 @@ Public Class FileBrowser
     End Sub
 
     Private Sub menuEditCut_Click() Handles menuEditCut.Click
-        itemClipboard.AddItems(GetSelectedPaths(), ItemType.Cut, Not My.Computer.Keyboard.ShiftKeyDown)
+        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Cut, Not My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuEditCopy_Click() Handles menuEditCopy.Click
-        itemClipboard.AddItems(GetSelectedPaths(), ItemType.Copy, Not My.Computer.Keyboard.ShiftKeyDown)
+        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Copy, Not My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuEditPaste_Click() Handles menuEditPaste.Click
-        itemClipboard.PasteItems(CurrentDir, PasteType.Normal)
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Normal)
     End Sub
     Private Sub menuEditPasteAsHardlink_Click() Handles menuEditPasteAsHardlink.Click
-        itemClipboard.PasteItems(CurrentDir, PasteType.Hardlink)
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Hardlink)
     End Sub
     Private Sub menuEditPasteAsSymlink_Click() Handles menuEditPasteAsSymlink.Click
-        itemClipboard.PasteItems(CurrentDir, PasteType.Symlink)
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Symlink)
     End Sub
     Private Sub menuEditPasteAsShortcut_Click() Handles menuEditPasteAsShortcut.Click
-        itemClipboard.PasteItems(CurrentDir, PasteType.Shortcut)
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Shortcut)
     End Sub
     Private Sub menuEditPasteAsJunction_Click() Handles menuEditPasteAsJunction.Click
-        itemClipboard.PasteItems(CurrentDir, PasteType.Junction)
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Junction)
     End Sub
     Private Sub menuEditSelectAll_Click() Handles menuEditSelectAll.Click
         lstCurrent.BeginUpdate()
@@ -686,7 +686,7 @@ Public Class FileBrowser
         CurrentDir = Path.GetPathRoot(CurrentDir)
     End Sub
     Private Sub menuGoHome_Click() Handles menuGoHome.Click
-        If Helpers.GetOS() = OS.Windows Then
+        If Helpers.GetOS() = Helpers.OS.Windows Then
             CurrentDir = Environment.GetEnvironmentVariable("UserProfile")
         Else
             CurrentDir = Environment.GetEnvironmentVariable("HOME")

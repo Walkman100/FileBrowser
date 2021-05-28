@@ -13,7 +13,7 @@ Public Class Settings
     Public Sub Init()
         Dim configFileName As String = "FileBrowser.xml"
 
-        If Helpers.GetOS() = OS.Windows Then
+        If Helpers.GetOS() = Helpers.OS.Windows Then
             If Not       Directory.Exists(Path.Combine(Environment.GetEnvironmentVariable("AppData"), "WalkmanOSS")) Then
                 Directory.CreateDirectory(Path.Combine(Environment.GetEnvironmentVariable("AppData"), "WalkmanOSS"))
             End If
