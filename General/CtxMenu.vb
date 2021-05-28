@@ -30,7 +30,11 @@ Public Class CtxMenu
         ''' <summary>ActionArgs are not used.</summary>
         Cut
         ''' <summary>ActionArgs are not used.</summary>
+        CutAdd
+        ''' <summary>ActionArgs are not used.</summary>
         Copy
+        ''' <summary>ActionArgs are not used.</summary>
+        CopyAdd
         ''' <summary>ActionArgs are not used.</summary>
         Paste
 
@@ -231,8 +235,12 @@ Public Class CtxMenu
 
             Case ActionType.Cut
                 FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Cut, Not My.Computer.Keyboard.ShiftKeyDown)
+            Case ActionType.CutAdd
+                FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Cut, My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.Copy
                 FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Copy, Not My.Computer.Keyboard.ShiftKeyDown)
+            Case ActionType.CopyAdd
+                FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Copy, My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.Paste
                 FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Normal)
             Case ActionType.PasteAsHardlink
