@@ -52,16 +52,9 @@ Public Class Settings
     Public ReadOnly Property ShowSystem As Boolean
     Public ReadOnly Property ShowDot As Boolean
     Public ReadOnly Property ShowExtensions As Boolean
-    Public ReadOnly Property OverlayReparse As Boolean
-    Public ReadOnly Property OverlayHardlink As Boolean
-    Public ReadOnly Property OverlayCompressed As Boolean
-    Public ReadOnly Property OverlayEncrypted As Boolean
-    Public ReadOnly Property OverlayOffline As Boolean
     Public ReadOnly Property EnableIcons As Boolean
     Public ReadOnly Property SpecificItemIcons As Boolean
     Public ReadOnly Property ImageThumbs As Boolean
-    Public ReadOnly Property HighlightCompressed As Boolean
-    Public ReadOnly Property HighlightEncrypted As Boolean
     Public ReadOnly Property DisableViewAutoUpdate As Boolean
     Public ReadOnly Property DisableTreeAutoUpdate As Boolean
     Public ReadOnly Property DisableUpdateCheck As Boolean
@@ -69,6 +62,13 @@ Public Class Settings
     Public ReadOnly Property SizeUnits As Integer
     Public ReadOnly Property RememberDir As Boolean
     Public ReadOnly Property DefaultDir As String = ""
+    Public ReadOnly Property OverlayReparse As Boolean
+    Public ReadOnly Property OverlayHardlink As Boolean
+    Public ReadOnly Property OverlayCompressed As Boolean
+    Public ReadOnly Property OverlayEncrypted As Boolean
+    Public ReadOnly Property OverlayOffline As Boolean
+    Public ReadOnly Property HighlightCompressed As Boolean
+    Public ReadOnly Property HighlightEncrypted As Boolean
     Public ReadOnly Property WindowMaximised As Boolean
     Public ReadOnly Property WindowRemember As Boolean
     Public ReadOnly Property WindowDefaultWidth As Integer?
@@ -127,26 +127,6 @@ Public Class Settings
         _ShowExtensions = chkShowExtensions.Checked
         SaveSettings()
     End Sub
-    Private Sub chkOverlayReparse_CheckedChanged() Handles chkOverlayReparse.CheckedChanged
-        _OverlayReparse = chkOverlayReparse.Checked
-        SaveSettings()
-    End Sub
-    Private Sub chkOverlayHardlink_CheckedChanged() Handles chkOverlayHardlink.CheckedChanged
-        _OverlayHardlink = chkOverlayHardlink.Checked
-        SaveSettings()
-    End Sub
-    Private Sub chkOverlayCompressed_CheckedChanged() Handles chkOverlayCompressed.CheckedChanged
-        _OverlayCompressed = chkOverlayCompressed.Checked
-        SaveSettings()
-    End Sub
-    Private Sub chkOverlayEncrypted_CheckedChanged() Handles chkOverlayEncrypted.CheckedChanged
-        _OverlayEncrypted = chkOverlayEncrypted.Checked
-        SaveSettings()
-    End Sub
-    Private Sub chkOverlayOffline_CheckedChanged() Handles chkOverlayOffline.CheckedChanged
-        _OverlayOffline = chkOverlayOffline.Checked
-        SaveSettings()
-    End Sub
     Private Sub chkEnableIcons_CheckedChanged() Handles chkEnableIcons.CheckedChanged
         _EnableIcons = chkEnableIcons.Checked
         SaveSettings()
@@ -158,14 +138,6 @@ Public Class Settings
     End Sub
     Private Sub chkImageThumbs_CheckedChanged() Handles chkImageThumbs.CheckedChanged
         _ImageThumbs = chkImageThumbs.Checked
-        SaveSettings()
-    End Sub
-    Private Sub chkHighlightCompressed_CheckedChanged() Handles chkHighlightCompressed.CheckedChanged
-        _HighlightCompressed = chkHighlightCompressed.Checked
-        SaveSettings()
-    End Sub
-    Private Sub chkHighlightEncrypted_CheckedChanged() Handles chkHighlightEncrypted.CheckedChanged
-        _HighlightEncrypted = chkHighlightEncrypted.Checked
         SaveSettings()
     End Sub
     Private Sub chkDisableViewAutoUpdate_CheckedChanged() Handles chkDisableViewAutoUpdate.CheckedChanged
@@ -196,6 +168,34 @@ Public Class Settings
     End Sub
     Private Sub txtDefaultDir_TextChanged() Handles txtDefaultDir.TextChanged
         _DefaultDir = txtDefaultDir.Text
+        SaveSettings()
+    End Sub
+    Private Sub chkOverlayReparse_CheckedChanged() Handles chkOverlayReparse.CheckedChanged
+        _OverlayReparse = chkOverlayReparse.Checked
+        SaveSettings()
+    End Sub
+    Private Sub chkOverlayHardlink_CheckedChanged() Handles chkOverlayHardlink.CheckedChanged
+        _OverlayHardlink = chkOverlayHardlink.Checked
+        SaveSettings()
+    End Sub
+    Private Sub chkOverlayCompressed_CheckedChanged() Handles chkOverlayCompressed.CheckedChanged
+        _OverlayCompressed = chkOverlayCompressed.Checked
+        SaveSettings()
+    End Sub
+    Private Sub chkOverlayEncrypted_CheckedChanged() Handles chkOverlayEncrypted.CheckedChanged
+        _OverlayEncrypted = chkOverlayEncrypted.Checked
+        SaveSettings()
+    End Sub
+    Private Sub chkOverlayOffline_CheckedChanged() Handles chkOverlayOffline.CheckedChanged
+        _OverlayOffline = chkOverlayOffline.Checked
+        SaveSettings()
+    End Sub
+    Private Sub chkHighlightCompressed_CheckedChanged() Handles chkHighlightCompressed.CheckedChanged
+        _HighlightCompressed = chkHighlightCompressed.Checked
+        SaveSettings()
+    End Sub
+    Private Sub chkHighlightEncrypted_CheckedChanged() Handles chkHighlightEncrypted.CheckedChanged
+        _HighlightEncrypted = chkHighlightEncrypted.Checked
         SaveSettings()
     End Sub
     Private Sub chkWindowMaximised_CheckedChanged() Handles chkWindowMaximised.CheckedChanged
@@ -247,12 +247,10 @@ Public Class Settings
         End If
         SaveSettings()
     End Sub
-
     Private Sub chkSaveColumns_CheckedChanged() Handles chkSaveColumns.CheckedChanged
         _SaveColumns = chkSaveColumns.Checked
         SaveSettings()
     End Sub
-
     Private Sub cbxTheme_SelectedIndexChanged() Handles cbxTheme.SelectedIndexChanged
         Select Case cbxTheme.SelectedIndex
             Case 0 'Default
@@ -342,21 +340,6 @@ Public Class Settings
                                 Case "ShowExtensions"
                                     reader.Read()
                                     Boolean.TryParse(reader.Value, chkShowExtensions.Checked)
-                                Case "OverlayReparse"
-                                    reader.Read()
-                                    Boolean.TryParse(reader.Value, chkOverlayReparse.Checked)
-                                Case "OverlayHardlink"
-                                    reader.Read()
-                                    Boolean.TryParse(reader.Value, chkOverlayHardlink.Checked)
-                                Case "OverlayCompressed"
-                                    reader.Read()
-                                    Boolean.TryParse(reader.Value, chkOverlayCompressed.Checked)
-                                Case "OverlayEncrypted"
-                                    reader.Read()
-                                    Boolean.TryParse(reader.Value, chkOverlayEncrypted.Checked)
-                                Case "OverlayOffline"
-                                    reader.Read()
-                                    Boolean.TryParse(reader.Value, chkOverlayOffline.Checked)
                                 Case "EnableIcons"
                                     reader.Read()
                                     Boolean.TryParse(reader.Value, chkEnableIcons.Checked)
@@ -366,12 +349,6 @@ Public Class Settings
                                 Case "ImageThumbs"
                                     reader.Read()
                                     Boolean.TryParse(reader.Value, chkImageThumbs.Checked)
-                                Case "HighlightCompressed"
-                                    reader.Read()
-                                    Boolean.TryParse(reader.Value, chkHighlightCompressed.Checked)
-                                Case "HighlightEncrypted"
-                                    reader.Read()
-                                    Boolean.TryParse(reader.Value, chkHighlightEncrypted.Checked)
                                 Case "DisableViewAutoUpdate"
                                     reader.Read()
                                     Boolean.TryParse(reader.Value, chkDisableViewAutoUpdate.Checked)
@@ -393,6 +370,27 @@ Public Class Settings
                                 Case "DefaultDir"
                                     reader.Read()
                                     txtDefaultDir.Text = reader.Value
+                                Case "OverlayReparse"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkOverlayReparse.Checked)
+                                Case "OverlayHardlink"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkOverlayHardlink.Checked)
+                                Case "OverlayCompressed"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkOverlayCompressed.Checked)
+                                Case "OverlayEncrypted"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkOverlayEncrypted.Checked)
+                                Case "OverlayOffline"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkOverlayOffline.Checked)
+                                Case "HighlightCompressed"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkHighlightCompressed.Checked)
+                                Case "HighlightEncrypted"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkHighlightEncrypted.Checked)
                                 Case "WindowMaximised"
                                     reader.Read()
                                     Boolean.TryParse(reader.Value, chkWindowMaximised.Checked)
@@ -469,16 +467,9 @@ Public Class Settings
             writer.WriteElementString("ShowSystem", ShowSystem.ToString())
             writer.WriteElementString("ShowDot", ShowDot.ToString())
             writer.WriteElementString("ShowExtensions", ShowExtensions.ToString())
-            writer.WriteElementString("OverlayReparse", OverlayReparse.ToString())
-            writer.WriteElementString("OverlayHardlink", OverlayHardlink.ToString())
-            writer.WriteElementString("OverlayCompressed", OverlayCompressed.ToString())
-            writer.WriteElementString("OverlayEncrypted", OverlayEncrypted.ToString())
-            writer.WriteElementString("OverlayOffline", OverlayOffline.ToString())
             writer.WriteElementString("EnableIcons", EnableIcons.ToString())
             writer.WriteElementString("SpecificItemIcons", SpecificItemIcons.ToString())
             writer.WriteElementString("ImageThumbs", ImageThumbs.ToString())
-            writer.WriteElementString("HighlightCompressed", HighlightCompressed.ToString())
-            writer.WriteElementString("HighlightEncrypted", HighlightEncrypted.ToString())
             writer.WriteElementString("DisableViewAutoUpdate", DisableViewAutoUpdate.ToString())
             writer.WriteElementString("DisableTreeAutoUpdate", DisableTreeAutoUpdate.ToString())
             writer.WriteElementString("DisableUpdateCheck", DisableUpdateCheck.ToString())
@@ -486,6 +477,13 @@ Public Class Settings
             writer.WriteElementString("SizeUnits", SizeUnits.ToString())
             writer.WriteElementString("RememberDir", RememberDir.ToString())
             writer.WriteElementString("DefaultDir", DefaultDir)
+            writer.WriteElementString("OverlayReparse", OverlayReparse.ToString())
+            writer.WriteElementString("OverlayHardlink", OverlayHardlink.ToString())
+            writer.WriteElementString("OverlayCompressed", OverlayCompressed.ToString())
+            writer.WriteElementString("OverlayEncrypted", OverlayEncrypted.ToString())
+            writer.WriteElementString("OverlayOffline", OverlayOffline.ToString())
+            writer.WriteElementString("HighlightCompressed", HighlightCompressed.ToString())
+            writer.WriteElementString("HighlightEncrypted", HighlightEncrypted.ToString())
             writer.WriteElementString("WindowMaximised", WindowMaximised.ToString())
             writer.WriteElementString("WindowRemember", WindowRemember.ToString())
             writer.WriteElementString("WindowDefaultWidth", WindowDefaultWidth.ToString())
