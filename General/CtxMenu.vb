@@ -144,6 +144,22 @@ Public Class CtxMenu
     End Function
 
     Private Sub UpdateMenu(collection As ToolStripItemCollection, paths As String())
+        If collection.Count = 0 Then Return
+
+        ' build list of PathEnum (exists info) before looping ToolStripItems
+        Dim pathInfos As New List(Of KeyValuePair(Of String, PathEnum))
+        For Each path As String In paths
+            Dim existsInfo As PathEnum = WalkmanLib.IsFileOrDirectory(path)
+
+            If existsInfo = PathEnum.NotFound AndAlso Helpers.PathContainsADS(path) AndAlso
+                    Trinet.Core.IO.Ntfs.AlternateDataStreamExists(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path)) Then
+                ' we're dealing with an ADS
+                existsInfo = PathEnum.Exists Or PathEnum.IsFile
+            End If
+
+            pathInfos.Add(New KeyValuePair(Of String, PathEnum)(path, existsInfo))
+        Next
+
         For Each item As ToolStripItem In collection
             If TypeOf item Is ToolStripSeparator Then Continue For
             Dim index As Integer = DirectCast(item.Tag, Integer)
@@ -156,40 +172,35 @@ Public Class CtxMenu
                 item.Enabled = FileBrowser.itemClipboard.ItemStore.Count > 0
             End If
 
-            For Each path As String In paths
-                Dim existsInfo As PathEnum = WalkmanLib.IsFileOrDirectory(path)
-
-                If existsInfo = PathEnum.NotFound AndAlso Helpers.PathContainsADS(path) AndAlso
-                        Trinet.Core.IO.Ntfs.AlternateDataStreamExists(Helpers.GetADSPathFile(path), Helpers.GetADSPathStream(path)) Then
-                    ' we're dealing with an ADS
-                    existsInfo = PathEnum.Exists Or PathEnum.IsFile
-                End If
-
+            For Each info As KeyValuePair(Of String, PathEnum) In pathInfos
                 If itemShouldBeVisible Then
                     If itemInfo.DirectoryOnly Then
-                        itemShouldBeVisible = existsInfo.HasFlag(PathEnum.IsDirectory)
+                        itemShouldBeVisible = info.Value.HasFlag(PathEnum.IsDirectory)
                     ElseIf itemInfo.DriveOnly Then
-                        itemShouldBeVisible = existsInfo.HasFlag(PathEnum.IsDrive)
+                        itemShouldBeVisible = info.Value.HasFlag(PathEnum.IsDrive)
                     ElseIf itemInfo.FileOnly Then
-                        itemShouldBeVisible = existsInfo.HasFlag(PathEnum.IsFile)
+                        itemShouldBeVisible = info.Value.HasFlag(PathEnum.IsFile)
                     End If
                 End If
 
                 If itemShouldBeVisible AndAlso itemInfo.Extended Then
                     itemShouldBeVisible = My.Computer.Keyboard.ShiftKeyDown
                 End If
-                If itemShouldBeVisible AndAlso existsInfo.HasFlag(PathEnum.IsFile) AndAlso Not String.IsNullOrEmpty(itemInfo.Filter) Then
-                    If Helpers.PathContainsADS(path) Then
-                        itemShouldBeVisible = FilterName(New FileInfo(Helpers.GetADSPathFile(path)).Name, itemInfo.Filter)
+                If itemShouldBeVisible AndAlso info.Value.HasFlag(PathEnum.IsFile) AndAlso Not String.IsNullOrEmpty(itemInfo.Filter) Then
+                    If Helpers.PathContainsADS(info.Key) Then
+                        itemShouldBeVisible = FilterName(New FileInfo(Helpers.GetADSPathFile(info.Key)).Name, itemInfo.Filter)
                     Else
-                        itemShouldBeVisible = FilterName(New FileInfo(path).Name, itemInfo.Filter)
+                        itemShouldBeVisible = FilterName(New FileInfo(info.Key).Name, itemInfo.Filter)
                     End If
                 End If
             Next
             item.Visible = itemShouldBeVisible
 
             ' if item is ToolStripSeparator it is skipped, so this shouldn't be a problem
-            UpdateMenu(DirectCast(item, ToolStripMenuItem).DropDownItems, paths)
+            Dim itemAsMenu As ToolStripMenuItem = DirectCast(item, ToolStripMenuItem)
+            If itemAsMenu.HasDropDownItems Then
+                UpdateMenu(itemAsMenu.DropDownItems, paths)
+            End If
         Next
     End Sub
     Public Sub UpdateMenu(contextMenu As ContextMenuStrip, paths As String())
