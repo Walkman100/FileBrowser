@@ -160,6 +160,10 @@ Public Class CtxMenu
             pathInfos.Add(New KeyValuePair(Of String, PathEnum)(path, existsInfo))
         Next
 
+        Dim enableClipboardItems As Boolean = False
+        If FileBrowser.itemClipboard.ItemStore.Count > 0 Then enableClipboardItems = True
+        If Clipboard.ContainsFileDropList Then enableClipboardItems = True
+
         For Each item As ToolStripItem In collection
             If TypeOf item Is ToolStripSeparator Then Continue For
             Dim index As Integer = DirectCast(item.Tag, Integer)
@@ -169,7 +173,7 @@ Public Class CtxMenu
 
             If itemInfo.ActionType = ActionType.Paste OrElse itemInfo.ActionType = ActionType.PasteAsHardlink OrElse itemInfo.ActionType = ActionType.PasteAsJunction OrElse
                     itemInfo.ActionType = ActionType.PasteAsShortcut OrElse itemInfo.ActionType = ActionType.PasteAsSymlink Then
-                item.Enabled = FileBrowser.itemClipboard.ItemStore.Count > 0
+                item.Enabled = enableClipboardItems
             End If
 
             For Each info As KeyValuePair(Of String, PathEnum) In pathInfos
@@ -253,15 +257,15 @@ Public Class CtxMenu
             Case ActionType.CopyAdd
                 FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Copy, replace:=My.Computer.Keyboard.ShiftKeyDown, addSystem:=Settings.CopySystem)
             Case ActionType.Paste
-                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Normal)
+                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Normal, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.PasteAsHardlink
-                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Hardlink)
+                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Hardlink, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.PasteAsSymlink
-                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Symlink)
+                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Symlink, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.PasteAsShortcut
-                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Shortcut)
+                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Shortcut, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.PasteAsJunction
-                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Junction)
+                FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Junction, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
 
             Case ActionType.Rename
                 FileBrowser.RenameSelected()

@@ -82,8 +82,20 @@ Public Class ItemClipboard
         FileBrowser.handle_SelectedItemChanged()
     End Sub
 
-    Public Sub PasteItems(target As String, type As PasteType)
-        For Each item As KeyValuePair(Of String, ItemType) In ItemStore.ToList() ' so that we can modify the original
+    Public Sub PasteItems(target As String, type As PasteType, Optional useSystem As Boolean = False)
+        Dim loopList As List(Of KeyValuePair(Of String, ItemType))
+        If useSystem Then
+            loopList = New List(Of KeyValuePair(Of String, ItemType))
+
+            Dim itemType As ItemType
+            Dim sysFiles = GetSystemClipboardFiles(itemType)
+
+            loopList.AddRange(sysFiles.Select(Function(f) New KeyValuePair(Of String, ItemType)(f, itemType)))
+        Else
+            loopList = ItemStore.ToList()
+        End If
+
+        For Each item As KeyValuePair(Of String, ItemType) In loopList
             Dim target2 As String = target
             If WalkmanLib.IsFileOrDirectory(target).HasFlag(PathEnum.IsDirectory) Then
                 target2 = Path.Combine(target, Helpers.GetFileName(item.Key))
@@ -132,7 +144,7 @@ Public Class ItemClipboard
             End Select
 
             If item.Value = ItemType.Cut Then
-                ItemStore.Remove(item.Key)
+                If useSystem Then Clipboard.Clear() Else ItemStore.Remove(item.Key)
             End If
         Next
 

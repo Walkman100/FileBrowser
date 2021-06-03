@@ -639,19 +639,19 @@ Public Class FileBrowser
         itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Copy, replace:=Not My.Computer.Keyboard.ShiftKeyDown, addSystem:=Settings.CopySystem)
     End Sub
     Private Sub menuEditPaste_Click() Handles menuEditPaste.Click
-        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Normal)
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Normal, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuEditPasteAsHardlink_Click() Handles menuEditPasteAsHardlink.Click
-        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Hardlink)
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Hardlink, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuEditPasteAsSymlink_Click() Handles menuEditPasteAsSymlink.Click
-        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Symlink)
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Symlink, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuEditPasteAsShortcut_Click() Handles menuEditPasteAsShortcut.Click
-        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Shortcut)
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Shortcut, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuEditPasteAsJunction_Click() Handles menuEditPasteAsJunction.Click
-        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Junction)
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Junction, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
     End Sub
     Private Sub menuEditSelectAll_Click() Handles menuEditSelectAll.Click
         lstCurrent.BeginUpdate()
