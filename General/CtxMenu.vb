@@ -245,13 +245,13 @@ Public Class CtxMenu
                 Launch.Copy(paths, itemInfo.ActionArgs1)
 
             Case ActionType.Cut
-                FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Cut, Not My.Computer.Keyboard.ShiftKeyDown)
+                FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Cut, replace:=Not My.Computer.Keyboard.ShiftKeyDown, addSystem:=Settings.CopySystem)
             Case ActionType.CutAdd
-                FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Cut, My.Computer.Keyboard.ShiftKeyDown)
+                FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Cut, replace:=My.Computer.Keyboard.ShiftKeyDown, addSystem:=Settings.CopySystem)
             Case ActionType.Copy
-                FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Copy, Not My.Computer.Keyboard.ShiftKeyDown)
+                FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Copy, replace:=Not My.Computer.Keyboard.ShiftKeyDown, addSystem:=Settings.CopySystem)
             Case ActionType.CopyAdd
-                FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Copy, My.Computer.Keyboard.ShiftKeyDown)
+                FileBrowser.itemClipboard.AddItems(paths, ItemClipboard.ItemType.Copy, replace:=My.Computer.Keyboard.ShiftKeyDown, addSystem:=Settings.CopySystem)
             Case ActionType.Paste
                 FileBrowser.itemClipboard.PasteItems(paths(0), ItemClipboard.PasteType.Normal)
             Case ActionType.PasteAsHardlink
@@ -266,9 +266,9 @@ Public Class CtxMenu
             Case ActionType.Rename
                 FileBrowser.RenameSelected()
             Case ActionType.CopyTo
-                Operations.CopyTo(paths, My.Computer.Keyboard.ShiftKeyDown)
+                Operations.CopyTo(paths, textInput:=My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.MoveTo
-                Operations.MoveTo(paths, My.Computer.Keyboard.ShiftKeyDown)
+                Operations.MoveTo(paths, textInput:=My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.DeleteToRecycleBin
                 Operations.Delete(paths, useShell:=FileBrowser.UseShell, deletePermanently:=My.Computer.Keyboard.ShiftKeyDown)
             Case ActionType.DeletePermanently

@@ -53,7 +53,16 @@ Public Class ItemClipboard
         SetSystemClipboardFiles(bothItems, type)
     End Sub
 
-    Public Sub AddItems(paths As String(), type As ItemType, replace As Boolean)
+    ' separate the two so AddItemsSystem can be called without AddItems
+    Public Sub AddItemsSystem(paths As String(), type As ItemType, replace As Boolean)
+        If replace Then
+            Clipboard.Clear()
+            SetSystemClipboardFiles(paths, type)
+        Else
+            AddSystemClipboardFiles(paths, type)
+        End If
+    End Sub
+    Public Sub AddItems(paths As String(), type As ItemType, replace As Boolean, Optional addSystem As Boolean = False)
         If replace Then ItemStore.Clear()
 
         For Each path As String In paths
@@ -65,13 +74,8 @@ Public Class ItemClipboard
             End If
         Next
 
-        If Settings.CopySystem Then
-            If replace Then
-                Clipboard.Clear()
-                SetSystemClipboardFiles(paths, type)
-            Else
-                AddSystemClipboardFiles(paths, type)
-            End If
+        If addSystem Then ' convenience
+            AddItemsSystem(paths, type, replace)
         End If
 
         ItemsUpdated()

@@ -633,10 +633,10 @@ Public Class FileBrowser
     End Sub
 
     Private Sub menuEditCut_Click() Handles menuEditCut.Click
-        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Cut, Not My.Computer.Keyboard.ShiftKeyDown)
+        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Cut, replace:=Not My.Computer.Keyboard.ShiftKeyDown, addSystem:=Settings.CopySystem)
     End Sub
     Private Sub menuEditCopy_Click() Handles menuEditCopy.Click
-        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Copy, Not My.Computer.Keyboard.ShiftKeyDown)
+        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Copy, replace:=Not My.Computer.Keyboard.ShiftKeyDown, addSystem:=Settings.CopySystem)
     End Sub
     Private Sub menuEditPaste_Click() Handles menuEditPaste.Click
         itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Normal)
