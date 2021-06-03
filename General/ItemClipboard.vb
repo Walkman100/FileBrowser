@@ -25,7 +25,35 @@ Public Class ItemClipboard
                                                            End Function).ToList()
     End Sub
 
-    Public Sub AddItems(paths() As String, type As ItemType, replace As Boolean)
+    Private Const DropEffectFormat As String = "Preferred DropEffect"
+    Private Function GetSystemClipboardFiles(Optional ByRef type As ItemType = Nothing) As String()
+        type = ItemType.Copy
+        If Clipboard.ContainsData(DropEffectFormat) Then
+            Dim ms As MemoryStream = DirectCast(Clipboard.GetData(DropEffectFormat), MemoryStream)
+            If ms?.ReadByte() = DragDropEffects.Move Then
+                type = ItemType.Cut
+            End If
+        End If
+
+        Return Clipboard.GetFileDropList().Cast(Of String).ToArray()
+    End Function
+    Private Sub SetSystemClipboardFiles(items As String(), type As ItemType)
+        Dim dataObject As New DataObject
+        dataObject.SetData(DataFormats.FileDrop, True, items)
+
+        If type = ItemType.Cut Then ' copy is default - thanks to https://stackoverflow.com/q/2077981/2999220
+            dataObject.SetData(DropEffectFormat, New MemoryStream(System.BitConverter.GetBytes(DragDropEffects.Move)))
+        End If
+
+        Clipboard.SetDataObject(dataObject, True)
+    End Sub
+    Private Sub AddSystemClipboardFiles(items As String(), type As ItemType)
+        Dim bothItems As String() = GetSystemClipboardFiles().Union(items).ToArray()
+
+        SetSystemClipboardFiles(bothItems, type)
+    End Sub
+
+    Public Sub AddItems(paths As String(), type As ItemType, replace As Boolean)
         If replace Then ItemStore.Clear()
 
         For Each path As String In paths
@@ -37,21 +65,17 @@ Public Class ItemClipboard
             End If
         Next
 
+        If Settings.CopySystem Then
+            If replace Then
+                Clipboard.Clear()
+                SetSystemClipboardFiles(paths, type)
+            Else
+                AddSystemClipboardFiles(paths, type)
+            End If
+        End If
+
         ItemsUpdated()
         FileBrowser.handle_SelectedItemChanged()
-
-        If Settings.CopySystem Then
-            If replace Then Clipboard.Clear()
-
-            Dim dataObject As New DataObject
-            dataObject.SetData(DataFormats.FileDrop, True, paths)
-
-            If type = ItemType.Cut Then ' copy is default - thanks to https://stackoverflow.com/q/2077981/2999220
-                dataObject.SetData("Preferred DropEffect", New MemoryStream(System.BitConverter.GetBytes(DragDropEffects.Move)))
-            End If
-
-            Clipboard.SetDataObject(dataObject, True)
-        End If
     End Sub
 
     Public Sub PasteItems(target As String, type As PasteType)
