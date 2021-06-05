@@ -70,7 +70,7 @@ Public Class ContextMenuConfig
     Public Sub Init()
         Dim configFileName As String = "FileBrowser.ContextMenu.xml"
 
-        If Helpers.GetOS() = Helpers.OS.Windows Then
+        If WalkmanLib.GetOS() = WalkmanLib.OS.Windows Then
             If Not       Directory.Exists(Path.Combine(Environment.GetEnvironmentVariable("AppData"), "WalkmanOSS")) Then
                 Directory.CreateDirectory(Path.Combine(Environment.GetEnvironmentVariable("AppData"), "WalkmanOSS"))
             End If
@@ -270,7 +270,7 @@ Public Class ContextMenuConfig
         lstMain_SelectedIndexChanged()
         cbxItemType_SelectedIndexChanged()
         cbxItemActionType_SelectedIndexChanged()
-        If Helpers.GetOS <> Helpers.OS.Windows Then btnItemIconPick.Visible = False
+        If WalkmanLib.GetOS() <> WalkmanLib.OS.Windows Then btnItemIconPick.Visible = False
     End Sub
 
     Private Sub lstMain_SelectedIndexChanged() Handles lstMain.SelectedIndexChanged

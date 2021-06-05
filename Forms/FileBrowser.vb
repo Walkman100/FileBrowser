@@ -68,7 +68,7 @@ Public Class FileBrowser
         treeViewDirs.ImageList = ImageHandling.CreateImageList(16)
 
         treeViewDirs.Nodes.Clear()
-        If Helpers.GetOS() = Helpers.OS.Windows Then
+        If WalkmanLib.GetOS() = WalkmanLib.OS.Windows Then
             For Each drive In Environment.GetLogicalDrives()
                 AddRootNode(treeViewDirs, drive)
             Next
@@ -451,7 +451,7 @@ Public Class FileBrowser
             Dim foundNodes As TreeNode()
 
             If folder.EndsWith(Path.VolumeSeparatorChar) Then
-                If Helpers.GetOS() = Helpers.OS.Windows Then folder &= Path.DirectorySeparatorChar
+                If WalkmanLib.GetOS() = WalkmanLib.OS.Windows Then folder &= Path.DirectorySeparatorChar
                 foundNodes = treeViewDirs.Nodes.Find(folder, False)
             Else
                 foundNodes = parent?.Nodes.Find(folder, False)
@@ -686,11 +686,14 @@ Public Class FileBrowser
         CurrentDir = Path.GetPathRoot(CurrentDir)
     End Sub
     Private Sub menuGoHome_Click() Handles menuGoHome.Click
-        If Helpers.GetOS() = Helpers.OS.Windows Then
-            CurrentDir = Environment.GetEnvironmentVariable("UserProfile")
-        Else
-            CurrentDir = Environment.GetEnvironmentVariable("HOME")
-        End If
+        Select Case WalkmanLib.GetOS()
+            Case WalkmanLib.OS.Windows
+                CurrentDir = Environment.GetEnvironmentVariable("UserProfile")
+            Case WalkmanLib.OS.Linux
+                CurrentDir = Environment.GetEnvironmentVariable("HOME")
+            Case WalkmanLib.OS.MacOS
+                CurrentDir = Environment.GetEnvironmentVariable("HOME")
+        End Select
     End Sub
     Private Sub menuGoRefresh_Click() Handles menuGoRefresh.Click
         LoadFolder()

@@ -7,22 +7,16 @@ Imports System.Windows.Forms
 Imports Trinet.Core.IO.Ntfs
 
 Namespace Helpers
-    Enum OS
-        Windows
-        Other
-    End Enum
-
     Module Helpers
-        Public Function GetOS() As OS
-            Return If(Environment.GetEnvironmentVariable("OS") = "Windows_NT", OS.Windows, OS.Other)
-        End Function
-
         Public Sub ShowFileExternal(filePath As String)
-            If GetOS() = OS.Windows Then
-                Launch.LaunchItem(filePath, "explorer.exe", "/select, ""{path}""")
-            Else
-                Launch.LaunchItem(filePath, "xdg-open", "{directory}")
-            End If
+            Select Case WalkmanLib.GetOS()
+                Case WalkmanLib.OS.Windows
+                    Launch.LaunchItem(filePath, "explorer.exe", "/select, ""{path}""")
+                Case WalkmanLib.OS.Linux
+                    Launch.LaunchItem(filePath, "xdg-open", "{directory}")
+                Case WalkmanLib.OS.MacOS 'https://stackoverflow.com/q/39214539/2999220
+                    Launch.LaunchItem(filePath, "open", "-R {path}")
+            End Select
         End Sub
 
         ''' <summary>Creates an exact copy of a <see cref="Image"/>.</summary>
