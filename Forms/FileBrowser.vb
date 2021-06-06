@@ -638,20 +638,35 @@ Public Class FileBrowser
     Private Sub menuEditCopy_Click() Handles menuEditCopy.Click
         itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Copy, replace:=Not My.Computer.Keyboard.ShiftKeyDown, addSystem:=Settings.CopySystem)
     End Sub
-    Private Sub menuEditPaste_Click() Handles menuEditPaste.Click
-        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Normal, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
+    Private Sub menuEditPasteFBNormal_Click() Handles menuEditPasteFBNormal.Click
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Normal, useSystem:=False)
     End Sub
-    Private Sub menuEditPasteAsHardlink_Click() Handles menuEditPasteAsHardlink.Click
-        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Hardlink, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
+    Private Sub menuEditPasteFBHardlink_Click() Handles menuEditPasteFBHardlink.Click
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Hardlink, useSystem:=False)
     End Sub
-    Private Sub menuEditPasteAsSymlink_Click() Handles menuEditPasteAsSymlink.Click
-        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Symlink, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
+    Private Sub menuEditPasteFBSymlink_Click() Handles menuEditPasteFBSymlink.Click
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Symlink, useSystem:=False)
     End Sub
-    Private Sub menuEditPasteAsShortcut_Click() Handles menuEditPasteAsShortcut.Click
-        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Shortcut, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
+    Private Sub menuEditPasteFBShortcut_Click() Handles menuEditPasteFBShortcut.Click
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Shortcut, useSystem:=False)
     End Sub
-    Private Sub menuEditPasteAsJunction_Click() Handles menuEditPasteAsJunction.Click
-        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Junction, useSystem:=My.Computer.Keyboard.ShiftKeyDown)
+    Private Sub menuEditPasteFBJunction_Click() Handles menuEditPasteFBJunction.Click
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Junction, useSystem:=False)
+    End Sub
+    Private Sub menuEditPasteSysNormal_Click() Handles menuEditPasteSysNormal.Click
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Normal, useSystem:=True)
+    End Sub
+    Private Sub menuEditPasteSysHardlink_Click() Handles menuEditPasteSysHardlink.Click
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Hardlink, useSystem:=True)
+    End Sub
+    Private Sub menuEditPasteSysSymlink_Click() Handles menuEditPasteSysSymlink.Click
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Symlink, useSystem:=True)
+    End Sub
+    Private Sub menuEditPasteSysShortcut_Click() Handles menuEditPasteSysShortcut.Click
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Shortcut, useSystem:=True)
+    End Sub
+    Private Sub menuEditPasteSysJunction_Click() Handles menuEditPasteSysJunction.Click
+        itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Junction, useSystem:=True)
     End Sub
     Private Sub menuEditSelectAll_Click() Handles menuEditSelectAll.Click
         lstCurrent.BeginUpdate()
@@ -758,7 +773,7 @@ Public Class FileBrowser
             btnGo_Click()
         End If
     End Sub
-    Private Sub cbxURI_DropDownClosed(sender As Object, e As EventArgs) Handles cbxURI.DropDownClosed
+    Private Sub cbxURI_DropDownClosed() Handles cbxURI.DropDownClosed
         cbxURI.Text = DirectCast(cbxURI.SelectedItem, String)
         btnGo_Click()
     End Sub
@@ -800,11 +815,11 @@ Public Class FileBrowser
 
         If itemSelected Then itemSelected = (itemClipboard.ItemStore.Count > 0)
 
-        menuEditPaste.Enabled = itemSelected
-        menuEditPasteAsHardlink.Enabled = itemSelected
-        menuEditPasteAsSymlink.Enabled = itemSelected
-        menuEditPasteAsShortcut.Enabled = itemSelected
-        menuEditPasteAsJunction.Enabled = itemSelected
+        menuEditPasteFBNormal.Enabled = itemSelected
+        menuEditPasteFBHardlink.Enabled = itemSelected
+        menuEditPasteFBSymlink.Enabled = itemSelected
+        menuEditPasteFBShortcut.Enabled = itemSelected
+        menuEditPasteFBJunction.Enabled = itemSelected
     End Sub
 
     Private g_forceTree As Boolean = False
