@@ -813,13 +813,21 @@ Public Class FileBrowser
         menuEditDeselectAll.Enabled = itemSelected
         menuEditInvert.Enabled = itemSelected
 
-        If itemSelected Then itemSelected = (itemClipboard.ItemStore.Count > 0)
+        Dim fbClipboardHasItems As Boolean = itemSelected AndAlso itemClipboard.ItemStore.Count > 0
 
-        menuEditPasteFBNormal.Enabled = itemSelected
-        menuEditPasteFBHardlink.Enabled = itemSelected
-        menuEditPasteFBSymlink.Enabled = itemSelected
-        menuEditPasteFBShortcut.Enabled = itemSelected
-        menuEditPasteFBJunction.Enabled = itemSelected
+        menuEditPasteFBNormal.Enabled = fbClipboardHasItems
+        menuEditPasteFBHardlink.Enabled = fbClipboardHasItems
+        menuEditPasteFBSymlink.Enabled = fbClipboardHasItems
+        menuEditPasteFBShortcut.Enabled = fbClipboardHasItems
+        menuEditPasteFBJunction.Enabled = fbClipboardHasItems
+
+        Dim sysClipboardHasItems As Boolean = itemSelected AndAlso Clipboard.ContainsFileDropList()
+
+        menuEditPasteSysNormal.Enabled = sysClipboardHasItems
+        menuEditPasteSysHardlink.Enabled = sysClipboardHasItems
+        menuEditPasteSysSymlink.Enabled = sysClipboardHasItems
+        menuEditPasteSysShortcut.Enabled = sysClipboardHasItems
+        menuEditPasteSysJunction.Enabled = sysClipboardHasItems
     End Sub
 
     Private g_forceTree As Boolean = False
