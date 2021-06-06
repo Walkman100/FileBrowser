@@ -3,7 +3,7 @@
 
 !define ProgramName "FileBrowser"
 !define ProgramVersion 1.0.0.0
-; Icon ""
+Icon "Properties\FileBrowser.ico"
 
 Name "${ProgramName}"
 Caption "${ProgramName} Installer"

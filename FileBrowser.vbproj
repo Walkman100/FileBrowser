@@ -16,6 +16,7 @@
     <ApplicationManifest>Properties\App.manifest</ApplicationManifest>
     <NoWin32Manifest>False</NoWin32Manifest>
     <OptionExplicit>On</OptionExplicit>
+    <ApplicationIcon>Properties\FileBrowser.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -135,6 +136,9 @@
     <None Include="Properties\App.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Properties\FileBrowser.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Forms" />
     <Folder Include="General" />
     <Folder Include="NTFS-Streams" />
@@ -172,6 +176,7 @@
     <None Include="Properties\DefaultIcons\Delete.png" />
     <None Include="Properties\DefaultIcons\Encrypt.png" />
     <None Include="Properties\DefaultIcons\Execute.png" />
+    <None Include="Properties\DefaultIcons\FileBrowser.png" />
     <None Include="Properties\DefaultIcons\Forward.png" />
     <None Include="Properties\DefaultIcons\Go.png" />
     <None Include="Properties\DefaultIcons\Home.png" />

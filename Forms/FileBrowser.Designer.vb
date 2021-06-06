@@ -920,7 +920,6 @@ Partial Class FileBrowser
         '
         'fswCurrent
         '
-        Me.fswCurrent.EnableRaisingEvents = True
         Me.fswCurrent.SynchronizingObject = Me
         '
         'clipboardList
@@ -947,6 +946,7 @@ Partial Class FileBrowser
         Me.Controls.Add(Me.status)
         Me.Controls.Add(Me.menuStrip)
         Me.Controls.Add(Me.scMain)
+        Me.Icon = Global.My.Resources.Resources.FileBrowserIcon
         Me.MainMenuStrip = Me.menuStrip
         Me.Name = "FileBrowser"
         Me.Text = "FileBrowser"
