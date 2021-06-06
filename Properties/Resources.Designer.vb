@@ -347,6 +347,16 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
+        Friend Shared ReadOnly Property PasteFileBrowser() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("PasteFileBrowser", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
         Friend Shared ReadOnly Property PasteHardlink() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("PasteHardlink", resourceCulture)
@@ -380,6 +390,16 @@ Namespace My.Resources
         Friend Shared ReadOnly Property PasteSymlink() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("PasteSymlink", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend Shared ReadOnly Property PasteSystem() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("PasteSystem", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

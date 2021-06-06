@@ -606,6 +606,7 @@ Partial Class FileBrowser
         'menuEditPasteFileBrowser
         '
         Me.menuEditPasteFileBrowser.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditPasteFBNormal, Me.menuEditPasteFBHardlink, Me.menuEditPasteFBSymlink, Me.menuEditPasteFBShortcut, Me.menuEditPasteFBJunction})
+        Me.menuEditPasteFileBrowser.Image = Global.My.Resources.Resources.PasteFileBrowser
         Me.menuEditPasteFileBrowser.Name = "menuEditPasteFileBrowser"
         Me.menuEditPasteFileBrowser.Size = New System.Drawing.Size(220, 22)
         Me.menuEditPasteFileBrowser.Text = "Paste from &FileBrowser"
@@ -652,6 +653,7 @@ Partial Class FileBrowser
         'menuEditPasteSystem
         '
         Me.menuEditPasteSystem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditPasteSysNormal, Me.menuEditPasteSysHardlink, Me.menuEditPasteSysSymlink, Me.menuEditPasteSysShortcut, Me.menuEditPasteSysJunction})
+        Me.menuEditPasteSystem.Image = Global.My.Resources.Resources.PasteSystem
         Me.menuEditPasteSystem.Name = "menuEditPasteSystem"
         Me.menuEditPasteSystem.Size = New System.Drawing.Size(220, 22)
         Me.menuEditPasteSystem.Text = "Paste from &System"
@@ -664,7 +666,7 @@ Partial Class FileBrowser
         Me.menuEditPasteSysNormal.Name = "menuEditPasteSysNormal"
         Me.menuEditPasteSysNormal.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
-        Me.menuEditPasteSysNormal.Size = New System.Drawing.Size(175, 22)
+        Me.menuEditPasteSysNormal.Size = New System.Drawing.Size(180, 22)
         Me.menuEditPasteSysNormal.Text = "&Paste"
         Me.menuEditPasteSysNormal.ToolTipText = "Paste items in System Clipboard"
         '
@@ -672,28 +674,28 @@ Partial Class FileBrowser
         '
         Me.menuEditPasteSysHardlink.Image = Global.My.Resources.Resources.PasteHardlink
         Me.menuEditPasteSysHardlink.Name = "menuEditPasteSysHardlink"
-        Me.menuEditPasteSysHardlink.Size = New System.Drawing.Size(175, 22)
+        Me.menuEditPasteSysHardlink.Size = New System.Drawing.Size(180, 22)
         Me.menuEditPasteSysHardlink.Text = "Paste as &Hardlink"
         '
         'menuEditPasteSysSymlink
         '
         Me.menuEditPasteSysSymlink.Image = Global.My.Resources.Resources.PasteSymlink
         Me.menuEditPasteSysSymlink.Name = "menuEditPasteSysSymlink"
-        Me.menuEditPasteSysSymlink.Size = New System.Drawing.Size(175, 22)
+        Me.menuEditPasteSysSymlink.Size = New System.Drawing.Size(180, 22)
         Me.menuEditPasteSysSymlink.Text = "Paste as Sym&link"
         '
         'menuEditPasteSysShortcut
         '
         Me.menuEditPasteSysShortcut.Image = Global.My.Resources.Resources.PasteShortcut
         Me.menuEditPasteSysShortcut.Name = "menuEditPasteSysShortcut"
-        Me.menuEditPasteSysShortcut.Size = New System.Drawing.Size(175, 22)
+        Me.menuEditPasteSysShortcut.Size = New System.Drawing.Size(180, 22)
         Me.menuEditPasteSysShortcut.Text = "Paste as &Shortcut"
         '
         'menuEditPasteSysJunction
         '
         Me.menuEditPasteSysJunction.Image = Global.My.Resources.Resources.PasteJunction
         Me.menuEditPasteSysJunction.Name = "menuEditPasteSysJunction"
-        Me.menuEditPasteSysJunction.Size = New System.Drawing.Size(175, 22)
+        Me.menuEditPasteSysJunction.Size = New System.Drawing.Size(180, 22)
         Me.menuEditPasteSysJunction.Text = "Paste as &Junction"
         '
         'menuEditSeparator2

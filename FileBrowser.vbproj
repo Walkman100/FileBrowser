@@ -190,10 +190,12 @@
     <None Include="Properties\DefaultIcons\OverlayOffline.png" />
     <None Include="Properties\DefaultIcons\OverlaySymlink.png" />
     <None Include="Properties\DefaultIcons\Paste.png" />
+    <None Include="Properties\DefaultIcons\PasteFileBrowser.png" />
     <None Include="Properties\DefaultIcons\PasteHardlink.png" />
     <None Include="Properties\DefaultIcons\PasteJunction.png" />
     <None Include="Properties\DefaultIcons\PasteShortcut.png" />
     <None Include="Properties\DefaultIcons\PasteSymlink.png" />
+    <None Include="Properties\DefaultIcons\PasteSystem.png" />
     <None Include="Properties\DefaultIcons\Properties.png" />
     <None Include="Properties\DefaultIcons\Quit.png" />
     <None Include="Properties\DefaultIcons\Recycle.png" />

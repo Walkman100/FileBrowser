@@ -202,6 +202,9 @@
   <data name="Paste" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>DefaultIcons\Paste.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="PasteFileBrowser" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>DefaultIcons\PasteFileBrowser.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="PasteHardlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>DefaultIcons\PasteHardlink.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -213,6 +216,9 @@
   </data>
   <data name="PasteSymlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>DefaultIcons\PasteSymlink.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PasteSystem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>DefaultIcons\PasteSystem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Properties" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>DefaultIcons\Properties.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
