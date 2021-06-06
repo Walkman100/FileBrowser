@@ -813,15 +813,17 @@ Public Class FileBrowser
         menuEditDeselectAll.Enabled = itemSelected
         menuEditInvert.Enabled = itemSelected
 
-        Dim fbClipboardHasItems As Boolean = itemSelected AndAlso itemClipboard.ItemStore.Count > 0
+        If itemSelected Then itemSelected = (itemClipboard.ItemStore.Count > 0)
 
-        menuEditPasteFBNormal.Enabled = fbClipboardHasItems
-        menuEditPasteFBHardlink.Enabled = fbClipboardHasItems
-        menuEditPasteFBSymlink.Enabled = fbClipboardHasItems
-        menuEditPasteFBShortcut.Enabled = fbClipboardHasItems
-        menuEditPasteFBJunction.Enabled = fbClipboardHasItems
-
-        Dim sysClipboardHasItems As Boolean = itemSelected AndAlso Clipboard.ContainsFileDropList()
+        menuEditPasteFBNormal.Enabled = itemSelected
+        menuEditPasteFBHardlink.Enabled = itemSelected
+        menuEditPasteFBSymlink.Enabled = itemSelected
+        menuEditPasteFBShortcut.Enabled = itemSelected
+        menuEditPasteFBJunction.Enabled = itemSelected
+    End Sub
+    Private Sub menuEditPasteSystem_DropDownOpening(sender As Object, e As EventArgs) Handles menuEditPasteSystem.DropDownOpening
+        Dim sysClipboardHasItems As Boolean = ((lstCurrent.SelectedItems.Count > 0) OrElse treeViewDirs.SelectedNode IsNot Nothing) _
+            AndAlso Clipboard.ContainsFileDropList()
 
         menuEditPasteSysNormal.Enabled = sysClipboardHasItems
         menuEditPasteSysHardlink.Enabled = sysClipboardHasItems
