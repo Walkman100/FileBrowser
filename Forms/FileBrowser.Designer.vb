@@ -48,72 +48,88 @@ Partial Class FileBrowser
         Me.colHeadItemType = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.menuStrip = New System.Windows.Forms.MenuStrip()
         Me.menuFile = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuFileSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuFileSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuFileSeparator3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuEdit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuEditPasteFileBrowser = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditPasteSystem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuGo = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuGoSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuTools = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuToolsSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuToolsSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuToolsUseShell = New System.Windows.Forms.ToolStripMenuItem()
-        Me.status = New System.Windows.Forms.StatusStrip()
-        Me.statusLabel = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.toolStripURL = New System.Windows.Forms.ToolStrip()
-        Me.cbxURI = New System.Windows.Forms.ToolStripComboBox()
-        Me.bwLoadFolder = New System.ComponentModel.BackgroundWorker()
-        Me.fswCurrent = New System.IO.FileSystemWatcher()
-        Me.clipboardList = New ExpandableList()
-        Me.btnGo = New System.Windows.Forms.ToolStripButton()
         Me.menuFileCreateFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileCreateFolder = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuFileCopyPath = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileRename = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileRecycle = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileDelete = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileCopyTo = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileMoveTo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuFileProperties = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileLaunch = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileExecute = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileRunAs = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileOpenWith = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileShowTarget = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuFileSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuFileRelaunch = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileExit = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEdit = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditCut = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCutFBReplace = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCutFBAdd = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCutSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuEditCutSysReplace = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCutSysAdd = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCutSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuEditCutBothReplace = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCutBothAdd = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditCopy = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCopyFBReplace = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCopyFBAdd = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCopySeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuEditCopySysReplace = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCopySysAdd = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCopySeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuEditCopyBothReplace = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditCopyBothAdd = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuEditPasteFileBrowser = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditPasteFBNormal = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditPasteFBHardlink = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditPasteFBSymlink = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditPasteFBShortcut = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditPasteFBJunction = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditPasteSystem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditPasteSysNormal = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditPasteSysHardlink = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditPasteSysSymlink = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditPasteSysShortcut = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditPasteSysJunction = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEditSelectAll = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditDeselectAll = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditInvert = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuGo = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuGoBack = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuGoForward = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuGoUp = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuGoRoot = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuGoHome = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuGoSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuGoRefresh = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuGoStop = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuTools = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuToolsSettings = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuToolsContextMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuToolsSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuToolsColumns = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuToolsResizeColumns = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuToolsSaveColumns = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuToolsRestoreDefault = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuToolsSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuToolsUseShell = New System.Windows.Forms.ToolStripMenuItem()
+        Me.status = New System.Windows.Forms.StatusStrip()
+        Me.statusLabel = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.toolStripURL = New System.Windows.Forms.ToolStrip()
+        Me.cbxURI = New System.Windows.Forms.ToolStripComboBox()
+        Me.btnGo = New System.Windows.Forms.ToolStripButton()
+        Me.bwLoadFolder = New System.ComponentModel.BackgroundWorker()
+        Me.fswCurrent = New System.IO.FileSystemWatcher()
+        Me.clipboardList = New ExpandableList()
         CType(Me.scMain, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.scMain.Panel1.SuspendLayout()
         Me.scMain.Panel2.SuspendLayout()
@@ -308,156 +324,6 @@ Partial Class FileBrowser
         Me.menuFile.Size = New System.Drawing.Size(37, 20)
         Me.menuFile.Text = "&File"
         '
-        'menuFileSeparator1
-        '
-        Me.menuFileSeparator1.Name = "menuFileSeparator1"
-        Me.menuFileSeparator1.Size = New System.Drawing.Size(234, 6)
-        '
-        'menuFileSeparator2
-        '
-        Me.menuFileSeparator2.Name = "menuFileSeparator2"
-        Me.menuFileSeparator2.Size = New System.Drawing.Size(234, 6)
-        '
-        'menuFileSeparator3
-        '
-        Me.menuFileSeparator3.Name = "menuFileSeparator3"
-        Me.menuFileSeparator3.Size = New System.Drawing.Size(234, 6)
-        '
-        'menuEdit
-        '
-        Me.menuEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditCut, Me.menuEditCopy, Me.menuEditSeparator1, Me.menuEditPasteFileBrowser, Me.menuEditPasteSystem, Me.menuEditSeparator2, Me.menuEditSelectAll, Me.menuEditDeselectAll, Me.menuEditInvert})
-        Me.menuEdit.Name = "menuEdit"
-        Me.menuEdit.Size = New System.Drawing.Size(39, 20)
-        Me.menuEdit.Text = "&Edit"
-        '
-        'menuEditSeparator1
-        '
-        Me.menuEditSeparator1.Name = "menuEditSeparator1"
-        Me.menuEditSeparator1.Size = New System.Drawing.Size(217, 6)
-        '
-        'menuEditPasteFileBrowser
-        '
-        Me.menuEditPasteFileBrowser.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditPasteFBNormal, Me.menuEditPasteFBHardlink, Me.menuEditPasteFBSymlink, Me.menuEditPasteFBShortcut, Me.menuEditPasteFBJunction})
-        Me.menuEditPasteFileBrowser.Name = "menuEditPasteFileBrowser"
-        Me.menuEditPasteFileBrowser.Size = New System.Drawing.Size(220, 22)
-        Me.menuEditPasteFileBrowser.Text = "Paste from &FileBrowser"
-        Me.menuEditPasteFileBrowser.ToolTipText = "Paste items in FileBrowser's Clipboard"
-        '
-        'menuEditPasteSystem
-        '
-        Me.menuEditPasteSystem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditPasteSysNormal, Me.menuEditPasteSysHardlink, Me.menuEditPasteSysSymlink, Me.menuEditPasteSysShortcut, Me.menuEditPasteSysJunction})
-        Me.menuEditPasteSystem.Name = "menuEditPasteSystem"
-        Me.menuEditPasteSystem.Size = New System.Drawing.Size(220, 22)
-        Me.menuEditPasteSystem.Text = "Paste from &System"
-        Me.menuEditPasteSystem.ToolTipText = "Paste items in System Clipboard"
-        '
-        'menuEditSeparator2
-        '
-        Me.menuEditSeparator2.Name = "menuEditSeparator2"
-        Me.menuEditSeparator2.Size = New System.Drawing.Size(217, 6)
-        '
-        'menuGo
-        '
-        Me.menuGo.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuGoBack, Me.menuGoForward, Me.menuGoUp, Me.menuGoRoot, Me.menuGoHome, Me.menuGoSeparator1, Me.menuGoRefresh, Me.menuGoStop})
-        Me.menuGo.Name = "menuGo"
-        Me.menuGo.Size = New System.Drawing.Size(34, 20)
-        Me.menuGo.Text = "Go"
-        '
-        'menuGoSeparator1
-        '
-        Me.menuGoSeparator1.Name = "menuGoSeparator1"
-        Me.menuGoSeparator1.Size = New System.Drawing.Size(172, 6)
-        '
-        'menuTools
-        '
-        Me.menuTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuToolsSettings, Me.menuToolsContextMenu, Me.menuToolsSeparator1, Me.menuToolsColumns, Me.menuToolsResizeColumns, Me.menuToolsSaveColumns, Me.menuToolsRestoreDefault, Me.menuToolsSeparator2, Me.menuToolsUseShell})
-        Me.menuTools.Name = "menuTools"
-        Me.menuTools.Size = New System.Drawing.Size(46, 20)
-        Me.menuTools.Text = "&Tools"
-        '
-        'menuToolsSeparator1
-        '
-        Me.menuToolsSeparator1.Name = "menuToolsSeparator1"
-        Me.menuToolsSeparator1.Size = New System.Drawing.Size(244, 6)
-        '
-        'menuToolsSeparator2
-        '
-        Me.menuToolsSeparator2.Name = "menuToolsSeparator2"
-        Me.menuToolsSeparator2.Size = New System.Drawing.Size(244, 6)
-        '
-        'menuToolsUseShell
-        '
-        Me.menuToolsUseShell.CheckOnClick = True
-        Me.menuToolsUseShell.Name = "menuToolsUseShell"
-        Me.menuToolsUseShell.Size = New System.Drawing.Size(247, 22)
-        Me.menuToolsUseShell.Text = "Use Windows Shell"
-        Me.menuToolsUseShell.ToolTipText = "Enable this to use Windows' built-in copy/move functions. Disable to use custom F" &
-    "ileBrowser methods"
-        '
-        'status
-        '
-        Me.status.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.statusLabel})
-        Me.status.Location = New System.Drawing.Point(0, 476)
-        Me.status.Name = "status"
-        Me.status.Size = New System.Drawing.Size(838, 22)
-        Me.status.TabIndex = 3
-        '
-        'statusLabel
-        '
-        Me.statusLabel.AutoToolTip = True
-        Me.statusLabel.Name = "statusLabel"
-        Me.statusLabel.Size = New System.Drawing.Size(0, 17)
-        '
-        'toolStripURL
-        '
-        Me.toolStripURL.AllowItemReorder = True
-        Me.toolStripURL.CanOverflow = False
-        Me.toolStripURL.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.cbxURI, Me.btnGo})
-        Me.toolStripURL.Location = New System.Drawing.Point(0, 24)
-        Me.toolStripURL.Name = "toolStripURL"
-        Me.toolStripURL.Size = New System.Drawing.Size(838, 25)
-        Me.toolStripURL.TabIndex = 1
-        '
-        'cbxURI
-        '
-        Me.cbxURI.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
-        Me.cbxURI.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystemDirectories
-        Me.cbxURI.AutoToolTip = True
-        Me.cbxURI.FlatStyle = System.Windows.Forms.FlatStyle.Standard
-        Me.cbxURI.Name = "cbxURI"
-        Me.cbxURI.Size = New System.Drawing.Size(800, 25)
-        '
-        'bwLoadFolder
-        '
-        Me.bwLoadFolder.WorkerSupportsCancellation = True
-        '
-        'fswCurrent
-        '
-        Me.fswCurrent.SynchronizingObject = Me
-        '
-        'clipboardList
-        '
-        Me.clipboardList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.clipboardList.ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colHeadItemPath, Me.colHeadItemType})
-        Me.clipboardList.ListView.FullRowSelect = True
-        Me.clipboardList.ListView.GridLines = True
-        Me.clipboardList.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.clipboardList.ListView.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.clipboardList.LabelPrefix = "Clipboard Items: "
-        Me.clipboardList.Location = New System.Drawing.Point(439, -1)
-        Me.clipboardList.Name = "clipboardList"
-        Me.clipboardList.Size = New System.Drawing.Size(400, 26)
-        Me.clipboardList.TabIndex = 1
-        '
-        'btnGo
-        '
-        Me.btnGo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.btnGo.Image = Global.My.Resources.Resources.Go
-        Me.btnGo.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(23, 22)
-        Me.btnGo.Text = "Go"
-        '
         'menuFileCreateFile
         '
         Me.menuFileCreateFile.Image = Global.My.Resources.Resources.NewFile
@@ -474,6 +340,11 @@ Partial Class FileBrowser
         Me.menuFileCreateFolder.Size = New System.Drawing.Size(237, 22)
         Me.menuFileCreateFolder.Text = "Create Folder... (Ctrl+Shift+N)"
         Me.menuFileCreateFolder.ToolTipText = "Hold Shift to use a Select Dialog"
+        '
+        'menuFileSeparator1
+        '
+        Me.menuFileSeparator1.Name = "menuFileSeparator1"
+        Me.menuFileSeparator1.Size = New System.Drawing.Size(234, 6)
         '
         'menuFileCopyPath
         '
@@ -525,6 +396,11 @@ Partial Class FileBrowser
         Me.menuFileMoveTo.Size = New System.Drawing.Size(237, 22)
         Me.menuFileMoveTo.Text = "Move To..."
         Me.menuFileMoveTo.ToolTipText = "Hold Shift to enter path in a textbox instead of a Select Dialog"
+        '
+        'menuFileSeparator2
+        '
+        Me.menuFileSeparator2.Name = "menuFileSeparator2"
+        Me.menuFileSeparator2.Size = New System.Drawing.Size(234, 6)
         '
         'menuFileProperties
         '
@@ -578,6 +454,11 @@ Partial Class FileBrowser
         Me.menuFileShowTarget.ToolTipText = "Goes to the folder containing the target of the currently selected Symlink or Sho" &
     "rtcut"
         '
+        'menuFileSeparator3
+        '
+        Me.menuFileSeparator3.Name = "menuFileSeparator3"
+        Me.menuFileSeparator3.Size = New System.Drawing.Size(234, 6)
+        '
         'menuFileRelaunch
         '
         Me.menuFileRelaunch.Image = Global.My.Resources.Resources.Admin
@@ -594,25 +475,141 @@ Partial Class FileBrowser
         Me.menuFileExit.Size = New System.Drawing.Size(237, 22)
         Me.menuFileExit.Text = "Exit"
         '
+        'menuEdit
+        '
+        Me.menuEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditCut, Me.menuEditCopy, Me.menuEditSeparator1, Me.menuEditPasteFileBrowser, Me.menuEditPasteSystem, Me.menuEditSeparator2, Me.menuEditSelectAll, Me.menuEditDeselectAll, Me.menuEditInvert})
+        Me.menuEdit.Name = "menuEdit"
+        Me.menuEdit.Size = New System.Drawing.Size(39, 20)
+        Me.menuEdit.Text = "&Edit"
+        '
         'menuEditCut
         '
+        Me.menuEditCut.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditCutFBReplace, Me.menuEditCutFBAdd, Me.menuEditCutSeparator1, Me.menuEditCutSysReplace, Me.menuEditCutSysAdd, Me.menuEditCutSeparator2, Me.menuEditCutBothReplace, Me.menuEditCutBothAdd})
         Me.menuEditCut.Image = Global.My.Resources.Resources.Cut
         Me.menuEditCut.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.menuEditCut.Name = "menuEditCut"
-        Me.menuEditCut.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
         Me.menuEditCut.Size = New System.Drawing.Size(220, 22)
         Me.menuEditCut.Text = "Cu&t"
-        Me.menuEditCut.ToolTipText = "Hold Shift to add items to clipboard instead of replacing current items"
+        '
+        'menuEditCutFBReplace
+        '
+        Me.menuEditCutFBReplace.Name = "menuEditCutFBReplace"
+        Me.menuEditCutFBReplace.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
+        Me.menuEditCutFBReplace.Size = New System.Drawing.Size(301, 22)
+        Me.menuEditCutFBReplace.Text = "Replace FileBrowser Clipboard"
+        '
+        'menuEditCutFBAdd
+        '
+        Me.menuEditCutFBAdd.Name = "menuEditCutFBAdd"
+        Me.menuEditCutFBAdd.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
+        Me.menuEditCutFBAdd.Size = New System.Drawing.Size(301, 22)
+        Me.menuEditCutFBAdd.Text = "Add to FileBrowser Clipboard"
+        '
+        'menuEditCutSeparator1
+        '
+        Me.menuEditCutSeparator1.Name = "menuEditCutSeparator1"
+        Me.menuEditCutSeparator1.Size = New System.Drawing.Size(298, 6)
+        '
+        'menuEditCutSysReplace
+        '
+        Me.menuEditCutSysReplace.Name = "menuEditCutSysReplace"
+        Me.menuEditCutSysReplace.Size = New System.Drawing.Size(301, 22)
+        Me.menuEditCutSysReplace.Text = "Replace System Clipboard"
+        '
+        'menuEditCutSysAdd
+        '
+        Me.menuEditCutSysAdd.Name = "menuEditCutSysAdd"
+        Me.menuEditCutSysAdd.Size = New System.Drawing.Size(301, 22)
+        Me.menuEditCutSysAdd.Text = "Add to System Clipboard"
+        '
+        'menuEditCutSeparator2
+        '
+        Me.menuEditCutSeparator2.Name = "menuEditCutSeparator2"
+        Me.menuEditCutSeparator2.Size = New System.Drawing.Size(298, 6)
+        '
+        'menuEditCutBothReplace
+        '
+        Me.menuEditCutBothReplace.Name = "menuEditCutBothReplace"
+        Me.menuEditCutBothReplace.Size = New System.Drawing.Size(301, 22)
+        Me.menuEditCutBothReplace.Text = "Replace Both Clipboards"
+        '
+        'menuEditCutBothAdd
+        '
+        Me.menuEditCutBothAdd.Name = "menuEditCutBothAdd"
+        Me.menuEditCutBothAdd.Size = New System.Drawing.Size(301, 22)
+        Me.menuEditCutBothAdd.Text = "Add to Both Clipboards"
         '
         'menuEditCopy
         '
+        Me.menuEditCopy.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditCopyFBReplace, Me.menuEditCopyFBAdd, Me.menuEditCopySeparator1, Me.menuEditCopySysReplace, Me.menuEditCopySysAdd, Me.menuEditCopySeparator2, Me.menuEditCopyBothReplace, Me.menuEditCopyBothAdd})
         Me.menuEditCopy.Image = Global.My.Resources.Resources.Copy
         Me.menuEditCopy.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.menuEditCopy.Name = "menuEditCopy"
-        Me.menuEditCopy.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
         Me.menuEditCopy.Size = New System.Drawing.Size(220, 22)
         Me.menuEditCopy.Text = "&Copy"
-        Me.menuEditCopy.ToolTipText = "Hold Shift to add items to clipboard instead of replacing current items"
+        '
+        'menuEditCopyFBReplace
+        '
+        Me.menuEditCopyFBReplace.Name = "menuEditCopyFBReplace"
+        Me.menuEditCopyFBReplace.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
+        Me.menuEditCopyFBReplace.Size = New System.Drawing.Size(302, 22)
+        Me.menuEditCopyFBReplace.Text = "Replace FileBrowser Clipboard"
+        '
+        'menuEditCopyFBAdd
+        '
+        Me.menuEditCopyFBAdd.Name = "menuEditCopyFBAdd"
+        Me.menuEditCopyFBAdd.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
+        Me.menuEditCopyFBAdd.Size = New System.Drawing.Size(302, 22)
+        Me.menuEditCopyFBAdd.Text = "Add to FileBrowser Clipboard"
+        '
+        'menuEditCopySeparator1
+        '
+        Me.menuEditCopySeparator1.Name = "menuEditCopySeparator1"
+        Me.menuEditCopySeparator1.Size = New System.Drawing.Size(299, 6)
+        '
+        'menuEditCopySysReplace
+        '
+        Me.menuEditCopySysReplace.Name = "menuEditCopySysReplace"
+        Me.menuEditCopySysReplace.Size = New System.Drawing.Size(302, 22)
+        Me.menuEditCopySysReplace.Text = "Replace System Clipboard"
+        '
+        'menuEditCopySysAdd
+        '
+        Me.menuEditCopySysAdd.Name = "menuEditCopySysAdd"
+        Me.menuEditCopySysAdd.Size = New System.Drawing.Size(302, 22)
+        Me.menuEditCopySysAdd.Text = "Add to System Clipboard"
+        '
+        'menuEditCopySeparator2
+        '
+        Me.menuEditCopySeparator2.Name = "menuEditCopySeparator2"
+        Me.menuEditCopySeparator2.Size = New System.Drawing.Size(299, 6)
+        '
+        'menuEditCopyBothReplace
+        '
+        Me.menuEditCopyBothReplace.Name = "menuEditCopyBothReplace"
+        Me.menuEditCopyBothReplace.Size = New System.Drawing.Size(302, 22)
+        Me.menuEditCopyBothReplace.Text = "Replace Both Clipboards"
+        '
+        'menuEditCopyBothAdd
+        '
+        Me.menuEditCopyBothAdd.Name = "menuEditCopyBothAdd"
+        Me.menuEditCopyBothAdd.Size = New System.Drawing.Size(302, 22)
+        Me.menuEditCopyBothAdd.Text = "Add to Both Clipboards"
+        '
+        'menuEditSeparator1
+        '
+        Me.menuEditSeparator1.Name = "menuEditSeparator1"
+        Me.menuEditSeparator1.Size = New System.Drawing.Size(217, 6)
+        '
+        'menuEditPasteFileBrowser
+        '
+        Me.menuEditPasteFileBrowser.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditPasteFBNormal, Me.menuEditPasteFBHardlink, Me.menuEditPasteFBSymlink, Me.menuEditPasteFBShortcut, Me.menuEditPasteFBJunction})
+        Me.menuEditPasteFileBrowser.Name = "menuEditPasteFileBrowser"
+        Me.menuEditPasteFileBrowser.Size = New System.Drawing.Size(220, 22)
+        Me.menuEditPasteFileBrowser.Text = "Paste from &FileBrowser"
+        Me.menuEditPasteFileBrowser.ToolTipText = "Paste items in FileBrowser's Clipboard"
         '
         'menuEditPasteFBNormal
         '
@@ -651,6 +648,14 @@ Partial Class FileBrowser
         Me.menuEditPasteFBJunction.Name = "menuEditPasteFBJunction"
         Me.menuEditPasteFBJunction.Size = New System.Drawing.Size(164, 22)
         Me.menuEditPasteFBJunction.Text = "Paste as &Junction"
+        '
+        'menuEditPasteSystem
+        '
+        Me.menuEditPasteSystem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditPasteSysNormal, Me.menuEditPasteSysHardlink, Me.menuEditPasteSysSymlink, Me.menuEditPasteSysShortcut, Me.menuEditPasteSysJunction})
+        Me.menuEditPasteSystem.Name = "menuEditPasteSystem"
+        Me.menuEditPasteSystem.Size = New System.Drawing.Size(220, 22)
+        Me.menuEditPasteSystem.Text = "Paste from &System"
+        Me.menuEditPasteSystem.ToolTipText = "Paste items in System Clipboard"
         '
         'menuEditPasteSysNormal
         '
@@ -691,6 +696,11 @@ Partial Class FileBrowser
         Me.menuEditPasteSysJunction.Size = New System.Drawing.Size(175, 22)
         Me.menuEditPasteSysJunction.Text = "Paste as &Junction"
         '
+        'menuEditSeparator2
+        '
+        Me.menuEditSeparator2.Name = "menuEditSeparator2"
+        Me.menuEditSeparator2.Size = New System.Drawing.Size(217, 6)
+        '
         'menuEditSelectAll
         '
         Me.menuEditSelectAll.Image = Global.My.Resources.Resources.SelectAll
@@ -716,6 +726,13 @@ Partial Class FileBrowser
             Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
         Me.menuEditInvert.Size = New System.Drawing.Size(220, 22)
         Me.menuEditInvert.Text = "&Invert Selection"
+        '
+        'menuGo
+        '
+        Me.menuGo.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuGoBack, Me.menuGoForward, Me.menuGoUp, Me.menuGoRoot, Me.menuGoHome, Me.menuGoSeparator1, Me.menuGoRefresh, Me.menuGoStop})
+        Me.menuGo.Name = "menuGo"
+        Me.menuGo.Size = New System.Drawing.Size(34, 20)
+        Me.menuGo.Text = "Go"
         '
         'menuGoBack
         '
@@ -760,6 +777,11 @@ Partial Class FileBrowser
         Me.menuGoHome.Text = "Home"
         Me.menuGoHome.ToolTipText = "Go to User's home folder"
         '
+        'menuGoSeparator1
+        '
+        Me.menuGoSeparator1.Name = "menuGoSeparator1"
+        Me.menuGoSeparator1.Size = New System.Drawing.Size(172, 6)
+        '
         'menuGoRefresh
         '
         Me.menuGoRefresh.Image = Global.My.Resources.Resources.Refresh
@@ -776,6 +798,13 @@ Partial Class FileBrowser
         Me.menuGoStop.Size = New System.Drawing.Size(175, 22)
         Me.menuGoStop.Text = "Stop"
         '
+        'menuTools
+        '
+        Me.menuTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuToolsSettings, Me.menuToolsContextMenu, Me.menuToolsSeparator1, Me.menuToolsColumns, Me.menuToolsResizeColumns, Me.menuToolsSaveColumns, Me.menuToolsRestoreDefault, Me.menuToolsSeparator2, Me.menuToolsUseShell})
+        Me.menuTools.Name = "menuTools"
+        Me.menuTools.Size = New System.Drawing.Size(46, 20)
+        Me.menuTools.Text = "&Tools"
+        '
         'menuToolsSettings
         '
         Me.menuToolsSettings.Image = Global.My.Resources.Resources.Settings
@@ -791,6 +820,11 @@ Partial Class FileBrowser
         Me.menuToolsContextMenu.Size = New System.Drawing.Size(247, 22)
         Me.menuToolsContextMenu.Text = "Context Menu Configuration"
         Me.menuToolsContextMenu.ToolTipText = "Open or Show Context Menu setup dialog"
+        '
+        'menuToolsSeparator1
+        '
+        Me.menuToolsSeparator1.Name = "menuToolsSeparator1"
+        Me.menuToolsSeparator1.Size = New System.Drawing.Size(244, 6)
         '
         'menuToolsColumns
         '
@@ -824,6 +858,85 @@ Partial Class FileBrowser
         Me.menuToolsRestoreDefault.Text = "Restore Saved Columns"
         Me.menuToolsRestoreDefault.ToolTipText = "Restore the saved column configuration to the current view"
         '
+        'menuToolsSeparator2
+        '
+        Me.menuToolsSeparator2.Name = "menuToolsSeparator2"
+        Me.menuToolsSeparator2.Size = New System.Drawing.Size(244, 6)
+        '
+        'menuToolsUseShell
+        '
+        Me.menuToolsUseShell.CheckOnClick = True
+        Me.menuToolsUseShell.Name = "menuToolsUseShell"
+        Me.menuToolsUseShell.Size = New System.Drawing.Size(247, 22)
+        Me.menuToolsUseShell.Text = "Use Windows Shell"
+        Me.menuToolsUseShell.ToolTipText = "Enable this to use Windows' built-in copy/move functions. Disable to use custom F" &
+    "ileBrowser methods"
+        '
+        'status
+        '
+        Me.status.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.statusLabel})
+        Me.status.Location = New System.Drawing.Point(0, 476)
+        Me.status.Name = "status"
+        Me.status.Size = New System.Drawing.Size(838, 22)
+        Me.status.TabIndex = 3
+        '
+        'statusLabel
+        '
+        Me.statusLabel.AutoToolTip = True
+        Me.statusLabel.Name = "statusLabel"
+        Me.statusLabel.Size = New System.Drawing.Size(0, 17)
+        '
+        'toolStripURL
+        '
+        Me.toolStripURL.AllowItemReorder = True
+        Me.toolStripURL.CanOverflow = False
+        Me.toolStripURL.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.cbxURI, Me.btnGo})
+        Me.toolStripURL.Location = New System.Drawing.Point(0, 24)
+        Me.toolStripURL.Name = "toolStripURL"
+        Me.toolStripURL.Size = New System.Drawing.Size(838, 25)
+        Me.toolStripURL.TabIndex = 1
+        '
+        'cbxURI
+        '
+        Me.cbxURI.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+        Me.cbxURI.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystemDirectories
+        Me.cbxURI.AutoToolTip = True
+        Me.cbxURI.FlatStyle = System.Windows.Forms.FlatStyle.Standard
+        Me.cbxURI.Name = "cbxURI"
+        Me.cbxURI.Size = New System.Drawing.Size(800, 25)
+        '
+        'btnGo
+        '
+        Me.btnGo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.btnGo.Image = Global.My.Resources.Resources.Go
+        Me.btnGo.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(23, 22)
+        Me.btnGo.Text = "Go"
+        '
+        'bwLoadFolder
+        '
+        Me.bwLoadFolder.WorkerSupportsCancellation = True
+        '
+        'fswCurrent
+        '
+        Me.fswCurrent.EnableRaisingEvents = True
+        Me.fswCurrent.SynchronizingObject = Me
+        '
+        'clipboardList
+        '
+        Me.clipboardList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.clipboardList.ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colHeadItemPath, Me.colHeadItemType})
+        Me.clipboardList.ListView.FullRowSelect = True
+        Me.clipboardList.ListView.GridLines = True
+        Me.clipboardList.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.clipboardList.ListView.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.clipboardList.LabelPrefix = "Clipboard Items: "
+        Me.clipboardList.Location = New System.Drawing.Point(439, -1)
+        Me.clipboardList.Name = "clipboardList"
+        Me.clipboardList.Size = New System.Drawing.Size(400, 26)
+        Me.clipboardList.TabIndex = 1
+        '
         'FileBrowser
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -852,17 +965,46 @@ Partial Class FileBrowser
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents clipboardList As ExpandableList
-    Friend WithEvents treeViewDirs As System.Windows.Forms.TreeView
-    Friend WithEvents lstCurrent As System.Windows.Forms.ListView
-    Friend WithEvents scMain As System.Windows.Forms.SplitContainer
-    Friend WithEvents ctxMenuL As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents menuStrip As System.Windows.Forms.MenuStrip
     Friend WithEvents menuFile As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuFileCreateFile As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileCreateFolder As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents menuFileCopyPath As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileRename As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileRecycle As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileDelete As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileCopyTo As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileMoveTo As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents menuFileProperties As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileLaunch As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileExecute As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileRunAs As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileOpenWith As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileShowTarget As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileSeparator3 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents menuFileRelaunch As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuFileExit As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuEdit As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuEditCut As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuEditCutFBReplace As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuEditCutFBAdd As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuEditCutSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents menuEditCutSysReplace As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuEditCutSysAdd As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuEditCutSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents menuEditCutBothReplace As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuEditCutBothAdd As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuEditCopy As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuEditCopyFBReplace As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuEditCopyFBAdd As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuEditCopySeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents menuEditCopySysReplace As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuEditCopySysAdd As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuEditCopySeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents menuEditCopyBothReplace As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuEditCopyBothAdd As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuEditSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents menuEditPasteFileBrowser As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuEditPasteFBNormal As System.Windows.Forms.ToolStripMenuItem
@@ -880,25 +1022,7 @@ Partial Class FileBrowser
     Friend WithEvents menuEditSelectAll As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuEditDeselectAll As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuEditInvert As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuTools As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents status As System.Windows.Forms.StatusStrip
-    Friend WithEvents toolStripURL As System.Windows.Forms.ToolStrip
-    Friend WithEvents cbxURI As System.Windows.Forms.ToolStripComboBox
-    Friend WithEvents btnGo As System.Windows.Forms.ToolStripButton
     Friend WithEvents menuGo As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileSeparator1 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents menuFileRecycle As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileRename As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileDelete As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileCopyTo As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileMoveTo As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileSeparator2 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents menuFileProperties As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileLaunch As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileExecute As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileShowTarget As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileSeparator3 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents menuFileExit As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuGoBack As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuGoForward As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuGoUp As System.Windows.Forms.ToolStripMenuItem
@@ -907,13 +1031,25 @@ Partial Class FileBrowser
     Friend WithEvents menuGoSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents menuGoRefresh As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuGoStop As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuTools As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuToolsSettings As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuToolsContextMenu As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuToolsColumns As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuToolsSaveColumns As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuToolsRestoreDefault As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuToolsSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents menuToolsResizeColumns As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuToolsUseShell As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuToolsSeparator1 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents statusLabel As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents clipboardList As ExpandableList
+    Friend WithEvents colHeadItemPath As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colHeadItemType As System.Windows.Forms.ColumnHeader
+    Friend WithEvents toolStripURL As System.Windows.Forms.ToolStrip
+    Friend WithEvents cbxURI As System.Windows.Forms.ToolStripComboBox
+    Friend WithEvents btnGo As System.Windows.Forms.ToolStripButton
+    Friend WithEvents scMain As System.Windows.Forms.SplitContainer
+    Friend WithEvents treeViewDirs As System.Windows.Forms.TreeView
+    Friend WithEvents lstCurrent As System.Windows.Forms.ListView
     Friend WithEvents colHeadName As System.Windows.Forms.ColumnHeader
     Friend WithEvents colHeadExtension As System.Windows.Forms.ColumnHeader
     Friend WithEvents colHeadLastModified As System.Windows.Forms.ColumnHeader
@@ -931,16 +1067,9 @@ Partial Class FileBrowser
     Friend WithEvents colHeadAttributes As System.Windows.Forms.ColumnHeader
     Friend WithEvents colHeadDownloadURL As System.Windows.Forms.ColumnHeader
     Friend WithEvents colHeadDownloadReferrer As System.Windows.Forms.ColumnHeader
-    Friend WithEvents menuFileCopyPath As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileRunAs As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileOpenWith As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileRelaunch As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuFileCreateFolder As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuToolsSaveColumns As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuToolsRestoreDefault As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuToolsSeparator2 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents colHeadItemPath As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colHeadItemType As System.Windows.Forms.ColumnHeader
+    Friend WithEvents status As System.Windows.Forms.StatusStrip
+    Friend WithEvents statusLabel As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents ctxMenuL As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents bwLoadFolder As System.ComponentModel.BackgroundWorker
     Friend WithEvents fswCurrent As System.IO.FileSystemWatcher
 End Class

@@ -631,12 +631,41 @@ Public Class FileBrowser
     Private Sub menuFileExit_Click() Handles menuFileExit.Click
         Application.Exit()
     End Sub
-
-    Private Sub menuEditCut_Click() Handles menuEditCut.Click
-        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Cut, replace:=Not My.Computer.Keyboard.ShiftKeyDown, addSystem:=Settings.CopySystem)
+    Private Sub menuEditCutFBReplace_Click() Handles menuEditCutFBReplace.Click
+        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Cut, replace:=True, addSystem:=False)
     End Sub
-    Private Sub menuEditCopy_Click() Handles menuEditCopy.Click
-        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Copy, replace:=Not My.Computer.Keyboard.ShiftKeyDown, addSystem:=Settings.CopySystem)
+    Private Sub menuEditCutFBAdd_Click() Handles menuEditCutFBAdd.Click
+        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Cut, replace:=False, addSystem:=False)
+    End Sub
+    Private Sub menuEditCutSysReplace_Click() Handles menuEditCutSysReplace.Click
+        itemClipboard.AddItemsSystem(GetSelectedPaths(), ItemClipboard.ItemType.Cut, replace:=True)
+    End Sub
+    Private Sub menuEditCutSysAdd_Click() Handles menuEditCutSysAdd.Click
+        itemClipboard.AddItemsSystem(GetSelectedPaths(), ItemClipboard.ItemType.Cut, replace:=False)
+    End Sub
+    Private Sub menuEditCutBothReplace_Click() Handles menuEditCutBothReplace.Click
+        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Cut, replace:=True, addSystem:=True)
+    End Sub
+    Private Sub menuEditCutBothAdd_Click() Handles menuEditCutBothAdd.Click
+        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Cut, replace:=False, addSystem:=True)
+    End Sub
+    Private Sub menuEditCopyFBReplace_Click() Handles menuEditCopyFBReplace.Click
+        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Copy, replace:=True, addSystem:=False)
+    End Sub
+    Private Sub menuEditCopyFBAdd_Click() Handles menuEditCopyFBAdd.Click
+        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Copy, replace:=False, addSystem:=False)
+    End Sub
+    Private Sub menuEditCopySysReplace_Click() Handles menuEditCopySysReplace.Click
+        itemClipboard.AddItemsSystem(GetSelectedPaths(), ItemClipboard.ItemType.Copy, replace:=True)
+    End Sub
+    Private Sub menuEditCopySysAdd_Click() Handles menuEditCopySysAdd.Click
+        itemClipboard.AddItemsSystem(GetSelectedPaths(), ItemClipboard.ItemType.Copy, replace:=False)
+    End Sub
+    Private Sub menuEditCopyBothReplace_Click() Handles menuEditCopyBothReplace.Click
+        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Copy, replace:=True, addSystem:=True)
+    End Sub
+    Private Sub menuEditCopyBothAdd_Click() Handles menuEditCopyBothAdd.Click
+        itemClipboard.AddItems(GetSelectedPaths(), ItemClipboard.ItemType.Copy, replace:=False, addSystem:=True)
     End Sub
     Private Sub menuEditPasteFBNormal_Click() Handles menuEditPasteFBNormal.Click
         itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Normal, useSystem:=False)
@@ -821,7 +850,7 @@ Public Class FileBrowser
         menuEditPasteFBShortcut.Enabled = itemSelected
         menuEditPasteFBJunction.Enabled = itemSelected
     End Sub
-    Private Sub menuEditPasteSystem_DropDownOpening(sender As Object, e As EventArgs) Handles menuEditPasteSystem.DropDownOpening
+    Private Sub menuEditPasteSystem_DropDownOpening() Handles menuEditPasteSystem.DropDownOpening
         Dim sysClipboardHasItems As Boolean = ((lstCurrent.SelectedItems.Count > 0) OrElse treeViewDirs.SelectedNode IsNot Nothing) _
             AndAlso Clipboard.ContainsFileDropList()
 
