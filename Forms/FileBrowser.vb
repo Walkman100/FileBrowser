@@ -224,8 +224,8 @@ Public Class FileBrowser
         Return DirectCast(item.Tag, Filesystem.EntryInfo)
     End Function
 
-    Private Function AddRootNode(root As TreeView, text As String) As TreeNode
-        Dim node As TreeNode = root.Nodes.Add(text, text)
+    Private Function AddRootNode(root As TreeView, path As String) As TreeNode
+        Dim node As TreeNode = root.Nodes.Add(path, path)
         SetNodeExpandable(Me, node)
         SetNodeColor(node, Settings)
         If Settings.EnableIcons Then SetNodeImage(Settings, node)
@@ -258,8 +258,8 @@ Public Class FileBrowser
             Next
         End If
     End Sub
-    Private Sub SetNodeImage(settings As Settings, node As TreeNode)
-        ImageHandling.SetImage(settings, node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width)
+    Private Sub SetNodeImage(_settings As Settings, node As TreeNode)
+        ImageHandling.SetImage(_settings, node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width)
     End Sub
 
     Public Function GetSelectedPaths(Optional forceTree As Boolean = False, Optional useGlobalNode As Boolean = False) As String()
