@@ -228,12 +228,12 @@ Public Class FileBrowser
         SetNodeExpandable(Me, node)
         SetNodeColor(node, Settings)
         If Settings.EnableIcons Then SetNodeImage(Settings, node)
-        TreeNodeData.AssignData(node, loadAction:=Sub(sender, ct) LoadNode(Me, sender, ct), unloadAction:=AddressOf UnloadNode)
+        TreeNodeData.AssignData(node, loadAction:=Sub(sender, ct) LoadNode(Me, sender, ct), unloadAction:=AddressOf UnloadSubNodes)
         Return node
     End Function
     Private Function AddSubNode(baseControl As Control, parent As TreeNode, name As String) As TreeNode
         Dim node As TreeNode = Helpers.AutoInvoke(baseControl, Function() parent.Nodes.Add(name, name))
-        TreeNodeData.AssignData(node, loadAction:=Sub(sender, ct) LoadNode(baseControl, sender, ct), unloadAction:=AddressOf UnloadNode)
+        TreeNodeData.AssignData(node, loadAction:=Sub(sender, ct) LoadNode(baseControl, sender, ct), unloadAction:=AddressOf UnloadSubNodes)
         Return node
     End Function
     Private Sub SetNodeExpandable(baseControl As Control, node As TreeNode)
@@ -421,36 +421,50 @@ Public Class FileBrowser
     End Sub
 
     Private Sub LoadNode(baseControl As Control, node As TreeNode, ct As Threading.CancellationToken)
+        If ct.IsCancellationRequested Then Return
         Helpers.AutoInvoke(baseControl, Sub() node.Nodes.Clear())
+        If ct.IsCancellationRequested Then Return
 
         Dim _settings As Settings = Helpers.AutoInvoke(baseControl, Function() Settings)
+        If ct.IsCancellationRequested Then Return
 
         Using New Helpers.FreezeUpdate(treeViewDirs)
+            If ct.IsCancellationRequested Then Return
             For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(Me, node.FullPath)
+                If ct.IsCancellationRequested Then Return
                 AddSubNode(baseControl, node, item.DisplayName)
             Next
         End Using
+        If ct.IsCancellationRequested Then Return
 
         ' set node Color and Image in background, use Task.Run so we can continue loading nodes while these are running
         Task.Run(Sub()
                      For Each subNode As TreeNode In node.Nodes
+                         If ct.IsCancellationRequested Then Return
                          SetNodeColor(subNode, _settings)
                      Next
                  End Sub)
+        If ct.IsCancellationRequested Then Return
         Task.Run(Sub()
                      If _settings.EnableIcons Then
                          For Each subNode As TreeNode In node.Nodes
+                             If ct.IsCancellationRequested Then Return
                              SetNodeImage(_settings, subNode)
                          Next
                      End If
                  End Sub)
+        If ct.IsCancellationRequested Then Return
 
         For Each subNode As TreeNode In node.Nodes
+            If ct.IsCancellationRequested Then Return
             SetNodeExpandable(baseControl, subNode)
         Next
     End Sub
-    Private Sub UnloadNode(node As TreeNode)
-        ImageHandling.ReleaseImage(node, treeViewDirs.ImageList)
+    Private Sub UnloadSubNodes(node As TreeNode)
+        For Each item As TreeNode In node.Nodes
+            TreeNodeData.GetData(item)?.Unload().Wait()
+            ImageHandling.ReleaseImage(item, treeViewDirs.ImageList)
+        Next
     End Sub
 
     Public Sub ShowNode(baseControl As Control, nodePath As String)
@@ -507,9 +521,7 @@ Public Class FileBrowser
         End Try
     End Sub
     Private Async Sub treeViewDirs_AfterCollapse(sender As Object, e As TreeViewEventArgs) Handles treeViewDirs.AfterCollapse
-        For Each item As TreeNode In e.Node.Nodes
-            Await TreeNodeData.GetData(item).Unload()
-        Next
+        Await TreeNodeData.GetData(e.Node).Unload()
     End Sub
     Private Sub treeViewDirs_BeforeLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles treeViewDirs.BeforeLabelEdit
         If e.Node.Parent Is Nothing Then

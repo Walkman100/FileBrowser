@@ -211,10 +211,6 @@ Namespace ImageHandling
                     imageList.Images.RemoveByKey(node.FixedFullPath())
                 End If
             End If
-
-            For Each item As TreeNode In node.Nodes
-                ReleaseImage(item, imageList)
-            Next
         End Sub
     End Module
 
