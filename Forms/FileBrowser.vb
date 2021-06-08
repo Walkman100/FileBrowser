@@ -85,8 +85,7 @@ Public Class FileBrowser
             menuFileOpenWith.Visible = False
             menuFileRelaunch.Visible = False
 
-            Dim subNode As TreeNode = treeViewDirs.Nodes.Add(Path.DirectorySeparatorChar)
-            subNode.Nodes.Add("")
+            AddRootNode(treeViewDirs, Path.DirectorySeparatorChar)
         End If
 
         handle_SelectedItemChanged()
@@ -229,6 +228,12 @@ Public Class FileBrowser
         SetNodeExpandable(Me, node)
         SetNodeColor(node, Settings)
         If Settings.EnableIcons Then SetNodeImage(Settings, node)
+        TreeNodeData.AssignData(node, loadAction:=Sub(sender, ct) LoadNode(Me, sender, ct), unloadAction:=AddressOf UnloadNode)
+        Return node
+    End Function
+    Private Function AddSubNode(baseControl As Control, parent As TreeNode, name As String) As TreeNode
+        Dim node As TreeNode = Helpers.AutoInvoke(baseControl, Function() parent.Nodes.Add(name, name))
+        TreeNodeData.AssignData(node, loadAction:=Sub(sender, ct) LoadNode(baseControl, sender, ct), unloadAction:=AddressOf UnloadNode)
         Return node
     End Function
     Private Sub SetNodeExpandable(baseControl As Control, node As TreeNode)
@@ -415,14 +420,14 @@ Public Class FileBrowser
         End If
     End Sub
 
-    Private Sub LoadNode(baseControl As Control, node As TreeNode)
+    Private Sub LoadNode(baseControl As Control, node As TreeNode, ct As Threading.CancellationToken)
         Helpers.AutoInvoke(baseControl, Sub() node.Nodes.Clear())
 
         Dim _settings As Settings = Helpers.AutoInvoke(baseControl, Function() Settings)
 
         treeViewDirs.BeginUpdate()
         For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(Me, node.FullPath)
-            Helpers.AutoInvoke(baseControl, Function() node.Nodes.Add(item.DisplayName, item.DisplayName))
+            AddSubNode(baseControl, node, item.DisplayName)
         Next
         treeViewDirs.EndUpdate()
 
@@ -443,6 +448,9 @@ Public Class FileBrowser
         For Each subNode As TreeNode In node.Nodes
             SetNodeExpandable(baseControl, subNode)
         Next
+    End Sub
+    Private Sub UnloadNode(node As TreeNode)
+        ImageHandling.ReleaseImage(node, treeViewDirs.ImageList)
     End Sub
 
     Public Sub ShowNode(baseControl As Control, nodePath As String)
@@ -468,7 +476,7 @@ Public Class FileBrowser
                 parent.Expand()
                 g_disableNodeLoad = False
 
-                LoadNode(baseControl, parent)
+                TreeNodeData.GetData(parent).Load().Wait()
             End If
         Next
 
@@ -490,7 +498,7 @@ Public Class FileBrowser
     Private Async Sub treeViewDirs_BeforeExpand(sender As Object, e As TreeViewCancelEventArgs) Handles treeViewDirs.BeforeExpand
         Try
             If Not g_disableNodeLoad Then
-                Await Task.Run(Sub() LoadNode(Me, e.Node))
+                Await TreeNodeData.GetData(e.Node).Load()
                 ' note the below actually does nothing, as the event finishes firing when Await is reached
                 If e.Node.Nodes.Count = 0 Then e.Cancel = True
             End If
@@ -498,9 +506,9 @@ Public Class FileBrowser
             ErrorParser(ex)
         End Try
     End Sub
-    Private Sub treeViewDirs_AfterCollapse(sender As Object, e As TreeViewEventArgs) Handles treeViewDirs.AfterCollapse
+    Private Async Sub treeViewDirs_AfterCollapse(sender As Object, e As TreeViewEventArgs) Handles treeViewDirs.AfterCollapse
         For Each item As TreeNode In e.Node.Nodes
-            ImageHandling.ReleaseImage(item, treeViewDirs.ImageList)
+            Await TreeNodeData.GetData(item).Unload()
         Next
     End Sub
     Private Sub treeViewDirs_BeforeLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles treeViewDirs.BeforeLabelEdit
