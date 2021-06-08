@@ -31,10 +31,10 @@ Public Class ExpandableList
             Return New List(Of ListViewItem)(lstMain.Items.Cast(Of ListViewItem))
         End Get
         Set(value As List(Of ListViewItem))
-            lstMain.BeginUpdate()
-            lstMain.Items.Clear()
-            lstMain.Items.AddRange(value.ToArray())
-            lstMain.EndUpdate()
+            Using New Helpers.FreezeUpdate(lstMain)
+                lstMain.Items.Clear()
+                lstMain.Items.AddRange(value.ToArray())
+            End Using
             setLabelText()
             setHeight()
         End Set

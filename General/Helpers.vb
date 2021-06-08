@@ -70,6 +70,33 @@ Namespace Helpers
             End Select
         End Sub
 
+        Public Class FreezeUpdate
+            Implements IDisposable
+            Private ReadOnly frozenControl As System.ComponentModel.Component
+            Private disposed As Boolean = False
+
+            Public Sub New(control As System.ComponentModel.Component)
+                frozenControl = control
+                BeginUpdate(control)
+            End Sub
+
+            Protected Overridable Overloads Sub Dispose(disposing As Boolean)
+                If Not disposed Then
+                    If disposing Then EndUpdate(frozenControl)
+                    disposed = True
+                End If
+            End Sub
+
+            Public Overloads Sub Dispose() Implements IDisposable.Dispose
+                Dispose(True)
+                GC.SuppressFinalize(Me)
+            End Sub
+            Protected Overrides Sub Finalize()
+                Dispose(False)
+                MyBase.Finalize()
+            End Sub
+        End Class
+
         Public Function Invoke(Of T)(control As Control, method As Func(Of T)) As T
             Return DirectCast(control.Invoke(method), T)
         End Function

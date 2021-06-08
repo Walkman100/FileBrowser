@@ -425,11 +425,11 @@ Public Class FileBrowser
 
         Dim _settings As Settings = Helpers.AutoInvoke(baseControl, Function() Settings)
 
-        treeViewDirs.BeginUpdate()
-        For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(Me, node.FullPath)
-            AddSubNode(baseControl, node, item.DisplayName)
-        Next
-        treeViewDirs.EndUpdate()
+        Using New Helpers.FreezeUpdate(treeViewDirs)
+            For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(Me, node.FullPath)
+                AddSubNode(baseControl, node, item.DisplayName)
+            Next
+        End Using
 
         ' set node Color and Image in background, use Task.Run so we can continue loading nodes while these are running
         Task.Run(Sub()
@@ -706,23 +706,23 @@ Public Class FileBrowser
         itemClipboard.PasteItems(CurrentDir, ItemClipboard.PasteType.Junction, useSystem:=True)
     End Sub
     Private Sub menuEditSelectAll_Click() Handles menuEditSelectAll.Click
-        lstCurrent.BeginUpdate()
-        For Each item As ListViewItem In lstCurrent.Items
-            item.Selected = True
-        Next
-        lstCurrent.EndUpdate()
+        Using New Helpers.FreezeUpdate(lstCurrent)
+            For Each item As ListViewItem In lstCurrent.Items
+                item.Selected = True
+            Next
+        End Using
     End Sub
     Private Sub menuEditDeselectAll_Click() Handles menuEditDeselectAll.Click
-        lstCurrent.BeginUpdate()
-        lstCurrent.SelectedItems.Clear()
-        lstCurrent.EndUpdate()
+        Using New Helpers.FreezeUpdate(lstCurrent)
+            lstCurrent.SelectedItems.Clear()
+        End Using
     End Sub
     Private Sub menuEditInvert_Click() Handles menuEditInvert.Click
-        lstCurrent.BeginUpdate()
-        For Each item As ListViewItem In lstCurrent.Items
-            item.Selected = Not item.Selected
-        Next
-        lstCurrent.EndUpdate()
+        Using New Helpers.FreezeUpdate(lstCurrent)
+            For Each item As ListViewItem In lstCurrent.Items
+                item.Selected = Not item.Selected
+            Next
+        End Using
     End Sub
 
     Private Sub menuGoBack_Click() Handles menuGoBack.Click

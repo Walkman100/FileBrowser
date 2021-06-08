@@ -314,48 +314,48 @@ Public Class ContextMenuConfig
         End If
     End Sub
     Private Sub btnDelete_Click() Handles btnDelete.Click
-        lstMain.BeginUpdate()
-        For Each item As ListViewItem In lstMain.SelectedItems
-            item.Remove()
-        Next
-        lstMain.EndUpdate()
+        Using New Helpers.FreezeUpdate(lstMain)
+            For Each item As ListViewItem In lstMain.SelectedItems
+                item.Remove()
+            Next
+        End Using
     End Sub
 
     Private Sub btnMoveUp_Click() Handles btnMoveUp.Click
-        lstMain.BeginUpdate()
         allowEdit = False
+        Using New Helpers.FreezeUpdate(lstMain)
 
-        For Each item As ListViewItem In lstMain.SelectedItems
-            Dim oldIndex As Integer = item.Index
-            item.Remove()
+            For Each item As ListViewItem In lstMain.SelectedItems
+                Dim oldIndex As Integer = item.Index
+                item.Remove()
 
-            If oldIndex = 0 Then
-                lstMain.Items.Add(item)
-            Else
-                lstMain.Items.Insert(oldIndex - 1, item)
-            End If
-        Next
+                If oldIndex = 0 Then
+                    lstMain.Items.Add(item)
+                Else
+                    lstMain.Items.Insert(oldIndex - 1, item)
+                End If
+            Next
 
-        lstMain.EndUpdate()
+        End Using
         allowEdit = True
     End Sub
 
     Private Sub btnMoveDown_Click() Handles btnMoveDown.Click
         allowEdit = False
-        lstMain.BeginUpdate()
+        Using New Helpers.FreezeUpdate(lstMain)
 
-        For Each item As ListViewItem In lstMain.SelectedItems.Cast(Of ListViewItem).Reverse()
-            Dim oldIndex As Integer = item.Index
-            item.Remove()
+            For Each item As ListViewItem In lstMain.SelectedItems.Cast(Of ListViewItem).Reverse()
+                Dim oldIndex As Integer = item.Index
+                item.Remove()
 
-            If oldIndex = lstMain.Items.Count Then
-                lstMain.Items.Insert(0, item)
-            Else
-                lstMain.Items.Insert(oldIndex + 1, item)
-            End If
-        Next
+                If oldIndex = lstMain.Items.Count Then
+                    lstMain.Items.Insert(0, item)
+                Else
+                    lstMain.Items.Insert(oldIndex + 1, item)
+                End If
+            Next
 
-        lstMain.EndUpdate()
+        End Using
         allowEdit = True
     End Sub
 
@@ -417,27 +417,27 @@ Public Class ContextMenuConfig
         grpItemAction.Enabled = (cbxItemType.SelectedIndex = 0)
 
         If allowEdit Then
-            lstMain.BeginUpdate()
-            For Each item As ListViewItem In lstMain.SelectedItems
-                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
-                info.EntryType = DirectCast(cbxItemType.SelectedIndex, CtxMenu.EntryType)
+            Using New Helpers.FreezeUpdate(lstMain)
+                For Each item As ListViewItem In lstMain.SelectedItems
+                    Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                    info.EntryType = DirectCast(cbxItemType.SelectedIndex, CtxMenu.EntryType)
 
-                UpdateItem(item, info)
-            Next
-            lstMain.EndUpdate()
+                    UpdateItem(item, info)
+                Next
+            End Using
         End If
     End Sub
 
     Private Sub txtItemText_TextChanged() Handles txtItemText.TextChanged
         If allowEdit Then
-            lstMain.BeginUpdate()
-            For Each item As ListViewItem In lstMain.SelectedItems
-                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
-                info.Text = txtItemText.Text
+            Using New Helpers.FreezeUpdate(lstMain)
+                For Each item As ListViewItem In lstMain.SelectedItems
+                    Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                    info.Text = txtItemText.Text
 
-                UpdateItem(item, info)
-            Next
-            lstMain.EndUpdate()
+                    UpdateItem(item, info)
+                Next
+            End Using
         End If
     End Sub
     Private Sub txtItemIconPath_TextChanged() Handles txtItemIconPath.TextChanged
@@ -452,14 +452,14 @@ Public Class ContextMenuConfig
         End If
 
         If allowEdit Then
-            lstMain.BeginUpdate()
-            For Each item As ListViewItem In lstMain.SelectedItems
-                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
-                info.IconPath = txtItemIconPath.Text
+            Using New Helpers.FreezeUpdate(lstMain)
+                For Each item As ListViewItem In lstMain.SelectedItems
+                    Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                    info.IconPath = txtItemIconPath.Text
 
-                UpdateItem(item, info)
-            Next
-            lstMain.EndUpdate()
+                    UpdateItem(item, info)
+                Next
+            End Using
         End If
     End Sub
     Private Sub btnItemIconBrowse_Click() Handles btnItemIconBrowse.Click
@@ -488,38 +488,38 @@ Public Class ContextMenuConfig
         txtItemIconPath_TextChanged() ' update admin icon in preview
 
         If allowEdit Then
-            lstMain.BeginUpdate()
-            For Each item As ListViewItem In lstMain.SelectedItems
-                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
-                info.AdminIcon = chkItemAdmin.Checked
+            Using New Helpers.FreezeUpdate(lstMain)
+                For Each item As ListViewItem In lstMain.SelectedItems
+                    Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                    info.AdminIcon = chkItemAdmin.Checked
 
-                UpdateItem(item, info)
-            Next
-            lstMain.EndUpdate()
+                    UpdateItem(item, info)
+                Next
+            End Using
         End If
     End Sub
     Private Sub chkItemIsSubItem_CheckedChanged() Handles chkItemIsSubItem.CheckedChanged
         If allowEdit Then
-            lstMain.BeginUpdate()
-            For Each item As ListViewItem In lstMain.SelectedItems
-                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
-                info.IsSubItem = chkItemIsSubItem.Checked
+            Using New Helpers.FreezeUpdate(lstMain)
+                For Each item As ListViewItem In lstMain.SelectedItems
+                    Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                    info.IsSubItem = chkItemIsSubItem.Checked
 
-                UpdateItem(item, info)
-            Next
-            lstMain.EndUpdate()
+                    UpdateItem(item, info)
+                Next
+            End Using
         End If
     End Sub
     Private Sub chkItemExtended_CheckedChanged() Handles chkItemExtended.CheckedChanged
         If allowEdit Then
-            lstMain.BeginUpdate()
-            For Each item As ListViewItem In lstMain.SelectedItems
-                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
-                info.Extended = chkItemExtended.Checked
+            Using New Helpers.FreezeUpdate(lstMain)
+                For Each item As ListViewItem In lstMain.SelectedItems
+                    Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                    info.Extended = chkItemExtended.Checked
 
-                UpdateItem(item, info)
-            Next
-            lstMain.EndUpdate()
+                    UpdateItem(item, info)
+                Next
+            End Using
         End If
     End Sub
     Private Sub chkItemRestrict_CheckedChanged() Handles chkItemRestrict.CheckedChanged
@@ -528,42 +528,42 @@ Public Class ContextMenuConfig
         If chkItemRestrict.Checked Then
             If cbxItemRestrict.SelectedIndex <> -1 Then cbxItemRestrict_SelectedIndexChanged()
         ElseIf allowEdit Then
-            lstMain.BeginUpdate()
-            For Each item As ListViewItem In lstMain.SelectedItems
-                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
-                info.FileOnly = False
-                info.DirectoryOnly = False
-                info.DriveOnly = False
+            Using New Helpers.FreezeUpdate(lstMain)
+                For Each item As ListViewItem In lstMain.SelectedItems
+                    Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                    info.FileOnly = False
+                    info.DirectoryOnly = False
+                    info.DriveOnly = False
 
-                UpdateItem(item, info)
-            Next
-            lstMain.EndUpdate()
+                    UpdateItem(item, info)
+                Next
+            End Using
         End If
     End Sub
     Private Sub cbxItemRestrict_SelectedIndexChanged() Handles cbxItemRestrict.SelectedIndexChanged
         If allowEdit Then
-            lstMain.BeginUpdate()
-            For Each item As ListViewItem In lstMain.SelectedItems
-                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
-                info.FileOnly = (cbxItemRestrict.SelectedIndex = 0)
-                info.DirectoryOnly = (cbxItemRestrict.SelectedIndex = 1)
-                info.DriveOnly = (cbxItemRestrict.SelectedIndex = 2)
+            Using New Helpers.FreezeUpdate(lstMain)
+                For Each item As ListViewItem In lstMain.SelectedItems
+                    Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                    info.FileOnly = (cbxItemRestrict.SelectedIndex = 0)
+                    info.DirectoryOnly = (cbxItemRestrict.SelectedIndex = 1)
+                    info.DriveOnly = (cbxItemRestrict.SelectedIndex = 2)
 
-                UpdateItem(item, info)
-            Next
-            lstMain.EndUpdate()
+                    UpdateItem(item, info)
+                Next
+            End Using
         End If
     End Sub
     Private Sub txtItemFilter_TextChanged() Handles txtItemFilter.TextChanged
         If allowEdit Then
-            lstMain.BeginUpdate()
-            For Each item As ListViewItem In lstMain.SelectedItems
-                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
-                info.Filter = txtItemFilter.Text
+            Using New Helpers.FreezeUpdate(lstMain)
+                For Each item As ListViewItem In lstMain.SelectedItems
+                    Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                    info.Filter = txtItemFilter.Text
 
-                UpdateItem(item, info)
-            Next
-            lstMain.EndUpdate()
+                    UpdateItem(item, info)
+                Next
+            End Using
         End If
     End Sub
     Private Sub cbxItemActionType_SelectedIndexChanged() Handles cbxItemActionType.SelectedIndexChanged
@@ -598,38 +598,38 @@ Public Class ContextMenuConfig
         End If
 
         If allowEdit Then
-            lstMain.BeginUpdate()
-            For Each item As ListViewItem In lstMain.SelectedItems
-                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
-                info.ActionType = DirectCast(cbxItemActionType.SelectedIndex, CtxMenu.ActionType)
+            Using New Helpers.FreezeUpdate(lstMain)
+                For Each item As ListViewItem In lstMain.SelectedItems
+                    Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                    info.ActionType = DirectCast(cbxItemActionType.SelectedIndex, CtxMenu.ActionType)
 
-                UpdateItem(item, info)
-            Next
-            lstMain.EndUpdate()
+                    UpdateItem(item, info)
+                Next
+            End Using
         End If
     End Sub
     Private Sub txtItemActionFile_TextChanged() Handles txtItemActionFile.TextChanged
         If allowEdit Then
-            lstMain.BeginUpdate()
-            For Each item As ListViewItem In lstMain.SelectedItems
-                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
-                info.ActionArgs1 = txtItemActionFile.Text
+            Using New Helpers.FreezeUpdate(lstMain)
+                For Each item As ListViewItem In lstMain.SelectedItems
+                    Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                    info.ActionArgs1 = txtItemActionFile.Text
 
-                UpdateItem(item, info)
-            Next
-            lstMain.EndUpdate()
+                    UpdateItem(item, info)
+                Next
+            End Using
         End If
     End Sub
     Private Sub txtItemActionArgs_TextChanged() Handles txtItemActionArgs.TextChanged
         If allowEdit Then
-            lstMain.BeginUpdate()
-            For Each item As ListViewItem In lstMain.SelectedItems
-                Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
-                info.ActionArgs2 = txtItemActionArgs.Text
+            Using New Helpers.FreezeUpdate(lstMain)
+                For Each item As ListViewItem In lstMain.SelectedItems
+                    Dim info As CtxMenu.EntryInfo = GetItemInfo(item)
+                    info.ActionArgs2 = txtItemActionArgs.Text
 
-                UpdateItem(item, info)
-            Next
-            lstMain.EndUpdate()
+                    UpdateItem(item, info)
+                Next
+            End Using
         End If
     End Sub
 

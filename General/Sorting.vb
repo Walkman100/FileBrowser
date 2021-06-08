@@ -43,10 +43,10 @@ Public Class Sorting
 
         If cancelCheck Is Nothing OrElse Not cancelCheck() Then
             Helpers.AutoInvoke(baseControl, Sub()
-                                                Helpers.BeginUpdate(hostControl)
-                                                items.Clear()
-                                                items.AddRange(itemArr)
-                                                Helpers.EndUpdate(hostControl)
+                                                Using New Helpers.FreezeUpdate(hostControl)
+                                                    items.Clear()
+                                                    items.AddRange(itemArr)
+                                                End Using
                                             End Sub)
         End If
     End Sub
