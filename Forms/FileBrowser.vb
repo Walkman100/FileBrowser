@@ -25,7 +25,7 @@ Public Class FileBrowser
                 _currentDir = value
                 cbxURI.Text = value
                 LoadFolder()
-                Task.Run(Sub() ShowNode(Me, value))
+                Task.Run(Sub() ShowNode(value))
                 If Settings.RememberDir Then
                     Settings.txtDefaultDir.Text = value
                 End If
@@ -470,7 +470,7 @@ Public Class FileBrowser
         Next
     End Sub
 
-    Public Sub ShowNode(baseControl As Control, nodePath As String)
+    Public Sub ShowNode(nodePath As String)
         Dim parent As TreeNode = Nothing
         For Each folder As String In nodePath.Split({Path.DirectorySeparatorChar}, StringSplitOptions.RemoveEmptyEntries)
             Dim foundNodes As TreeNode()
@@ -524,7 +524,11 @@ Public Class FileBrowser
         End Try
     End Sub
     Private Async Sub treeViewDirs_AfterCollapse(sender As Object, e As TreeViewEventArgs) Handles treeViewDirs.AfterCollapse
-        Await TreeNodeData.GetData(e.Node).Unload()
+        Try
+            Await TreeNodeData.GetData(e.Node).Unload()
+        Catch ex As Exception
+            ErrorParser(ex)
+        End Try
     End Sub
     Private Sub treeViewDirs_BeforeLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles treeViewDirs.BeforeLabelEdit
         If e.Node.Parent Is Nothing Then
@@ -756,9 +760,7 @@ Public Class FileBrowser
         Select Case WalkmanLib.GetOS()
             Case WalkmanLib.OS.Windows
                 CurrentDir = Environment.GetEnvironmentVariable("UserProfile")
-            Case WalkmanLib.OS.Linux
-                CurrentDir = Environment.GetEnvironmentVariable("HOME")
-            Case WalkmanLib.OS.MacOS
+            Case WalkmanLib.OS.Linux, WalkmanLib.OS.MacOS
                 CurrentDir = Environment.GetEnvironmentVariable("HOME")
         End Select
     End Sub
