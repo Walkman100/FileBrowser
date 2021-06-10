@@ -257,21 +257,21 @@ Public Class FileBrowser
     ' TreeView helpers
     Private Function AddRootNode(root As TreeView, path As String) As TreeNode
         Dim node As TreeNode = root.Nodes.Add(path, path)
-        SetNodeExpandable(Me, node)
+        SetNodeExpandable(node)
         SetNodeColor(node, Settings)
         If Settings.EnableIcons Then SetNodeImage(Settings, node)
-        TreeNodeData.AssignData(node, loadAction:=Function(sender, ct) LoadNode(Me, sender, ct), unloadAction:=AddressOf UnloadSubNodes)
+        TreeNodeData.AssignData(node, loadAction:=AddressOf LoadNode, unloadAction:=AddressOf UnloadSubNodes)
         Return node
     End Function
-    Private Function AddSubNode(baseControl As Control, parent As TreeNode, name As String) As TreeNode
-        Dim node As TreeNode = Helpers.AutoInvoke(baseControl, Function() parent.Nodes.Add(name, name))
-        TreeNodeData.AssignData(node, loadAction:=Function(sender, ct) LoadNode(baseControl, sender, ct), unloadAction:=AddressOf UnloadSubNodes)
+    Private Function AddSubNode(parent As TreeNode, name As String) As TreeNode
+        Dim node As TreeNode = Helpers.AutoInvoke(Me, Function() parent.Nodes.Add(name, name))
+        TreeNodeData.AssignData(node, loadAction:=AddressOf LoadNode, unloadAction:=AddressOf UnloadSubNodes)
         Return node
     End Function
-    Private Sub SetNodeExpandable(baseControl As Control, node As TreeNode)
+    Private Sub SetNodeExpandable(node As TreeNode)
         Try
             If Directory.EnumerateDirectories(node.FullPath).Any() Then
-                Helpers.AutoInvoke(baseControl, Sub() node.Nodes.Add(""))
+                Helpers.AutoInvoke(Me, Sub() node.Nodes.Add(""))
             End If
         Catch : End Try
     End Sub
@@ -300,19 +300,19 @@ Public Class FileBrowser
     End Sub
 
     ' Loading Data
-    Private Function LoadNode(baseControl As Control, node As TreeNode, ct As Threading.CancellationToken) As Task()
+    Private Function LoadNode(node As TreeNode, ct As Threading.CancellationToken) As Task()
         If ct.IsCancellationRequested Then Return Nothing
-        Helpers.AutoInvoke(baseControl, Sub() node.Nodes.Clear())
+        Helpers.AutoInvoke(Me, Sub() node.Nodes.Clear())
         If ct.IsCancellationRequested Then Return Nothing
 
-        Dim _settings As Settings = Helpers.AutoInvoke(baseControl, Function() Settings)
+        Dim _settings As Settings = Helpers.AutoInvoke(Me, Function() Settings)
         If ct.IsCancellationRequested Then Return Nothing
 
         Using New Helpers.FreezeUpdate(treeViewDirs)
             If ct.IsCancellationRequested Then Return Nothing
             For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(Me, node.FullPath)
                 If ct.IsCancellationRequested Then Return Nothing
-                AddSubNode(baseControl, node, item.DisplayName)
+                AddSubNode(node, item.DisplayName)
             Next
         End Using
         If ct.IsCancellationRequested Then Return Nothing
@@ -338,7 +338,7 @@ Public Class FileBrowser
 
         For Each subNode As TreeNode In node.Nodes
             If ct.IsCancellationRequested Then Return taskArr
-            SetNodeExpandable(baseControl, subNode)
+            SetNodeExpandable(subNode)
         Next
 
         Return taskArr
@@ -368,6 +368,7 @@ Public Class FileBrowser
             parent = foundNodes(0)
 
             If Not parent.IsExpanded Then
+                parent.EnsureVisible()
                 g_disableNodeLoad = True ' expand event is ran Async, so run it manually instead
                 parent.Expand()
                 g_disableNodeLoad = False
