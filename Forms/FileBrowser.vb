@@ -101,6 +101,30 @@ Public Class FileBrowser
         End If
     End Sub
 
+    Private flagDict As New Dictionary(Of String, WalkmanLib.FlagInfo) From {
+        {"select", New WalkmanLib.FlagInfo With {
+            .shortFlag = "s"c,
+            .hasArgs = True,
+            .action = Function(file)
+                          ShowFile(file)
+                          Return True
+                      End Function
+        }},
+        {"show", New WalkmanLib.FlagInfo With {
+            .hasArgs = True,
+            .action = Function(file)
+                          ShowFile(file)
+                          Return True
+                      End Function
+        }}
+    }
+
+    Protected Overrides Sub WndProc(ByRef m As Message)
+        winCtxMenu.HandleWindowMessage(m)
+        MyBase.WndProc(m)
+    End Sub
+
+#Region "Helpers"
     Public Sub ApplyTheme(theme As WalkmanLib.Theme)
         WalkmanLib.ApplyTheme(theme, Me, True)
         WalkmanLib.ApplyTheme(theme, Me.components.Components, True)
@@ -144,6 +168,52 @@ Public Class FileBrowser
                  End Sub)
     End Sub
 
+    Private Sub UpdateCheckComplete(sender As Object, e As RunWorkerCompletedEventArgs)
+        If Not Settings.DisableUpdateCheck Then
+            If e.Error Is Nothing Then
+                If DirectCast(e.Result, Boolean) Then
+                    Select Case WalkmanLib.CustomMsgBox("An update is available!", "Update Check", "Go to Download page", "Disable Update Check",
+                                                        "Ignore", MessageBoxIcon.Information, ownerForm:=Me)
+                        Case "Go to Download page"
+                            Launch.LaunchItem("https://github.com/Walkman100/FileBrowser/releases/latest", Nothing, Nothing)
+                        Case "Disable Update Check"
+                            Settings.chkDisableUpdateCheck.Checked = True
+                    End Select
+                End If
+            Else
+                MessageBox.Show("Update check failed!" & Environment.NewLine & e.Error.Message, "Update Check", 0, MessageBoxIcon.Exclamation)
+            End If
+        End If
+    End Sub
+
+    Public Function GetSelectedPaths(Optional forceTree As Boolean = False, Optional useGlobalNode As Boolean = False) As String()
+        If Not forceTree AndAlso lstCurrent.SelectedItems.Count > 0 Then
+            Return lstCurrent.SelectedItems.Cast(Of ListViewItem).Select(Function(t) GetItemInfo(t).FullName).ToArray()
+        ElseIf useGlobalNode AndAlso g_selectedNode IsNot Nothing Then
+            Return {g_selectedNode.FixedFullPath}
+        ElseIf Not useGlobalNode AndAlso treeViewDirs.SelectedNode IsNot Nothing Then
+            Return {treeViewDirs.SelectedNode.FixedFullPath}
+        Else
+            Return {}
+        End If
+    End Function
+
+    Public Sub RenameSelected() Handles winCtxMenu.ItemRenamed
+        If lstCurrent.SelectedItems.Count = 1 Then
+            lstCurrent.SelectedItems(0).BeginEdit()
+        ElseIf lstCurrent.SelectedItems.Count > 1 Then
+            Dim newName As String = Path.GetFileNameWithoutExtension(lstCurrent.SelectedItems(0).Text) & "_{0}" & GetItemInfo(lstCurrent.SelectedItems(0)).Extension
+            If Input.GetInput(newName, "Rename Items", "Enter New Name:", "{0} will be replaced with an incrementing number.") = DialogResult.OK Then
+                For i = 1 To lstCurrent.SelectedItems.Count
+                    Dim itemInfo As Filesystem.EntryInfo = GetItemInfo(lstCurrent.SelectedItems(i - 1))
+                    Operations.Rename(itemInfo.FullName, String.Format(newName, i))
+                Next
+            End If
+        ElseIf g_selectedNode IsNot Nothing Then
+            g_selectedNode.BeginEdit()
+        End If
+    End Sub
+
     ''' <summary>Get item colors for current theme</summary>
     ''' <param name="_settings">Instance of <see cref="Settings"/> to get theme from</param>
     ''' <returns><see cref="Tuple"/> with default color as <see langword="Item1"/>, compressed color as <see langword="Item2"/>, and encrypted color as <see langword="Item3"/></returns>
@@ -161,68 +231,30 @@ Public Class FileBrowser
         End If
     End Function
 
-    Private flagDict As New Dictionary(Of String, WalkmanLib.FlagInfo) From {
-        {"select", New WalkmanLib.FlagInfo With {
-            .shortFlag = "s"c,
-            .hasArgs = True,
-            .action = Function(file)
-                          ShowFile(file)
-                          Return True
-                      End Function
-        }},
-        {"show", New WalkmanLib.FlagInfo With {
-            .hasArgs = True,
-            .action = Function(file)
-                          ShowFile(file)
-                          Return True
-                      End Function
-        }}
-    }
+    Private Sub SelectItem(name As String)
+        lstCurrent.SelectedItems.Clear()
 
-    Protected Overrides Sub WndProc(ByRef m As Message)
-        winCtxMenu.HandleWindowMessage(m)
-        MyBase.WndProc(m)
+        For Each item As ListViewItem In lstCurrent.Items
+            Dim itemInfo As Filesystem.EntryInfo = GetItemInfo(item)
+            If Helpers.GetFileName(itemInfo.FullName).ToLowerInvariant() = name.ToLowerInvariant() Then
+                item.Selected = True
+                item.Focused = True
+                item.EnsureVisible()
+            End If
+        Next
+        lstCurrent.Select()
     End Sub
 
-#Region "Helpers"
-    Private Shared Function UpdateItem(item As ListViewItem, itemInfo As Filesystem.EntryInfo) As ListViewItem
-        item.Tag = itemInfo
-        item.Text = itemInfo.DisplayName
-        item.SubItems.Item(1).Text = itemInfo.Extension
-        item.SubItems.Item(2).Text = itemInfo.LastWriteTime.ToString()
-        item.SubItems.Item(3).Text = itemInfo.LastAccessTime.ToString()
-        item.SubItems.Item(4).Text = itemInfo.CreationTime.ToString()
-        item.SubItems.Item(5).Text = Helpers.ConvSize(itemInfo.Size)
-        item.SubItems.Item(6).Text = Helpers.ConvSize(itemInfo.SizeOnDisk)
-        item.SubItems.Item(7).Text = itemInfo.Attributes.ToString()
-        item.SubItems.Item(8).Text = itemInfo.AllTarget
-        item.SubItems.Item(9).Text = itemInfo.SymlinkTarget
-        item.SubItems.Item(10).Text = itemInfo.LinkTarget
-        item.SubItems.Item(11).Text = itemInfo.UrlTarget
-        item.SubItems.Item(12).Text = itemInfo.HardlinkCount.ToString()
-        item.SubItems.Item(13).Text = itemInfo.ADSCount.ToString()
-        item.SubItems.Item(14).Text = itemInfo.OpensWith
-        item.SubItems.Item(15).Text = itemInfo.DownloadURL
-        item.SubItems.Item(16).Text = itemInfo.DownloadReferrer
-
-        Dim colors As Tuple(Of Color, Color, Color) = GetItemColors(Settings)
-        If Settings.HighlightCompressed AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Compressed) Then
-            item.ForeColor = colors.Item2
-        ElseIf Settings.HighlightEncrypted AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Encrypted) Then
-            item.ForeColor = colors.Item3
-        Else
-            item.ForeColor = colors.Item1
+    Public Sub ShowFile(filePath As String)
+        CurrentDir = Path.GetDirectoryName(filePath)
+        If CurrentDir = Path.GetDirectoryName(filePath) Then ' have to check, as the path could be not loaded
+            SelectItem(Helpers.GetFileName(filePath))
         End If
+    End Sub
+#End Region
 
-        Return item
-    End Function
-    Private Shared Function CreateItem(itemInfo As Filesystem.EntryInfo) As ListViewItem
-        Return UpdateItem(New ListViewItem(Enumerable.Repeat(String.Empty, 17).ToArray()), itemInfo)
-    End Function
-    Public Shared Function GetItemInfo(item As ListViewItem) As Filesystem.EntryInfo
-        Return DirectCast(item.Tag, Filesystem.EntryInfo)
-    End Function
-
+#Region "TreeView"
+    ' TreeView helpers
     Private Function AddRootNode(root As TreeView, path As String) As TreeNode
         Dim node As TreeNode = root.Nodes.Add(path, path)
         SetNodeExpandable(Me, node)
@@ -267,159 +299,7 @@ Public Class FileBrowser
         ImageHandling.SetImage(_settings, node, treeViewDirs.ImageList, treeViewDirs.ImageList.ImageSize.Width)
     End Sub
 
-    Public Function GetSelectedPaths(Optional forceTree As Boolean = False, Optional useGlobalNode As Boolean = False) As String()
-        If Not forceTree AndAlso lstCurrent.SelectedItems.Count > 0 Then
-            Return lstCurrent.SelectedItems.Cast(Of ListViewItem).Select(Function(t) GetItemInfo(t).FullName).ToArray()
-        ElseIf useGlobalNode AndAlso g_selectedNode IsNot Nothing Then
-            Return {g_selectedNode.FixedFullPath}
-        ElseIf Not useGlobalNode AndAlso treeViewDirs.SelectedNode IsNot Nothing Then
-            Return {treeViewDirs.SelectedNode.FixedFullPath}
-        Else
-            Return {}
-        End If
-    End Function
-
-    Public Sub RenameSelected() Handles winCtxMenu.ItemRenamed
-        If lstCurrent.SelectedItems.Count = 1 Then
-            lstCurrent.SelectedItems(0).BeginEdit()
-        ElseIf lstCurrent.SelectedItems.Count > 1 Then
-            Dim newName As String = Path.GetFileNameWithoutExtension(lstCurrent.SelectedItems(0).Text) & "_{0}" & GetItemInfo(lstCurrent.SelectedItems(0)).Extension
-            If Input.GetInput(newName, "Rename Items", "Enter New Name:", "{0} will be replaced with an incrementing number.") = DialogResult.OK Then
-                For i = 1 To lstCurrent.SelectedItems.Count
-                    Dim itemInfo As Filesystem.EntryInfo = GetItemInfo(lstCurrent.SelectedItems(i - 1))
-                    Operations.Rename(itemInfo.FullName, String.Format(newName, i))
-                Next
-            End If
-        ElseIf g_selectedNode IsNot Nothing Then
-            g_selectedNode.BeginEdit()
-        End If
-    End Sub
-
-    Private Sub UpdateCheckComplete(sender As Object, e As RunWorkerCompletedEventArgs)
-        If Not Settings.DisableUpdateCheck Then
-            If e.Error Is Nothing Then
-                If DirectCast(e.Result, Boolean) Then
-                    Select Case WalkmanLib.CustomMsgBox("An update is available!", "Update Check", "Go to Download page", "Disable Update Check",
-                                                        "Ignore", MessageBoxIcon.Information, ownerForm:=Me)
-                        Case "Go to Download page"
-                            Launch.LaunchItem("https://github.com/Walkman100/FileBrowser/releases/latest", Nothing, Nothing)
-                        Case "Disable Update Check"
-                            Settings.chkDisableUpdateCheck.Checked = True
-                    End Select
-                End If
-            Else
-                MessageBox.Show("Update check failed!" & Environment.NewLine & e.Error.Message, "Update Check", 0, MessageBoxIcon.Exclamation)
-            End If
-        End If
-    End Sub
-#End Region
-
-#Region "Loading Data"
-    Private Async Sub LoadFolder()
-        fswCurrent.EnableRaisingEvents = False
-
-        If bwLoadFolder.IsBusy Then
-            ' thanks to https://web.archive.org/web/20210315183540/https://social.msdn.microsoft.com/Forums/windowsapps/en-US/a9330b2a-9552-4722-a238-3a6d24f0c3a0/quotawaitquot-for-backgroundworker#54a41b87-8fbd-4416-b356-c64b0f79d935-isAnswer
-            Dim tcs As New TaskCompletionSource(Of Object)
-            Dim handler As RunWorkerCompletedEventHandler = Sub() tcs.TrySetResult(Nothing)
-
-            AddHandler bwLoadFolder.RunWorkerCompleted, handler
-            bwLoadFolder.CancelAsync()
-
-            Await tcs.Task
-            RemoveHandler bwLoadFolder.RunWorkerCompleted, handler
-        End If
-
-        lstCurrent.Items.Clear()
-        lstCurrent.SmallImageList = Nothing
-        lstCurrent.LargeImageList = Nothing
-        g_disableSaveColumns = True
-
-        Try
-            bwLoadFolder.RunWorkerAsync()
-        Catch ex As Exception
-            statusLabel.Text = "Error starting BackgroundWorker: " & ex.Message
-        End Try
-    End Sub
-
-    Private Sub bwLoadFolder_DoWork(sender As Object, e As DoWorkEventArgs) Handles bwLoadFolder.DoWork
-        Dim bw As BackgroundWorker = DirectCast(sender, BackgroundWorker)
-        Dim cancelCheck As Func(Of Boolean) = Function() bw.CancellationPending
-
-        If cancelCheck() Then e.Cancel = True : Return
-
-        Dim colLst As List(Of Settings.Column) = Helpers.Invoke(Me, Function() Settings.DefaultColumns)
-        If cancelCheck() Then e.Cancel = True : Return
-        Helpers.ApplyColumns(Me, colLst)
-        If cancelCheck() Then e.Cancel = True : Return
-
-        If Helpers.Invoke(Me, Function() Settings.SaveColumns) Then
-            FolderSettings.GetColumns(Me, CurrentDir)
-        End If
-        If cancelCheck() Then e.Cancel = True : Return
-        Invoke(Sub() g_disableSaveColumns = False)
-
-        Parallel.ForEach(Filesystem.GetItems(Me, _currentDir),
-                         New ParallelOptions With {.MaxDegreeOfParallelism = Environment.ProcessorCount},
-                         Sub(itemInfo, loopState)
-                             If cancelCheck() Then loopState.Stop() : Return
-                             Invoke(Sub() lstCurrent.Items.Add(CreateItem(itemInfo)))
-                             If cancelCheck() Then loopState.Stop() : Return
-                         End Sub)
-
-        If cancelCheck() Then e.Cancel = True : Return
-
-        Invoke(Sub() lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(Sorting.SortBy.Name, SortOrder.Ascending))
-        If cancelCheck() Then e.Cancel = True : Return
-        Sorting.Sort(Me, lstCurrent, lstCurrent.Items, lastSort.Key, lastSort.Value, cancelCheck)
-
-        If cancelCheck() Then e.Cancel = True : Return
-
-        If Helpers.Invoke(Me, Function() Settings.EnableIcons) Then
-            If cancelCheck() Then e.Cancel = True : Return
-            lstCurrent.SmallImageList = ImageHandling.GetImageList(16)
-            If cancelCheck() Then e.Cancel = True : Return
-            ImageHandling.SetImageListImages(Me, lstCurrent.Items, lstCurrent.SmallImageList, 16, True, cancelCheck)
-        End If
-    End Sub
-
-    Private Sub bwLoadFolder_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bwLoadFolder.RunWorkerCompleted
-        g_disableSaveColumns = False
-
-        If e.Error IsNot Nothing Then
-            ErrorParser(e.Error)
-        ElseIf Not Settings.DisableViewAutoUpdate Then
-            fswCurrent.Path = CurrentDir
-            fswCurrent.EnableRaisingEvents = True
-        End If
-    End Sub
-
-    Private Sub fswCurrent_ItemChanged() Handles fswCurrent.Changed, fswCurrent.Created, fswCurrent.Deleted, fswCurrent.Renamed
-        fswCurrent.EnableRaisingEvents = False
-        If Not Settings.DisableViewAutoUpdate Then LoadFolder()
-    End Sub
-
-    Private Sub SelectItem(name As String)
-        lstCurrent.SelectedItems.Clear()
-
-        For Each item As ListViewItem In lstCurrent.Items
-            Dim itemInfo As Filesystem.EntryInfo = GetItemInfo(item)
-            If Helpers.GetFileName(itemInfo.FullName).ToLowerInvariant() = name.ToLowerInvariant() Then
-                item.Selected = True
-                item.Focused = True
-                item.EnsureVisible()
-            End If
-        Next
-        lstCurrent.Select()
-    End Sub
-
-    Public Sub ShowFile(filePath As String)
-        CurrentDir = Path.GetDirectoryName(filePath)
-        If CurrentDir = Path.GetDirectoryName(filePath) Then ' have to check, as the path could be not loaded
-            SelectItem(Helpers.GetFileName(filePath))
-        End If
-    End Sub
-
+    ' Loading Data
     Private Function LoadNode(baseControl As Control, node As TreeNode, ct As Threading.CancellationToken) As Task()
         If ct.IsCancellationRequested Then Return Nothing
         Helpers.AutoInvoke(baseControl, Sub() node.Nodes.Clear())
@@ -469,7 +349,6 @@ Public Class FileBrowser
             ImageHandling.ReleaseImage(item, treeViewDirs.ImageList)
         Next
     End Sub
-
     Public Sub ShowNode(nodePath As String)
         Dim parent As TreeNode = Nothing
         For Each folder As String In nodePath.Split({Path.DirectorySeparatorChar}, StringSplitOptions.RemoveEmptyEntries)
@@ -502,9 +381,8 @@ Public Class FileBrowser
         treeViewDirs.SelectedNode = parent
         g_disableNavigate = False
     End Sub
-#End Region
 
-#Region "TreeView"
+    ' Events
     Private g_disableNavigate As Boolean = False
     Private Sub treeViewDirs_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles treeViewDirs.AfterSelect
         If Not g_disableNavigate Then
@@ -541,6 +419,128 @@ Public Class FileBrowser
 #End Region
 
 #Region "ListView"
+    ' ListView helpers
+    Private Shared Function UpdateItem(item As ListViewItem, itemInfo As Filesystem.EntryInfo) As ListViewItem
+        item.Tag = itemInfo
+        item.Text = itemInfo.DisplayName
+        item.SubItems.Item(1).Text = itemInfo.Extension
+        item.SubItems.Item(2).Text = itemInfo.LastWriteTime.ToString()
+        item.SubItems.Item(3).Text = itemInfo.LastAccessTime.ToString()
+        item.SubItems.Item(4).Text = itemInfo.CreationTime.ToString()
+        item.SubItems.Item(5).Text = Helpers.ConvSize(itemInfo.Size)
+        item.SubItems.Item(6).Text = Helpers.ConvSize(itemInfo.SizeOnDisk)
+        item.SubItems.Item(7).Text = itemInfo.Attributes.ToString()
+        item.SubItems.Item(8).Text = itemInfo.AllTarget
+        item.SubItems.Item(9).Text = itemInfo.SymlinkTarget
+        item.SubItems.Item(10).Text = itemInfo.LinkTarget
+        item.SubItems.Item(11).Text = itemInfo.UrlTarget
+        item.SubItems.Item(12).Text = itemInfo.HardlinkCount.ToString()
+        item.SubItems.Item(13).Text = itemInfo.ADSCount.ToString()
+        item.SubItems.Item(14).Text = itemInfo.OpensWith
+        item.SubItems.Item(15).Text = itemInfo.DownloadURL
+        item.SubItems.Item(16).Text = itemInfo.DownloadReferrer
+
+        Dim colors As Tuple(Of Color, Color, Color) = GetItemColors(Settings)
+        If Settings.HighlightCompressed AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Compressed) Then
+            item.ForeColor = colors.Item2
+        ElseIf Settings.HighlightEncrypted AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Encrypted) Then
+            item.ForeColor = colors.Item3
+        Else
+            item.ForeColor = colors.Item1
+        End If
+
+        Return item
+    End Function
+    Private Shared Function CreateItem(itemInfo As Filesystem.EntryInfo) As ListViewItem
+        Return UpdateItem(New ListViewItem(Enumerable.Repeat(String.Empty, 17).ToArray()), itemInfo)
+    End Function
+    Public Shared Function GetItemInfo(item As ListViewItem) As Filesystem.EntryInfo
+        Return DirectCast(item.Tag, Filesystem.EntryInfo)
+    End Function
+
+    ' Loading Data
+    Private Async Sub LoadFolder()
+        fswCurrent.EnableRaisingEvents = False
+
+        If bwLoadFolder.IsBusy Then
+            ' thanks to https://web.archive.org/web/20210315183540/https://social.msdn.microsoft.com/Forums/windowsapps/en-US/a9330b2a-9552-4722-a238-3a6d24f0c3a0/quotawaitquot-for-backgroundworker#54a41b87-8fbd-4416-b356-c64b0f79d935-isAnswer
+            Dim tcs As New TaskCompletionSource(Of Object)
+            Dim handler As RunWorkerCompletedEventHandler = Sub() tcs.TrySetResult(Nothing)
+
+            AddHandler bwLoadFolder.RunWorkerCompleted, handler
+            bwLoadFolder.CancelAsync()
+
+            Await tcs.Task
+            RemoveHandler bwLoadFolder.RunWorkerCompleted, handler
+        End If
+
+        lstCurrent.Items.Clear()
+        lstCurrent.SmallImageList = Nothing
+        lstCurrent.LargeImageList = Nothing
+        g_disableSaveColumns = True
+
+        Try
+            bwLoadFolder.RunWorkerAsync()
+        Catch ex As Exception
+            statusLabel.Text = "Error starting BackgroundWorker: " & ex.Message
+        End Try
+    End Sub
+    Private Sub bwLoadFolder_DoWork(sender As Object, e As DoWorkEventArgs) Handles bwLoadFolder.DoWork
+        Dim bw As BackgroundWorker = DirectCast(sender, BackgroundWorker)
+        Dim cancelCheck As Func(Of Boolean) = Function() bw.CancellationPending
+
+        If cancelCheck() Then e.Cancel = True : Return
+
+        Dim colLst As List(Of Settings.Column) = Helpers.Invoke(Me, Function() Settings.DefaultColumns)
+        If cancelCheck() Then e.Cancel = True : Return
+        Helpers.ApplyColumns(Me, colLst)
+        If cancelCheck() Then e.Cancel = True : Return
+
+        If Helpers.Invoke(Me, Function() Settings.SaveColumns) Then
+            FolderSettings.GetColumns(Me, CurrentDir)
+        End If
+        If cancelCheck() Then e.Cancel = True : Return
+        Invoke(Sub() g_disableSaveColumns = False)
+
+        Parallel.ForEach(Filesystem.GetItems(Me, _currentDir),
+                         New ParallelOptions With {.MaxDegreeOfParallelism = Environment.ProcessorCount},
+                         Sub(itemInfo, loopState)
+                             If cancelCheck() Then loopState.Stop() : Return
+                             Invoke(Sub() lstCurrent.Items.Add(CreateItem(itemInfo)))
+                             If cancelCheck() Then loopState.Stop() : Return
+                         End Sub)
+
+        If cancelCheck() Then e.Cancel = True : Return
+
+        Invoke(Sub() lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(Sorting.SortBy.Name, SortOrder.Ascending))
+        If cancelCheck() Then e.Cancel = True : Return
+        Sorting.Sort(Me, lstCurrent, lstCurrent.Items, lastSort.Key, lastSort.Value, cancelCheck)
+
+        If cancelCheck() Then e.Cancel = True : Return
+
+        If Helpers.Invoke(Me, Function() Settings.EnableIcons) Then
+            If cancelCheck() Then e.Cancel = True : Return
+            lstCurrent.SmallImageList = ImageHandling.GetImageList(16)
+            If cancelCheck() Then e.Cancel = True : Return
+            ImageHandling.SetImageListImages(Me, lstCurrent.Items, lstCurrent.SmallImageList, 16, True, cancelCheck)
+        End If
+    End Sub
+    Private Sub bwLoadFolder_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bwLoadFolder.RunWorkerCompleted
+        g_disableSaveColumns = False
+
+        If e.Error IsNot Nothing Then
+            ErrorParser(e.Error)
+        ElseIf Not Settings.DisableViewAutoUpdate Then
+            fswCurrent.Path = CurrentDir
+            fswCurrent.EnableRaisingEvents = True
+        End If
+    End Sub
+    Private Sub fswCurrent_ItemChanged() Handles fswCurrent.Changed, fswCurrent.Created, fswCurrent.Deleted, fswCurrent.Renamed
+        fswCurrent.EnableRaisingEvents = False
+        If Not Settings.DisableViewAutoUpdate Then LoadFolder()
+    End Sub
+
+    ' Events
     Private Sub lstCurrent_ItemActivate() Handles lstCurrent.ItemActivate
         If lstCurrent.SelectedItems.Count = 1 AndAlso Directory.Exists(GetItemInfo(lstCurrent.SelectedItems.Item(0)).FullName) Then
             CurrentDir = GetItemInfo(lstCurrent.SelectedItems.Item(0)).FullName
