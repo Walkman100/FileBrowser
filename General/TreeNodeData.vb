@@ -5,14 +5,20 @@ Imports System.Windows.Forms
 
 Public Class TreeNodeData
     Public ReadOnly Property Owner As TreeNode
-    Public Sub New(owner As TreeNode, loadAction As Func(Of TreeNode, CancellationToken, Task()), unloadAction As Action(Of TreeNode))
+    Public Sub New(owner As TreeNode, settings As Settings,
+                   loadAction As Func(Of TreeNode, CancellationToken, Task()),
+                   unloadAction As Action(Of TreeNode))
         Me.Owner = owner
         Me.Owner.Tag = Me
+
+        Me.settings = settings
         Me.loadAction = loadAction
         Me.unloadAction = unloadAction
     End Sub
-    Public Shared Function AssignData(treeNode As TreeNode, loadAction As Func(Of TreeNode, CancellationToken, Task()), unloadAction As Action(Of TreeNode)) As TreeNodeData
-        Return New TreeNodeData(treeNode, loadAction, unloadAction)
+    Public Shared Function AssignData(treeNode As TreeNode, settings As Settings,
+                                      loadAction As Func(Of TreeNode, CancellationToken, Task()),
+                                      unloadAction As Action(Of TreeNode)) As TreeNodeData
+        Return New TreeNodeData(treeNode, settings, loadAction, unloadAction)
     End Function
     Public Shared Function GetData(treeNode As TreeNode) As TreeNodeData
         Return DirectCast(treeNode.Tag, TreeNodeData)
@@ -23,12 +29,13 @@ Public Class TreeNodeData
     Private cancelToken As CancellationToken = Nothing
     Private subTasks As Task()
     Private WithEvents fsw As IO.FileSystemWatcher
+    Private ReadOnly settings As Settings
     Private ReadOnly loadAction As Func(Of TreeNode, CancellationToken, Task())
     Private ReadOnly unloadAction As Action(Of TreeNode)
 
     Private Sub fsw_ItemChanged() Handles fsw.Changed, fsw.Created, fsw.Deleted, fsw.Renamed
-        fsw.EnableRaisingEvents = False
-        If Not Settings.DisableTreeAutoUpdate Then
+        If Not Me.settings.DisableTreeAutoUpdate Then
+            fsw.EnableRaisingEvents = False
 
             If cancelTokenSource IsNot Nothing Then
                 cancelTokenSource.Cancel()

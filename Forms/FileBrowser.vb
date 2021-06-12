@@ -261,12 +261,12 @@ Public Class FileBrowser
         SetNodeExpandable(node)
         SetNodeColor(node, Settings)
         If Settings.EnableIcons Then SetNodeImage(Settings, node)
-        TreeNodeData.AssignData(node, loadAction:=AddressOf LoadSubNodes, unloadAction:=AddressOf UnloadSubNodes)
+        TreeNodeData.AssignData(node, Settings, loadAction:=AddressOf LoadSubNodes, unloadAction:=AddressOf UnloadSubNodes)
         Return node
     End Function
     Private Function AddSubNode(parent As TreeNode, name As String) As TreeNode
         Dim node As TreeNode = Helpers.AutoInvoke(Me, Function() parent.Nodes.Add(name, name))
-        TreeNodeData.AssignData(node, loadAction:=AddressOf LoadSubNodes, unloadAction:=AddressOf UnloadSubNodes)
+        TreeNodeData.AssignData(node, Helpers.Invoke(Me, Function() Settings), loadAction:=AddressOf LoadSubNodes, unloadAction:=AddressOf UnloadSubNodes)
         Return node
     End Function
     Private Sub SetNodeExpandable(node As TreeNode)
