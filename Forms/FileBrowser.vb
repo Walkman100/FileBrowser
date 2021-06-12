@@ -300,19 +300,34 @@ Public Class FileBrowser
     ' Loading Data
     Private Function LoadSubNodes(node As TreeNode, ct As Threading.CancellationToken) As Task()
         If ct.IsCancellationRequested Then Return Nothing
-        Helpers.AutoInvoke(Me, Sub() node.Nodes.Clear())
-
-        If ct.IsCancellationRequested Then Return Nothing
         Dim _settings As Settings = Helpers.AutoInvoke(Me, Function() Settings)
 
         If ct.IsCancellationRequested Then Return Nothing
         Using New Helpers.FreezeUpdate(treeViewDirs)
+            Dim nodeNameHashCodes As New HashSet(Of Integer)
 
             If ct.IsCancellationRequested Then Return Nothing
             For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(Me, node.FullPath)
 
                 If ct.IsCancellationRequested Then Return Nothing
-                AddSubNode(node, item.DisplayName)
+                If Not node.Nodes.ContainsKey(item.DisplayName) Then
+                    AddSubNode(node, item.DisplayName)
+                End If
+
+                If ct.IsCancellationRequested Then Return Nothing
+                nodeNameHashCodes.Add(item.DisplayName.GetHashCode())
+            Next
+
+            If ct.IsCancellationRequested Then Return Nothing
+            For Each subNode As TreeNode In node.Nodes.Cast(Of TreeNode) _
+                                                .Where(Function(n) Not nodeNameHashCodes.Contains(n.Name.GetHashCode())) _
+                                                .ToList()
+
+                If ct.IsCancellationRequested Then Return Nothing
+                TreeNodeData.GetData(subNode)?.Unload().Wait()
+
+                If ct.IsCancellationRequested Then Return Nothing
+                Helpers.AutoInvoke(Me, Sub() subNode.Remove())
             Next
         End Using
 
