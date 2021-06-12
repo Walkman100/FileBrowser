@@ -271,8 +271,12 @@ Public Class FileBrowser
     End Function
     Private Sub SetNodeExpandable(node As TreeNode)
         Try
+            Dim subNodeCount As Integer = Helpers.AutoInvoke(Me, Function() node.Nodes.Count)
+
             If Directory.EnumerateDirectories(node.FullPath).Any() Then
-                Helpers.AutoInvoke(Me, Sub() node.Nodes.Add(""))
+                If subNodeCount < 1 Then Helpers.AutoInvoke(Me, Sub() node.Nodes.Add(""))
+            Else
+                If subNodeCount > 0 Then Helpers.AutoInvoke(Me, Sub() node.Nodes.Clear())
             End If
         Catch : End Try
     End Sub

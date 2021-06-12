@@ -48,8 +48,13 @@ Public Class TreeNodeData
     End Sub
 
     Private Sub internalLoad()
-        subTasks = loadAction.Invoke(Owner, cancelToken)
-        fsw.EnableRaisingEvents = True
+        Try
+            subTasks = loadAction.Invoke(Owner, cancelToken)
+            fsw.EnableRaisingEvents = True
+        Catch
+            subTasks = Nothing
+            fsw.EnableRaisingEvents = False
+        End Try
         loadingTask = Nothing
 
         If subTasks IsNot Nothing Then
