@@ -153,16 +153,16 @@ Public Class FileBrowser
                          SetNodeColor(node, _settings, True)
                      Next
                  End Sub)
-        Dim colors As Tuple(Of Color, Color, Color) = GetItemColors(_settings)
+        SetItemColors(_settings)
         Task.Run(Sub()
                      For Each item As ListViewItem In lstCurrent.Items
                          Dim itemInfo As Filesystem.EntryInfo = GetItemInfo(item)
                          If _settings.HighlightCompressed AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Compressed) Then
-                             item.ForeColor = colors.Item2
+                             item.ForeColor = itemColors.Item2
                          ElseIf _settings.HighlightEncrypted AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Encrypted) Then
-                             item.ForeColor = colors.Item3
+                             item.ForeColor = itemColors.Item3
                          Else
-                             item.ForeColor = colors.Item1
+                             item.ForeColor = itemColors.Item1
                          End If
                      Next
                  End Sub)
@@ -214,22 +214,23 @@ Public Class FileBrowser
         End If
     End Sub
 
+    Dim itemColors As Tuple(Of Color, Color, Color)
     ''' <summary>Get item colors for current theme</summary>
     ''' <param name="_settings">Instance of <see cref="Settings"/> to get theme from</param>
     ''' <returns><see cref="Tuple"/> with default color as <see langword="Item1"/>, compressed color as <see langword="Item2"/>, and encrypted color as <see langword="Item3"/></returns>
-    Private Shared Function GetItemColors(_settings As Settings) As Tuple(Of Color, Color, Color)
+    Private Sub SetItemColors(_settings As Settings)
         If _settings.Theme = WalkmanLib.Theme.Default Then
-            Return New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.MediumBlue, Color.Green)
+            itemColors = New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.MediumBlue, Color.Green)
         ElseIf _settings.Theme = WalkmanLib.Theme.SystemDark Then
-            Return New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.LightSkyBlue, Color.LimeGreen)
+            itemColors = New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.LightSkyBlue, Color.LimeGreen)
         ElseIf _settings.Theme = WalkmanLib.Theme.Dark Then
-            Return New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.FromArgb(&HFF3A99E8), Color.LimeGreen)
+            itemColors = New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.FromArgb(&HFF3A99E8), Color.LimeGreen)
         ElseIf _settings.Theme = WalkmanLib.Theme.Inverted Then
-            Return New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.DeepSkyBlue, Color.LimeGreen)
+            itemColors = New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.DeepSkyBlue, Color.LimeGreen)
         Else
-            Return New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.RoyalBlue, Color.Green)
+            itemColors = New Tuple(Of Color, Color, Color)(_settings.Theme.TreeViewFG, Color.RoyalBlue, Color.Green)
         End If
-    End Function
+    End Sub
 
     Private Sub SelectItem(name As String)
         lstCurrent.SelectedItems.Clear()
@@ -260,12 +261,12 @@ Public Class FileBrowser
         SetNodeExpandable(node)
         SetNodeColor(node, Settings)
         If Settings.EnableIcons Then SetNodeImage(Settings, node)
-        TreeNodeData.AssignData(node, loadAction:=AddressOf LoadNode, unloadAction:=AddressOf UnloadSubNodes)
+        TreeNodeData.AssignData(node, loadAction:=AddressOf LoadSubNodes, unloadAction:=AddressOf UnloadSubNodes)
         Return node
     End Function
     Private Function AddSubNode(parent As TreeNode, name As String) As TreeNode
         Dim node As TreeNode = Helpers.AutoInvoke(Me, Function() parent.Nodes.Add(name, name))
-        TreeNodeData.AssignData(node, loadAction:=AddressOf LoadNode, unloadAction:=AddressOf UnloadSubNodes)
+        TreeNodeData.AssignData(node, loadAction:=AddressOf LoadSubNodes, unloadAction:=AddressOf UnloadSubNodes)
         Return node
     End Function
     Private Sub SetNodeExpandable(node As TreeNode)
@@ -275,18 +276,15 @@ Public Class FileBrowser
             End If
         Catch : End Try
     End Sub
-    Private Function GetForeColor(path As String, _settings As Settings) As Color
-        Dim colors As Tuple(Of Color, Color, Color) = GetItemColors(_settings)
-        If _settings.HighlightCompressed AndAlso File.GetAttributes(path).HasFlag(FileAttributes.Compressed) Then
-            Return colors.Item2
-        ElseIf _settings.HighlightEncrypted AndAlso File.GetAttributes(path).HasFlag(FileAttributes.Encrypted) Then
-            Return colors.Item3
-        Else
-            Return colors.Item1
-        End If
-    End Function
     Private Sub SetNodeColor(node As TreeNode, _settings As Settings, Optional recurse As Boolean = False)
-        Try : node.ForeColor = GetForeColor(node.FullPath, _settings)
+        Try
+            If _settings.HighlightCompressed AndAlso File.GetAttributes(node.FullPath).HasFlag(FileAttributes.Compressed) Then
+                node.ForeColor = itemColors.Item2
+            ElseIf _settings.HighlightEncrypted AndAlso File.GetAttributes(node.FullPath).HasFlag(FileAttributes.Encrypted) Then
+                node.ForeColor = itemColors.Item3
+            Else
+                node.ForeColor = itemColors.Item1
+            End If
         Catch : End Try
 
         If recurse Then
@@ -300,23 +298,25 @@ Public Class FileBrowser
     End Sub
 
     ' Loading Data
-    Private Function LoadNode(node As TreeNode, ct As Threading.CancellationToken) As Task()
+    Private Function LoadSubNodes(node As TreeNode, ct As Threading.CancellationToken) As Task()
         If ct.IsCancellationRequested Then Return Nothing
         Helpers.AutoInvoke(Me, Sub() node.Nodes.Clear())
-        If ct.IsCancellationRequested Then Return Nothing
 
+        If ct.IsCancellationRequested Then Return Nothing
         Dim _settings As Settings = Helpers.AutoInvoke(Me, Function() Settings)
-        If ct.IsCancellationRequested Then Return Nothing
 
+        If ct.IsCancellationRequested Then Return Nothing
         Using New Helpers.FreezeUpdate(treeViewDirs)
+
             If ct.IsCancellationRequested Then Return Nothing
             For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(Me, node.FullPath)
+
                 If ct.IsCancellationRequested Then Return Nothing
                 AddSubNode(node, item.DisplayName)
             Next
         End Using
-        If ct.IsCancellationRequested Then Return Nothing
 
+        If ct.IsCancellationRequested Then Return Nothing
         ' set node Color and Image in background, use Task.Run so we can continue loading nodes while these are running
         Dim taskArr(1) As Task
         taskArr(0) = Task.Run(Sub()
@@ -325,6 +325,7 @@ Public Class FileBrowser
                                       SetNodeColor(subNode, _settings)
                                   Next
                               End Sub)
+
         If ct.IsCancellationRequested Then Return taskArr
         taskArr(1) = Task.Run(Sub()
                                   If _settings.EnableIcons Then
@@ -334,9 +335,10 @@ Public Class FileBrowser
                                       Next
                                   End If
                               End Sub)
-        If ct.IsCancellationRequested Then Return taskArr
 
+        If ct.IsCancellationRequested Then Return taskArr
         For Each subNode As TreeNode In node.Nodes
+
             If ct.IsCancellationRequested Then Return taskArr
             SetNodeExpandable(subNode)
         Next
@@ -421,7 +423,7 @@ Public Class FileBrowser
 
 #Region "ListView"
     ' ListView helpers
-    Private Shared Function UpdateItem(item As ListViewItem, itemInfo As Filesystem.EntryInfo) As ListViewItem
+    Private Function UpdateItem(item As ListViewItem, itemInfo As Filesystem.EntryInfo) As ListViewItem
         item.Tag = itemInfo
         item.Text = itemInfo.DisplayName
         item.SubItems.Item(1).Text = itemInfo.Extension
@@ -441,18 +443,17 @@ Public Class FileBrowser
         item.SubItems.Item(15).Text = itemInfo.DownloadURL
         item.SubItems.Item(16).Text = itemInfo.DownloadReferrer
 
-        Dim colors As Tuple(Of Color, Color, Color) = GetItemColors(Settings)
         If Settings.HighlightCompressed AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Compressed) Then
-            item.ForeColor = colors.Item2
+            item.ForeColor = itemColors.Item2
         ElseIf Settings.HighlightEncrypted AndAlso itemInfo.Attributes.HasFlag(FileAttributes.Encrypted) Then
-            item.ForeColor = colors.Item3
+            item.ForeColor = itemColors.Item3
         Else
-            item.ForeColor = colors.Item1
+            item.ForeColor = itemColors.Item1
         End If
 
         Return item
     End Function
-    Private Shared Function CreateItem(itemInfo As Filesystem.EntryInfo) As ListViewItem
+    Private Function CreateItem(itemInfo As Filesystem.EntryInfo) As ListViewItem
         Return UpdateItem(New ListViewItem(Enumerable.Repeat(String.Empty, 17).ToArray()), itemInfo)
     End Function
     Public Shared Function GetItemInfo(item As ListViewItem) As Filesystem.EntryInfo
@@ -491,15 +492,16 @@ Public Class FileBrowser
         Dim cancelCheck As Func(Of Boolean) = Function() bw.CancellationPending
 
         If cancelCheck() Then e.Cancel = True : Return
-
         Dim colLst As List(Of Settings.Column) = Helpers.Invoke(Me, Function() Settings.DefaultColumns)
+
         If cancelCheck() Then e.Cancel = True : Return
         Helpers.ApplyColumns(Me, colLst)
-        If cancelCheck() Then e.Cancel = True : Return
 
+        If cancelCheck() Then e.Cancel = True : Return
         If Helpers.Invoke(Me, Function() Settings.SaveColumns) Then
             FolderSettings.GetColumns(Me, CurrentDir)
         End If
+
         If cancelCheck() Then e.Cancel = True : Return
         Invoke(Sub() g_disableSaveColumns = False)
 
@@ -508,20 +510,22 @@ Public Class FileBrowser
                          Sub(itemInfo, loopState)
                              If cancelCheck() Then loopState.Stop() : Return
                              Invoke(Sub() lstCurrent.Items.Add(CreateItem(itemInfo)))
+
                              If cancelCheck() Then loopState.Stop() : Return
                          End Sub)
 
         If cancelCheck() Then e.Cancel = True : Return
-
         Invoke(Sub() lastSort = New KeyValuePair(Of Sorting.SortBy, SortOrder)(Sorting.SortBy.Name, SortOrder.Ascending))
+
         If cancelCheck() Then e.Cancel = True : Return
         Sorting.Sort(Me, lstCurrent, lstCurrent.Items, lastSort.Key, lastSort.Value, cancelCheck)
 
         If cancelCheck() Then e.Cancel = True : Return
-
         If Helpers.Invoke(Me, Function() Settings.EnableIcons) Then
+
             If cancelCheck() Then e.Cancel = True : Return
             lstCurrent.SmallImageList = ImageHandling.GetImageList(16)
+
             If cancelCheck() Then e.Cancel = True : Return
             ImageHandling.SetImageListImages(Me, lstCurrent.Items, lstCurrent.SmallImageList, 16, True, cancelCheck)
         End If
