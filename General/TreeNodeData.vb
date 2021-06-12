@@ -22,11 +22,27 @@ Public Class TreeNodeData
     Private cancelTokenSource As CancellationTokenSource = Nothing
     Private cancelToken As CancellationToken = Nothing
     Private subTasks As Task()
+    Private WithEvents fsw As IO.FileSystemWatcher
     Private ReadOnly loadAction As Func(Of TreeNode, CancellationToken, Task())
     Private ReadOnly unloadAction As Action(Of TreeNode)
 
+    Private Sub fsw_ItemChanged() Handles fsw.Changed, fsw.Created, fsw.Deleted, fsw.Renamed
+        fsw.EnableRaisingEvents = False
+        If Not Settings.DisableTreeAutoUpdate Then
+
+            If cancelTokenSource IsNot Nothing Then
+                cancelTokenSource.Cancel()
+
+                If loadingTask IsNot Nothing Then loadingTask.Wait()
+                WaitForSubTasks.Wait()
+            End If
+            Load()
+        End If
+    End Sub
+
     Private Sub internalLoad()
         subTasks = loadAction.Invoke(Owner, cancelToken)
+        fsw.EnableRaisingEvents = True
         loadingTask = Nothing
 
         If subTasks IsNot Nothing Then
@@ -40,20 +56,26 @@ Public Class TreeNodeData
         End If
     End Sub
 
-    Public Async Function Load() As Task
+    Public Function Load() As Task
         cancelTokenSource = New CancellationTokenSource()
         cancelToken = cancelTokenSource.Token
+        fsw = New IO.FileSystemWatcher(Owner.FixedFullPath()) With {
+            .NotifyFilter = IO.NotifyFilters.DirectoryName
+        }
         loadingTask = Task.Run(AddressOf internalLoad)
 
-        Await loadingTask
+        Return loadingTask
     End Function
 
     Public Async Function Unload() As Task
+        If fsw IsNot Nothing Then fsw.EnableRaisingEvents = False
+        fsw = Nothing
+
         If cancelTokenSource IsNot Nothing Then
             cancelTokenSource.Cancel()
 
             If loadingTask IsNot Nothing Then Await loadingTask
-            If subTasks IsNot Nothing Then Await WaitForSubTasks()
+            Await WaitForSubTasks()
         End If
 
         unloadAction.Invoke(Owner)
