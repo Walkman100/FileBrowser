@@ -100,22 +100,6 @@ Namespace Helpers
         Public Function Invoke(Of T)(control As Control, method As Func(Of T)) As T
             Return DirectCast(control.Invoke(method), T)
         End Function
-
-        Public Function AutoInvoke(Of T)(control As Control, method As Func(Of T)) As T
-            If control.InvokeRequired Then
-                Return Helpers.Invoke(control, method)
-            Else
-                Return method()
-            End If
-        End Function
-
-        Public Sub AutoInvoke(control As Control, method As Action)
-            If control.InvokeRequired Then
-                control.Invoke(method)
-            Else
-                method()
-            End If
-        End Sub
     End Module
 
     Module GetFileInfo

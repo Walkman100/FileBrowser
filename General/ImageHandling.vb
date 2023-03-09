@@ -54,7 +54,7 @@ Namespace ImageHandling
             End If
 
             If cancelCheck?() = True Then Return
-            Dim _settings As Settings = Helpers.AutoInvoke(baseControl, Function() Settings)
+            Dim _settings As Settings = Helpers.Invoke(baseControl, Function() Settings)
 
             If cancelCheck?() = True Then Return
             For i = 0 To items.Count - 1
@@ -118,7 +118,7 @@ Namespace ImageHandling
 
                 If size = 16 Then
                     ' SHGetFileInfo needs to be run on UI thread
-                    Return Helpers.AutoInvoke(baseControl, Function() WalkmanLib.GetFileIcon(item.FullName).ToBitmap())
+                    Return Helpers.Invoke(baseControl, Function() WalkmanLib.GetFileIcon(item.FullName).ToBitmap())
                 ElseIf size = 32 Then
                     Return Icon.ExtractAssociatedIcon(item.FullName).ToBitmap()
                 Else

@@ -265,18 +265,18 @@ Public Class FileBrowser
         Return node
     End Function
     Private Function AddSubNode(parent As TreeNode, name As String) As TreeNode
-        Dim node As TreeNode = Helpers.AutoInvoke(Me, Function() parent.Nodes.Add(name, name))
+        Dim node As TreeNode = Helpers.Invoke(Me, Function() parent.Nodes.Add(name, name))
         TreeNodeData.AssignData(node, Helpers.Invoke(Me, Function() Settings), loadAction:=AddressOf LoadSubNodes, unloadAction:=AddressOf UnloadSubNodes)
         Return node
     End Function
     Private Sub SetNodeExpandable(node As TreeNode)
         Try
-            Dim subNodeCount As Integer = Helpers.AutoInvoke(Me, Function() node.Nodes.Count)
+            Dim subNodeCount As Integer = Helpers.Invoke(Me, Function() node.Nodes.Count)
 
             If Directory.EnumerateDirectories(node.FullPath).Any() Then
-                If subNodeCount < 1 Then Helpers.AutoInvoke(Me, Sub() node.Nodes.Add(""))
+                If subNodeCount < 1 Then Me.Invoke(Sub() node.Nodes.Add(""))
             Else
-                If subNodeCount > 0 Then Helpers.AutoInvoke(Me, Sub() node.Nodes.Clear())
+                If subNodeCount > 0 Then Me.Invoke(Sub() node.Nodes.Clear())
             End If
         Catch : End Try
     End Sub
@@ -304,7 +304,7 @@ Public Class FileBrowser
     ' Loading Data
     Private Function LoadSubNodes(node As TreeNode, ct As Threading.CancellationToken) As Task()
         If ct.IsCancellationRequested Then Return Nothing
-        Dim _settings As Settings = Helpers.AutoInvoke(Me, Function() Settings)
+        Dim _settings As Settings = Helpers.Invoke(Me, Function() Settings)
 
         If ct.IsCancellationRequested Then Return Nothing
         Using New Helpers.FreezeUpdate(treeViewDirs)
@@ -331,7 +331,7 @@ Public Class FileBrowser
                 TreeNodeData.GetData(subNode)?.Unload().Wait()
 
                 If ct.IsCancellationRequested Then Return Nothing
-                Helpers.AutoInvoke(Me, Sub() subNode.Remove())
+                Me.Invoke(Sub() subNode.Remove())
             Next
         End Using
 

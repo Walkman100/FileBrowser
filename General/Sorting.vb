@@ -29,7 +29,7 @@ Public Class Sorting
                            Optional cancelCheck As Func(Of Boolean) = Nothing)
         Dim itemInfos As IOrderedEnumerable(Of ListViewItem) = items.Cast(Of ListViewItem).OrderBy(Function(x) x.Text)
 
-        If Helpers.AutoInvoke(baseControl, Function() Settings.ShowFoldersFirst) Then
+        If Helpers.Invoke(baseControl, Function() Settings.ShowFoldersFirst) Then
             itemInfos = itemInfos.OrderByDescending(Function(x) FileBrowser.GetItemInfo(x).Attributes.HasFlag(IO.FileAttributes.Directory))
 
             itemInfos = itemInfos.ThenByAorD(sortOrder, Function(x) keySelector(x, sortBy))
@@ -42,12 +42,12 @@ Public Class Sorting
         Dim itemArr As ListViewItem() = itemInfos.ToArray()
 
         If cancelCheck Is Nothing OrElse Not cancelCheck() Then
-            Helpers.AutoInvoke(baseControl, Sub()
-                                                Using New Helpers.FreezeUpdate(hostControl)
-                                                    items.Clear()
-                                                    items.AddRange(itemArr)
-                                                End Using
-                                            End Sub)
+            baseControl.Invoke(Sub()
+                                   Using New Helpers.FreezeUpdate(hostControl)
+                                       items.Clear()
+                                       items.AddRange(itemArr)
+                                   End Using
+                               End Sub)
         End If
     End Sub
 
