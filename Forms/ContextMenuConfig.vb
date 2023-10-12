@@ -408,8 +408,6 @@ Public Class ContextMenuConfig
         btnItemIconBrowse.Enabled = (cbxItemType.SelectedIndex = 0)
         btnItemIconPick.Enabled = (cbxItemType.SelectedIndex = 0)
         chkItemAdmin.Enabled = (cbxItemType.SelectedIndex = 0)
-        chkItemIsSubItem.Enabled = (cbxItemType.SelectedIndex = 0)
-        chkItemExtended.Enabled = (cbxItemType.SelectedIndex = 0)
         chkItemRestrict.Enabled = (cbxItemType.SelectedIndex = 0)
         cbxItemRestrict.Enabled = cbxItemType.SelectedIndex = 0 AndAlso chkItemRestrict.Checked
         lblItemFilter.Enabled = (cbxItemType.SelectedIndex = 0)

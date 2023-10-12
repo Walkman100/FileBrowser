@@ -87,10 +87,10 @@ Public Class CtxMenu
     Private entryDict As New Dictionary(Of Integer, EntryInfo)
 
     Private Sub AddItem(collection As ToolStripItemCollection, itemInfo As EntryInfo, ByRef index As Integer)
+        entryDict.Add(index, itemInfo)
         If itemInfo.EntryType = EntryType.Separator Then
-            collection.Add(New ToolStripSeparator())
+            collection.Add(New ToolStripSeparator() With {.Tag = index})
         Else
-            entryDict.Add(index, itemInfo)
             Dim item As New ToolStripMenuItem(itemInfo.Text) With {.Tag = index}
 
             Dim iconPath As String = itemInfo.IconPath
@@ -108,8 +108,8 @@ Public Class CtxMenu
             If itemInfo.AdminIcon Then item.Image = ImageHandling.AddAdminOverlay(item.Image)
 
             collection.Add(item)
-            index += 1
         End If
+        index += 1
     End Sub
 
     Public Sub BuildMenu(contextMenu As ContextMenuStrip, items As List(Of EntryInfo))
@@ -165,10 +165,17 @@ Public Class CtxMenu
         If Clipboard.ContainsFileDropList Then enableClipboardItems = True
 
         For Each item As ToolStripItem In collection
-            If TypeOf item Is ToolStripSeparator Then Continue For
             Dim index As Integer = DirectCast(item.Tag, Integer)
             If Not entryDict.ContainsKey(index) Then Throw New InvalidOperationException("Context menu contains item not in dictionary!")
             Dim itemInfo As EntryInfo = entryDict.Item(index)
+
+            If TypeOf item Is ToolStripSeparator Then
+                If itemInfo.Extended Then
+                    item.Visible = My.Computer.Keyboard.ShiftKeyDown
+                End If
+                Continue For
+            End If
+
             Dim itemShouldBeVisible As Boolean = paths.Length > 0
 
             If itemInfo.ActionType = ActionType.Paste OrElse itemInfo.ActionType = ActionType.PasteAsHardlink OrElse itemInfo.ActionType = ActionType.PasteAsJunction OrElse

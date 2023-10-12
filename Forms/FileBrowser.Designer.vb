@@ -406,7 +406,7 @@ Partial Class FileBrowser
         '
         Me.menuFileProperties.Image = Global.My.Resources.Resources.Properties
         Me.menuFileProperties.Name = "menuFileProperties"
-        Me.menuFileProperties.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Enter), System.Windows.Forms.Keys)
+        Me.menuFileProperties.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.[Return]), System.Windows.Forms.Keys)
         Me.menuFileProperties.Size = New System.Drawing.Size(237, 22)
         Me.menuFileProperties.Text = "Properties"
         Me.menuFileProperties.ToolTipText = "Open the Windows Properties window on the currently selected items"
