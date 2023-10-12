@@ -124,13 +124,10 @@
     <Compile Include="WalkmanLib\WalkmanLibArgHandler.vb" />
     <Compile Include="WalkmanLib\WalkmanLibContextMenu.vb" />
     <Compile Include="WalkmanLib\WalkmanLibDotNet.vb" />
-    <Compile Include="WalkmanLib\WalkmanLibRestartManager.vb" />
     <Compile Include="WalkmanLib\WalkmanLibStreamCopy.vb" />
-    <Compile Include="WalkmanLib\WalkmanLibSystemHandles.vb" />
     <Compile Include="WalkmanLib\WalkmanLibTheming.vb" />
     <Compile Include="WalkmanLib\WalkmanLibUpdates.vb" />
     <Compile Include="WalkmanLib\WalkmanLibWin32.vb" />
-    <Compile Include="WalkmanLib\Windows7ProgressBar.vb" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\App.config" />
