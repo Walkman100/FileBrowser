@@ -49,7 +49,7 @@ Namespace ImageHandling
 
             If cancelCheck?() = True Then Return
             Dim folderIcon As Image = Nothing
-            If WalkmanLib.GetOS() = WalkmanLib.OS.Windows Then
+            If Helpers.GetOS() = WalkmanLib.OS.Windows Then
                 folderIcon = GetIcon("%SystemRoot%\System32\imageres.dll,3", size).ToBitmap()
             End If
 
@@ -138,7 +138,7 @@ Namespace ImageHandling
                 .ImageSize = New Size(size, size)
             }
 
-            If WalkmanLib.GetOS() = WalkmanLib.OS.Windows Then
+            If Helpers.GetOS() = WalkmanLib.OS.Windows Then
                 ' Index 0: default folder icon
                 il.Images.Add(GetIcon("%SystemRoot%\System32\imageres.dll,3", size).ToBitmap())
                 ' Index 1: default folder icon - compressed

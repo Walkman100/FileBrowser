@@ -9,7 +9,7 @@ Imports Trinet.Core.IO.Ntfs
 Namespace Helpers
     Module Helpers
         Public Sub ShowFileExternal(filePath As String)
-            Select Case WalkmanLib.GetOS()
+            Select Case GetOS()
                 Case WalkmanLib.OS.Windows
                     Launch.LaunchItem(filePath, "explorer.exe", "/select, ""{path}""")
                 Case WalkmanLib.OS.Linux
@@ -99,6 +99,14 @@ Namespace Helpers
 
         Public Function Invoke(Of T)(control As Control, method As Func(Of T)) As T
             Return DirectCast(control.Invoke(method), T)
+        End Function
+
+        Private osCache As WalkmanLib.OS?
+        Public Function GetOS() As WalkmanLib.OS
+            If osCache Is Nothing Then
+                osCache = WalkmanLib.GetOS()
+            End If
+            Return osCache.Value
         End Function
     End Module
 
