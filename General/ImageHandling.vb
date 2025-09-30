@@ -107,7 +107,9 @@ Namespace ImageHandling
                 If imageThumbs Then
                     If item.Size < 200000000 Then ' don't try load image if filesize is above 200MB
                         Try
-                            Return ResizeImage(Image.FromFile(item.FullName), size)
+                            Using img As Image = Image.FromFile(item.FullName)
+                                Return ResizeImage((img), size)
+                            End Using
                         Catch : End Try
                     End If
 

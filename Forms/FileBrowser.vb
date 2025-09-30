@@ -22,6 +22,7 @@ Public Class FileBrowser
         End Get
         Set(ByVal value As String)
             If Directory.Exists(value) Then
+                value = Path.GetFullPath(value)
                 _currentDir = value
                 cbxURI.Text = value
                 LoadFolder()
