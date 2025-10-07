@@ -115,6 +115,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="WalkmanLib\CustomInputDialog.Designer.vb">
+      <DependentUpon>CustomInputDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WalkmanLib\CustomInputDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WalkmanLib\CustomMsgBox.Designer.vb">
       <DependentUpon>CustomMsgBox.vb</DependentUpon>
     </Compile>
@@ -126,6 +132,7 @@
     <Compile Include="WalkmanLib\WalkmanLibDotNet.vb" />
     <Compile Include="WalkmanLib\WalkmanLibStreamCopy.vb" />
     <Compile Include="WalkmanLib\WalkmanLibTheming.vb" />
+    <Compile Include="WalkmanLib\WalkmanLibThemingMsgBox.vb" />
     <Compile Include="WalkmanLib\WalkmanLibUpdates.vb" />
     <Compile Include="WalkmanLib\WalkmanLibWin32.vb" />
   </ItemGroup>

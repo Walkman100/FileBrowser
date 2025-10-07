@@ -981,12 +981,12 @@ Public Class FileBrowser
 
     Public Sub ErrorParser(ex As Exception)
         If TypeOf ex Is UnauthorizedAccessException AndAlso Not WalkmanLib.IsAdmin() Then
-            If MessageBox.Show(ex.Message & Environment.NewLine & Environment.NewLine & "Restart as Admin?",
-                               "Access Denied", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+            If WalkmanLib.CustomMsgBox(ex.Message & Environment.NewLine & Environment.NewLine & "Restart as Admin?",
+                                       Settings.Theme, "Access Denied", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, WinVersionStyle.Win10, Me) = DialogResult.Yes Then
                 RestartAsAdmin()
             End If
         Else
-            WalkmanLib.ErrorDialog(ex)
+            WalkmanLib.ErrorDialog(ex, Settings.Theme)
         End If
     End Sub
 #End Region
