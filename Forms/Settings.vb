@@ -430,7 +430,7 @@ Public Class Settings
                         End While
                     End If
 
-                    If reader.Read() AndAlso reader.IsStartElement() AndAlso reader.Name = "URIHistory" AndAlso reader.Read() Then
+                    If reader.Read() AndAlso reader.IsStartElement() AndAlso reader.Name = "URIHistory" AndAlso Not reader.IsEmptyElement AndAlso reader.Read() Then
                         FileBrowser.cbxURI.Items.Clear()
                         While reader.IsStartElement()
                             If reader.Name = "item" AndAlso reader.Read() Then
