@@ -178,34 +178,35 @@ Namespace Helpers
             Return Nothing
         End Function
 
-        Public Function ConvSize(size As Double) As String
+        Public Function ConvSize(size As Double?) As String
+            If Not size.HasValue Then Return Nothing
             Select Case Settings.SizeUnits
                 Case 0 ' Auto (Decimal - 1000)
-                    Return ConvSize(size, 10, False)
+                    Return ConvSize(size.Value, 10, False)
                 Case 1 ' Auto (Binary  - 1024)
-                    Return ConvSize(size, 10, True)
+                    Return ConvSize(size.Value, 10, True)
                 Case 2 ' bytes (8 bits)
-                    Return ConvSize(size, 0, False)
+                    Return ConvSize(size.Value, 0, False)
                 Case 3 ' kB  (Decimal - 1000)
-                    Return ConvSize(size, 1, False)
+                    Return ConvSize(size.Value, 1, False)
                 Case 4 ' KiB (Binary  - 1024)
-                    Return ConvSize(size, 1, True)
+                    Return ConvSize(size.Value, 1, True)
                 Case 5 ' MB  (Decimal - 1000)
-                    Return ConvSize(size, 2, False)
+                    Return ConvSize(size.Value, 2, False)
                 Case 6 ' MiB (Binary  - 1024)
-                    Return ConvSize(size, 2, True)
+                    Return ConvSize(size.Value, 2, True)
                 Case 7 ' GB  (Decimal - 1000)
-                    Return ConvSize(size, 3, False)
+                    Return ConvSize(size.Value, 3, False)
                 Case 8 ' GiB (Binary  - 1024)
-                    Return ConvSize(size, 3, True)
+                    Return ConvSize(size.Value, 3, True)
                 Case 9 ' TB  (Decimal - 1000)
-                    Return ConvSize(size, 4, False)
+                    Return ConvSize(size.Value, 4, False)
                 Case 10 'TiB (Binary  - 1024)
-                    Return ConvSize(size, 4, True)
+                    Return ConvSize(size.Value, 4, True)
                 Case 11 'PB  (Decimal - 1000)
-                    Return ConvSize(size, 5, False)
+                    Return ConvSize(size.Value, 5, False)
                 Case 12 'PiB (Binary  - 1024)
-                    Return ConvSize(size, 5, True)
+                    Return ConvSize(size.Value, 5, True)
             End Select
             Return Nothing
         End Function

@@ -22,7 +22,7 @@ Public Class Filesystem
         Public LastAccessTime As Date
         Public CreationTime As Date
         Public Size As Long
-        Public SizeOnDisk As Double
+        Public SizeOnDisk As ULong?
         Public Type As EntryType
         Public Attributes As FileAttributes
         Public SymlinkTarget As String
@@ -93,7 +93,9 @@ Public Class Filesystem
             End If
 
             entryInfo.Size = info.Length
-            entryInfo.SizeOnDisk = WalkmanLib.GetCompressedSize(info.FullName)
+            Try
+                entryInfo.SizeOnDisk = WalkmanLib.GetCompressedSize(info.FullName)
+            Catch : End Try
             Try
                 entryInfo.HardlinkCount = WalkmanLib.GetHardlinkCount(info.FullName)
                 If entryInfo.HardlinkCount > 1 Then
