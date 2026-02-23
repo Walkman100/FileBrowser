@@ -200,7 +200,9 @@ Public Class FileBrowser
     End Function
 
     Public Sub RenameSelected() Handles winCtxMenu.ItemRenamed
-        If lstCurrent.SelectedItems.Count = 1 Then
+        If g_forceTree AndAlso g_selectedNode IsNot Nothing Then
+            g_selectedNode.BeginEdit()
+        ElseIf lstCurrent.SelectedItems.Count = 1 Then
             lstCurrent.SelectedItems(0).BeginEdit()
         ElseIf lstCurrent.SelectedItems.Count > 1 Then
             Dim newName As String = Path.GetFileNameWithoutExtension(lstCurrent.SelectedItems(0).Text) & "_{0}" & GetItemInfo(lstCurrent.SelectedItems(0)).Extension
@@ -210,8 +212,6 @@ Public Class FileBrowser
                     Operations.Rename(itemInfo.FullName, String.Format(newName, i))
                 Next
             End If
-        ElseIf g_selectedNode IsNot Nothing Then
-            g_selectedNode.BeginEdit()
         End If
     End Sub
 
@@ -619,6 +619,7 @@ Public Class FileBrowser
         Launch.Copy(GetSelectedPaths(), If(My.Computer.Keyboard.ShiftKeyDown, """{path}""", "{path}"))
     End Sub
     Private Sub menuFileRename_Click() Handles menuFileRename.Click
+        g_forceTree = treeViewDirs.Focused
         g_selectedNode = treeViewDirs.SelectedNode
         RenameSelected()
     End Sub
@@ -914,22 +915,22 @@ Public Class FileBrowser
     Private g_forceTree As Boolean = False
     Private g_selectedNode As TreeNode = Nothing
     Private Sub ShowContext(sender As Object, pos As Point)
+        g_forceTree = sender Is treeViewDirs
         Dim paths As String() = GetSelectedPaths(forceTree:=sender Is treeViewDirs, useGlobalNode:=sender Is treeViewDirs)
 
         If My.Computer.Keyboard.CtrlKeyDown Then
-            winCtxMenu.BuildMenu(Handle, paths, flags:=WalkmanLib.ContextMenu.QueryContextMenuFlags.CanRename Or
+            winCtxMenu.BuildMenu(Me.Handle, paths, flags:=WalkmanLib.ContextMenu.QueryContextMenuFlags.CanRename Or
                 If(My.Computer.Keyboard.ShiftKeyDown, WalkmanLib.ContextMenu.QueryContextMenuFlags.ExtendedVerbs, WalkmanLib.ContextMenu.QueryContextMenuFlags.Normal))
-            winCtxMenu.ShowMenu(Handle, DirectCast(sender, Control).PointToScreen(pos))
+            winCtxMenu.ShowMenu(Me.Handle, DirectCast(sender, Control).PointToScreen(pos))
             winCtxMenu.DestroyMenu()
         Else
-            g_forceTree = sender Is treeViewDirs
             ctxMenu.UpdateMenu(ctxMenuL, paths)
             If sender Is lstCurrent Then
                 ctxMenuL.Show(lstCurrent, pos)
             ElseIf sender Is treeViewDirs Then
                 ctxMenuL.Show(treeViewDirs, pos)
             Else
-                ctxMenuL.Show(PointToScreen(pos))
+                ctxMenuL.Show(Me.PointToScreen(pos))
             End If
         End If
     End Sub
