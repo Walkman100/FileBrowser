@@ -14,15 +14,30 @@ Namespace ImageHandling
 
             Return iconResource
         End Function
+        Public Function ExpandImagePath(path As String) As String
+            path = path.Replace("{instdir}", Application.StartupPath)
+            path = Environment.ExpandEnvironmentVariables(path)
+            Return path
+        End Function
 
         Public Function GetIcon(resourcePath As String, Optional size As Integer = 16) As Icon
             If String.IsNullOrEmpty(resourcePath) Then Return Nothing
 
             Dim iconIndex As Integer = 0
             resourcePath = TransformResourcePath(resourcePath, iconIndex)
-            resourcePath = Environment.ExpandEnvironmentVariables(resourcePath)
+            resourcePath = ExpandImagePath(resourcePath)
 
             Return WalkmanLib.ExtractIconByIndex(resourcePath, iconIndex, CType(size, UInteger))
+        End Function
+
+        Private Const resourcePrefix As String = "{resource:"
+        Public Function PathIsRESXItem(path As String) As Boolean
+            Return path.StartsWith(resourcePrefix) AndAlso path.EndsWith("}")
+        End Function
+        Public Function GetRESXResource(path As String) As Bitmap
+            Dim resourceName As String = path.Remove(path.Length - 1).Substring(resourcePrefix.Length)
+            Dim obj As Object = My.Resources.Resources.ResourceManager.GetObject(resourceName, My.Resources.Resources.Culture)
+            Return CType(obj, Bitmap)
         End Function
 
         Public Function ResizeImage(img As Image, newSize As Integer) As Image

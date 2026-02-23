@@ -439,11 +439,15 @@ Public Class ContextMenuConfig
         End If
     End Sub
     Private Sub txtItemIconPath_TextChanged() Handles txtItemIconPath.TextChanged
-        Try
-            imgItemIcon.Image = ImageHandling.GetIcon(txtItemIconPath.Text)?.ToBitmap()
-        Catch
-            imgItemIcon.ImageLocation = Environment.ExpandEnvironmentVariables(txtItemIconPath.Text)
-        End Try
+        If ImageHandling.PathIsRESXItem(txtItemIconPath.Text) Then
+            imgItemIcon.Image = ImageHandling.GetRESXResource(txtItemIconPath.Text)
+        Else
+            Try
+                imgItemIcon.Image = ImageHandling.GetIcon(txtItemIconPath.Text)?.ToBitmap()
+            Catch
+                imgItemIcon.ImageLocation = ImageHandling.ExpandImagePath(txtItemIconPath.Text)
+            End Try
+        End If
 
         If chkItemAdmin.Checked AndAlso imgItemIcon.Image IsNot Nothing Then
             imgItemIcon.Image = ImageHandling.AddAdminOverlay(imgItemIcon.Image)

@@ -94,16 +94,19 @@ Public Class CtxMenu
             Dim item As New ToolStripMenuItem(itemInfo.Text) With {.Tag = index}
 
             Dim iconPath As String = itemInfo.IconPath
-            iconPath = iconPath.Replace("{instdir}", Application.StartupPath)
 
-            Try
-                item.Image = ImageHandling.GetIcon(iconPath)?.ToBitmap()
-            Catch
-                iconPath = Environment.ExpandEnvironmentVariables(iconPath)
-                Try : item.Image = Image.FromFile(iconPath)
-                Catch : item.Image = New PictureBox().ErrorImage
+            If ImageHandling.PathIsRESXItem(iconPath) Then
+                item.Image = ImageHandling.GetRESXResource(iconPath)
+            Else
+                Try
+                    item.Image = ImageHandling.GetIcon(iconPath)?.ToBitmap()
+                Catch
+                    iconPath = ImageHandling.ExpandImagePath(iconPath)
+                    Try : item.Image = Image.FromFile(iconPath)
+                    Catch : item.Image = New PictureBox().ErrorImage
+                    End Try
                 End Try
-            End Try
+            End If
 
             If itemInfo.AdminIcon Then item.Image = ImageHandling.AddAdminOverlay(item.Image)
 
