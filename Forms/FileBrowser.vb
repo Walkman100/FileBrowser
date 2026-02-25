@@ -127,6 +127,15 @@ Public Class FileBrowser
 
 #Region "Helpers"
     Public Sub ApplyTheme(theme As WalkmanLib.Theme)
+        Select Case theme
+            Case WalkmanLib.Theme.Default
+                WalkmanLib.SetPreferredAppMode(WalkmanLib.PreferredAppMode.Default)
+            Case WalkmanLib.Theme.Dark, WalkmanLib.Theme.Inverted
+                WalkmanLib.SetPreferredAppMode(WalkmanLib.PreferredAppMode.ForceDark)
+            Case Else
+                WalkmanLib.SetPreferredAppMode(WalkmanLib.PreferredAppMode.AllowDark)
+        End Select
+
         WalkmanLib.ApplyTheme(theme, Me, True)
         WalkmanLib.ApplyTheme(theme, Me.components.Components, True)
         WalkmanLib.ApplyTheme(theme, Settings)
@@ -916,7 +925,7 @@ Public Class FileBrowser
     Private g_selectedNode As TreeNode = Nothing
     Private Sub ShowContext(sender As Object, pos As Point)
         g_forceTree = sender Is treeViewDirs
-        Dim paths As String() = GetSelectedPaths(forceTree:=sender Is treeViewDirs, useGlobalNode:=sender Is treeViewDirs)
+        Dim paths As String() = GetSelectedPaths(forceTree:=g_forceTree, useGlobalNode:=g_forceTree)
 
         If My.Computer.Keyboard.CtrlKeyDown Then
             winCtxMenu.BuildMenu(Me.Handle, paths, flags:=WalkmanLib.ContextMenu.QueryContextMenuFlags.CanRename Or
