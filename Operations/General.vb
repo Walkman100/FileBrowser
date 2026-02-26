@@ -85,7 +85,7 @@ Namespace Operations
             If paths.Length > 1 Then
                 target = Path.GetDirectoryName(paths(0))
                 If textInput Then
-                    If Input.GetInput(target, "Move Files", "Enter folder to move files to:") = DialogResult.Cancel Then Exit Sub
+                    If WalkmanLib.InputDialog(target, Settings.Theme, title:="Move Files", mainInstruction:="Enter folder to move files to:", ownerForm:=FileBrowser) = DialogResult.Cancel Then Exit Sub
                 Else
                     sdd.SelectedPath = target
                     sdd.Description = "Select folder to move files to:"
@@ -96,7 +96,7 @@ Namespace Operations
             Else ' if one file will be moved, allow getting full file path to move to
                 target = paths(0)
                 If textInput Then
-                    If Input.GetInput(target, "Move File", "Enter path to move file to:") = DialogResult.Cancel Then Exit Sub
+                    If WalkmanLib.InputDialog(target, Settings.Theme, title:="Move File", mainInstruction:="Enter path to move file to:", ownerForm:=FileBrowser) = DialogResult.Cancel Then Exit Sub
                 Else
                     sfd.FileName = Path.GetFileName(target)
                     sfd.InitialDirectory = Path.GetDirectoryName(target)
@@ -117,7 +117,7 @@ Namespace Operations
             If paths.Length > 1 Then
                 target = Path.GetDirectoryName(paths(0))
                 If textInput Then
-                    If Input.GetInput(target, "Copy Files", "Enter folder to copy files to:") = DialogResult.Cancel Then Exit Sub
+                    If WalkmanLib.InputDialog(target, Settings.Theme, title:="Copy Files", mainInstruction:="Enter folder to copy files to:", ownerForm:=FileBrowser) = DialogResult.Cancel Then Exit Sub
                 Else
                     sdd.SelectedPath = target
                     sdd.Description = "Select folder to copy files to:"
@@ -128,7 +128,7 @@ Namespace Operations
             Else ' if one file will be copied, allow getting full file path to copy to
                 target = paths(0)
                 If textInput Then
-                    If Input.GetInput(target, "Copy File", "Enter path to copy file to:") = DialogResult.Cancel Then Exit Sub
+                    If WalkmanLib.InputDialog(target, Settings.Theme, title:="Copy File", mainInstruction:="Enter path to copy file to:", ownerForm:=FileBrowser) = DialogResult.Cancel Then Exit Sub
                 Else
                     sfd.FileName = Path.GetFileName(target)
                     sfd.InitialDirectory = Path.GetDirectoryName(target)
@@ -146,7 +146,7 @@ Namespace Operations
         Public Function CreateFile(rootPath As String, textInput As Boolean) As String
             Dim target As String = "New File"
             If textInput Then
-                If Input.GetInput(target, "Create File", "Enter name of file to create:") = DialogResult.Cancel Then Return Nothing
+                If WalkmanLib.InputDialog(target, Settings.Theme, title:="Create File", mainInstruction:="Enter name of file to create:", ownerForm:=FileBrowser) = DialogResult.Cancel Then Return Nothing
             Else
                 sfd.FileName = target
                 sfd.InitialDirectory = rootPath
@@ -185,7 +185,7 @@ Namespace Operations
                                                     ).OpenWrite()),
                                                 File.CreateText(target))
                     Dim text As String = Clipboard.GetText()
-                    If Input.GetInput(text, "File Contents", "Enter file contents:") = DialogResult.OK Then
+                    If WalkmanLib.InputDialog(target, Settings.Theme, title:="File Contents", mainInstruction:="Enter file contents:", ownerForm:=FileBrowser) = DialogResult.OK Then
                         sw.Write(text)
                     End If
                 End Using
@@ -209,7 +209,7 @@ Namespace Operations
         Public Function CreateFolder(rootPath As String, textInput As Boolean) As String
             Dim target As String = "New Folder"
             If textInput Then
-                If Input.GetInput(target, "Create Folder", "Enter name of folder to create:") = DialogResult.Cancel Then Return Nothing
+                If WalkmanLib.InputDialog(target, Settings.Theme, title:="Create Folder", mainInstruction:="Enter name of folder to create:", ownerForm:=FileBrowser) = DialogResult.Cancel Then Return Nothing
             Else
                 sfd.FileName = target
                 sfd.InitialDirectory = rootPath

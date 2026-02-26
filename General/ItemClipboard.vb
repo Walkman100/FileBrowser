@@ -111,7 +111,7 @@ Public Class ItemClipboard
             End If
             If targetExists Then
                 Dim newName As String = Helpers.GetFileName(target2)
-                If Input.GetInput(newName, "Target Exists!", "Enter name to paste as:") = DialogResult.OK Then
+                If WalkmanLib.InputDialog(newName, Settings.Theme, title:="Target Exists!", mainInstruction:="Enter name to paste as:", ownerForm:=FileBrowser) = DialogResult.OK Then
                     target2 = Path.Combine(Path.GetDirectoryName(target2), newName)
                 Else
                     Exit Sub

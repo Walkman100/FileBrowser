@@ -215,7 +215,7 @@ Public Class FileBrowser
             lstCurrent.SelectedItems(0).BeginEdit()
         ElseIf lstCurrent.SelectedItems.Count > 1 Then
             Dim newName As String = Path.GetFileNameWithoutExtension(lstCurrent.SelectedItems(0).Text) & "_{0}" & GetItemInfo(lstCurrent.SelectedItems(0)).Extension
-            If Input.GetInput(newName, "Rename Items", "Enter New Name:", "{0} will be replaced with an incrementing number.") = DialogResult.OK Then
+            If WalkmanLib.InputDialog(newName, Settings.Theme, title:="Rename Items", mainInstruction:="Enter New Name:", content:="{0} will be replaced with an incrementing number.", ownerForm:=Me) = DialogResult.OK Then
                 For i = 1 To lstCurrent.SelectedItems.Count
                     Dim itemInfo As Filesystem.EntryInfo = GetItemInfo(lstCurrent.SelectedItems(i - 1))
                     Operations.Rename(itemInfo.FullName, String.Format(newName, i))
