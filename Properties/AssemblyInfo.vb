@@ -13,7 +13,7 @@ Imports System.Runtime.InteropServices
 <assembly: AssemblyConfiguration("")>
 <assembly: AssemblyCompany("WalkmanOSS")>
 <assembly: AssemblyProduct("FileBrowser")>
-<assembly: AssemblyCopyright("FOSS from Walkman 2020-21")>
+<assembly: AssemblyCopyright("FOSS from Walkman 2020-26")>
 <assembly: AssemblyTrademark("")>
 <assembly: AssemblyCulture("")>
 

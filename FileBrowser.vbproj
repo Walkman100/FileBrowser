@@ -127,6 +127,7 @@
     <Compile Include="WalkmanLib\CustomMsgBox.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="WalkmanLib\NativeErrorCodes.vb" />
     <Compile Include="WalkmanLib\WalkmanLibArgHandler.vb" />
     <Compile Include="WalkmanLib\WalkmanLibContextMenu.vb" />
     <Compile Include="WalkmanLib\WalkmanLibDotNet.vb" />
