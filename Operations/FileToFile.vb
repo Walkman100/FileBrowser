@@ -10,8 +10,8 @@ Namespace Operations
 
             Try
                 If WalkmanLib.IsFileOrDirectory(fullTargetName).HasFlag(PathEnum.Exists) AndAlso sourcePath <> fullTargetName Then
-                    Select Case MessageBox.Show($"Target ""{fullTargetName}"" already exists! Remove first?", "Target exists",
-                                                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
+                    Select Case WalkmanLib.CustomMsgBox($"Target ""{fullTargetName}"" already exists! Remove first?", Settings.Theme, "Target exists",
+                                                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                         Case DialogResult.Yes
                             Delete({fullTargetName}, skipDialog:=True)
                         Case DialogResult.Cancel
@@ -29,8 +29,8 @@ Namespace Operations
                         WalkmanLib.RunAsAdmin("cmd", $"/c ren ""{sourcePath}"" ""{targetName}"" & pause")
                 End Select
             Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = WalkmanLib.NativeErrorCode.ERROR_SHARING_VIOLATION
-                If MessageBox.Show($"File ""{sourcePath}"" is in use! Open Handle Manager?", "Item in use",
-                                   MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+                If WalkmanLib.CustomMsgBox($"File ""{sourcePath}"" is in use! Open Handle Manager?", Settings.Theme, "Item in use",
+                                           MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser) = DialogResult.Yes Then
                     Launch.HandleManager(sourcePath)
                 End If
             Catch ex As Exception
@@ -49,8 +49,8 @@ Namespace Operations
                     End If
                 Else
                     If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
-                        Select Case MessageBox.Show($"Target ""{targetPath}"" already exists! Remove first?", "Target exists",
-                                                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
+                        Select Case WalkmanLib.CustomMsgBox($"Target ""{targetPath}"" already exists! Remove first?", Settings.Theme, "Target exists",
+                                                            MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                             Case DialogResult.Yes
                                 Delete({targetPath}, skipDialog:=True)
                             Case DialogResult.Cancel
@@ -70,8 +70,8 @@ Namespace Operations
                         WalkmanLib.RunAsAdmin("cmd", $"/c move ""{sourcePath}"" ""{targetPath}"" & pause")
                 End Select
             Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = WalkmanLib.NativeErrorCode.ERROR_SHARING_VIOLATION
-                If MessageBox.Show($"File ""{sourcePath}"" is in use! Open Handle Manager?", "Item in use",
-                                   MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+                If WalkmanLib.CustomMsgBox($"File ""{sourcePath}"" is in use! Open Handle Manager?", Settings.Theme, "Item in use",
+                                           MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser) = DialogResult.Yes Then
                     Launch.HandleManager(sourcePath)
                 End If
             Catch ex As Exception
@@ -91,8 +91,8 @@ Namespace Operations
                 Else
                     If pathInfo.HasFlag(PathEnum.IsFile) Then
                         If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
-                            Select Case MessageBox.Show($"Target ""{targetPath}"" already exists! Remove first?", "Target exists",
-                                                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
+                            Select Case WalkmanLib.CustomMsgBox($"Target ""{targetPath}"" already exists! Remove first?", Settings.Theme, "Target exists",
+                                                                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                                 Case DialogResult.Yes
                                     Delete({targetPath}, skipDialog:=True)
                                 Case DialogResult.Cancel
@@ -132,8 +132,8 @@ Namespace Operations
                         WalkmanLib.RunAsAdmin("xcopy", $"/F /H /K ""{sourcePath}"" ""{targetPath}*""")
                 End Select
             Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = WalkmanLib.NativeErrorCode.ERROR_SHARING_VIOLATION
-                If MessageBox.Show($"A file is in use! Open Handle Manager on ""{sourcePath}""?", "Item in use",
-                                   MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+                If WalkmanLib.CustomMsgBox($"A file is in use! Open Handle Manager on ""{sourcePath}""?", Settings.Theme, "Item in use",
+                                           MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser) = DialogResult.Yes Then
                     Launch.HandleManager(sourcePath)
                 End If
             Catch ex As Exception

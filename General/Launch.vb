@@ -159,9 +159,9 @@ Public Class Launch
         Dim handleManagerPath As String = Path.Combine(walkmanUtilsPath, "HandleManager.exe")
 
         If Not File.Exists(handleManagerPath) Then
-            Windows.Forms.MessageBox.Show($"Could not find HandleManager in WalkmanUtils install!{Environment.NewLine}{Environment.NewLine}" &
-                                          "Looking for: " & handleManagerPath, "Launching HandleManager",
-                                          Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Exclamation)
+            WalkmanLib.CustomMsgBox($"Could not find HandleManager in WalkmanUtils install!{Environment.NewLine}{Environment.NewLine}" &
+                                    "Looking for: " & handleManagerPath, Settings.Theme, "Launching HandleManager",
+                                    Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
             Exit Sub
         End If
 

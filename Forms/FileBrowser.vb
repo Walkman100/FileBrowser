@@ -93,7 +93,7 @@ Public Class FileBrowser
 
         Dim resultInfo As WalkmanLib.ResultInfo = WalkmanLib.ProcessArgs(Environment.GetCommandLineArgs.Skip(1).ToArray(), flagDict, True)
         If resultInfo.gotError Then
-            MessageBox.Show(resultInfo.errorInfo, "Error processing args", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            WalkmanLib.CustomMsgBox(resultInfo.errorInfo, Settings.Theme, "Error processing args", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, ownerForm:=Me)
         End If
         If resultInfo.extraParams.Count > 0 Then
             CurrentDir = resultInfo.extraParams.Item(0)
@@ -191,7 +191,7 @@ Public Class FileBrowser
                     End Select
                 End If
             Else
-                MessageBox.Show("Update check failed!" & Environment.NewLine & e.Error.Message, "Update Check", 0, MessageBoxIcon.Exclamation)
+                WalkmanLib.CustomMsgBox("Update check failed!" & Environment.NewLine & e.Error.Message, Settings.Theme, "Update Check", style:=MessageBoxIcon.Exclamation, ownerForm:=Me)
             End If
         End If
     End Sub

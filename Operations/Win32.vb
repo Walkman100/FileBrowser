@@ -7,8 +7,8 @@ Namespace Operations
         Public Sub CreateShortcut(sourcePath As String, targetPath As String)
             Try
                 If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath AndAlso
-                        MessageBox.Show($"Target ""{targetPath}"" already exists! Are you sure you want to overwrite the shortcut's Target Path?",
-                                        "Target exists", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.No Then
+                        WalkmanLib.CustomMsgBox($"Target ""{targetPath}"" already exists! Are you sure you want to overwrite the shortcut's Target Path?", Settings.Theme,
+                                                "Target exists", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser) = DialogResult.No Then
                     Exit Sub
                 End If
 
@@ -36,8 +36,8 @@ Namespace Operations
         Public Sub CreateSymlink(sourcePath As String, targetPath As String)
             Try
                 If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
-                    Select Case MessageBox.Show($"Target ""{targetPath}"" already exists! Remove first?", "Target exists",
-                                                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
+                    Select Case WalkmanLib.CustomMsgBox($"Target ""{targetPath}"" already exists! Remove first?", Settings.Theme, "Target exists",
+                                                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                         Case DialogResult.Yes
                             Delete({targetPath}, skipDialog:=True)
                         Case DialogResult.Cancel
@@ -68,8 +68,8 @@ Namespace Operations
         Public Sub CreateHardlink(sourcePath As String, targetPath As String)
             Try
                 If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
-                    Select Case MessageBox.Show($"Target ""{targetPath}"" already exists! Remove first?", "Target exists",
-                                                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
+                    Select Case WalkmanLib.CustomMsgBox($"Target ""{targetPath}"" already exists! Remove first?", Settings.Theme, "Target exists",
+                                                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                         Case DialogResult.Yes
                             Delete({targetPath}, skipDialog:=True)
                         Case DialogResult.Cancel
@@ -94,8 +94,8 @@ Namespace Operations
         Public Sub CreateJunction(sourcePath As String, targetPath As String)
             Try
                 If WalkmanLib.IsFileOrDirectory(targetPath).HasFlag(PathEnum.Exists) AndAlso sourcePath <> targetPath Then
-                    Select Case MessageBox.Show($"Target ""{targetPath}"" already exists! Remove first?", "Target exists",
-                                                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation)
+                    Select Case WalkmanLib.CustomMsgBox($"Target ""{targetPath}"" already exists! Remove first?", Settings.Theme, "Target exists",
+                                                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser)
                         Case DialogResult.Yes
                             Delete({targetPath}, skipDialog:=True)
                         Case DialogResult.Cancel

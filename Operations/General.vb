@@ -25,8 +25,8 @@ Namespace Operations
                             End If
 
                             If itemName IsNot Nothing Then
-                                Select Case MessageBox.Show($"Permanently delete this {itemName}?{Environment.NewLine}{Environment.NewLine}{path}",
-                                                            "Delete Item", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+                                Select Case WalkmanLib.CustomMsgBox($"Permanently delete this {itemName}?{Environment.NewLine}{Environment.NewLine}{path}", Settings.Theme,
+                                                                    "Delete Item", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, ownerForm:=FileBrowser)
                                     Case DialogResult.No
                                         Continue For
                                     Case DialogResult.Cancel
@@ -55,8 +55,8 @@ Namespace Operations
                         End If
                     Catch ex As OperationCanceledException ' ignore user cancellation
                     Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = WalkmanLib.NativeErrorCode.ERROR_SHARING_VIOLATION
-                        If MessageBox.Show($"File ""{path}"" is in use! Open Handle Manager?", "Item in use",
-                                           MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+                        If WalkmanLib.CustomMsgBox($"File ""{path}"" is in use! Open Handle Manager?", Settings.Theme, "Item in use",
+                                                   MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, ownerForm:=FileBrowser) = DialogResult.Yes Then
                             Launch.HandleManager(path)
                         End If
                     End Try
@@ -160,8 +160,8 @@ Namespace Operations
             Else
                 target = Path.Combine(rootPath, target)
             End If
-            If Clipboard.ContainsImage AndAlso MessageBox.Show("Image detected in clipboard! Use it as file contents?",
-                                                               Application.ProductName, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+            If Clipboard.ContainsImage() AndAlso WalkmanLib.CustomMsgBox("Image detected in clipboard! Use it as file contents?", Settings.Theme,
+                                                                         Application.ProductName, MessageBoxButtons.YesNo, ownerForm:=FileBrowser) = DialogResult.Yes Then
                 If Helpers.PathContainsADS(target) Then
                     Dim tmpFile As String = Path.GetTempFileName()
                     Clipboard.GetImage().Save(tmpFile)
