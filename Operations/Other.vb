@@ -13,8 +13,5 @@ Namespace Operations
             ' https://stackoverflow.com/a/426467/2999220
             Return (HResult And &HFFFF)
         End Function
-
-        '32 (0x20) = ERROR_SHARING_VIOLATION: The process cannot access the file because it is being used by another process.
-        Friend Const shareViolation As Integer = &H20
     End Class
 End Namespace

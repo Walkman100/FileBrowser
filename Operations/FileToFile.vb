@@ -28,7 +28,7 @@ Namespace Operations
                     Case Other.cMBbRunSysTool
                         WalkmanLib.RunAsAdmin("cmd", $"/c ren ""{sourcePath}"" ""{targetName}"" & pause")
                 End Select
-            Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = Other.shareViolation
+            Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = WalkmanLib.NativeErrorCode.ERROR_SHARING_VIOLATION
                 If MessageBox.Show($"File ""{sourcePath}"" is in use! Open Handle Manager?", "Item in use",
                                    MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                     Launch.HandleManager(sourcePath)
@@ -69,7 +69,7 @@ Namespace Operations
                     Case Other.cMBbRunSysTool
                         WalkmanLib.RunAsAdmin("cmd", $"/c move ""{sourcePath}"" ""{targetPath}"" & pause")
                 End Select
-            Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = Other.shareViolation
+            Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = WalkmanLib.NativeErrorCode.ERROR_SHARING_VIOLATION
                 If MessageBox.Show($"File ""{sourcePath}"" is in use! Open Handle Manager?", "Item in use",
                                    MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                     Launch.HandleManager(sourcePath)
@@ -131,7 +131,7 @@ Namespace Operations
                     Case Other.cMBbRunSysTool
                         WalkmanLib.RunAsAdmin("xcopy", $"/F /H /K ""{sourcePath}"" ""{targetPath}*""")
                 End Select
-            Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = Other.shareViolation
+            Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = WalkmanLib.NativeErrorCode.ERROR_SHARING_VIOLATION
                 If MessageBox.Show($"A file is in use! Open Handle Manager on ""{sourcePath}""?", "Item in use",
                                    MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                     Launch.HandleManager(sourcePath)

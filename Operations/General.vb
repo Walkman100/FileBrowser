@@ -54,7 +54,7 @@ Namespace Operations
                             'BackgroundProgress.ShowDialog()
                         End If
                     Catch ex As OperationCanceledException ' ignore user cancellation
-                    Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = Other.shareViolation
+                    Catch ex As IOException When Other.Win32FromHResult(ex.HResult) = WalkmanLib.NativeErrorCode.ERROR_SHARING_VIOLATION
                         If MessageBox.Show($"File ""{path}"" is in use! Open Handle Manager?", "Item in use",
                                            MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                             Launch.HandleManager(path)
