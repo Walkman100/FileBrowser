@@ -75,6 +75,12 @@
     <Compile Include="Forms\FileBrowser.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\ResourceSelector.Designer.vb">
+      <DependentUpon>ResourceSelector.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ResourceSelector.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Settings.Designer.vb">
       <DependentUpon>Settings.vb</DependentUpon>
     </Compile>

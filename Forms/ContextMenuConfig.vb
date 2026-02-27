@@ -486,6 +486,12 @@ Public Class ContextMenuConfig
             txtItemIconPath.Text = iconResource & "," & iconIndex
         End If
     End Sub
+    Private Sub btnItemIconResource_Click() Handles btnItemIconResource.Click
+        Dim dlg As New ResourceSelector(Settings.Theme)
+        If dlg.ShowDialog() = DialogResult.OK Then
+            txtItemIconPath.Text = $"{{resource:{dlg.SelectedResource}}}"
+        End If
+    End Sub
     Private Sub chkItemAdmin_CheckedChanged() Handles chkItemAdmin.CheckedChanged
         txtItemIconPath_TextChanged() ' update admin icon in preview
 

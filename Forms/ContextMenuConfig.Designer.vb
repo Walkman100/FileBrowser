@@ -40,6 +40,7 @@ Partial Class ContextMenuConfig
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.btnShowConfig = New System.Windows.Forms.Button()
         Me.grpItemConfig = New System.Windows.Forms.GroupBox()
+        Me.btnItemIconResource = New System.Windows.Forms.Button()
         Me.chkItemIsSubItem = New System.Windows.Forms.CheckBox()
         Me.imgItemIcon = New System.Windows.Forms.PictureBox()
         Me.btnItemIconPick = New System.Windows.Forms.Button()
@@ -243,6 +244,7 @@ Partial Class ContextMenuConfig
         Me.grpItemConfig.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grpItemConfig.Controls.Add(Me.btnItemIconResource)
         Me.grpItemConfig.Controls.Add(Me.chkItemIsSubItem)
         Me.grpItemConfig.Controls.Add(Me.imgItemIcon)
         Me.grpItemConfig.Controls.Add(Me.btnItemIconPick)
@@ -266,13 +268,23 @@ Partial Class ContextMenuConfig
         Me.grpItemConfig.TabStop = False
         Me.grpItemConfig.Text = "Item Type:"
         '
+        'btnItemIconResource
+        '
+        Me.btnItemIconResource.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.btnItemIconResource.Location = New System.Drawing.Point(204, 117)
+        Me.btnItemIconResource.Name = "btnItemIconResource"
+        Me.btnItemIconResource.Size = New System.Drawing.Size(105, 23)
+        Me.btnItemIconResource.TabIndex = 7
+        Me.btnItemIconResource.Text = "Select Resource..."
+        Me.btnItemIconResource.UseVisualStyleBackColor = True
+        '
         'chkItemIsSubItem
         '
         Me.chkItemIsSubItem.AutoSize = True
         Me.chkItemIsSubItem.Location = New System.Drawing.Point(6, 169)
         Me.chkItemIsSubItem.Name = "chkItemIsSubItem"
         Me.chkItemIsSubItem.Size = New System.Drawing.Size(108, 17)
-        Me.chkItemIsSubItem.TabIndex = 8
+        Me.chkItemIsSubItem.TabIndex = 9
         Me.chkItemIsSubItem.Text = "Is Sub-menu Item"
         Me.chkItemIsSubItem.UseVisualStyleBackColor = True
         '
@@ -280,7 +292,7 @@ Partial Class ContextMenuConfig
         '
         Me.imgItemIcon.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.imgItemIcon.InitialImage = Nothing
-        Me.imgItemIcon.Location = New System.Drawing.Point(59, 121)
+        Me.imgItemIcon.Location = New System.Drawing.Point(20, 121)
         Me.imgItemIcon.Name = "imgItemIcon"
         Me.imgItemIcon.Size = New System.Drawing.Size(16, 16)
         Me.imgItemIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
@@ -290,7 +302,7 @@ Partial Class ContextMenuConfig
         'btnItemIconPick
         '
         Me.btnItemIconPick.Anchor = System.Windows.Forms.AnchorStyles.Top
-        Me.btnItemIconPick.Location = New System.Drawing.Point(162, 117)
+        Me.btnItemIconPick.Location = New System.Drawing.Point(123, 117)
         Me.btnItemIconPick.Name = "btnItemIconPick"
         Me.btnItemIconPick.Size = New System.Drawing.Size(75, 23)
         Me.btnItemIconPick.TabIndex = 6
@@ -300,7 +312,7 @@ Partial Class ContextMenuConfig
         'btnItemIconBrowse
         '
         Me.btnItemIconBrowse.Anchor = System.Windows.Forms.AnchorStyles.Top
-        Me.btnItemIconBrowse.Location = New System.Drawing.Point(81, 117)
+        Me.btnItemIconBrowse.Location = New System.Drawing.Point(42, 117)
         Me.btnItemIconBrowse.Name = "btnItemIconBrowse"
         Me.btnItemIconBrowse.Size = New System.Drawing.Size(75, 23)
         Me.btnItemIconBrowse.TabIndex = 5
@@ -340,7 +352,7 @@ Partial Class ContextMenuConfig
         Me.grpItemAction.Location = New System.Drawing.Point(6, 277)
         Me.grpItemAction.Name = "grpItemAction"
         Me.grpItemAction.Size = New System.Drawing.Size(315, 156)
-        Me.grpItemAction.TabIndex = 14
+        Me.grpItemAction.TabIndex = 15
         Me.grpItemAction.TabStop = False
         Me.grpItemAction.Text = "Action"
         '
@@ -353,7 +365,7 @@ Partial Class ContextMenuConfig
         Me.toolStripItemActionArgs.Location = New System.Drawing.Point(258, 104)
         Me.toolStripItemActionArgs.Name = "toolStripItemActionArgs"
         Me.toolStripItemActionArgs.Size = New System.Drawing.Size(52, 25)
-        Me.toolStripItemActionArgs.TabIndex = 7
+        Me.toolStripItemActionArgs.TabIndex = 6
         '
         'toolStripItemActionArgsBtnInsert
         '
@@ -421,7 +433,7 @@ Partial Class ContextMenuConfig
         Me.toolStripItemActionFile.Location = New System.Drawing.Point(258, 56)
         Me.toolStripItemActionFile.Name = "toolStripItemActionFile"
         Me.toolStripItemActionFile.Size = New System.Drawing.Size(52, 25)
-        Me.toolStripItemActionFile.TabIndex = 6
+        Me.toolStripItemActionFile.TabIndex = 3
         '
         'toolStripItemActionFileBtnInsert
         '
@@ -523,7 +535,7 @@ Partial Class ContextMenuConfig
         Me.txtItemActionFile.Location = New System.Drawing.Point(6, 81)
         Me.txtItemActionFile.Name = "txtItemActionFile"
         Me.txtItemActionFile.Size = New System.Drawing.Size(303, 20)
-        Me.txtItemActionFile.TabIndex = 3
+        Me.txtItemActionFile.TabIndex = 4
         '
         'lblItemActionArgs
         '
@@ -531,7 +543,7 @@ Partial Class ContextMenuConfig
         Me.lblItemActionArgs.Location = New System.Drawing.Point(6, 113)
         Me.lblItemActionArgs.Name = "lblItemActionArgs"
         Me.lblItemActionArgs.Size = New System.Drawing.Size(130, 13)
-        Me.lblItemActionArgs.TabIndex = 4
+        Me.lblItemActionArgs.TabIndex = 5
         Me.lblItemActionArgs.Text = "Action Arguments Pattern:"
         '
         'txtItemActionArgs
@@ -541,7 +553,7 @@ Partial Class ContextMenuConfig
         Me.txtItemActionArgs.Location = New System.Drawing.Point(6, 129)
         Me.txtItemActionArgs.Name = "txtItemActionArgs"
         Me.txtItemActionArgs.Size = New System.Drawing.Size(303, 20)
-        Me.txtItemActionArgs.TabIndex = 5
+        Me.txtItemActionArgs.TabIndex = 7
         '
         'cbxItemRestrict
         '
@@ -553,7 +565,7 @@ Partial Class ContextMenuConfig
         Me.cbxItemRestrict.Location = New System.Drawing.Point(105, 213)
         Me.cbxItemRestrict.Name = "cbxItemRestrict"
         Me.cbxItemRestrict.Size = New System.Drawing.Size(216, 21)
-        Me.cbxItemRestrict.TabIndex = 11
+        Me.cbxItemRestrict.TabIndex = 12
         '
         'chkItemRestrict
         '
@@ -561,7 +573,7 @@ Partial Class ContextMenuConfig
         Me.chkItemRestrict.Location = New System.Drawing.Point(6, 215)
         Me.chkItemRestrict.Name = "chkItemRestrict"
         Me.chkItemRestrict.Size = New System.Drawing.Size(93, 17)
-        Me.chkItemRestrict.TabIndex = 10
+        Me.chkItemRestrict.TabIndex = 11
         Me.chkItemRestrict.Text = "Only show on:"
         Me.chkItemRestrict.UseVisualStyleBackColor = True
         '
@@ -571,7 +583,7 @@ Partial Class ContextMenuConfig
         Me.chkItemExtended.Location = New System.Drawing.Point(6, 192)
         Me.chkItemExtended.Name = "chkItemExtended"
         Me.chkItemExtended.Size = New System.Drawing.Size(166, 17)
-        Me.chkItemExtended.TabIndex = 9
+        Me.chkItemExtended.TabIndex = 10
         Me.chkItemExtended.Text = "Show in Extended Only (Shift)"
         Me.chkItemExtended.UseVisualStyleBackColor = True
         '
@@ -581,7 +593,7 @@ Partial Class ContextMenuConfig
         Me.chkItemAdmin.Location = New System.Drawing.Point(6, 146)
         Me.chkItemAdmin.Name = "chkItemAdmin"
         Me.chkItemAdmin.Size = New System.Drawing.Size(147, 17)
-        Me.chkItemAdmin.TabIndex = 7
+        Me.chkItemAdmin.TabIndex = 8
         Me.chkItemAdmin.Text = "Show Admin icon/overlay"
         Me.chkItemAdmin.UseVisualStyleBackColor = True
         '
@@ -592,7 +604,7 @@ Partial Class ContextMenuConfig
         Me.txtItemFilter.Location = New System.Drawing.Point(6, 251)
         Me.txtItemFilter.Name = "txtItemFilter"
         Me.txtItemFilter.Size = New System.Drawing.Size(315, 20)
-        Me.txtItemFilter.TabIndex = 13
+        Me.txtItemFilter.TabIndex = 14
         '
         'lblItemFilter
         '
@@ -600,7 +612,7 @@ Partial Class ContextMenuConfig
         Me.lblItemFilter.Location = New System.Drawing.Point(6, 236)
         Me.lblItemFilter.Name = "lblItemFilter"
         Me.lblItemFilter.Size = New System.Drawing.Size(162, 13)
-        Me.lblItemFilter.TabIndex = 12
+        Me.lblItemFilter.TabIndex = 13
         Me.lblItemFilter.Text = "File Filter: (Separate filters with ';')"
         '
         'txtItemText
@@ -674,7 +686,7 @@ Partial Class ContextMenuConfig
         Me.Controls.Add(Me.scMain)
         Me.Name = "ContextMenuConfig"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "ContextMenuConfig"
+        Me.Text = "Context Menu Config"
         Me.grpItemConfig.ResumeLayout(False)
         Me.grpItemConfig.PerformLayout()
         CType(Me.imgItemIcon, System.ComponentModel.ISupportInitialize).EndInit()
@@ -752,6 +764,7 @@ Partial Class ContextMenuConfig
     Friend WithEvents toolStripItemActionArgsInsertOpenWith As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents toolStripItemActionArgsInsertTarget As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents toolStripItemActionArgsInsertWalkmanUtils As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents btnItemIconResource As System.Windows.Forms.Button
     Friend WithEvents toolStripItemActionFileInsertInstallDir As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents toolStripItemActionArgsInsertInstallDir As System.Windows.Forms.ToolStripMenuItem
 End Class
