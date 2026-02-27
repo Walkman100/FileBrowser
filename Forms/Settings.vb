@@ -8,6 +8,7 @@ Imports Ookii.Dialogs
 
 Public Class Settings
     Private _settingsPath As String
+    Private Shared iconCache As Drawing.Icon
 
     Public ReadOnly Property Loaded As Boolean = False
     Public Sub Init()
@@ -42,7 +43,14 @@ Public Class Settings
     End Sub
 
     Private Sub MeVisibleChanged() Handles Me.VisibleChanged
-        If Me.Visible Then Me.CenterToParent()
+        If Me.Visible Then
+            Me.CenterToParent()
+
+            If iconCache Is Nothing Then
+                iconCache = Drawing.Icon.FromHandle(My.Resources.Resources.Settings.GetHicon())
+            End If
+            Me.Icon = iconCache
+        End If
     End Sub
 
 #Region "Properties"

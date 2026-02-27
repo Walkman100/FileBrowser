@@ -47,10 +47,16 @@ Public Class ColumnConfig
         End If
     End Sub
 
+    Private Shared iconCache As Icon
     Sub MeShown() Handles Me.Shown
         ' only add handler after ListViewItems are created and shown
         AddHandler lst.ItemChecked, AddressOf lst_ItemChecked
         CenterToParent()
+
+        If iconCache Is Nothing Then
+            iconCache = Icon.FromHandle(My.Resources.Resources.ColumnConfig.GetHicon())
+        End If
+        Me.Icon = iconCache
     End Sub
 
     Sub btn_Click() Handles btn.Click

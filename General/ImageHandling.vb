@@ -33,6 +33,7 @@ Namespace ImageHandling
 
         Private Const resourcePrefix As String = "{resource:"
         Public Function PathIsRESXItem(path As String) As Boolean
+            If String.IsNullOrWhiteSpace(path) Then Return False
             Return path.StartsWith(resourcePrefix) AndAlso path.EndsWith("}")
         End Function
         Public Function GetRESXResource(path As String) As Bitmap

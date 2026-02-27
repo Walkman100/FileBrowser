@@ -255,7 +255,15 @@ Public Class ContextMenuConfig
 #End Region
 
 #Region "Item / Window Management"
+    Private Shared iconCache As Drawing.Icon
     Private Sub MeShown() Handles Me.Shown
+        CenterToParent()
+
+        If iconCache Is Nothing Then
+            iconCache = Drawing.Icon.FromHandle(My.Resources.Resources.ContextConfig.GetHicon())
+        End If
+        Me.Icon = iconCache
+
         lstMain.Tag = Settings.Theme.ListViewColumnColors
         AddHandler lstMain.DrawColumnHeader, AddressOf WalkmanLib.CustomPaint.ListView_DrawCustomColumnHeader
         AddHandler lstMain.DrawItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultItem
