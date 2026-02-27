@@ -25,10 +25,12 @@ See [#1](https://github.com/Walkman100/FileBrowser/issues/1)
 - `{openwith}`: "OpenWith" program path
 - `{target}`: Target path for a symlink, or target path for a shortcut (.lnk)
 - `{walkmanutils}`: Currently installed WalkmanUtils path
+- `{instdir}`: Path FileBrowser.exe is located
 
 ### Context Menu Icon format
 - Environment Variables are expanded
 - Resource icon paths are allowed, e.g. `%SystemRoot%\System32\imageres.dll,306`
+- `{walkmanutils}` is expanded to the path where WalkmanUtils is installed
 - `{instdir}` is expanded to the path FileBrowser.exe is located
 
 ### Context Menu File Filter format

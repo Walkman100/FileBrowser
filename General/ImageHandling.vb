@@ -15,7 +15,8 @@ Namespace ImageHandling
             Return iconResource
         End Function
         Public Function ExpandImagePath(path As String) As String
-            path = path.Replace("{instdir}", Application.StartupPath)
+            If path.Contains("{walkmanutils}") Then path = path.Replace("{walkmanutils}", WalkmanLib.GetWalkmanUtilsPath())
+            If path.Contains("{instdir}") Then path = path.Replace("{instdir}", Application.StartupPath)
             path = Environment.ExpandEnvironmentVariables(path)
             Return path
         End Function

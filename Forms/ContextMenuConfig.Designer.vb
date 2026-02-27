@@ -67,6 +67,8 @@ Partial Class ContextMenuConfig
         Me.toolStripItemActionFileInsertOpenWith = New System.Windows.Forms.ToolStripMenuItem()
         Me.toolStripItemActionFileInsertTarget = New System.Windows.Forms.ToolStripMenuItem()
         Me.toolStripItemActionFileInsertWalkmanUtils = New System.Windows.Forms.ToolStripMenuItem()
+        Me.toolStripItemActionFileInsertInstallDir = New System.Windows.Forms.ToolStripMenuItem()
+        Me.toolStripItemActionArgsInsertInstallDir = New System.Windows.Forms.ToolStripMenuItem()
         Me.lblItemActionType = New System.Windows.Forms.Label()
         Me.cbxItemActionType = New System.Windows.Forms.ComboBox()
         Me.lblItemActionFile = New System.Windows.Forms.Label()
@@ -356,7 +358,7 @@ Partial Class ContextMenuConfig
         'toolStripItemActionArgsBtnInsert
         '
         Me.toolStripItemActionArgsBtnInsert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.toolStripItemActionArgsBtnInsert.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripItemActionArgsInsertPath, Me.toolStripItemActionArgsInsertDirectory, Me.toolStripItemActionArgsInsertName, Me.toolStripItemActionArgsInsertNameNoExt, Me.toolStripItemActionArgsInsertExt, Me.toolStripItemActionArgsInsertOpenWith, Me.toolStripItemActionArgsInsertTarget, Me.toolStripItemActionArgsInsertWalkmanUtils})
+        Me.toolStripItemActionArgsBtnInsert.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripItemActionArgsInsertPath, Me.toolStripItemActionArgsInsertDirectory, Me.toolStripItemActionArgsInsertName, Me.toolStripItemActionArgsInsertNameNoExt, Me.toolStripItemActionArgsInsertExt, Me.toolStripItemActionArgsInsertOpenWith, Me.toolStripItemActionArgsInsertTarget, Me.toolStripItemActionArgsInsertWalkmanUtils, Me.toolStripItemActionArgsInsertInstallDir})
         Me.toolStripItemActionArgsBtnInsert.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.toolStripItemActionArgsBtnInsert.Name = "toolStripItemActionArgsBtnInsert"
         Me.toolStripItemActionArgsBtnInsert.Size = New System.Drawing.Size(49, 22)
@@ -424,7 +426,7 @@ Partial Class ContextMenuConfig
         'toolStripItemActionFileBtnInsert
         '
         Me.toolStripItemActionFileBtnInsert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.toolStripItemActionFileBtnInsert.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripItemActionFileInsertPath, Me.toolStripItemActionFileInsertDirectory, Me.toolStripItemActionFileInsertName, Me.toolStripItemActionFileInsertNameNoExt, Me.toolStripItemActionFileInsertExt, Me.toolStripItemActionFileInsertOpenWith, Me.toolStripItemActionFileInsertTarget, Me.toolStripItemActionFileInsertWalkmanUtils})
+        Me.toolStripItemActionFileBtnInsert.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripItemActionFileInsertPath, Me.toolStripItemActionFileInsertDirectory, Me.toolStripItemActionFileInsertName, Me.toolStripItemActionFileInsertNameNoExt, Me.toolStripItemActionFileInsertExt, Me.toolStripItemActionFileInsertOpenWith, Me.toolStripItemActionFileInsertTarget, Me.toolStripItemActionFileInsertWalkmanUtils, Me.toolStripItemActionFileInsertInstallDir})
         Me.toolStripItemActionFileBtnInsert.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.toolStripItemActionFileBtnInsert.Name = "toolStripItemActionFileBtnInsert"
         Me.toolStripItemActionFileBtnInsert.Size = New System.Drawing.Size(49, 22)
@@ -477,6 +479,12 @@ Partial Class ContextMenuConfig
         Me.toolStripItemActionFileInsertWalkmanUtils.Name = "toolStripItemActionFileInsertWalkmanUtils"
         Me.toolStripItemActionFileInsertWalkmanUtils.Size = New System.Drawing.Size(231, 22)
         Me.toolStripItemActionFileInsertWalkmanUtils.Text = "WalkmanUtils path"
+        '
+        'toolStripItemActionFileInsertInstallDir
+        '
+        Me.toolStripItemActionFileInsertInstallDir.Name = "toolStripItemActionFileInsertInstallDir"
+        Me.toolStripItemActionFileInsertInstallDir.Size = New System.Drawing.Size(231, 22)
+        Me.toolStripItemActionFileInsertInstallDir.Text = "FileBrowser directory"
         '
         'lblItemActionType
         '
@@ -650,6 +658,12 @@ Partial Class ContextMenuConfig
         Me.scMain.SplitterDistance = 1066
         Me.scMain.TabIndex = 0
         '
+        'toolStripItemActionArgsInsertInstallDir
+        '
+        Me.toolStripItemActionArgsInsertInstallDir.Name = "toolStripItemActionArgsInsertInstallDir"
+        Me.toolStripItemActionArgsInsertInstallDir.Size = New System.Drawing.Size(231, 22)
+        Me.toolStripItemActionArgsInsertInstallDir.Text = "FileBrowser directory"
+        '
         'ContextMenuConfig
         '
         Me.AcceptButton = Me.btnSave
@@ -738,4 +752,6 @@ Partial Class ContextMenuConfig
     Friend WithEvents toolStripItemActionArgsInsertOpenWith As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents toolStripItemActionArgsInsertTarget As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents toolStripItemActionArgsInsertWalkmanUtils As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents toolStripItemActionFileInsertInstallDir As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents toolStripItemActionArgsInsertInstallDir As System.Windows.Forms.ToolStripMenuItem
 End Class

@@ -80,6 +80,9 @@ Public Class Launch
         If format.Contains("{walkmanutils}") Then
             format = format.Replace("{walkmanutils}", WalkmanLib.GetWalkmanUtilsPath())
         End If
+        If format.Contains("{instdir}") Then
+            format = format.Replace("{instdir}", Windows.Forms.Application.StartupPath)
+        End If
 
         format = Environment.ExpandEnvironmentVariables(format)
         Return format
