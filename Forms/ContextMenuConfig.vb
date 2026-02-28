@@ -91,7 +91,7 @@ Public Class ContextMenuConfig
         If File.Exists(_settingsPath) Then
             LoadSettings()
         Else
-            'LoadInitialSettings()
+            LoadInitialSettings()
         End If
     End Sub
 
@@ -173,6 +173,69 @@ Public Class ContextMenuConfig
             End If
         End Using
 
+        buildFileBrowserCTXMenu()
+    End Sub
+
+    Private Sub LoadInitialSettings()
+        lstMain.Items.Clear()
+        lstMain.Items.AddRange(New ListViewItem() {
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Open", .IconPath = "%SystemRoot%\System32\imageres.dll,11", .ActionType = CtxMenu.ActionType.Launch}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Open in new window", .IconPath = "{resource:FileBrowser}", .DirectoryOnly = True, .ActionType = CtxMenu.ActionType.Launch, .ActionArgs1 = "{instdir}\FileBrowser.exe", .ActionArgs2 = """{path}"""}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Show in Explorer", .IconPath = "%SystemRoot%\System32\imageres.dll,203", .ActionType = CtxMenu.ActionType.Launch, .ActionArgs1 = "explorer.exe", .ActionArgs2 = "/select, ""{path}"""}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Run as Admin", .IconPath = "{resource:RunAsAdmin}", .FileOnly = True, .Filter = "*.com;*.exe;*.bat;*.cmd;*.vbs;*.vbe;*.msc;*.COM;*.EXE;*.BAT;*.CMD;*.VBS;*.VBE;*.MSC", .ActionType = CtxMenu.ActionType.Admin}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Open as Admin", .IconPath = "{resource:Admin}", .FileOnly = True, .ActionType = CtxMenu.ActionType.Admin, .ActionArgs1 = "{openwith}", .ActionArgs2 = """{path}"""}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Execute", .IconPath = "{resource:Execute}", .Extended = True, .FileOnly = True, .ActionType = CtxMenu.ActionType.Execute}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Open With...", .IconPath = "{resource:OpenWith}", .ActionType = CtxMenu.ActionType.OpenWith}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Windows Properties", .IconPath = "{resource:Properties}", .ActionType = CtxMenu.ActionType.Properties}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.Separator, .ActionType = CtxMenu.ActionType.None}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Open with Notepad", .IconPath = "%SystemRoot%\System32\notepad.exe", .FileOnly = True, .ActionType = CtxMenu.ActionType.Launch, .ActionArgs1 = "notepad.exe", .ActionArgs2 = """{path}"""}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Open in CMD", .IconPath = "%SystemRoot%\System32\imageres.dll,262", .DirectoryOnly = True, .ActionType = CtxMenu.ActionType.Launch, .ActionArgs1 = "cmd.exe", .ActionArgs2 = "/s /k pushd ""{path}"""}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Open in Powershell", .IconPath = "%SystemRoot%\System32\imageres.dll,311", .DirectoryOnly = True, .ActionType = CtxMenu.ActionType.Launch, .ActionArgs1 = "powershell.exe", .ActionArgs2 = "-noexit -command Set-Location -literalPath '{path}'"}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Open in WSL", .IconPath = "%SystemRoot%\System32\wsl.exe,0", .Extended = True, .DirectoryOnly = True, .ActionType = CtxMenu.ActionType.Launch, .ActionArgs1 = "wsl.exe", .ActionArgs2 = "--cd ""{path}"""}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Open in Windows Terminal", .IconPath = "%SystemRoot%\System32\imageres.dll,0", .Extended = True, .DirectoryOnly = True, .ActionType = CtxMenu.ActionType.Launch, .ActionArgs1 = "wt.exe", .ActionArgs2 = "-d ""{path}"""}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.Separator, .ActionType = CtxMenu.ActionType.None}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Copy Path", .IconPath = "{resource:CopyPath}", .ActionType = CtxMenu.ActionType.CopyText}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Copy Quoted Path", .IconPath = "{resource:CopyPath}", .Extended = True, .ActionType = CtxMenu.ActionType.CopyText, .ActionArgs1 = """{path}"""}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Add to Clipboard...", .ActionType = CtxMenu.ActionType.None}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Cut (Replace)", .IconPath = "{resource:Cut}", .IsSubItem = True, .ActionType = CtxMenu.ActionType.Cut}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Cut (Add)", .IconPath = "{resource:Cut}", .IsSubItem = True, .ActionType = CtxMenu.ActionType.CutAdd}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Copy (Replace)", .IconPath = "{resource:Copy}", .IsSubItem = True, .ActionType = CtxMenu.ActionType.Copy}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Copy (Add)", .IconPath = "{resource:Copy}", .IsSubItem = True, .ActionType = CtxMenu.ActionType.CopyAdd}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Paste", .IconPath = "{resource:Paste}", .ActionType = CtxMenu.ActionType.Paste}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Paste As...", .IconPath = "{resource:Paste}", .ActionType = CtxMenu.ActionType.None}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Paste As Hardlink", .IconPath = "{resource:PasteHardlink}", .IsSubItem = True, .ActionType = CtxMenu.ActionType.PasteAsHardlink}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Paste As Junction", .IconPath = "{resource:PasteJunction}", .IsSubItem = True, .ActionType = CtxMenu.ActionType.PasteAsJunction}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Paste As Symlink", .IconPath = "{resource:PasteSymlink}", .IsSubItem = True, .ActionType = CtxMenu.ActionType.PasteAsSymlink}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Paste As Shortcut", .IconPath = "{resource:PasteShortcut}", .IsSubItem = True, .ActionType = CtxMenu.ActionType.PasteAsShortcut}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.Separator, .ActionType = CtxMenu.ActionType.None}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Rename", .IconPath = "{resource:Rename}", .ActionType = CtxMenu.ActionType.Rename}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Copy To...", .IconPath = "{resource:CopyTo}", .ActionType = CtxMenu.ActionType.CopyTo}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Move To...", .IconPath = "{resource:MoveTo}", .ActionType = CtxMenu.ActionType.MoveTo}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Delete Permanently", .IconPath = "{resource:Delete}", .ActionType = CtxMenu.ActionType.DeletePermanently}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Recycle", .IconPath = "{resource:Recycle}", .ActionType = CtxMenu.ActionType.DeleteToRecycleBin}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "In Use By...", .IconPath = "{walkmanutils}\HandleManager.exe", .ActionType = CtxMenu.ActionType.Launch, .ActionArgs1 = "{walkmanutils}\HandleManager.exe", .ActionArgs2 = """{path}"""}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "In Use By...", .IconPath = "{walkmanutils}\HandleManager.exe", .AdminIcon = True, .Extended = True, .ActionType = CtxMenu.ActionType.Admin, .ActionArgs1 = "{walkmanutils}\HandleManager.exe", .ActionArgs2 = """{path}"""}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.Separator, .ActionType = CtxMenu.ActionType.None}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Show Link Target", .IconPath = "{resource:OpenLocation}", .ActionType = CtxMenu.ActionType.Show, .ActionArgs1 = "{target}"}),
+            CreateItem(New CtxMenu.EntryInfo() With {.EntryType = CtxMenu.EntryType.MenuItem, .Text = "Show Open With", .IconPath = "{resource:OpenLocation}", .FileOnly = True, .ActionType = CtxMenu.ActionType.Show, .ActionArgs1 = "{openwith}"})
+        })
+
+        colHeadType.Width = 57
+        colHeadText.Width = 139
+        colHeadIcon.Width = 217
+        colHeadAdminIcon.Width = 64
+        colHeadIsSubItem.Width = 65
+        colHeadExtended.Width = 57
+        colHeadFilter.Width = 155
+        colHeadActionType.Width = 110
+        colHeadActionSettings.Width = 487
+        Me.Width = 1708
+        Me.Height = 736
+
+        buildFileBrowserCTXMenu()
+    End Sub
+
+    Private Sub buildFileBrowserCTXMenu()
         Dim items As New List(Of CtxMenu.EntryInfo)
         Dim lastParent As CtxMenu.EntryInfo? = Nothing
         For Each item As ListViewItem In lstMain.Items

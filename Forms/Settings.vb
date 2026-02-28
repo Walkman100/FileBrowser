@@ -38,7 +38,7 @@ Public Class Settings
         If File.Exists(_settingsPath) Then
             LoadSettings()
         Else
-            'LoadInitialSettings()
+            LoadInitialSettings()
         End If
     End Sub
 
@@ -463,6 +463,58 @@ Public Class Settings
                     End If
                 End If
             End Using
+        Finally
+            _loading = False
+        End Try
+    End Sub
+
+    Private Sub LoadInitialSettings()
+        _loading = True
+        Try
+            chkShowFoldersFirst.Checked = True
+            chkShowHidden.Checked = True
+            chkShowSystem.Checked = True
+            chkShowDot.Checked = True
+            chkShowExtensions.Checked = True
+            chkEnableIcons.Checked = True
+            chkDisableUpdateCheck.Checked = True
+            chkWindowsShellDefaultValue.Checked = True
+            cbxSizeUnits.SelectedIndex = 0
+            txtDefaultDir.Text = " " ' force a value to be saved
+            chkOverlayReparse.Checked = True
+            chkOverlayHardlink.Checked = True
+            chkOverlayOffline.Checked = True
+            chkHighlightCompressed.Checked = True
+            chkHighlightEncrypted.Checked = True
+            chkWindowRemember.Checked = True
+            chkSplitterRemember.Checked = True
+
+            If WalkmanLib.GetDarkThemeEnabled() Then
+                cbxTheme.SelectedIndex = 2 'Dark
+            Else
+                cbxTheme.SelectedIndex = 0 'Default
+            End If
+
+            DefaultColumns.Clear()
+            DefaultColumns.AddRange({
+                New Column() With {.SaveName = "Name", .DisplayIndex = 0, .Width = 262},
+                New Column() With {.SaveName = "Extension", .DisplayIndex = 1, .Width = 0},
+                New Column() With {.SaveName = "LastModified", .DisplayIndex = 2, .Width = 115},
+                New Column() With {.SaveName = "LastAccessed", .DisplayIndex = 3, .Width = 0},
+                New Column() With {.SaveName = "Created", .DisplayIndex = 4, .Width = 0},
+                New Column() With {.SaveName = "Size", .DisplayIndex = 5, .Width = 100},
+                New Column() With {.SaveName = "DiskSize", .DisplayIndex = 6, .Width = 0},
+                New Column() With {.SaveName = "Attributes", .DisplayIndex = 7, .Width = 134},
+                New Column() With {.SaveName = "LinkTarget", .DisplayIndex = 8, .Width = 216},
+                New Column() With {.SaveName = "SymlinkTarget", .DisplayIndex = 9, .Width = 0},
+                New Column() With {.SaveName = "ShortcutTarget", .DisplayIndex = 10, .Width = 0},
+                New Column() With {.SaveName = "UrlTarget", .DisplayIndex = 11, .Width = 0},
+                New Column() With {.SaveName = "HardlinkCount", .DisplayIndex = 12, .Width = 0},
+                New Column() With {.SaveName = "StreamCount", .DisplayIndex = 13, .Width = 0},
+                New Column() With {.SaveName = "OpensWith", .DisplayIndex = 14, .Width = 201},
+                New Column() With {.SaveName = "DownloadURL", .DisplayIndex = 15, .Width = 922},
+                New Column() With {.SaveName = "DownloadReferrer", .DisplayIndex = 16, .Width = 0}
+            })
         Finally
             _loading = False
         End Try
