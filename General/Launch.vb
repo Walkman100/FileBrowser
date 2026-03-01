@@ -30,7 +30,11 @@ Public Class Launch
             End If
             If format.Contains("{target}") Then
                 If adsInfo.Attributes.HasFlag(FileAttributes.ReparsePoint) Then
-                    format = format.Replace("{target}", WalkmanLib.GetSymlinkTarget(Helpers.GetADSPath(adsInfo)))
+                    Try
+                        format = format.Replace("{target}", WalkmanLib.GetSymlinkFinalPath(Helpers.GetADSPath(adsInfo)))
+                    Catch ex As Exception
+                        format = format.Replace("{target}", WalkmanLib.GetSymlinkTarget(Helpers.GetADSPath(adsInfo)))
+                    End Try
                 Else
                     format = format.Replace("{target}", WalkmanLib.GetShortcutInfo(Helpers.GetADSPath(adsInfo)).TargetPath)
                 End If
@@ -58,7 +62,11 @@ Public Class Launch
             End If
             If format.Contains("{target}") Then
                 If fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint) Then
-                    format = format.Replace("{target}", WalkmanLib.GetSymlinkTarget(path))
+                    Try
+                        format = format.Replace("{target}", WalkmanLib.GetSymlinkFinalPath(path))
+                    Catch ex As Exception
+                        format = format.Replace("{target}", WalkmanLib.GetSymlinkTarget(path))
+                    End Try
                 ElseIf fileInfo.Extension.ToLower() = ".lnk" Then
                     format = format.Replace("{target}", WalkmanLib.GetShortcutInfo(path).TargetPath)
                 Else

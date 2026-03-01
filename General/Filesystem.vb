@@ -70,8 +70,11 @@ Public Class Filesystem
         }
 
         If entryInfo.Attributes.HasFlag(FileAttributes.ReparsePoint) Then
-            Try : entryInfo.SymlinkTarget = WalkmanLib.GetSymlinkTarget(info.FullName)
-            Catch : End Try
+            Try : entryInfo.SymlinkTarget = WalkmanLib.GetSymlinkFinalPath(info.FullName)
+            Catch
+                Try : entryInfo.SymlinkTarget = WalkmanLib.GetSymlinkTarget(info.FullName)
+                Catch : End Try
+            End Try
         End If
         If entryInfo.Extension.ToLowerInvariant() = ".lnk" Then entryInfo.LinkTarget = WalkmanLib.GetShortcutInfo(info.FullName).TargetPath
         If entryInfo.Extension.ToLowerInvariant() = ".url" Then entryInfo.UrlTarget = Helpers.GetUrlTarget(info.FullName)

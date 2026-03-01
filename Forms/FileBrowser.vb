@@ -685,8 +685,11 @@ Public Class FileBrowser
         ElseIf treeViewDirs.SelectedNode IsNot Nothing Then
             Dim info As New DirectoryInfo(treeViewDirs.SelectedNode.FullPath)
             If info.Attributes.HasFlag(FileAttributes.ReparsePoint) Then
-                Try : ShowFile(WalkmanLib.GetSymlinkTarget(info.FullName))
-                Catch : End Try
+                Try : ShowFile(WalkmanLib.GetSymlinkFinalPath(info.FullName))
+                Catch
+                    Try : ShowFile(Path.GetFullPath(WalkmanLib.GetSymlinkTarget(info.FullName)))
+                    Catch : End Try
+                End Try
             End If
         End If
     End Sub
