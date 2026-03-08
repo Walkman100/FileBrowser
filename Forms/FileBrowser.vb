@@ -45,9 +45,8 @@ Public Class FileBrowser
 #End Region
 
     Private Sub FileBrowser_Load() Handles Me.Shown
-        AddHandler lstCurrent.DrawColumnHeader, AddressOf WalkmanLib.CustomPaint.ListView_DrawCustomColumnHeader
-        AddHandler lstCurrent.DrawItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultItem
-        AddHandler lstCurrent.DrawSubItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultSubItem
+        WalkmanLib.InitCustomRenderers(Me.Controls)
+
         Settings.Init()
         ContextMenuConfig.Init()
 
@@ -127,32 +126,14 @@ Public Class FileBrowser
 
 #Region "Helpers"
     Public Sub ApplyTheme(theme As WalkmanLib.Theme)
-        Select Case theme
-            Case WalkmanLib.Theme.Default
-                WalkmanLib.SetPreferredAppMode(WalkmanLib.PreferredAppMode.Default)
-            Case WalkmanLib.Theme.Dark, WalkmanLib.Theme.Inverted
-                WalkmanLib.SetPreferredAppMode(WalkmanLib.PreferredAppMode.ForceDark)
-            Case Else
-                WalkmanLib.SetPreferredAppMode(WalkmanLib.PreferredAppMode.AllowDark)
-        End Select
-
+        WalkmanLib.SetPreferredAppMode(theme.SystemAppMode)
         WalkmanLib.ApplyTheme(theme, Me, True)
         WalkmanLib.ApplyTheme(theme, Me.components.Components, True)
         WalkmanLib.ApplyTheme(theme, Settings)
         WalkmanLib.ApplyTheme(theme, clipboardList.Controls, True)
-
-        ' ToolStrip custom paint
-        If theme = WalkmanLib.Theme.Default Then
-            ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional
-        ElseIf theme = WalkmanLib.Theme.SystemDark Then
-            ToolStripManager.RenderMode = ToolStripManagerRenderMode.System
-        Else
-            ToolStripManager.Renderer = New WalkmanLib.CustomPaint.ToolStripSystemRendererWithDisabled(theme.ToolStripItemDisabledText)
-        End If
+        WalkmanLib.ApplyThemeRenderer(theme, Me.Controls)
 
         ' ListView custom paint
-        lstCurrent.Tag = theme.ListViewColumnColors
-        clipboardList.lstMain.Tag = theme.ListViewColumnColors
         clipboardList.BackColor = theme.MenuStripBG
         clipboardList.lblItemCount.BackColor = theme.MenuStripBG
 
