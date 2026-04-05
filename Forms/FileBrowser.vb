@@ -127,11 +127,11 @@ Public Class FileBrowser
 #Region "Helpers"
     Public Sub ApplyTheme(theme As WalkmanLib.Theme)
         WalkmanLib.SetPreferredAppMode(theme.SystemAppMode)
+        WalkmanLib.ApplyThemeRenderer(theme, Me.Controls)
         WalkmanLib.ApplyTheme(theme, Me, True)
         WalkmanLib.ApplyTheme(theme, Me.components.Components, True)
         WalkmanLib.ApplyTheme(theme, Settings)
         WalkmanLib.ApplyTheme(theme, clipboardList.Controls, True)
-        WalkmanLib.ApplyThemeRenderer(theme, Me.Controls)
 
         ' ListView custom paint
         clipboardList.BackColor = theme.MenuStripBG
@@ -442,7 +442,7 @@ Public Class FileBrowser
         item.SubItems.Item(4).Text = itemInfo.CreationTime.ToString()
         item.SubItems.Item(5).Text = Helpers.ConvSize(itemInfo.Size)
         item.SubItems.Item(6).Text = Helpers.ConvSize(itemInfo.SizeOnDisk)
-        item.SubItems.Item(7).Text = itemInfo.Attributes.ToString()
+        item.SubItems.Item(7).Text = CType(itemInfo.Attributes, WalkmanLib.Win32FileAttribute).ToString().Replace("Attribute", Nothing)
         item.SubItems.Item(8).Text = itemInfo.AllTarget
         item.SubItems.Item(9).Text = itemInfo.SymlinkTarget
         item.SubItems.Item(10).Text = itemInfo.LinkTarget
