@@ -791,26 +791,18 @@ Public Class FileBrowser
     End Sub
 
     Private Sub menuToolsSettings_Click() Handles menuToolsSettings.Click
-        If Settings.Visible Then
-            Settings.BringToFront()
-        Else
-            Settings.Show(Me)
-        End If
+        If Not Settings.Loaded Then Settings.Init() ' settings was closed (not loaded), so needs to be re-inited
+        WalkmanLib.ShowOrActivateForm(Settings, Me)
+        If Settings.WindowState = FormWindowState.Minimized Then WalkmanLib.RestoreWindow(Settings.Handle)
     End Sub
     Private Sub menuToolsContextMenu_Click() Handles menuToolsContextMenu.Click
-        If ContextMenuConfig.Visible Then
-            ContextMenuConfig.BringToFront()
-        Else
-            ContextMenuConfig.Init() ' the window is Closed, so needs to be re-inited
-            ContextMenuConfig.Show(Me)
-        End If
+        If Not ContextMenuConfig.Visible Then ContextMenuConfig.Init() ' the window is Closed, so needs to be re-inited
+        WalkmanLib.ShowOrActivateForm(ContextMenuConfig, Me)
+        If ContextMenuConfig.WindowState = FormWindowState.Minimized Then WalkmanLib.RestoreWindow(ContextMenuConfig.Handle)
     End Sub
     Private Sub menuToolsColumns_Click() Handles menuToolsColumns.Click
-        If ColumnConfig.Visible Then
-            ColumnConfig.BringToFront()
-        Else
-            ColumnConfig.Show(Me)
-        End If
+        WalkmanLib.ShowOrActivateForm(ColumnConfig, Me)
+        If ColumnConfig.WindowState = FormWindowState.Minimized Then WalkmanLib.RestoreWindow(ColumnConfig.Handle)
     End Sub
     Private Sub menuToolsResizeColumns_Click() Handles menuToolsResizeColumns.Click
         For Each column As ColumnHeader In lstCurrent.Columns.Cast(Of ColumnHeader).Where(Function(c) c.Width > 0)
