@@ -108,6 +108,15 @@ Namespace Helpers
             End If
             Return osCache.Value
         End Function
+
+        Public Function GetDriveDisplay(drive As String) As String
+            ' VBScript: Return WScript.CreateObject("Shell.Application").NameSpace("C:").Self.Name
+            Dim shellApplication As Object = Activator.CreateInstance(Type.GetTypeFromProgID("Shell.Application"))
+            Dim driveNamespace As Object = Microsoft.VisualBasic.CallByName(shellApplication, "NameSpace", Microsoft.VisualBasic.CallType.Method, drive)
+            Dim driveSelf = Microsoft.VisualBasic.CallByName(driveNamespace, "Self", Microsoft.VisualBasic.CallType.Get)
+            Dim driveName = Microsoft.VisualBasic.CallByName(driveSelf, "Name", Microsoft.VisualBasic.CallType.Get)
+            Return DirectCast(driveName, String)
+        End Function
     End Module
 
     Module GetFileInfo

@@ -32,11 +32,24 @@ Module Extensions
         Return str
     End Function
 
-    ''' <summary>Returns node.FullPath, with duplicate DirectorySeparatorChars removed</summary>
+    ''' <summary>Returns <see cref="TreeNode.FullPath"/> using node Name, with duplicate DirectorySeparatorChars removed</summary>
     <Extension()>
     Public Function FixedFullPath(node As TreeNode) As String
-        Return node.FullPath.Replace(Path.DirectorySeparatorChar & Path.DirectorySeparatorChar, Path.DirectorySeparatorChar)
+        Dim stringBuilder As New Text.StringBuilder()
+        getNodeFullPathFromKey(node, stringBuilder, node.TreeView.PathSeparator)
+        stringBuilder.Replace(Path.DirectorySeparatorChar & Path.DirectorySeparatorChar, Path.DirectorySeparatorChar)
+
+        Return stringBuilder.ToString()
     End Function
+
+    ''' <summary>Implementation of <see cref="TreeNode.GetFullPath"/> but using node Name instead of Text</summary>
+    Private Sub getNodeFullPathFromKey(node As TreeNode, path As Text.StringBuilder, pathSeparator As String)
+        If node.Parent IsNot Nothing Then
+            getNodeFullPathFromKey(node.Parent, path, pathSeparator)
+            path.Append(pathSeparator)
+        End If
+        path.Append(node.Name)
+    End Sub
 
     <Extension()>
     Public Function OrderByAorD(Of TSource, TKey)(source As IEnumerable(Of TSource), sortOrder As SortOrder,

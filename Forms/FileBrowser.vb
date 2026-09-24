@@ -248,7 +248,8 @@ Public Class FileBrowser
 #Region "TreeView"
     ' TreeView helpers
     Private Function AddRootNode(root As TreeView, path As String) As TreeNode
-        Dim node As TreeNode = root.Nodes.Add(path, path)
+        '                                Node Name, Node display Text
+        Dim node As TreeNode = root.Nodes.Add(path, If(Helpers.GetOS() = WalkmanLib.OS.Windows, Helpers.GetDriveDisplay(path), path))
         SetNodeExpandable(node)
         SetNodeColor(node, Settings)
         If Settings.EnableIcons Then SetNodeImage(Settings, node)
@@ -264,7 +265,7 @@ Public Class FileBrowser
         Try
             Dim subNodeCount As Integer = Helpers.Invoke(Me, Function() node.Nodes.Count)
 
-            If Directory.EnumerateDirectories(node.FullPath).Any() Then
+            If Directory.EnumerateDirectories(node.FixedFullPath()).Any() Then
                 If subNodeCount < 1 Then Me.Invoke(Sub() node.Nodes.Add(""))
             Else
                 If subNodeCount > 0 Then Me.Invoke(Sub() node.Nodes.Clear())
@@ -273,9 +274,9 @@ Public Class FileBrowser
     End Sub
     Private Sub SetNodeColor(node As TreeNode, _settings As Settings, Optional recurse As Boolean = False)
         Try
-            If _settings.HighlightCompressed AndAlso File.GetAttributes(node.FullPath).HasFlag(FileAttributes.Compressed) Then
+            If _settings.HighlightCompressed AndAlso File.GetAttributes(node.FixedFullPath()).HasFlag(FileAttributes.Compressed) Then
                 node.ForeColor = itemColors.Item2
-            ElseIf _settings.HighlightEncrypted AndAlso File.GetAttributes(node.FullPath).HasFlag(FileAttributes.Encrypted) Then
+            ElseIf _settings.HighlightEncrypted AndAlso File.GetAttributes(node.FixedFullPath()).HasFlag(FileAttributes.Encrypted) Then
                 node.ForeColor = itemColors.Item3
             Else
                 node.ForeColor = itemColors.Item1
@@ -302,7 +303,7 @@ Public Class FileBrowser
             Dim nodeNameHashCodes As New HashSet(Of Integer)
 
             If ct.IsCancellationRequested Then Return Nothing
-            For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(Me, node.FullPath)
+            For Each item As Filesystem.EntryInfo In Filesystem.GetFolders(Me, node.FixedFullPath())
 
                 If ct.IsCancellationRequested Then Return Nothing
                 If Not node.Nodes.ContainsKey(item.DisplayName) Then
@@ -664,7 +665,7 @@ Public Class FileBrowser
                 End If
             Next
         ElseIf treeViewDirs.SelectedNode IsNot Nothing Then
-            Dim info As New DirectoryInfo(treeViewDirs.SelectedNode.FullPath)
+            Dim info As New DirectoryInfo(treeViewDirs.SelectedNode.FixedFullPath())
             If info.Attributes.HasFlag(FileAttributes.ReparsePoint) Then
                 Try : ShowFile(WalkmanLib.GetSymlinkFinalPath(info.FullName))
                 Catch
