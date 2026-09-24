@@ -76,7 +76,10 @@ Public Class Filesystem
                 Catch : End Try
             End Try
         End If
-        If entryInfo.Extension.ToLowerInvariant() = ".lnk" Then entryInfo.LinkTarget = WalkmanLib.GetShortcutInfo(info.FullName).TargetPath
+        If entryInfo.Extension.ToLowerInvariant() = ".lnk" Then
+            Dim shortcutInfo As WalkmanLib.IWshShortcut = WalkmanLib.GetShortcutInfo(info.FullName)
+            entryInfo.LinkTarget = shortcutInfo.TargetPath & " " & shortcutInfo.Arguments
+        End If
         If entryInfo.Extension.ToLowerInvariant() = ".url" Then entryInfo.UrlTarget = Helpers.GetUrlTarget(info.FullName)
         entryInfo.AllTarget = If(entryInfo.SymlinkTarget, If(entryInfo.LinkTarget, entryInfo.UrlTarget))
 
