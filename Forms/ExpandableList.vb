@@ -8,9 +8,7 @@ Public Class ExpandableList
         ' This call is required by the designer.
         InitializeComponent()
         lstMain.DoubleBuffered(True)
-        AddHandler lstMain.DrawColumnHeader, AddressOf WalkmanLib.CustomPaint.ListView_DrawCustomColumnHeader
-        AddHandler lstMain.DrawItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultItem
-        AddHandler lstMain.DrawSubItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultSubItem
+        WalkmanLib.InitCustomRenderers(Me.Controls)
         MeHeightDiff = Me.Height - lstMain.Height + 28 ' column header height
 
         lstMain.Visible = False

@@ -126,12 +126,18 @@ Public Class FileBrowser
 
 #Region "Helpers"
     Public Sub ApplyTheme(theme As WalkmanLib.Theme)
+        Dim oldFlatStyle As FlatStyle = Settings.cbxSizeUnits.FlatStyle
+
         WalkmanLib.SetPreferredAppMode(theme.SystemAppMode)
         WalkmanLib.ApplyThemeRenderer(theme, Me.Controls)
         WalkmanLib.ApplyTheme(theme, Me, True)
         WalkmanLib.ApplyTheme(theme, Me.components.Components, True)
         WalkmanLib.ApplyTheme(theme, Settings)
         WalkmanLib.ApplyTheme(theme, clipboardList.Controls, True)
+
+        If Settings.Created AndAlso oldFlatStyle = FlatStyle.Standard Then
+            WalkmanLib.FixComboBoxFlatBackground(theme, Settings.Controls)
+        End If
 
         ' ListView custom paint
         clipboardList.BackColor = theme.MenuStripBG

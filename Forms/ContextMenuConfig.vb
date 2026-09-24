@@ -327,15 +327,10 @@ Public Class ContextMenuConfig
         End If
         Me.Icon = iconCache
 
-        lstMain.Tag = Settings.Theme.ListViewColumnColors
-        AddHandler lstMain.DrawColumnHeader, AddressOf WalkmanLib.CustomPaint.ListView_DrawCustomColumnHeader
-        AddHandler lstMain.DrawItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultItem
-        AddHandler lstMain.DrawSubItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultSubItem
+        WalkmanLib.InitCustomRenderers(Me.Controls)
 
-        WalkmanLib.ApplyTheme(Settings.Theme, Me)
-        If Settings.Theme = WalkmanLib.Theme.Dark Then
-            lstMain.OwnerDraw = True
-        End If
+        WalkmanLib.ApplyThemeRenderer(Settings.Theme, Me.Controls)
+        WalkmanLib.ApplyTheme(Settings.Theme, Me, True)
 
         lstMain.DoubleBuffered(True)
         lstMain_SelectedIndexChanged()

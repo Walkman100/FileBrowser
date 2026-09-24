@@ -6,13 +6,10 @@ Public Class ResourceSelector
     Sub New(theme As WalkmanLib.Theme)
         ' This call is required by the designer.
         InitializeComponent()
-
         lstResources.DoubleBuffered(True)
 
-        AddHandler lstResources.DrawItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultItem
-        AddHandler lstResources.DrawSubItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultSubItem
-        AddHandler lstResources.DrawColumnHeader, AddressOf WalkmanLib.CustomPaint.ListView_DrawCustomColumnHeader
-        lstResources.Tag = theme.ListViewColumnColors
+        WalkmanLib.InitCustomRenderers(Me.Controls)
+        WalkmanLib.ApplyThemeRenderer(theme, Me.Controls)
         WalkmanLib.ApplyTheme(theme, Me, True)
         If components IsNot Nothing Then WalkmanLib.ApplyTheme(theme, components.Components, True)
 
