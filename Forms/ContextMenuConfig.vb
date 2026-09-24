@@ -473,6 +473,7 @@ Public Class ContextMenuConfig
         txtItemIconPath.Enabled = (cbxItemType.SelectedIndex = 0)
         btnItemIconBrowse.Enabled = (cbxItemType.SelectedIndex = 0)
         btnItemIconPick.Enabled = (cbxItemType.SelectedIndex = 0)
+        btnItemIconResource.Enabled = (cbxItemType.SelectedIndex = 0)
         chkItemAdmin.Enabled = (cbxItemType.SelectedIndex = 0)
         chkItemRestrict.Enabled = (cbxItemType.SelectedIndex = 0)
         cbxItemRestrict.Enabled = cbxItemType.SelectedIndex = 0 AndAlso chkItemRestrict.Checked
