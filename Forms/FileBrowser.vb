@@ -140,9 +140,11 @@ Public Class FileBrowser
         ' update items
         Dim _settings As Settings = Settings
         Task.Run(Sub()
+                     treeViewDirs.Invoke(Sub() treeViewDirs.BeginUpdate())
                      For Each node As TreeNode In treeViewDirs.Nodes
                          SetNodeColor(node, _settings, True)
                      Next
+                     treeViewDirs.Invoke(Sub() treeViewDirs.EndUpdate())
                  End Sub)
         SetItemColors(_settings)
         Task.Run(Sub()
@@ -240,7 +242,15 @@ Public Class FileBrowser
     Public Sub ShowFile(filePath As String)
         CurrentDir = Path.GetDirectoryName(filePath)
         If CurrentDir = Path.GetDirectoryName(filePath) Then ' have to check, as the path could be not loaded
-            SelectItem(Helpers.GetFileName(filePath))
+            If bwLoadFolder.IsBusy Then
+                Dim handler As RunWorkerCompletedEventHandler = Sub()
+                                                                    SelectItem(Helpers.GetFileName(filePath))
+                                                                    RemoveHandler bwLoadFolder.RunWorkerCompleted, handler
+                                                                End Sub
+                AddHandler bwLoadFolder.RunWorkerCompleted, handler
+            Else
+                SelectItem(Helpers.GetFileName(filePath))
+            End If
         End If
     End Sub
 #End Region
@@ -275,11 +285,11 @@ Public Class FileBrowser
     Private Sub SetNodeColor(node As TreeNode, _settings As Settings, Optional recurse As Boolean = False)
         Try
             If _settings.HighlightCompressed AndAlso File.GetAttributes(node.FixedFullPath()).HasFlag(FileAttributes.Compressed) Then
-                node.ForeColor = itemColors.Item2
+                treeViewDirs.Invoke(Sub() node.ForeColor = itemColors.Item2)
             ElseIf _settings.HighlightEncrypted AndAlso File.GetAttributes(node.FixedFullPath()).HasFlag(FileAttributes.Encrypted) Then
-                node.ForeColor = itemColors.Item3
+                treeViewDirs.Invoke(Sub() node.ForeColor = itemColors.Item3)
             Else
-                node.ForeColor = itemColors.Item1
+                treeViewDirs.Invoke(Sub() node.ForeColor = itemColors.Item1)
             End If
         Catch : End Try
 
