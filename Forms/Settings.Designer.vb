@@ -620,7 +620,6 @@ Partial Class Settings
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cbxTheme.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbxTheme.FormattingEnabled = True
-        Me.cbxTheme.Items.AddRange(New Object() {"Default", "System Dark", "Dark", "Inverted", "Test"})
         Me.cbxTheme.Location = New System.Drawing.Point(6, 19)
         Me.cbxTheme.Name = "cbxTheme"
         Me.cbxTheme.Size = New System.Drawing.Size(137, 21)

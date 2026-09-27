@@ -32,6 +32,7 @@ Public Class Settings
             _settingsPath = New FileInfo(configFileName).FullName
         End If
         chkEnableIcons_CheckedChanged() ' Make sure grpIcons is in the correct enabled state
+        cbxTheme.Items.AddRange([Enum].GetNames(GetType(WalkmanLib.ThemeName)).Select(Function(s) s.Replace("_"c, " "c)).ToArray())
         cbxTheme.SelectedIndex = 0 ' ensure Theme is set
 
         _Loaded = True
@@ -265,21 +266,7 @@ Public Class Settings
         SaveSettings()
     End Sub
     Private Sub cbxTheme_SelectedIndexChanged() Handles cbxTheme.SelectedIndexChanged
-        Select Case cbxTheme.SelectedIndex
-            Case 0 'Default
-                _Theme = WalkmanLib.Theme.Default
-            Case 1 'SystemDark
-                _Theme = WalkmanLib.Theme.SystemDark
-            Case 2 'Dark
-                _Theme = WalkmanLib.Theme.Dark
-            Case 3 'Inverted
-                _Theme = WalkmanLib.Theme.Inverted
-            Case 4 'Test
-                _Theme = WalkmanLib.Theme.Test
-            Case Else
-                Return
-        End Select
-
+        _Theme = WalkmanLib.GetTheme(DirectCast(cbxTheme.SelectedIndex, WalkmanLib.ThemeName))
         FileBrowser.ApplyTheme(Theme)
         SaveSettings()
     End Sub
