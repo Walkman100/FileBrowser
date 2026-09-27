@@ -332,7 +332,7 @@ Public Class ContextMenuConfig
         WalkmanLib.ApplyThemeRenderer(Settings.Theme, Me.Controls)
         WalkmanLib.ApplyTheme(Settings.Theme, Me, True)
 
-        lstMain.DoubleBuffered(True)
+        lstMain.SetDoubleBuffered(True)
         lstMain_SelectedIndexChanged()
         cbxItemType_SelectedIndexChanged()
         cbxItemActionType_SelectedIndexChanged()

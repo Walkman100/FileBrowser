@@ -136,6 +136,7 @@
     <Compile Include="WalkmanLib\WalkmanLibArgHandler.vb" />
     <Compile Include="WalkmanLib\WalkmanLibContextMenu.vb" />
     <Compile Include="WalkmanLib\WalkmanLibDotNet.vb" />
+    <Compile Include="WalkmanLib\WalkmanLibExtensions.vb" />
     <Compile Include="WalkmanLib\WalkmanLibStreamCopy.vb" />
     <Compile Include="WalkmanLib\WalkmanLibTheming.vb" />
     <Compile Include="WalkmanLib\WalkmanLibThemingMsgBox.vb" />

@@ -61,8 +61,8 @@ Public Class FileBrowser
             Me.WindowState = FormWindowState.Maximized
         End If
 
-        lstCurrent.DoubleBuffered(True)
-        treeViewDirs.DoubleBuffered(True)
+        lstCurrent.SetDoubleBuffered(True)
+        treeViewDirs.SetDoubleBuffered(True)
         treeViewDirs.PathSeparator = Path.DirectorySeparatorChar
 
         treeViewDirs.ImageList = ImageHandling.CreateImageList(16)

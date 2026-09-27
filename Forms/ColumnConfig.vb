@@ -18,6 +18,7 @@ Public Class ColumnConfig
         }
         lst.Columns.Add("Column").Width = 140
         lst.Tag = Settings.Theme.ListViewColumnColors
+        lst.SetDoubleBuffered(True)
 
         btn = New Button With {
             .Text = "Close",

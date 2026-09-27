@@ -6,7 +6,7 @@ Public Class ResourceSelector
     Sub New(theme As WalkmanLib.Theme)
         ' This call is required by the designer.
         InitializeComponent()
-        lstResources.DoubleBuffered(True)
+        lstResources.SetDoubleBuffered(True)
 
         WalkmanLib.InitCustomRenderers(Me.Controls)
         WalkmanLib.ApplyThemeRenderer(theme, Me.Controls)

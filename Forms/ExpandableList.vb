@@ -7,7 +7,7 @@ Public Class ExpandableList
     Sub New()
         ' This call is required by the designer.
         InitializeComponent()
-        lstMain.DoubleBuffered(True)
+        lstMain.SetDoubleBuffered(True)
         WalkmanLib.InitCustomRenderers(Me.Controls)
         MeHeightDiff = Me.Height - lstMain.Height + 28 ' column header height
 
