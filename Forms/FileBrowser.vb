@@ -856,8 +856,10 @@ Public Class FileBrowser
         End If
     End Sub
     Private Sub cbxURI_DropDownClosed() Handles cbxURI.DropDownClosed
-        cbxURI.Text = DirectCast(cbxURI.SelectedItem, String)
-        btnGo_Click()
+        If cbxURI.SelectedIndex <> -1 Then
+            cbxURI.Text = DirectCast(cbxURI.SelectedItem, String)
+            btnGo_Click()
+        End If
     End Sub
 #End Region
 
