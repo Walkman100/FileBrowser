@@ -17,7 +17,7 @@ Public Class ColumnConfig
             .GridLines = True
         }
         lst.Columns.Add("Column").Width = 140
-        lst.Tag = Settings.Theme.ListViewColumnColors
+        lst.Tag = Settings.Theme.ListViewCustomColors
         lst.SetDoubleBuffered(True)
 
         btn = New Button With {
