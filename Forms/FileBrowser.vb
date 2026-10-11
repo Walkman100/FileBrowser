@@ -95,7 +95,12 @@ Public Class FileBrowser
             WalkmanLib.CustomMsgBox(resultInfo.errorInfo, Settings.Theme, "Error processing args", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, ownerForm:=Me)
         End If
         If resultInfo.extraParams.Count > 0 Then
-            CurrentDir = resultInfo.extraParams.Item(0)
+            Dim newPath As String = resultInfo.extraParams.Item(0)
+            If newPath.EndsWith(Path.VolumeSeparatorChar & """") Then
+                newPath = newPath.Remove(newPath.Length - 1) & Path.DirectorySeparatorChar
+            End If
+
+            CurrentDir = newPath
         ElseIf CurrentDir = "" Then ' check if ShowFile has been called
             CurrentDir = Settings.DefaultDir
         End If
