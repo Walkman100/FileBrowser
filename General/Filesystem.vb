@@ -83,7 +83,7 @@ Public Class Filesystem
         If entryInfo.Extension.ToLowerInvariant() = ".url" Then entryInfo.UrlTarget = Helpers.GetUrlTarget(info.FullName)
         entryInfo.AllTarget = If(entryInfo.SymlinkTarget, If(entryInfo.LinkTarget, entryInfo.UrlTarget))
 
-        Try : entryInfo.ADSCount = info.ListAlternateDataStreams.Count
+        Try : entryInfo.ADSCount = ListAlternateDataStreams(info.FullName).Count
         Catch : End Try
 
         entryInfo.OpensWith = WalkmanLib.GetOpenWith(info.FullName)
@@ -116,12 +116,12 @@ Public Class Filesystem
         Return entryInfo
     End Function
 
-    Private Shared Iterator Function Filter(baseControl As Windows.Forms.Control, paths As IEnumerable(Of String)) As IEnumerable(Of EntryInfo)
+    Private Shared Iterator Function Filter(baseControl As Windows.Forms.Control, paths As IEnumerable(Of String), Optional allowADS As Boolean = True) As IEnumerable(Of EntryInfo)
         Dim _showHidden As Boolean = Helpers.Invoke(baseControl, Function() Settings.ShowHidden)
         Dim _showSystem As Boolean = Helpers.Invoke(baseControl, Function() Settings.ShowSystem)
         Dim _showDot As Boolean = Helpers.Invoke(baseControl, Function() Settings.ShowDot)
         Dim _showExtensions As Boolean = Helpers.Invoke(baseControl, Function() Settings.ShowExtensions)
-        Dim _showADSSeparate As Boolean = Helpers.Invoke(baseControl, Function() Settings.ShowADSSeparate)
+        Dim _showADSSeparate As Boolean = allowADS AndAlso Helpers.Invoke(baseControl, Function() Settings.ShowADSSeparate)
 
         For Each path As String In paths
             Dim errored As Boolean = False
@@ -136,7 +136,7 @@ Public Class Filesystem
 
                     If _showADSSeparate Then
                         If entryInfo.ADSCount > 0 Then
-                            For Each adsInfo As AlternateDataStreamInfo In info.ListAlternateDataStreams()
+                            For Each adsInfo As AlternateDataStreamInfo In ListAlternateDataStreams(info.FullName)
                                 ' adsInfo.FullPath ends with :$DATA
                                 entryInfo = New EntryInfo With {
                                     .FullName = adsInfo.FullPath.Remove(adsInfo.FullPath.LastIndexOf(":"c)),
@@ -166,7 +166,7 @@ Public Class Filesystem
 
     Public Shared Function GetFolders(baseControl As Windows.Forms.Control, path As String) As IEnumerable(Of EntryInfo)
         If Directory.Exists(path) Then
-            Return Filter(baseControl, Directory.EnumerateDirectories(path))
+            Return Filter(baseControl, Directory.EnumerateDirectories(path), allowADS:=False)
         Else
             Throw New DirectoryNotFoundException($"Directory ""{path}"" not found!")
         End If
