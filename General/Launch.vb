@@ -100,6 +100,11 @@ Public Class Launch
         fileFormat = FormatEntry(path, fileFormat)
         argumentsFormat = FormatEntry(path, argumentsFormat, False)
 
+        If fileFormat = "notepad.exe" AndAlso Linq.Enumerable.Count(argumentsFormat, Function(c) c = ":"c) > 1 _
+                AndAlso Not argumentsFormat.Contains("."c) AndAlso argumentsFormat.EndsWith("""") Then
+            argumentsFormat = argumentsFormat.Remove(argumentsFormat.Length - 1) & "."""
+        End If ' if opening notepad, opening alternate data stream (:), and no . in path, append . before closing quote "
+
         Process.Start(fileFormat, argumentsFormat)
     End Sub
 
