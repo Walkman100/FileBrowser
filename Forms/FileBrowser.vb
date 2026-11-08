@@ -139,6 +139,7 @@ Public Class FileBrowser
         WalkmanLib.ApplyTheme(theme, Me.components.Components, True)
         WalkmanLib.ApplyTheme(theme, Settings)
         WalkmanLib.ApplyTheme(theme, clipboardList.Controls, True)
+        lstCurrent.GridLines = Not theme.ListViewOwnerDraw OrElse Settings.DisableCustomListDrawing
 
         If Settings.Created AndAlso oldFlatStyle = FlatStyle.Standard Then
             WalkmanLib.FixComboBoxFlatBackground(theme, Settings.Controls)
@@ -170,6 +171,17 @@ Public Class FileBrowser
                          End If
                      Next
                  End Sub)
+    End Sub
+
+    Public Sub SetDisableCustomListDrawing(disable As Boolean)
+        If disable Then
+            RemoveHandler lstCurrent.DrawItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawItemWithCustomGrid
+            AddHandler lstCurrent.DrawItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultItem
+        Else
+            RemoveHandler lstCurrent.DrawItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawDefaultItem
+            AddHandler lstCurrent.DrawItem, AddressOf WalkmanLib.CustomPaint.ListView_DrawItemWithCustomGrid
+        End If
+        lstCurrent.GridLines = Not Settings.Theme.ListViewOwnerDraw OrElse disable
     End Sub
 
     Private Sub UpdateCheckComplete(sender As Object, e As RunWorkerCompletedEventArgs)

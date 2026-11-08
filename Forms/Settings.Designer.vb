@@ -57,6 +57,7 @@ Partial Class Settings
         Me.grpHighlighting = New System.Windows.Forms.GroupBox()
         Me.grpIcons = New System.Windows.Forms.GroupBox()
         Me.grpOther = New System.Windows.Forms.GroupBox()
+        Me.chkCopySystem = New System.Windows.Forms.CheckBox()
         Me.grpDefaultDir = New System.Windows.Forms.GroupBox()
         Me.btnDefaultDirBrowse = New System.Windows.Forms.Button()
         Me.txtDefaultDir = New System.Windows.Forms.TextBox()
@@ -74,7 +75,7 @@ Partial Class Settings
         Me.chkEnableIcons = New System.Windows.Forms.CheckBox()
         Me.grpTheme = New System.Windows.Forms.GroupBox()
         Me.cbxTheme = New System.Windows.Forms.ComboBox()
-        Me.chkCopySystem = New System.Windows.Forms.CheckBox()
+        Me.chkThemeDisableCustomDrawing = New System.Windows.Forms.CheckBox()
         Me.grpWindowDefault.SuspendLayout()
         Me.grpItemVisibility.SuspendLayout()
         Me.grpWindow.SuspendLayout()
@@ -292,7 +293,7 @@ Partial Class Settings
         'chkWindowRemember
         '
         Me.chkWindowRemember.AutoSize = True
-        Me.chkWindowRemember.Location = New System.Drawing.Point(6, 42)
+        Me.chkWindowRemember.Location = New System.Drawing.Point(6, 48)
         Me.chkWindowRemember.Name = "chkWindowRemember"
         Me.chkWindowRemember.Size = New System.Drawing.Size(142, 17)
         Me.chkWindowRemember.TabIndex = 1
@@ -305,7 +306,7 @@ Partial Class Settings
         Me.grpWindowDefault.Controls.Add(Me.txtWindowDefaultHeight)
         Me.grpWindowDefault.Controls.Add(Me.txtWindowDefaultWidth)
         Me.grpWindowDefault.Controls.Add(Me.lblWindowDefaultWidth)
-        Me.grpWindowDefault.Location = New System.Drawing.Point(6, 56)
+        Me.grpWindowDefault.Location = New System.Drawing.Point(6, 62)
         Me.grpWindowDefault.Name = "grpWindowDefault"
         Me.grpWindowDefault.Size = New System.Drawing.Size(137, 58)
         Me.grpWindowDefault.TabIndex = 2
@@ -358,7 +359,7 @@ Partial Class Settings
         Me.grpItemVisibility.Controls.Add(Me.chkShowExtensions)
         Me.grpItemVisibility.Location = New System.Drawing.Point(12, 12)
         Me.grpItemVisibility.Name = "grpItemVisibility"
-        Me.grpItemVisibility.Size = New System.Drawing.Size(256, 157)
+        Me.grpItemVisibility.Size = New System.Drawing.Size(256, 155)
         Me.grpItemVisibility.TabIndex = 1
         Me.grpItemVisibility.TabStop = False
         Me.grpItemVisibility.Text = "Item Visibility"
@@ -370,9 +371,9 @@ Partial Class Settings
         Me.grpWindow.Controls.Add(Me.grpWindowDefault)
         Me.grpWindow.Controls.Add(Me.chkWindowMaximised)
         Me.grpWindow.Controls.Add(Me.chkWindowRemember)
-        Me.grpWindow.Location = New System.Drawing.Point(274, 211)
+        Me.grpWindow.Location = New System.Drawing.Point(274, 277)
         Me.grpWindow.Name = "grpWindow"
-        Me.grpWindow.Size = New System.Drawing.Size(149, 185)
+        Me.grpWindow.Size = New System.Drawing.Size(149, 197)
         Me.grpWindow.TabIndex = 7
         Me.grpWindow.TabStop = False
         Me.grpWindow.Text = "Window Settings"
@@ -380,7 +381,7 @@ Partial Class Settings
         'grpSplitterDefault
         '
         Me.grpSplitterDefault.Controls.Add(Me.txtSplitterDefaultSize)
-        Me.grpSplitterDefault.Location = New System.Drawing.Point(6, 134)
+        Me.grpSplitterDefault.Location = New System.Drawing.Point(6, 146)
         Me.grpSplitterDefault.Name = "grpSplitterDefault"
         Me.grpSplitterDefault.Size = New System.Drawing.Size(137, 45)
         Me.grpSplitterDefault.TabIndex = 4
@@ -397,7 +398,7 @@ Partial Class Settings
         'chkSplitterRemember
         '
         Me.chkSplitterRemember.AutoSize = True
-        Me.chkSplitterRemember.Location = New System.Drawing.Point(6, 120)
+        Me.chkSplitterRemember.Location = New System.Drawing.Point(6, 132)
         Me.chkSplitterRemember.Name = "chkSplitterRemember"
         Me.chkSplitterRemember.Size = New System.Drawing.Size(135, 17)
         Me.chkSplitterRemember.TabIndex = 3
@@ -413,7 +414,7 @@ Partial Class Settings
         Me.grpOverlays.Controls.Add(Me.chkOverlayOffline)
         Me.grpOverlays.Location = New System.Drawing.Point(274, 12)
         Me.grpOverlays.Name = "grpOverlays"
-        Me.grpOverlays.Size = New System.Drawing.Size(149, 132)
+        Me.grpOverlays.Size = New System.Drawing.Size(149, 180)
         Me.grpOverlays.TabIndex = 2
         Me.grpOverlays.TabStop = False
         Me.grpOverlays.Text = "Thumbnail Overlays"
@@ -422,9 +423,9 @@ Partial Class Settings
         '
         Me.grpHighlighting.Controls.Add(Me.chkHighlightCompressed)
         Me.grpHighlighting.Controls.Add(Me.chkHighlightEncrypted)
-        Me.grpHighlighting.Location = New System.Drawing.Point(274, 146)
+        Me.grpHighlighting.Location = New System.Drawing.Point(274, 202)
         Me.grpHighlighting.Name = "grpHighlighting"
-        Me.grpHighlighting.Size = New System.Drawing.Size(149, 63)
+        Me.grpHighlighting.Size = New System.Drawing.Size(149, 65)
         Me.grpHighlighting.TabIndex = 5
         Me.grpHighlighting.TabStop = False
         Me.grpHighlighting.Text = "Item Highlighting"
@@ -433,9 +434,9 @@ Partial Class Settings
         '
         Me.grpIcons.Controls.Add(Me.chkSpecificItemIcons)
         Me.grpIcons.Controls.Add(Me.chkImageThumbs)
-        Me.grpIcons.Location = New System.Drawing.Point(12, 175)
+        Me.grpIcons.Location = New System.Drawing.Point(12, 169)
         Me.grpIcons.Name = "grpIcons"
-        Me.grpIcons.Size = New System.Drawing.Size(256, 65)
+        Me.grpIcons.Size = New System.Drawing.Size(256, 63)
         Me.grpIcons.TabIndex = 4
         Me.grpIcons.TabStop = False
         '
@@ -451,12 +452,22 @@ Partial Class Settings
         Me.grpOther.Controls.Add(Me.chkDisableTreeAutoUpdate)
         Me.grpOther.Controls.Add(Me.chkDisableUpdateCheck)
         Me.grpOther.Controls.Add(Me.chkWindowsShellDefaultValue)
-        Me.grpOther.Location = New System.Drawing.Point(12, 246)
+        Me.grpOther.Location = New System.Drawing.Point(12, 232)
         Me.grpOther.Name = "grpOther"
-        Me.grpOther.Size = New System.Drawing.Size(256, 271)
+        Me.grpOther.Size = New System.Drawing.Size(256, 258)
         Me.grpOther.TabIndex = 6
         Me.grpOther.TabStop = False
         Me.grpOther.Text = "Other"
+        '
+        'chkCopySystem
+        '
+        Me.chkCopySystem.AutoSize = True
+        Me.chkCopySystem.Location = New System.Drawing.Point(6, 88)
+        Me.chkCopySystem.Name = "chkCopySystem"
+        Me.chkCopySystem.Size = New System.Drawing.Size(191, 17)
+        Me.chkCopySystem.TabIndex = 3
+        Me.chkCopySystem.Text = "Copy items to System Clipboard too"
+        Me.chkCopySystem.UseVisualStyleBackColor = True
         '
         'grpDefaultDir
         '
@@ -487,7 +498,7 @@ Partial Class Settings
         '
         'btnClearURIHistory
         '
-        Me.btnClearURIHistory.Location = New System.Drawing.Point(6, 242)
+        Me.btnClearURIHistory.Location = New System.Drawing.Point(6, 229)
         Me.btnClearURIHistory.Name = "btnClearURIHistory"
         Me.btnClearURIHistory.Size = New System.Drawing.Size(244, 23)
         Me.btnClearURIHistory.TabIndex = 9
@@ -527,7 +538,7 @@ Partial Class Settings
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnClose.Location = New System.Drawing.Point(36, 523)
+        Me.btnClose.Location = New System.Drawing.Point(36, 563)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 23)
         Me.btnClose.TabIndex = 9
@@ -537,7 +548,7 @@ Partial Class Settings
         'btnSave
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Location = New System.Drawing.Point(117, 523)
+        Me.btnSave.Location = New System.Drawing.Point(117, 563)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(75, 23)
         Me.btnSave.TabIndex = 10
@@ -547,7 +558,7 @@ Partial Class Settings
         'btnReload
         '
         Me.btnReload.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReload.Location = New System.Drawing.Point(198, 523)
+        Me.btnReload.Location = New System.Drawing.Point(198, 563)
         Me.btnReload.Name = "btnReload"
         Me.btnReload.Size = New System.Drawing.Size(92, 23)
         Me.btnReload.TabIndex = 11
@@ -557,7 +568,7 @@ Partial Class Settings
         'btnShowSettingsFile
         '
         Me.btnShowSettingsFile.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnShowSettingsFile.Location = New System.Drawing.Point(296, 523)
+        Me.btnShowSettingsFile.Location = New System.Drawing.Point(296, 563)
         Me.btnShowSettingsFile.Name = "btnShowSettingsFile"
         Me.btnShowSettingsFile.Size = New System.Drawing.Size(104, 23)
         Me.btnShowSettingsFile.TabIndex = 12
@@ -568,9 +579,9 @@ Partial Class Settings
         '
         Me.grpColumns.Controls.Add(Me.btnResetColumns)
         Me.grpColumns.Controls.Add(Me.chkSaveColumns)
-        Me.grpColumns.Location = New System.Drawing.Point(274, 398)
+        Me.grpColumns.Location = New System.Drawing.Point(274, 484)
         Me.grpColumns.Name = "grpColumns"
-        Me.grpColumns.Size = New System.Drawing.Size(149, 71)
+        Me.grpColumns.Size = New System.Drawing.Size(149, 73)
         Me.grpColumns.TabIndex = 8
         Me.grpColumns.TabStop = False
         Me.grpColumns.Text = "Column Settings"
@@ -597,7 +608,7 @@ Partial Class Settings
         'chkEnableIcons
         '
         Me.chkEnableIcons.AutoSize = True
-        Me.chkEnableIcons.Location = New System.Drawing.Point(21, 173)
+        Me.chkEnableIcons.Location = New System.Drawing.Point(21, 167)
         Me.chkEnableIcons.Name = "chkEnableIcons"
         Me.chkEnableIcons.Size = New System.Drawing.Size(111, 17)
         Me.chkEnableIcons.TabIndex = 3
@@ -606,10 +617,11 @@ Partial Class Settings
         '
         'grpTheme
         '
+        Me.grpTheme.Controls.Add(Me.chkThemeDisableCustomDrawing)
         Me.grpTheme.Controls.Add(Me.cbxTheme)
-        Me.grpTheme.Location = New System.Drawing.Point(274, 471)
+        Me.grpTheme.Location = New System.Drawing.Point(12, 490)
         Me.grpTheme.Name = "grpTheme"
-        Me.grpTheme.Size = New System.Drawing.Size(149, 46)
+        Me.grpTheme.Size = New System.Drawing.Size(256, 67)
         Me.grpTheme.TabIndex = 13
         Me.grpTheme.TabStop = False
         Me.grpTheme.Text = "Theme"
@@ -622,18 +634,18 @@ Partial Class Settings
         Me.cbxTheme.FormattingEnabled = True
         Me.cbxTheme.Location = New System.Drawing.Point(6, 19)
         Me.cbxTheme.Name = "cbxTheme"
-        Me.cbxTheme.Size = New System.Drawing.Size(137, 21)
+        Me.cbxTheme.Size = New System.Drawing.Size(244, 21)
         Me.cbxTheme.TabIndex = 0
         '
-        'chkCopySystem
+        'chkThemeDisableCustomDrawing
         '
-        Me.chkCopySystem.AutoSize = True
-        Me.chkCopySystem.Location = New System.Drawing.Point(6, 88)
-        Me.chkCopySystem.Name = "chkCopySystem"
-        Me.chkCopySystem.Size = New System.Drawing.Size(191, 17)
-        Me.chkCopySystem.TabIndex = 3
-        Me.chkCopySystem.Text = "Copy items to System Clipboard too"
-        Me.chkCopySystem.UseVisualStyleBackColor = True
+        Me.chkThemeDisableCustomDrawing.AutoSize = True
+        Me.chkThemeDisableCustomDrawing.Location = New System.Drawing.Point(6, 46)
+        Me.chkThemeDisableCustomDrawing.Name = "chkThemeDisableCustomDrawing"
+        Me.chkThemeDisableCustomDrawing.Size = New System.Drawing.Size(170, 17)
+        Me.chkThemeDisableCustomDrawing.TabIndex = 1
+        Me.chkThemeDisableCustomDrawing.Text = "Disable Custom List Rendering"
+        Me.chkThemeDisableCustomDrawing.UseVisualStyleBackColor = True
         '
         'Settings
         '
@@ -641,7 +653,7 @@ Partial Class Settings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnClose
-        Me.ClientSize = New System.Drawing.Size(435, 558)
+        Me.ClientSize = New System.Drawing.Size(435, 598)
         Me.Controls.Add(Me.grpTheme)
         Me.Controls.Add(Me.grpColumns)
         Me.Controls.Add(Me.btnShowSettingsFile)
@@ -679,6 +691,7 @@ Partial Class Settings
         Me.grpColumns.ResumeLayout(False)
         Me.grpColumns.PerformLayout()
         Me.grpTheme.ResumeLayout(False)
+        Me.grpTheme.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -736,4 +749,5 @@ Partial Class Settings
     Friend WithEvents grpTheme As System.Windows.Forms.GroupBox
     Friend WithEvents cbxTheme As System.Windows.Forms.ComboBox
     Friend WithEvents chkCopySystem As System.Windows.Forms.CheckBox
+    Friend WithEvents chkThemeDisableCustomDrawing As System.Windows.Forms.CheckBox
 End Class

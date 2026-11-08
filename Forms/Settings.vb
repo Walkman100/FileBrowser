@@ -87,6 +87,7 @@ Public Class Settings
     Public ReadOnly Property SplitterSize As Integer?
     Public ReadOnly Property SaveColumns As Boolean
     Public ReadOnly Property Theme As WalkmanLib.Theme
+    Public ReadOnly Property DisableCustomListDrawing As Boolean
 #End Region
 
 #Region "Column Saving"
@@ -270,6 +271,11 @@ Public Class Settings
         FileBrowser.ApplyTheme(Theme)
         SaveSettings()
     End Sub
+    Private Sub chkThemeDisableCustomDrawing_CheckedChanged() Handles chkThemeDisableCustomDrawing.CheckedChanged
+        _DisableCustomListDrawing = chkThemeDisableCustomDrawing.Checked
+        FileBrowser.SetDisableCustomListDrawing(DisableCustomListDrawing)
+        SaveSettings()
+    End Sub
 
     Private Sub btnDefaultDirBrowse_Click() Handles btnDefaultDirBrowse.Click
         Dim sdd As New VistaFolderBrowserDialog With {
@@ -418,6 +424,9 @@ Public Class Settings
                                 Case "ThemeIndex"
                                     reader.Read()
                                     Integer.TryParse(reader.Value, cbxTheme.SelectedIndex)
+                                Case "DisableCustomListDrawing"
+                                    reader.Read()
+                                    Boolean.TryParse(reader.Value, chkThemeDisableCustomDrawing.Checked)
                                 Case Else
                                     reader.Read() ' skip unknown values
                             End Select
@@ -548,6 +557,7 @@ Public Class Settings
             writer.WriteElementString("SplitterSize", SplitterSize.ToString())
             writer.WriteElementString("SaveColumns", SaveColumns.ToString())
             writer.WriteElementString("ThemeIndex", cbxTheme.SelectedIndex.ToString())
+            writer.WriteElementString("DisableCustomListDrawing", DisableCustomListDrawing.ToString())
             writer.WriteEndElement() ' Settings
 
             writer.WriteStartElement("URIHistory")
